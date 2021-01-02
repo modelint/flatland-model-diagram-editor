@@ -26,25 +26,25 @@ population = [
     {'Stem type': 'superclass', 'Diagram type': 'class', 'Notation': 'Starr',
      'Semantic': 'superclass', 'Stroke': 'normal'},
 
-    # xUML notation
+    # xuml notation
     # Binary multiplicity
-    {'Stem type': 'class mult', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Stem type': 'class mult', 'Diagram type': 'class', 'Notation': 'xuml',
      'Semantic': 'Mc mult', 'Stroke': 'normal'},
-    {'Stem type': 'class mult', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Stem type': 'class mult', 'Diagram type': 'class', 'Notation': 'xuml',
      'Semantic': '1c mult', 'Stroke': 'normal'},
-    {'Stem type': 'class mult', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Stem type': 'class mult', 'Diagram type': 'class', 'Notation': 'xuml',
      'Semantic': '1 mult', 'Stroke': 'normal'},
-    {'Stem type': 'class mult', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Stem type': 'class mult', 'Diagram type': 'class', 'Notation': 'xuml',
      'Semantic': 'M mult', 'Stroke': 'normal'},
 
     # Associative multiplicity (no notation for 1 multiplicity associative)
-    {'Stem type': 'associative mult', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Stem type': 'associative mult', 'Diagram type': 'class', 'Notation': 'xuml',
      'Semantic': '1 mult', 'Stroke': 'dashed'},
-    {'Stem type': 'associative mult', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Stem type': 'associative mult', 'Diagram type': 'class', 'Notation': 'xuml',
      'Semantic': 'M mult', 'Stroke': 'dashed'},
 
     # Generalization
-    {'Stem type': 'superclass', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Stem type': 'superclass', 'Diagram type': 'class', 'Notation': 'xuml',
      'Semantic': 'superclass', 'Stroke': 'normal'},
 
     # Shlaer-Mellor notation
@@ -69,20 +69,20 @@ population = [
      'Semantic': 'superclass', 'Stroke': 'normal'},
 
     # State machine diagram
-    {'Stem type': 'to state', 'Diagram type': 'state machine', 'Notation': 'xUML',
+    {'Stem type': 'to state', 'Diagram type': 'state machine', 'Notation': 'xuml',
      'Semantic': 'target state', 'Stroke': 'normal'},
 
-    # Both ends of unary stem are decoreated for xUML initial transition
-    {'Stem type': 'to initial state', 'Diagram type': 'state machine', 'Notation': 'xUML',
+    # Both ends of unary stem are decoreated for xuml initial transition
+    {'Stem type': 'to initial state', 'Diagram type': 'state machine', 'Notation': 'xuml',
      'Semantic': 'initial pseudo state', 'Stroke': 'normal'},
-    {'Stem type': 'from deletion state', 'Diagram type': 'state machine', 'Notation': 'xUML',
+    {'Stem type': 'from deletion state', 'Diagram type': 'state machine', 'Notation': 'xuml',
      'Semantic': 'final pseudo state', 'Stroke': 'normal'},
 
     # Domain diagram
     # Starr
     {'Stem type': 'to service', 'Diagram type': 'domain', 'Notation': 'Starr',
      'Semantic': 'require', 'Stroke': 'normal'},
-    # xUML
-    {'Stem type': 'to service', 'Diagram type': 'domain', 'Notation': 'xUML',
+    # xuml
+    {'Stem type': 'to service', 'Diagram type': 'domain', 'Notation': 'xuml',
      'Semantic': 'require', 'Stroke': 'normal'}
 ]

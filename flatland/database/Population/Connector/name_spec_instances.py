@@ -11,10 +11,10 @@ population = [
      'Vertical axis buffer': 13, 'Horizontal axis buffer': 16, 'Vertical end buffer': 11, 'Horizontal end buffer': 20,
      'Default name': 'Rxx', 'Optional': False},
 
-    {'Connector location': 'binary association', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Connector location': 'binary association', 'Diagram type': 'class', 'Notation': 'xuml',
      'Vertical axis buffer': 11, 'Horizontal axis buffer': 11, 'Vertical end buffer': 11, 'Horizontal end buffer': 20,
      'Default name': 'Rxx', 'Optional': False},
-    {'Connector location': 'generalization', 'Diagram type': 'class', 'Notation': 'xUML',
+    {'Connector location': 'generalization', 'Diagram type': 'class', 'Notation': 'xuml',
      'Vertical axis buffer': 11, 'Horizontal axis buffer': 11, 'Vertical end buffer': 11, 'Horizontal end buffer': 20,
      'Default name': 'Rxx', 'Optional': False},
 

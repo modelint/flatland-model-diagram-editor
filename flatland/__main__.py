@@ -8,14 +8,14 @@ Usage:
 import sys
 import argparse
 from pathlib import Path
-from .xUML.XumlClassDiagram import XumlClassDiagram
+from xuml.XumlClassDiagram import XumlClassDiagram
 from flatland import version
 
 # Configure the expected parameters and actions for the argparse module
 def parse(cl_input):
     parser = argparse.ArgumentParser(description='Flatland model diagram generator')
     parser.add_argument('-m', '--model', action='store', default='model.xmm',
-                        help='xUML model file name defining model connectivity without any layout information')
+                        help='xuml model file name defining model connectivity without any layout information')
     parser.add_argument('-l', '--layout', action='store', default='normal.mss',
                         help='Flatland layout file defining all layout information with light references to model file.')
     parser.add_argument('-d', '--diagram', action='store', default='diagram.pdf',
@@ -44,16 +44,18 @@ def main():
     else:
         diagram_path = sys.stdout
 
-    # Generate the xUML class diagram (we don't do anything with the returned variable yet)
+    # Generate the xuml class diagram (we don't do anything with the returned variable yet)
     class_diagram = XumlClassDiagram(
         xuml_model_path=model_path,
         flatland_layout_path=args.layout,
         diagram_file_path=diagram_path,
     )
 
-    print("Initializing Database...")
-    import flatland.Tests.build_db_test
+    # print("Initializing database...")
+    # import flatland.tests.build_db_test
 
+    print("Testing style database...")
+    import flatland.tests.styledb_test
     print("No problemo")
 
 

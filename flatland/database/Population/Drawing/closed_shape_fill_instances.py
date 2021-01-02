@@ -31,13 +31,13 @@ population = [
     {'Asset': 'imported class compartment', 'Presentation': 'diagnostic', 'Drawing type': 'Shlaer-Mellor class diagram',
      'Fill': 'white'},
 
-    # xUML/default
-    {'Asset': 'class compartment', 'Presentation': 'default', 'Drawing type': 'xUML class diagram', 'Fill': 'white'},
-    {'Asset': 'imported class compartment', 'Presentation': 'default', 'Drawing type': 'xUML class diagram', 'Fill': 'white'},
-    {'Asset': 'state compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
+    # xuml/default
+    {'Asset': 'class compartment', 'Presentation': 'default', 'Drawing type': 'xuml class diagram', 'Fill': 'white'},
+    {'Asset': 'imported class compartment', 'Presentation': 'default', 'Drawing type': 'xuml class diagram', 'Fill': 'white'},
+    {'Asset': 'state compartment', 'Presentation': 'default', 'Drawing type': 'xuml state machine diagram',
      'Fill': 'white'},
-    {'Asset': 'solid dot', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Fill': 'black'},
-    {'Asset': 'hollow large circle', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
+    {'Asset': 'solid dot', 'Presentation': 'default', 'Drawing type': 'xuml state machine diagram', 'Fill': 'black'},
+    {'Asset': 'hollow large circle', 'Presentation': 'default', 'Drawing type': 'xuml state machine diagram',
      'Fill': 'white'},
 
 ]

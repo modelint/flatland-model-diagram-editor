@@ -24,7 +24,7 @@ def Create_relvars():
     and then have the corresponding table schemas populated into the Sqlalchemy
     metadata.
     """
-    from flatland.Database import relvars
+    from flatland.database import relvars
     FlatlandDB.Relvars = relvars.define(FlatlandDB)
     FlatlandDB.MetaData.create_all(FlatlandDB.Engine)
 
@@ -67,7 +67,7 @@ class FlatlandDB:
         - Engine -- Sqlalchemy database engine
         - Relvars -- Dictionary of all relvar names and values (table names and row populations)
     """
-    db_file_name = "Database/flatland.db"
+    db_file_name = "database/flatland.db"
     File = Path(__file__).parent.parent / db_file_name
     print(f'Flatalnd database file stored in: {str(File)}')
     MetaData = None

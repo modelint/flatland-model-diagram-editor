@@ -1,5 +1,5 @@
 """
-xUML_class_diagram.py – Generates an xUML diagram for an xUML model using the Flatland draw engine
+xUML_class_diagram.py – Generates an xuml diagram for an xuml model using the Flatland draw engine
 """
 
 from pathlib import Path

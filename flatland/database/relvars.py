@@ -4,7 +4,7 @@ relvars.py -- Flatland DB relational variable definitions
     This file defines all relvars (relational variables) for the Flatland database. In SQL terms,
     this is the schema definition for the database. These relvars are derived from the Flatland domain
     models. To understand all of these relvars and their constraints, it is strongly recommended to consult
-    those xUML class model diagrams and text descriptions for both the Flatland Application and Tablet domain models.
+    those xuml class model diagrams and text descriptions for both the Flatland Application and Tablet domain models.
     See comments, first the Flatland application domain relvars are defined and then the Tablet relvars.
 """
 from sqlalchemy import Table, Column, String, Integer, Boolean, Enum, Float
@@ -13,7 +13,7 @@ from sqlalchemy import ForeignKey, UniqueConstraint, PrimaryKeyConstraint, Forei
 
 def define(db) -> dict:
     """
-    Define all the relvars in the Flatland Database.
+    Define all the relvars in the Flatland database.
 
     :param db: A Flatland database class which provides an Sqlalchemy MetaData attribute
     :return: Dictionary of table name key, table schema value pairs
