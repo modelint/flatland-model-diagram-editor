@@ -8,7 +8,7 @@ Usage:
 import sys
 import argparse
 from pathlib import Path
-from xuml.XumlClassDiagram import XumlClassDiagram
+from flatland.xuml.XumlClassDiagram import XumlClassDiagram
 from flatland import version
 
 # Configure the expected parameters and actions for the argparse module
