@@ -34,13 +34,13 @@ def Populate():
     Assign a value to each Flatland relvar (table). A value consists of a set of relations.
     In Sqlalchemy terms, the tables are all updated with initial row data.
     """
-    # We need to append each Population subirectory to our module search path
+    # We need to append each population subirectory to our module search path
     # because when we iterate through the file names in our relvar dictionary
     # we don't know which file is in which subdirectory. So we can't just
     # refer to each population module by the same path
-    here = Path(__file__).parent / "Population"  # Adjacent Population directory
+    here = Path(__file__).parent / "population"  # Adjacent population directory
     pop_dirs = [  # Subdirectories organizing all population modules
-        here / "Connector", here / "Decorator", here / "Drawing", here / "Node",
+        here / "connector", here / "decorator", here / "drawing", here / "node",
     ]
     # Convert each Path object to a string and tack it on the end of our module search path
     sys.path.extend([str(p) for p in pop_dirs])

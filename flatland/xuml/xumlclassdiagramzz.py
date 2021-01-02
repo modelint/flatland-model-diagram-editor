@@ -12,7 +12,7 @@ class XumlClassDiagram:
         self.flatland_layout_path = flatland_layout_path
         self.diagram_file_path = diagram_file_path
 
-        print("Drawing a pretty diagram now. (Not really, but soon!)")
+        print("drawing a pretty diagram now. (Not really, but soon!)")
         print(f"from model: {self.xuml_model_path}")
         print(f"using layout: {self.flatland_layout_path}")
         print(f"to output file : {self.diagram_file_path}")

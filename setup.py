@@ -11,11 +11,11 @@ README = (HERE / "README.md").read_text()
 
 setuptools.setup(
     name="flatland-model-diagram-editor",
-    version="0.2.1",
+    version="0.3.3",
     description="Model text file + layout text file -> beautiful diagram",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/modelint/Flatland",
+    url="https://github.com/modelint/flatland-model-diagram-editor",
     author="Leon Starr",
     author_email="leon_starr@modelint.com",
     license="MIT",

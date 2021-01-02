@@ -1,6 +1,6 @@
 """
 tablet.py – Flatland binds a Canvas instance in the Flatland Application domain to a Tablet instance
-in the Drawing domain. The Tablet can be drawn using cairo or some other graphics drawing framework.
+in the drawing domain. The Tablet can be drawn using cairo or some other graphics drawing framework.
 """
 from geometry_types import Rect_Size, Position, HorizAlign
 from typing import List
@@ -41,7 +41,7 @@ class Tablet:
     Canvas coordinates.
 
     When a blank Flatland Canvas is created, it will initialize its underlying Tablet and select a predefined
-    Drawing Type ('class diagram', 'state machine diagram' etc.) and Presentation Style ('default', 'formal',
+    drawing Type ('class diagram', 'state machine diagram' etc.) and Presentation Style ('default', 'formal',
     'diagnostic', etc).  The Diagram Type determines what kinds of things might be drawn, Assets such as 'connector',
     'compartment', 'class name', etc., while the Presentation Style establishes the Text and Line Styles to
     be used when drawing those Assets. All of this information is stored in a database which the Tablet
@@ -81,7 +81,7 @@ class Tablet:
 
         # Load all of the draw styles from the flatland database
         # We only need to load the styles for the user selected Presentation Style and only for the Assets
-        # that can be drawn in the given Drawing Type
+        # that can be drawn in the given drawing Type
         StyleDB(drawing_type=drawing_type, presentation=presentation)
 
         self.Drawing_type = drawing_type  # class diagram, state diagram, etc
@@ -336,5 +336,5 @@ class Tablet:
         return Position(x=tablet_coord.x, y=self.Size.height - tablet_coord.y)
 
     def __repr__(self):
-        return f'Size: {self.Size}, Presentation: {self.Presentation}, Drawing: {self.Drawing_type},' \
+        return f'Size: {self.Size}, Presentation: {self.Presentation}, drawing: {self.Drawing_type},' \
                f'Output: {self.Output_file}'

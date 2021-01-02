@@ -3,7 +3,7 @@ nameable_connector_location_instances.py
 """
 
 population = [
-    # Connector types
+    # connector types
     {'Name': 'binary association', 'Diagram type': 'class'},
     {'Name': 'generalization', 'Diagram type': 'class'},
     {'Name': 'initial transition', 'Diagram type': 'state machine'},

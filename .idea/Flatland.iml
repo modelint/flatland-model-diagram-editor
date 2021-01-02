@@ -6,11 +6,11 @@
       <sourceFolder url="file://$MODULE_DIR$/flatland/node_subsystem" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/xuml" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/database" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/flatland/database/Population" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/flatland/database/Population/Connector" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/flatland/database/Population/Decorator" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/flatland/database/Population/Drawing" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/flatland/database/Population/Node" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/flatland/database/population" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/flatland/database/population/connector" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/flatland/database/population/decorator" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/flatland/database/population/drawing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/flatland/database/population/node" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/tests" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/datatypes" isTestSource="false" />
