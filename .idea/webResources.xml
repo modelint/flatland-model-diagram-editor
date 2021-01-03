@@ -6,6 +6,7 @@
         <entryData>
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/flatland/model_markup" />
+            <path value="file://$PROJECT_DIR$/flatland/examples" />
           </resourceRoots>
         </entryData>
       </entry>

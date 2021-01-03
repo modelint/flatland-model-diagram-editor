@@ -1,0 +1,89 @@
+// Flatland Model Layout Arpeggio Clean Peg Grammar
+
+// This grammar expresses the geometric layout of nodes and connectors and where
+// connectors attach to node faces on a diagram. It does not specify any meaning
+// associated with the nodes and connectors. Node and connector names are ascribed
+// in their model files, but no other information in the model files is referenced
+// in this grammar.
+
+// We assume that the input file has been pre-processed to remove
+// comments, extraneous end of line space but newlines are left intact
+// with a single newline added at the end to simplify our grammar
+
+// Elements
+nl = "\n" // New line
+space = r'[ \t]+' // Required at least one space, no newlines
+number = r'[1-9][0-9]*' // Always a positive integer
+indent = "    "  // For clarity
+wrap = '/' number // Number of lines to wrap an associated string
+
+// Model element names
+// A name is one or more words separated by a word delimiter (wdelim)
+wdelim = r'[ _]' // Word delimiter to separate words in a name
+word = r'[A-Za-z][A-Za-z0-9]*' // String of alpahnumeric text with no whitespace starting with alpha char
+name = word (wdelim word)* // Sequence of delimited words forming a name
+
+// Diagram
+diagram = "diagram" space name nl // The type of diagram to draw
+notation =  "notation" space name nl // The notation to use in the diagram
+presentation = "presentation" space name nl // The presentation style for drawing
+sheet = "sheet" space name nl // The sheet size name
+orientation = "orientation" space ("portrait" / "landscape") nl // The sheet orientation
+layout_spec = (diagram notation presentation sheet orientation)# // Each of these in any order
+
+// Alignment
+valign = ">" ("top" / "bottom")
+halign = ">" ("right" / "left")
+node_align = valign space? halign / halign space? valign / valign / halign
+// A notch is based on a system where 0 means 'centered' and deviations from the center are proportional
+// increments, each the same size, distant from the center in the positive or negative direction
+// Positive is always in the increasing coordinate direction, up or to the right
+notch = '0' / ('+' / '-') number // A unit of alignment, center, or a positive or negative integer
+path = 'L' number ('R' notch)? // Lane and rut, assume rut 0 if R not specified
+
+// Node
+nodes_header = "nodes" nl
+node_loc = number ',' number  // Row and column
+node_name = name
+node_placement = indent node_name wrap? space node_loc (space node_align)? nl
+node_block = nodes_header node_placement+
+
+// Face attachment
+face =  "t" / "b" / "l" / "r" // top, bottom, left or right node face
+dir = "+" / "-" // direction of increasing coord values, up and to the right is positive
+csep = space ':' space // argument separator
+anchor = notch / '*'
+node_face = face anchor? "|" name // Where a stem attaches to a node face
+
+// Binary connector
+tertiary_node = ',' space node_face
+sname_place = dir wrap  // Side of stem axis and number of text lines after wrapping in stem name text block
+bend = '.' number // Bend in connector where 1 is at the tstem side increasing to the pstem side
+stem_side = sname_place space node_face // Either the tstem or pstem layout
+tstem = stem_side // one stem in a binary connector (t and p are arbitary names)
+pstem = stem_side // the opposite stem in a binary connector
+paths = path (space path)*
+binary_layout = tstem csep pstem tertiary_node? (csep paths)? // All layout info for a binary connector
+
+// Tree connector
+// Within a branch, one leaf may either graft that branch > or graft the subsequent branch >>
+// See patterns 3 and 2 respectively in tech note tn.2 in the documentation folder for examples
+leaf_face = node_face ('>>' / '>' )?  // graft its own branch or the next one
+trunk_face = node_face ('>')? // May or may not graft the trunk branch with > symbol
+// There are three ways to specify the path of a branch:
+//    1) Interpolated - Compute position between opposing node faces (no specification)
+//    2) Grafted - Line up branch with some face placement (a > on the trunk or some leaf face or a >> on a leaf face)
+//    3) Rut - Run branch down a rut in a lane as specified by a path (path)
+leaf_faces = leaf_face (', ' leaf_face)*
+branch = '{ ' leaf_faces (csep path)? ' }' // A branch is attached to one or more leaf faces
+// A branch that is neither interpolated nor grafted has a path specified where it runs
+tree_layout = trunk_face (space branch)+ // All layout info for a tree connector
+
+// Connector
+cname_place = dir? name // Side of connector axis and name of connector (since it is probably short)
+connector_layout = indent cname_place ( bend? csep binary_layout / csep tree_layout ) nl
+connectors_header = "connectors" nl // starts section where connector layout info is specified
+connector_block = connectors_header connector_layout+ // All
+
+// You can draw unconnected nodes, connected nodes or a blank sheet
+diagram_layout = layout_spec ((node_block connector_block) / (node_block))? EOF

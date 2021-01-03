@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from flatland.flatland_exceptions import FlatlandIOException, MultipleFloatsInSameBranch
 from flatland.input.model_parser import ModelParser
+from flatland.input.layout_parser import LayoutParser
+from flatland.database.flatlanddb import FlatlandDB
 
 class XumlClassDiagram:
 
@@ -22,6 +24,17 @@ class XumlClassDiagram:
         except FlatlandIOException as e:
             sys.exit(e)
         self.subsys = self.model.parse()
+
+
+        # Parse the layout
+        try:
+            self.layout = LayoutParser(layout_file_path=self.flatland_layout_path, debug=True)
+        except FlatlandIOException as e:
+            sys.exit(e)
+        self.layout = self.layout.parse()
+
+        # Load the flatland database
+        self.db = FlatlandDB()
 
         print("drawing a pretty diagram now. (Not really, but soon!)")
         print(f"from model: {self.xuml_model_path}")
