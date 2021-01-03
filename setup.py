@@ -11,7 +11,7 @@ README = (HERE / "README.md").read_text()
 
 setuptools.setup(
     name="flatland-model-diagram-editor",
-    version="0.6.0",
+    version="0.7.0",
     description="Model text file + layout text file -> beautiful diagram",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -26,6 +26,6 @@ setuptools.setup(
     ],
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=["pathlib", "SQLAlchemy", "pycairo", "Arpeggio", ],
+    install_requires=["pathlib", "SQLAlchemy", "pycairo", "Arpeggio", "numpy", ],
     entry_points={"console_scripts": ["flatland=flatland.__main__:main"]},
 )

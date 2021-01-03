@@ -23,9 +23,9 @@ population = [
     {'Stem type': 'superclass', 'Diagram type': 'class', 'Notation': 'Starr',
      'Semantic': 'superclass', 'Symbol': 'gen arrow', 'End': 'root'},
 
-    # xuml notation
+    # xUML notation
     # Generalization
-    {'Stem type': 'superclass', 'Diagram type': 'class', 'Notation': 'xuml',
+    {'Stem type': 'superclass', 'Diagram type': 'class', 'Notation': 'xUML',
      'Semantic': 'superclass', 'Symbol': 'gen arrow', 'End': 'root'},
 
     # Shlaer-Mellor notation
@@ -47,23 +47,23 @@ population = [
      'Semantic': 'superclass', 'Symbol': 'superclass cross', 'End': 'vine'},
 
     # State machine diagram
-    {'Stem type': 'to state', 'Diagram type': 'state machine', 'Notation': 'xuml',
+    {'Stem type': 'to state', 'Diagram type': 'state machine', 'Notation': 'xUML',
      'Semantic': 'target state', 'Symbol': 'solid arrow', 'End': 'root'},
 
-    # Both ends of unary stem are decoreated for xuml initial transition
-    {'Stem type': 'to initial state', 'Diagram type': 'state machine', 'Notation': 'xuml',
+    # Both ends of unary stem are decoreated for xUML initial transition
+    {'Stem type': 'to initial state', 'Diagram type': 'state machine', 'Notation': 'xUML',
      'Semantic': 'initial pseudo state', 'Symbol': 'solid arrow', 'End': 'root'},
-    {'Stem type': 'to initial state', 'Diagram type': 'state machine', 'Notation': 'xuml',
+    {'Stem type': 'to initial state', 'Diagram type': 'state machine', 'Notation': 'xUML',
      'Semantic': 'initial pseudo state', 'Symbol': 'solid small dot', 'End': 'vine'},
 
-    {'Stem type': 'from deletion state', 'Diagram type': 'state machine', 'Notation': 'xuml',
+    {'Stem type': 'from deletion state', 'Diagram type': 'state machine', 'Notation': 'xUML',
      'Semantic': 'final pseudo state', 'Symbol': 'circled dot', 'End': 'vine'},
 
     # Domain diagram
     # Starr
     {'Stem type': 'to service', 'Diagram type': 'domain', 'Notation': 'Starr',
      'Semantic': 'require', 'Symbol': 'solid arrow', 'End': 'root'},
-    # xuml
-    {'Stem type': 'to service', 'Diagram type': 'domain', 'Notation': 'xuml',
+    # xUML
+    {'Stem type': 'to service', 'Diagram type': 'domain', 'Notation': 'xUML',
      'Semantic': 'require', 'Symbol': 'open arrow', 'End': 'root'}
 ]

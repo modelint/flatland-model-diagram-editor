@@ -77,7 +77,7 @@ def load_line_styles():
 def load_asset_presentations(presentation: str, drawing_type: str):
     shape_pres_t = fdb.MetaData.tables['Shape Presentation']
     q = select([shape_pres_t.c.Asset, shape_pres_t.c['Line style']]).where( and_(
-        shape_pres_t.c.Presentation == presentation, shape_pres_t.c['drawing type'] == drawing_type
+        shape_pres_t.c.Presentation == presentation, shape_pres_t.c['Drawing type'] == drawing_type
     ))
     f = fdb.Connection.execute(q).fetchall()
     for i in f:
@@ -85,7 +85,7 @@ def load_asset_presentations(presentation: str, drawing_type: str):
 
     shape_fill_t = fdb.MetaData.tables['Closed Shape Fill']
     q = select([shape_fill_t.c.Asset, shape_fill_t.c.Fill]).where( and_(
-        shape_fill_t.c.Presentation == presentation, shape_fill_t.c['drawing type'] == drawing_type
+        shape_fill_t.c.Presentation == presentation, shape_fill_t.c['Drawing type'] == drawing_type
     ))
     f = fdb.Connection.execute(q).fetchall()
     for i in f:
@@ -93,7 +93,7 @@ def load_asset_presentations(presentation: str, drawing_type: str):
 
     text_pres_t = fdb.MetaData.tables['Text Presentation']
     q = select([text_pres_t.c.Asset, text_pres_t.c['Text style']]).where( and_(
-        text_pres_t.c.Presentation == presentation, text_pres_t.c['drawing type'] == drawing_type
+        text_pres_t.c.Presentation == presentation, text_pres_t.c['Drawing type'] == drawing_type
     ))
     f = fdb.Connection.execute(q).fetchall()
     for i in f:

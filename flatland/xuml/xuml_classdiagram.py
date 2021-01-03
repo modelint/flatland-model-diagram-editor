@@ -8,6 +8,7 @@ from flatland.flatland_exceptions import FlatlandIOException, MultipleFloatsInSa
 from flatland.input.model_parser import ModelParser
 from flatland.input.layout_parser import LayoutParser
 from flatland.database.flatlanddb import FlatlandDB
+from flatland.node_subsystem.canvas import Canvas
 
 class XumlClassDiagram:
 
@@ -36,7 +37,27 @@ class XumlClassDiagram:
         # Load the flatland database
         self.db = FlatlandDB()
 
+        # Draw the blank canvas of the appropriate size, diagram type and presentation style
+        self.flatland_canvas = self.create_canvas()
+
+
+        self.flatland_canvas.render()
+
         print("drawing a pretty diagram now. (Not really, but soon!)")
         print(f"from model: {self.xuml_model_path}")
         print(f"using layout: {self.flatland_layout_path}")
         print(f"to output file : {self.diagram_file_path}")
+
+    def create_canvas(self) -> Canvas:
+        """Create a blank canvas"""
+        lspec = self.layout.layout_spec
+        return Canvas(
+            diagram_type=lspec.dtype,
+            presentation=lspec.pres,
+            notation=lspec.notation,
+            standard_sheet_name=lspec.sheet,
+            orientation=lspec.orientation,
+            drawoutput=self.diagram_file_path,
+            show_margin=True
+        )
+
