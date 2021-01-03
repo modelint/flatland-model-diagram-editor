@@ -2,10 +2,10 @@
 tablet.py – Flatland binds a Canvas instance in the Flatland Application domain to a Tablet instance
 in the drawing domain. The Tablet can be drawn using cairo or some other graphics drawing framework.
 """
-from geometry_types import Rect_Size, Position, HorizAlign
+from flatland.datatypes.geometry_types import Rect_Size, Position, HorizAlign
 from typing import List
 import cairo
-from styledb import StyleDB
+from flatland.drawing_domain.styledb import StyleDB
 from collections import namedtuple
 
 # These structures are intended for internal use only

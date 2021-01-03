@@ -1,1 +1,20 @@
-model
+/// aircraft 2 – One binary, non-composite symbols
+subsystem Test
+class Aircraft
+attributes
+    Tail number: ACAO {I}
+    Altitude
+    Airspeed : Knots
+    Heading
+--
+class Pilot
+attributes
+    Name : Name {I}
+    Size : Sheet Size
+    Units : US Metric
+--
+relationships
+    R1
+    is flying, 1 Aircraft
+    is flown by, 1 Pilot
+--

@@ -1,7 +1,7 @@
 """
 styledb.py
 """
-from ..database.flatlanddb import FlatlandDB as fdb
+from flatland.database.flatlanddb import FlatlandDB as fdb
 from sqlalchemy import select, and_
 from collections import namedtuple
 

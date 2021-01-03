@@ -1,0 +1,46 @@
+// Model Markdown Arpeggio Clean Peg Grammar
+
+// For now we concentrate on drawing a class diagram, so only class and relationship
+// content is here for now
+
+// Attribute and method structure is not parsed since it is simply rendered without
+// further interpretation on a class diagram
+
+nl = "\n" // New line
+sp = " " // Single space
+delim = r'[ _]' // Delimiter used inside of names
+indent = "    "  // Need indent for clarity and to signal unstructured lines of text
+mult = r'[1M]c?' // Binary relationship multiplicity, Shlaer-Mellor notation
+rnum = r'O?R[1-9][0-9]*' // Relationship number
+lword = r'[a-z][a-z]*' // Lower case only word (used in relationship phrase)
+iword = r'[A-Z][A-Za-z0-9]*' // Initial cap word (used in Class and Subsystem names)
+acword = r'[A-Z][A-Z0-9]*' // All caps words for class abbreviations
+phrase = lword (delim lword)*  // Relatshionship phrase
+block_end = "--" nl?  // Signifies end of a block (within section)
+body_line = indent r'.*' nl // An unstructured line of text
+icaps_name = iword (delim iword)*  // A name using iniital caps only
+
+method_block = method_header body_line+ block_end // A set of class methods
+method_header = "methods" nl
+attr_header = "attributes" nl
+attr_block = attr_header body_line+ block_end // A set of attributes
+class_header = "class" sp icaps_name (',' sp+ acword)? nl
+class_block = class_header attr_block method_block? // All information about a class
+class_set = class_block*  // All classes in the subsystem
+
+subclass = indent indent icaps_name nl  // A subclass class name
+superclass = indent icaps_name sp? "+" nl // A superclass class name
+gen_rel = superclass subclass subclass+ // A generalization relationship
+
+assoc_class = indent ('1' / 'M') sp+ icaps_name nl   // Association class
+rel_side = indent phrase "," sp mult sp+ icaps_name nl  // One side of a binary association
+p_side = rel_side
+t_side = rel_side
+binary_rel = t_side p_side assoc_class? // Both sides
+rname = indent rnum nl  // Name of a rel is its rnum
+rel = rname (binary_rel / gen_rel) block_end  // A rel is either a binary association or a generalization
+relationship_header = "relationships" nl
+rel_section = relationship_header rel*  // All relationships in the subsystem
+
+subsystem_header = "subsystem" sp icaps_name (',' sp+ acword)? nl  // Declares the name of the subsystem
+subsystem = subsystem_header class_set rel_section? EOF

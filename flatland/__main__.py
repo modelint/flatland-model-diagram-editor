@@ -8,7 +8,7 @@ Usage:
 import sys
 import argparse
 from pathlib import Path
-from flatland.xuml.xumlclassdiagramzz import XumlClassDiagram
+from flatland.xuml.xuml_classdiagram import XumlClassDiagram
 from flatland import version
 
 # Configure the expected parameters and actions for the argparse module
@@ -44,6 +44,9 @@ def main():
     else:
         diagram_path = sys.stdout
 
+    # Make a Diagnostics directory if it doesn't exist
+    Path('Diagnostics').mkdir(parents=True, exist_ok=True)
+
     # Generate the xuml class diagram (we don't do anything with the returned variable yet)
     class_diagram = XumlClassDiagram(
         xuml_model_path=model_path,
@@ -54,8 +57,11 @@ def main():
     # print("Initializing database...")
     # import flatland.tests.build_db_test
 
-    print("Testing style database...")
-    import flatland.tests.styledb_test
+    # print("Testing style database...")
+    # import flatland.tests.styledb_test
+
+    # print("Testing tablet draw...")
+    # import flatland.tests.tablet_test
     print("No problemo")
 
 
