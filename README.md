@@ -38,7 +38,7 @@ Also, various resources at the [Model Integration](https://modelint.com/mbse) we
 
 You can install the Flatland Model Diagram Editor from [PyPI](https://pypi.org/project/flatland-model-diagram-editor/):
 
-    pip install flatland-model-diagram-editor
+    $ pip install flatland-model-diagram-editor
 
 Flatland is supported on Python 3.7 and above
 
@@ -48,9 +48,9 @@ Assuming you have two files, my_model.xmm (xmm = Executable Model Markdown) and 
 
     $ flatland -m my_model.xmm -l my_layout.xss -d my_beautiful_diagram.pdf
 
-Or the model can be standard input and the diagram can go to standard output:
-
-    $ my_model.xmm > flatland -l my_layout.xss > my_beautiful_diagram.pdf
+The use of standard input / output is not yet supported so all files must be supplied as parameters.
+If no files are specified, the following default names will be assumed 'model.xmm', 'layout.xss' and
+'diagram.pdf'.
 
 ## Model and layout files
 

@@ -18,6 +18,7 @@
       <sourceFolder url="file://$MODULE_DIR$/flatland/drawing_domain" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/geometry_domain" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/input" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/flatland/text" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/dist 2" />

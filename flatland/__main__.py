@@ -3,7 +3,7 @@ Flatland Diagram Editor
 
 Usage:
 ------
-    $ flatland [-m model] [-l layout] [-d diagram]
+    $ flatland [-h] [-m model] [-l layout] [-d diagram]
 """
 import sys
 import argparse
@@ -35,6 +35,8 @@ def main():
             print(f"Model file: {args.model} specified on command line not found")
             sys.exit()
     else:
+        # TODO: Standard input is not yet supported, so this is a placeholder
+        # TODO: Since a default model file is always supplied via argparse above, this clause will never execute
         model_path = sys.stdin
 
     # output file: If no output file is specified, the generated diagram is provided as standard output
@@ -42,6 +44,8 @@ def main():
     if args.diagram:
         diagram_path = Path(args.diagram)
     else:
+        # TODO: Standard output is not yet supported, so this is a placeholder
+        # TODO: Since a default diagram file is always supplied via argparse above, this clause will never execute
         diagram_path = sys.stdout
 
     # Make a Diagnostics directory if it doesn't exist
@@ -54,14 +58,6 @@ def main():
         diagram_file_path=diagram_path,
     )
 
-    # print("Initializing database...")
-    # import flatland.tests.build_db_test
-
-    # print("Testing style database...")
-    # import flatland.tests.styledb_test
-
-    # print("Testing tablet draw...")
-    # import flatland.tests.tablet_test
     print("No problemo")
 
 
