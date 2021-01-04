@@ -1,0 +1,50 @@
+/// aircraft_tree1
+
+subsystem Test, T
+class Aircraft, AC
+attributes
+    Tail number: ACAO {I}
+    Altitude
+    Airspeed : Knots
+    Heading
+--
+class Helicopter
+attributes
+    ID : Pilot ID {I}
+    Name : Call Sign
+    Experience : Hours
+    Aircraft {R13}
+--
+class Fixed Wing, FW
+attributes
+    Aircraft {I, R1}
+    Pilot {I2, R1}
+    Flight time : Duration
+--
+class Hybrid Wing, HYW
+attributes
+    Aircraft {I, R1}
+    Pilot {I2, R1}
+    Flight time : Duration
+--
+class X Wing, XW
+attributes
+    Aircraft {I, R1}
+    Pilot {I2, R1}
+    Flight time : Duration
+--
+class Tie Fighter, TIE
+attributes
+    Aircraft {I, R1}
+    Pilot {I2, R1}
+    Flight time : Duration
+--
+relationships
+    R1
+    Aircraft +
+        Helicopter
+        Fixed Wing
+        Hybrid Wing
+        X Wing
+        Tie Fighter
+--

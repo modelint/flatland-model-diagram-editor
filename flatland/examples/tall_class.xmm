@@ -1,0 +1,13 @@
+/// tall_class.xmm – Just one tall class
+subsystem Test
+class Diagram
+attributes
+    ID : Nominal {I}
+    Grid {R10}
+    Type {R11, R30}
+    Notation {R30}
+    Canvas {R14}
+    Size : Rect Size
+    Origin : Position
+    Presentation style {R26}
+--

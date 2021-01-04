@@ -1,0 +1,14 @@
+/// waypoint 2 – For testing reflexive association
+subsystem Test
+class Waypoint
+attributes
+    ID: Nominal {I, OR1}
+    Latitude: Lat
+    Longitude: Long
+    Action {R27}
+--
+relationships
+    R1
+    after, 1c Waypoint
+    before, 1 Waypoint
+--

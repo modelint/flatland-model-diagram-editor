@@ -1,0 +1,26 @@
+subsystem Test, T
+class Aircraft, AC
+attributes
+    Tail number: ACAO {I}
+    Altitude
+    Airspeed : Knots
+    Heading
+--
+class Pilot
+attributes
+    Name : Name {I}
+    Size : Sheet Size
+    Units : US Metric
+--
+class Flight, F
+attributes
+    Aircraft {I, R1}
+    Pilot {I2, R1}
+    Flight time : Duration
+--
+relationships
+    R1
+    is flying, M Aircraft
+    is flown by, Mc Pilot
+    1 Flight
+--
