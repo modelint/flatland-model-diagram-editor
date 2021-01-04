@@ -2,15 +2,15 @@
 floating_stem.py
 """
 
-from stem import Stem, StemName
-from stem_type import StemType
-from connection_types import NodeFace
-from geometry_types import Position
+from flatland.connector_subsystem.stem import Stem, StemName
+from flatland.connector_subsystem.stem_type import StemType
+from flatland.datatypes.connection_types import NodeFace
+from flatland.datatypes.geometry_types import Position
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from connector import Connector
-    from node import Node
+    from flatland.connector_subsystem.connector import Connector
+    from flatland.node_subsystem.node import Node
 
 
 class FloatingStem(Stem):
