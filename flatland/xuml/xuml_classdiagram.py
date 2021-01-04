@@ -11,6 +11,10 @@ from flatland.database.flatlanddb import FlatlandDB
 from flatland.node_subsystem.canvas import Canvas
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
+from flatland.datatypes.command_interface import New_Stem, New_Path, New_Trunk_Branch, New_Offshoot_Branch, New_Branch_Set
+from flatland.connector_subsystem.straight_binary_connector import StraightBinaryConnector
+from flatland.connector_subsystem.bending_binary_connector import BendingBinaryConnector
+from flatland.datatypes.connection_types import ConnectorName, OppositeFace, StemName
 from flatland.text.text_block import TextBlock
 from typing import Optional, Dict
 
@@ -30,7 +34,6 @@ class XumlClassDiagram:
             sys.exit(e)
         self.subsys = self.model.parse()
 
-
         # Parse the layout
         try:
             self.layout = LayoutParser(layout_file_path=self.flatland_layout_path, debug=True)
@@ -47,6 +50,17 @@ class XumlClassDiagram:
         # Draw all of the classes
         self.nodes = self.draw_classes()
 
+        # If there are any relationships, draw them
+        if self.subsys.rels:
+            cp = self.layout.connector_placement
+            for r in self.subsys.rels:  # r is the model data without any layout info
+                rnum = r['rnum']
+                rlayout = cp[rnum]  # How this r is to be laid out on the diagram
+                if 'superclass' in r.keys():
+                    pass
+                    #self.draw_generalization(rnum=rnum, generalization=r, tree_layout=rlayout)
+                else:
+                    self.draw_association(rnum=rnum, association=r, binary_layout=rlayout)
 
         self.flatland_canvas.render()
 
@@ -90,3 +104,55 @@ class XumlClassDiagram:
         # TODO:  Include method section in content
         # TODO:  Add support for axis offset on stem names
 
+    def draw_association(self, rnum, association, binary_layout):
+        """Draw the binary association"""
+        # Straight or bent connector?
+        tstem = binary_layout['tstem']
+        pstem = binary_layout['pstem']
+        astem = binary_layout.get('tertiary_node', None)
+        t_side = association['t_side']
+        t_phrase = StemName(
+            text=TextBlock(t_side['phrase'], wrap=tstem['wrap']),
+            side=tstem['stem_dir'], axis_offset=None, end_offset=None
+        )
+        t_stem = New_Stem(stem_type='class mult', semantic=t_side['mult'] + ' mult',
+                          node=self.nodes[t_side['cname']], face=tstem['face'],
+                          anchor=tstem.get('anchor', None), stem_name=t_phrase)
+        p_side = association['p_side']
+        p_phrase = StemName(
+            text=TextBlock(p_side['phrase'], wrap=pstem['wrap']),
+            side=pstem['stem_dir'], axis_offset=None, end_offset=None
+        )
+        p_stem = New_Stem(stem_type='class mult', semantic=p_side['mult'] + ' mult',
+                          node=self.nodes[p_side['cname']], face=pstem['face'],
+                          anchor=pstem.get('anchor', None), stem_name=p_phrase)
+        if astem:
+            a_stem = New_Stem(stem_type='associative mult', semantic=association['assoc_mult'] + ' mult',
+                              node=self.nodes[association['assoc_cname']], face=astem['face'], anchor=astem.get('anchor', None),
+                              stem_name=None)
+        else:
+            a_stem = None
+        rnum_data = ConnectorName(text=rnum, side=binary_layout['dir'], bend=binary_layout['bend'])
+
+        paths = None if not binary_layout.get('paths', None) else \
+            [New_Path(lane=p['lane'], rut=p['rut']) for p in binary_layout['paths']]
+
+        if not paths and OppositeFace[tstem['face']] == pstem['face']:
+            StraightBinaryConnector(
+                diagram=self.flatland_canvas.Diagram,
+                connector_type='binary association',
+                t_stem=t_stem,
+                p_stem=p_stem,
+                tertiary_stem=a_stem,
+                name=rnum_data
+            )
+            print("Straight connector")
+        else:
+            BendingBinaryConnector(
+                diagram=self.flatland_canvas.Diagram,
+                connector_type='binary association',
+                anchored_stem_p=p_stem,
+                anchored_stem_t=t_stem,
+                tertiary_stem=a_stem,
+                paths=paths,
+                name=rnum_data)

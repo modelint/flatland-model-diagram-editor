@@ -15,6 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/datatypes" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/decoration_subsystem" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/flatland/deprecated" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/drawing_domain" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/geometry_domain" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/input" isTestSource="false" />
