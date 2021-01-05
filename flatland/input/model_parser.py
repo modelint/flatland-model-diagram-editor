@@ -27,8 +27,7 @@ class ModelParser:
     grammar_file_name = "model_markup/model.peg"
     grammar_file = Path(__file__).parent.parent / grammar_file_name
     root_rule_name = 'subsystem'  # We don't draw a diagram larger than a single subsystem
-    grammar_model_pdf = "Diagnostics/subsystem_model.pdf"
-    parse_tree_pdf = "Diagnostics/subsystem_parse_tree.pdf"
+    xuml_model_dir = Path(__file__).parent.parent / "examples" / "xuml_models"
 
     def __init__(self, model_file_path, debug=True):
         """
@@ -77,8 +76,11 @@ class ModelParser:
             peg_model_dot = Path("peggrammar_parser_model.dot")
             parse_tree_dot = Path("subsystem_parse_tree.dot")
             parser_model_dot = Path("subsystem_peg_parser_model.dot")
-            os.system(f'dot -Tpdf {parse_tree_dot} -o {ModelParser.parse_tree_pdf}')
-            os.system(f'dot -Tpdf {parser_model_dot} -o {ModelParser.grammar_model_pdf}')
+
+            parse_tree_file = str(ModelParser.xuml_model_dir / self.model_file_path.stem) + "_parse_tree.pdf"
+            model_file = str(ModelParser.xuml_model_dir / self.model_file_path.stem) + "_model.pdf"
+            os.system(f'dot -Tpdf {parse_tree_dot} -o {parse_tree_file}')
+            os.system(f'dot -Tpdf {parser_model_dot} -o {model_file}')
             # Cleanup unneeded dot files, we just use the PDFs for now
             parse_tree_dot.unlink(missing_ok=True)
             parser_model_dot.unlink(missing_ok=True)

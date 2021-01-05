@@ -39,6 +39,12 @@ def main():
         # TODO: Since a default model file is always supplied via argparse above, this clause will never execute
         model_path = sys.stdin
 
+    # layout file: This must be supplied via an argument or the default layout file is presumed
+    layout_path = Path(args.layout)
+    if not layout_path.is_file():
+        print(f"Layout file: {args.layout} specified on command line not found")
+        sys.exit()
+
     # output file: If no output file is specified, the generated diagram is provided as standard output
     # For now, the only output format is PDF
     if args.diagram:
@@ -54,7 +60,7 @@ def main():
     # Generate the xuml class diagram (we don't do anything with the returned variable yet)
     class_diagram = XumlClassDiagram(
         xuml_model_path=model_path,
-        flatland_layout_path=args.layout,
+        flatland_layout_path=layout_path,
         diagram_file_path=diagram_path,
     )
 

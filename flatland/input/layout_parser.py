@@ -28,8 +28,7 @@ class LayoutParser:
     grammar_file_name = "model_markup/layout.peg"
     grammar_file = Path(__file__).parent.parent / grammar_file_name
     root_rule_name = "diagram_layout"
-    grammar_model_pdf = "Diagnostics/layout_model.pdf"
-    parse_tree_pdf = "Diagnostics/layout_parse_tree.pdf"
+    layout_dir = Path(__file__).parent.parent / "examples" / "layouts"
 
     def __init__(self, layout_file_path, debug=True):
         """
@@ -77,8 +76,11 @@ class LayoutParser:
             peg_model_dot = Path("peggrammar_parser_model.dot")
             parse_tree_dot = Path("diagram_layout_parse_tree.dot")
             parser_model_dot = Path("diagram_layout_peg_parser_model.dot")
-            os.system(f'dot -Tpdf {parse_tree_dot} -o {LayoutParser.parse_tree_pdf}')
-            os.system(f'dot -Tpdf {parser_model_dot} -o {LayoutParser.grammar_model_pdf}')
+
+            parse_tree_file = str(LayoutParser.layout_dir / self.layout_file_path.stem) + "_parse_tree.pdf"
+            model_file = str(LayoutParser.layout_dir / self.layout_file_path.stem) + "_model.pdf"
+            os.system(f'dot -Tpdf {parse_tree_dot} -o {parse_tree_file}')
+            os.system(f'dot -Tpdf {parser_model_dot} -o {model_file}')
             # Cleanup unneeded dot files, we just use the PDFs for now
             parse_tree_dot.unlink(missing_ok=True)
             parser_model_dot.unlink(missing_ok=True)

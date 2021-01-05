@@ -30,7 +30,6 @@ class XumlClassDiagram:
         self.flatland_layout_path = flatland_layout_path
         self.diagram_file_path = diagram_file_path
 
-        print("Parsing the model")
         # Parse the model
         try:
             self.model = ModelParser(model_file_path=self.xuml_model_path, debug=True)
@@ -67,10 +66,6 @@ class XumlClassDiagram:
 
         self.flatland_canvas.render()
 
-        print("drawing a pretty diagram now. (Not really, but soon!)")
-        print(f"from model: {self.xuml_model_path}")
-        print(f"using layout: {self.flatland_layout_path}")
-        print(f"to output file : {self.diagram_file_path}")
 
     def create_canvas(self) -> Canvas:
         """Create a blank canvas"""

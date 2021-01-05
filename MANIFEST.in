@@ -1,3 +1,4 @@
 include flatland/model_markup/*.peg
 include flatland/examples/*.xmm
 include flatland/examples/*.mss
+recursive-include flatland/documentation *

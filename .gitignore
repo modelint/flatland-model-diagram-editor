@@ -2,6 +2,6 @@
 /dist/
 /dist 2/
 /flatland_model_diagram_editor.egg-info/
-*.pdf
 *.dot
 /flatland/diagnostics/
+/flatland/*.pdf
