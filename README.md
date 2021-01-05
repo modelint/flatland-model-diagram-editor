@@ -23,11 +23,11 @@ In fact, you edit the models and layout in your favorite text editor and then a 
 technically, this is not an editor at all, but a diagram generator. That said, the generator and associated
 model and layout grammar/parsers effectively set you up with a powerful open source model editor.
 
-WARNING: I am in the process of figuring out PyPI for the first time, so it's going to be a few weeks before
-this tool is ready to use. I don't recommend wasting your time downloading just yet. Follow me
+WARNING: I am still in the early days of releasing so it's going to be a few weeks before
+this tool is ready to use. I don't recommend wasting your time downloading just yet unless you just want
+to play with it and look at the code and documentation. Follow me
 on [twitter](https://twitter.com/Leon_Starr) or
-[LinkedIn](https://linkedin.com/in/modelint) for updates. I do have a nice alpha version working that makes awesome class diagrams in my cozy PyCharm
-environment, but it turns out that multi-platform deployment is a pain in the ass. Who knew? ;)
+[LinkedIn](https://linkedin.com/in/modelint) for updates.
 
 ## Shameless plug
 
@@ -36,11 +36,20 @@ Also, various resources at the [Model Integration](https://modelint.com/mbse) we
 
 ## Installation
 
+Notes here are for those familiar with python installation procedures.  I will write a more detailed set of procedures
+for those who are not in a later release.
+
+Flatland currently uses the multi-platform [cairo graphics library](https://cairographics.org) to do all of the
+drawing. Ideally, you should ensure that you have cairo installed before installing Flatland. If you are on Mac OS X,
+you can use homebrew to install it easily. (It worked fine for me, anyway)
+
+You should also ensure that you have Python 3.9+ installed. A virtual environment is highly recommended.
+
 You can install the Flatland Model Diagram Editor from [PyPI](https://pypi.org/project/flatland-model-diagram-editor/):
 
     $ pip install flatland-model-diagram-editor
 
-Flatland is supported on Python 3.7 and above
+Flatland is supported on Python 3.9 and above
 
 ## How to use
 
@@ -66,8 +75,8 @@ to get comfortable with arpeggio and PEG grammars, but you're a smart engineer a
 
 ## Schedule
 
-I will be futzing around with PyPI, manifests, documentation, relative imports and so forth into early February 2021,
-so a version you can actually use to do something useful probably won't be available until then.
+I am in the process of upgrading the test framework, usage documentation and support for more diagram types.
+A version you can actually use to do something useful probably won't be available until early February 2021.
 
 Expect this to be in serious beta by late spring 2021. I would like it to be sooner, but I
 have [a day job](https://www.tri.global/).
