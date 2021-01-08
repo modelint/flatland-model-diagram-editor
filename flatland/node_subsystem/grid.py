@@ -7,7 +7,7 @@ from flatland.connector_subsystem.connector_layout_specification import Connecto
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
 from flatland.geometry_domain.linear_geometry import expand_boundaries, span, step_edge_distance
 from flatland.datatypes.geometry_types import Position
-from spanning_node import SpanningNode
+from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.datatypes.connection_types import Orientation
 from itertools import product
