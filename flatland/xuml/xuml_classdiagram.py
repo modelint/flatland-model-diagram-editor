@@ -10,6 +10,7 @@ from flatland.input.layout_parser import LayoutParser
 from flatland.database.flatlanddb import FlatlandDB
 from flatland.node_subsystem.canvas import Canvas
 from flatland.node_subsystem.single_cell_node import SingleCellNode
+from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.connector_subsystem.tree_connector import TreeConnector
 from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
 from flatland.datatypes.command_interface import New_Stem, New_Path, New_Trunk_Branch, New_Offshoot_Branch, New_Branch_Set
@@ -91,13 +92,29 @@ class XumlClassDiagram:
             name_block = TextBlock(cname, nlayout['wrap'])
             h = HorizAlign[nlayout.get('halign', 'CENTER')]
             v = VertAlign[nlayout.get('valign', 'CENTER')]
-            nodes[cname] = SingleCellNode(
-                node_type_name='class',
-                content=[name_block.text, c['attributes']],
-                grid=self.flatland_canvas.Diagram.Grid,
-                row=nlayout['node_loc'][0], column=nlayout['node_loc'][1],
-                local_alignment=Alignment(vertical=v, horizontal=h)
-            )
+            row_span, col_span = nlayout['node_loc']
+            if len(row_span) == 1 and len(col_span) == 1:
+                nodes[cname] = SingleCellNode(
+                    node_type_name='class',
+                    content=[name_block.text, c['attributes']],
+                    grid=self.flatland_canvas.Diagram.Grid,
+                    row=row_span[0], column=col_span[0],
+                    local_alignment=Alignment(vertical=v, horizontal=h)
+                )
+            else:
+                # Span might be only 1 column or row
+                low_row = row_span[0]
+                high_row = low_row if len(row_span) == 1 else row_span[1]
+                left_col = col_span[0]
+                right_col = left_col if len(col_span) == 1 else col_span[1]
+                nodes[cname] = SpanningNode(
+                    node_type_name='class',
+                    content=[name_block.text, c['attributes']],
+                    grid=self.flatland_canvas.Diagram.Grid,
+                    low_row=low_row, high_row=high_row,
+                    left_column=left_col, right_column=right_col,
+                    local_alignment=Alignment(vertical=v, horizontal=h)
+                )
         return nodes
         # TODO:  Include method section in content
         # TODO:  Add support for axis offset on stem names

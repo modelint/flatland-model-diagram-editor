@@ -39,7 +39,7 @@ class SingleCellNode(Node):
             raise BadColNumber
         self.Row = row
         self.Column = column
-        self.Grid.place_single_cell_node(self)
+        self.Grid.place_single_cell_node(node=self)
 
     def __repr__(self):
         return f'Grid [{self.Row}, {self.Column}] @ ({round(self.Canvas_position.x, 2)}, ' \

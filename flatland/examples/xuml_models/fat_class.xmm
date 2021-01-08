@@ -1,0 +1,14 @@
+/// fat_class.xmm – Just one fat (and tall) class
+subsystem Test
+class Diagram
+attributes
+    ID : Nominal {I}
+    Grid {R10}
+    Type {R11, R30}
+    Notation {R30}
+    Canvas {R14}
+    Some really long attribute : Long data type
+    Size : Rect Size
+    Origin : Position
+    Presentation style {R26}
+--

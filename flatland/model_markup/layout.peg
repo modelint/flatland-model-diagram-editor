@@ -43,7 +43,8 @@ path = 'L' number ('R' notch)? // Lane and rut, assume rut 0 if R not specified
 
 // Node
 nodes_header = "nodes" nl
-node_loc = number ',' number  // Row and column
+span =  number '-' number / number
+node_loc = span ',' span  // Row and column
 node_name = name
 node_placement = indent node_name wrap? space node_loc (space node_align)? nl
 node_block = nodes_header node_placement+

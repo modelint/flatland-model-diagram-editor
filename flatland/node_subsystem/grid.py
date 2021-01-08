@@ -2,12 +2,12 @@
 grid.py
 """
 
-import flatland.flatland_exceptions
+from flatland.flatland_exceptions import CellOccupiedFE, SheetWidthExceededFE, SheetHeightExceededFE
 from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification as connector_layout
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
 from flatland.geometry_domain.linear_geometry import expand_boundaries, span, step_edge_distance
 from flatland.datatypes.geometry_types import Position
-# from spanning_node import SpanningNode
+from spanning_node import SpanningNode
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.datatypes.connection_types import Orientation
 from itertools import product
@@ -130,7 +130,7 @@ class Grid:
         new_row_height = self.Row_boundaries[-1] + cell_height
         # Make sure that it's not above the Diagram area
         if new_row_height > self.Diagram.Size.height:
-            raise flatland_exceptions.SheetHeightExceededFE
+            raise SheetHeightExceededFE
         # Add it to the list of row boundaries
         self.Row_boundaries.append(new_row_height)
         # Create new empty row with an empty node for each column boundary after the leftmost edge (0)
@@ -144,79 +144,95 @@ class Grid:
         new_col_width = self.Col_boundaries[-1] + cell_width
         # Make sure that it's not right of the Diagram area
         if new_col_width > self.Diagram.Size.width:
-            raise flatland_exceptions.SheetWidthExceededFE
+            raise SheetWidthExceededFE
         # Add it to the list of column boundaries
         self.Col_boundaries.append(new_col_width)
         # For each row, add a rightmost empty node space
         [row.append(None) for row in self.Cells]
 
-    # def place_spanning_node(self, node: SpanningNode):
-    #     """Places a spanning node"""
-    #
-    #     # Get the top and right extents for the grid
-    #     # The top row or rightmost col number = qty of boundaries exluding 0 on y or x
-    #     highest_row_number = max(0, len(self.Row_boundaries[1:]))
-    #     rightmost_col_number = max(0, len(self.Col_boundaries[1:]))
-    #
-    #     # Determine how many rows and columns to add to cover the requested span
-    #     # We get zero if there are already enough rows or columns
-    #     rows_to_add = max(0, node.High_row - highest_row_number)
-    #     columns_to_add = max(0, node.Right_column - rightmost_col_number)
-    #
-    #     # Which rows or columns that already exist in the grid lie within the
-    #     # specified node spanning range?
-    #     spanned_existing_rows = list(range(node.Low_row, highest_row_number + 1))
-    #     spanned_existing_cols = list(range(node.Left_column, rightmost_col_number + 1))
-    #
-    #     # Now take all existing cells in the occupied area and ensure that each is empty
-    #     if spanned_existing_rows and spanned_existing_cols and \
-    #             any([self.Cells[r][c] for r, c in product(spanned_existing_rows, spanned_existing_cols)]):
-    #         raise flatland_exceptions.CellOccupiedFE
-    #
-    #     # Add cell padding to the node to determine grid space required
-    #     padded_node_height = node.Size.height + self.Cell_padding.top + self.Cell_padding.bottom
-    #     padded_node_width = node.Size.width + self.Cell_padding.left + self.Cell_padding.right
-    #
-    #     # How much of the padded node height is accommodated by existing rows?
-    #     top_boundary = self.Row_boundaries[-1]  # topmost y of grid
-    #     bottom_boundary = self.Row_boundaries[-len(spanned_existing_rows) - 1]  # floor boundary of lowest spanned node
-    #     overlapped_height = top_boundary - bottom_boundary
-    #
-    #     # How much of the padded node width is accommodated by existing columns?
-    #     right_boundary = self.Col_boundaries[-1]  # rightmost x of grid
-    #     left_boundary = self.Col_boundaries[-len(spanned_existing_cols) - 1]  # left boundary of leftmost spanned node
-    #     overlapped_width = right_boundary - left_boundary
-    #
-    #     # How much height would be added by default size extra rows?
-    #     default_cell_height = node.Node_type.default_size.height + self.Cell_padding.top + self.Cell_padding.bottom
-    #     default_added_height = rows_to_add * default_cell_height  # Height that would be added by default
-    #     surplus_height = max(0, padded_node_height - overlapped_height - default_added_height)  # Surplus required
-    #     insert_more_height_per_new_cell = 0  # Amount of height to add to each newly created row
-    #     if surplus_height:
-    #         insert_more_height_per_new_cell += surplus_height / rows_to_add
-    #     cell_height = default_cell_height + insert_more_height_per_new_cell
-    #
-    #     # How much width would be added by default size extra columns?
-    #     default_cell_width = node.Node_type.default_size.width + self.Cell_padding.left + self.Cell_padding.right
-    #     default_added_width = columns_to_add * default_cell_width  # Width that would be added by default
-    #     surplus_width = max(0, padded_node_width - overlapped_width - default_added_width)  # Surplus required
-    #     insert_more_width_per_new_cell = 0  # Amount of width to add to each newly created column
-    #     if surplus_width:
-    #         insert_more_width_per_new_cell += surplus_width / columns_to_add
-    #     cell_width = default_cell_width + insert_more_width_per_new_cell
-    #
-    #     # Now we can add the columns (but first do the same for rows)
-    #     # Add extra rows and columns
-    #     [self.add_row(cell_height) for _ in range(rows_to_add)]
-    #     [self.add_column(cell_width) for _ in range(columns_to_add)]
-    #
-    #     # Assign each cell to this node
-    #     spanned_rows = list(range(node.Low_row, node.High_row + 1))
-    #     spanned_cols = list(range(node.Left_column, node.Right_column + 1))
-    #     # Figure out the correct syntax for statement below
-    #     for r, c in product(spanned_rows, spanned_cols):
-    #         self.Cells[r - 1][c - 1] = node
-    #     self.Nodes.append(node)
+    def place_spanning_node(self, node: SpanningNode):
+        """Places a spanning node adding any required rows or columns"""
+
+        # Get the top and right extents for the grid
+        # The top row or rightmost col number = qty of boundaries exluding 0 on y or x
+        highest_row_number = max(0, len(self.Row_boundaries[1:]))
+        rightmost_col_number = max(0, len(self.Col_boundaries[1:]))
+
+        # Determine how many total rows and columns required to extend the grid
+        # So that the node can be placed
+        # We get zero if we already have all the rows and columns we need
+        total_rows_to_add = max(0, node.High_row - highest_row_number)
+        total_cols_to_add = max(0, node.Right_column - rightmost_col_number)
+
+        # Which of these added rows and columns will be occupied by this node
+        row_span = 1 + node.High_row - node.Low_row  # Number of rows this node will span
+        col_span = 1 + node.Right_column - node.Left_column  # Number of cols this node will span
+
+        # Some of the inserted rows and columns will not be spanned by the node
+        # If you have an empty grid to start, for example, and you want to insert
+        # a fat node across cols 1-2 in row 2, only row 2 is spanned with row 1 inserted
+        # as an empty spacer row
+        spacer_rows_to_add = total_rows_to_add - row_span
+        spacer_cols_to_add = total_cols_to_add - col_span
+
+        # Which rows or columns that already exist in the grid lie within the
+        # specified node spanning range?
+        spanned_existing_rows = list(range(node.Low_row, highest_row_number + 1))
+        spanned_existing_cols = list(range(node.Left_column, rightmost_col_number + 1))
+
+        # Now take all existing cells in the occupied area and ensure that each is empty
+        if spanned_existing_rows and spanned_existing_cols and \
+                any([self.Cells[r][c] for r, c in product(spanned_existing_rows, spanned_existing_cols)]):
+            raise CellOccupiedFE
+
+        # Add cell padding to the node to determine grid space required
+        padded_node_height = node.Size.height + self.Cell_padding.top + self.Cell_padding.bottom
+        padded_node_width = node.Size.width + self.Cell_padding.left + self.Cell_padding.right
+
+        # How much of the padded node height is accommodated by existing rows?
+        top_boundary = self.Row_boundaries[-1]  # topmost y of grid
+        bottom_boundary = self.Row_boundaries[-len(spanned_existing_rows) - 1]  # floor boundary of lowest spanned node
+        overlapped_height = top_boundary - bottom_boundary
+
+        # How much of the padded node width is accommodated by existing columns?
+        right_boundary = self.Col_boundaries[-1]  # rightmost x of grid
+        left_boundary = self.Col_boundaries[-len(spanned_existing_cols) - 1]  # left boundary of leftmost spanned node
+        overlapped_width = right_boundary - left_boundary
+
+        # How much height would be added by default size extra rows?
+        default_cell_height = node.Node_type.Default_size.height + self.Cell_padding.top + self.Cell_padding.bottom
+        default_added_height = row_span * default_cell_height  # Height that would be added by default
+        surplus_height = max(0, padded_node_height - overlapped_height - default_added_height)  # Surplus required
+        insert_more_height_per_new_cell = 0  # Amount of height to add to each newly created row
+        if surplus_height:
+            insert_more_height_per_new_cell += surplus_height / row_span
+        cell_height = default_cell_height + insert_more_height_per_new_cell
+
+        # How much width would be added by default size extra columns?
+        default_cell_width = node.Node_type.Default_size.width + self.Cell_padding.left + self.Cell_padding.right
+        default_added_width = col_span * default_cell_width  # Width that would be added by default
+        surplus_width = max(0, padded_node_width - overlapped_width - default_added_width)  # Surplus required
+        insert_more_width_per_new_cell = 0  # Amount of width to add to each newly created column
+        if surplus_width:
+            insert_more_width_per_new_cell += surplus_width / col_span
+        cell_width = default_cell_width + insert_more_width_per_new_cell
+
+        # Add any required spacer rows and columns first, setting them to the default
+        # node height and width
+        [self.add_row(default_cell_height) for _ in range(spacer_rows_to_add)]
+        [self.add_column(default_cell_width) for _ in range(spacer_cols_to_add)]
+
+        # Now we add rows and columns that will actually be spanned by the node
+        # These are sized based on the space required to accommodate this node
+        [self.add_row(cell_height) for _ in range(total_rows_to_add-spacer_rows_to_add)]
+        [self.add_column(cell_width) for _ in range(total_cols_to_add-spacer_cols_to_add)]
+
+        # Assign each cell to this node
+        spanned_rows = list(range(node.Low_row, node.High_row + 1))
+        spanned_cols = list(range(node.Left_column, node.Right_column + 1))
+        for r, c in product(spanned_rows, spanned_cols):
+            self.Cells[r - 1][c - 1] = node
+        self.Nodes.append(node)
 
     def add_lane(self, lane, orientation: Orientation):
         """
@@ -245,7 +261,7 @@ class Grid:
 
         # If there is already a node at that location, raise an exception
         if not rows_to_add and not columns_to_add and self.Cells[node.Row - 1][node.Column - 1]:
-            raise flatland_exceptions.CellOccupiedFE
+            raise CellOccupiedFE
 
         # Add necessary rows and columns, if any
         horizontal_padding = self.Cell_padding.left + self.Cell_padding.right
@@ -264,7 +280,7 @@ class Grid:
                     boundaries=self.Col_boundaries, start_boundary=node.Column, expansion=overlap)
                 # Check to see if the rightmost column position is now outside the diagram area
                 if self.Col_boundaries[-1] > self.Diagram.Size.width:
-                    raise flatland_exceptions.SheetWidthExceededFE
+                    raise SheetWidthExceededFE
 
         # Check for vertical overlap
         if not rows_to_add:
@@ -275,7 +291,7 @@ class Grid:
                     boundaries=self.Row_boundaries, start_boundary=node.Row, expansion=overlap)
                 # Check to see if the rightmost column position is now outside the diagram area
                 if self.Row_boundaries[-1] > self.Diagram.Size.height:
-                    raise flatland_exceptions.SheetWidthExceededFE
+                    raise SheetHeightExceededFE
 
         # Add extra rows and columns (must add the rows first)
         for r in range(rows_to_add):

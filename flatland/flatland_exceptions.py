@@ -171,6 +171,22 @@ class InvalidOrientation(FlatlandUserInputException):
         return f'Orientation must be portrait or landscape, got: [{self.orientation}]'
 
 
+class BadRowSpan(FlatlandException):
+    def __init__(self, low_row, high_row):
+        self.low_row = low_row
+        self.high_row = high_row
+
+    def __str__(self):
+        return f'Row span should be <low,high>, but: [<{self.low_row}, {self.high_row}> specified]'
+
+class BadColSpan(FlatlandException):
+    def __init__(self, low_col, high_col):
+        self.low_col = low_col
+        self.high_col = high_col
+
+    def __str__(self):
+        return f'Col span should be <low,high>, but: [<{self.low_col}, {self.high_col}> specified]'
+
 class BadRowNumber(FlatlandException):
     def __init__(self, col_num):
         self.col_num = col_num

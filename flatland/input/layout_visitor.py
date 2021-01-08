@@ -113,6 +113,9 @@ class LayoutVisitor(PTNodeVisitor):
     def visit_node_loc(self, node, children):
         return {node.rule_name: children}
 
+    def visit_span(self, node, children):
+        return children
+
     def visit_node_name(self, node, children):
         return {node.rule_name: ''.join(children)}
 
