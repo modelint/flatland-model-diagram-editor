@@ -172,18 +172,22 @@ class Grid:
         # If you have an empty grid to start, for example, and you want to insert
         # a fat node across cols 1-2 in row 2, only row 2 is spanned with row 1 inserted
         # as an empty spacer row
-        spacer_rows_to_add = total_rows_to_add - row_span
-        spacer_cols_to_add = total_cols_to_add - col_span
+        spacer_rows_to_add = max(0, (total_rows_to_add - row_span))
+        spacer_cols_to_add = max(0, (total_cols_to_add - col_span))
 
         # Which rows or columns that already exist in the grid lie within the
         # specified node spanning range?
-        spanned_existing_rows = list(range(node.Low_row, highest_row_number + 1))
-        spanned_existing_cols = list(range(node.Left_column, rightmost_col_number + 1))
+        spanned_existing_rows = list(range(node.Low_row, min(node.High_row, highest_row_number)))
+        spanned_existing_cols = list(range(node.Left_column, min(node.Right_column, rightmost_col_number)))
+        #spanned_existing_rows = list(range(node.Low_row, node.High_row + 1))
+        #spanned_existing_cols = list(range(node.Left_column, node.Right_column + 1))
 
         # Now take all existing cells in the occupied area and ensure that each is empty
-        if spanned_existing_rows and spanned_existing_cols and \
-                any([self.Cells[r][c] for r, c in product(spanned_existing_rows, spanned_existing_cols)]):
-            raise CellOccupiedFE
+        if spanned_existing_rows and spanned_existing_cols:
+            # We subtract 1 to get from canvas row col coordinates to grid cell indices
+            occupied_cells = [self.Cells[r-1][c-1] for r, c in product(spanned_existing_rows, spanned_existing_cols)]
+            if any(occupied_cells):
+                raise CellOccupiedFE
 
         # Add cell padding to the node to determine grid space required
         padded_node_height = node.Size.height + self.Cell_padding.top + self.Cell_padding.bottom

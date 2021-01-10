@@ -12,10 +12,12 @@ tests = {
     't002': ('aircraftpilot_compsym', 't001_straight_binary_horiz.py'),
     't003': ('aircraft2', 't003_straight_binary_vert'),
     't004': ('tall_class', 't004_single_cell_node_tall'),
+    't005': ('aircraft2', 't005_bending_binary_one'),
     't010': ('fat_class', 't010_spanning_node_ll_corner'),
     't011': ('tall_class', 't011_spanning_node_middle_tall'),
     't012': ('fat_class', 't012_spanning_node_middle_wide'),
     't013': ('tall_class', 't013_spanning_node_middle_tall_wide'),
+    't014': ('tall_class', 't014_spanning_node_middle_align'),
     't020': ('aircraft2', 't020_bending_binary_horiz'),
     't021': ('aircraft2', 't021_bending_binary_vert'),
     't022': ('aircraft2', 't022_bending_binary_horizontal_d1'),
@@ -38,12 +40,13 @@ tests = {
     't054': ('aircraft_tree3', 't054_p2_gbranch_no_float'),
     't055': ('aircraft_tree4', 't055_p2_three_branch_one_graft'),
     't056': ('aircraft_tree4', 't056_p3_single_branch_graft_float'),
+    't100': ('flatland_node_subsystem', 't100_flatland_node_subsystem'),
 }
 
 exdir = Path(__file__).parent.parent / "examples"
 
 print("")
-selected_tests = []# Selected tests to run, if any
+selected_tests = []  # Selected tests to run, if any
 #selected_tests = ['t010', 't011', 't012', 't013']  # Selected tests to run, if any
 # If no tests are selected, all of them will be run
 run_tests = selected_tests if selected_tests else list(tests.keys())

@@ -1,0 +1,268 @@
+/// Flatland Node Subsystem
+subsystem Node
+class Annotation Layout
+attributes
+    Name : Name {I}
+    Canvas {R16}
+--
+class Block
+attributes
+    Name : Name {I}
+    Format : Display format
+--
+class Canvas
+attributes
+    Name : Name {I}
+    Layout {R15}
+    Sheet {R13}
+    Orientation : Portrait Landscape
+    Margin : Padding
+--
+class Cell
+attributes
+    Row {I, R3}
+    Column {I, R3}
+    Grid {I, R3}
+--
+class Column
+attributes
+    Number : Ordinal {I}
+    Grid {R2}
+    Width : Distance
+--
+class Compartment
+attributes
+    Node {I, R6}
+    Compartment type {I, R6}
+    Node type {I, R6}
+    Diagram type {I, R6c}
+    Size : Rect Size
+--
+class Compartment Type
+attributes
+    Name : Name {I}
+    Alignment : Alignment
+    Padding : Padding
+    Text style : Text style
+    Stack order : Ordinal {I2, R1}
+    Node type {I, I2, R1, R4}
+    Diagram type {I, I2, R1, R4}
+--
+class Data Compartment
+attributes
+    Node {I, R8}
+    Compartment type {I, R8}
+    Node type {I, R8}
+    Diagram type {I, R8}
+    Hidden : Boolean
+--
+class Diagram
+attributes
+    ID : Nominal {I}
+    Grid {R10}
+    Type {R11, R30}
+    Notation {R30}
+    Canvas {R14}
+    Size : Rect Size
+    Origin : Position
+--
+class Diagram Notation
+attributes
+    Diagram type {I, R32}
+    Notation {I, R32}
+--
+class Diagram Type
+attributes
+    Name : Name {I}
+    About : Description
+--
+class Field Spec
+attributes
+    Name : Name {I}
+    Format : Display format
+--
+class Grid
+attributes
+    ID : Nominal {I}
+    Cell padding : Padding
+    Cell alignment : Alignment
+--
+class Layout Specification
+attributes
+    Name : Name {I}
+    Default margin : Padding
+    Default diagram origin : Position
+    Default cell padding : Padding
+    Default cell alignment : Alignment
+--
+class Node
+attributes
+    ID {I}
+    Node type {R5}
+    Diagram type {R5}
+    \Size : Rect Size
+    Location : Diagram Coordinates
+--
+class Node Type
+attributes
+    Name : Name {I}
+    Diagram type {I, R15}
+    About : Description
+    Why use it : Description
+    Corner rounding : Rounding
+    Compartments : Count
+    Border  : Border Style
+    Default size: Rect Size
+    Max size : Rect Size
+    Corner margin : Distance
+--
+class Non Spanning Node
+attributes
+    ID {I, R20}
+    Row {I2, R21}
+    Column {I2, R21}
+    Grid {I2, R21}
+--
+class Notation
+attributes
+    Name : Name {I}
+    About : Description
+--
+class Row
+attributes
+    Number : Ordinal {I}
+    Grid {R1}
+    Height : Distance
+--
+class Spanning Node
+attributes
+    ID {I, R20}
+    High row {R22}
+    Low row {R23}
+    Left col {R24}
+    Right col {R25}
+    Alignment : Alignment
+    Grid {R22, R23, R24, R25}
+--
+class Sheet
+attributes
+    Name : Name {I}
+    Size : Sheet Size
+    Units : US Metric
+--
+class Text Line
+attributes
+    Number : Ordinal
+    Content : Text
+    Length : Count
+    Compartment {R7}
+--
+class Title Compartment
+attributes
+    Node {I, R8}
+    Compartment type {I, R8}
+    Node type {I, R8}
+    Diagram type {I, R8}
+--
+relationships
+    R1
+    divides vertically by, M Row
+    is vertical division of, 1 Grid
+--
+    R2
+    divides horizontally by, M Column
+    is horizontal division of, 1 Grid
+--
+    R3
+    intersects, M Row
+    intersects, M Column
+    1 Cell
+--
+    R4
+    specifies default layout of text for, 1 Node Type
+    default layout of text is defined by, M Compartment Type
+--
+    R5
+    is specified by, 1 Node Type
+    specifies, Mc Node
+--
+    R6
+    text is organized by, M Compartment Type
+    organizes text inside, Mc Node
+    1 Compartment
+--
+    R7
+    fills, 1 Compartment
+    is filled by, Mc Text Line
+--
+    R8
+    Compartment +
+        Title Compartment
+        Data Compartment
+--
+    R9
+    is stacked below, 1c Compartment Type
+    is stacked above, 1c Compartment Type
+--
+    R10
+    organizes content of, 1 Diagram
+    organizes content within, 1 Grid
+--
+    R11
+    specifies, 1c Diagram
+    is specified by, 1 Diagram Type
+--
+    R12
+    covers, M Cell
+    is covered by, 1c Node
+--
+    R13
+    defines geometry of, Mc Canvas
+    geometry is defined by, 1 Sheet
+--
+    R14
+    is laid out on, 1 Canvas
+    frames placement of, 1 Diagram
+--
+    R16
+    annotation is organized by, 1c Annotation Layout
+    organizes annotation on, 1 Canvas
+--
+    R17
+    xx, M Block
+    yy, 1 Annotation Layout
+--
+    R18
+    xx, M Field Spec
+    yy, Mc Block
+--
+    R20
+    Node +
+        Non Spanning Node
+        Spanning Node
+--
+    R22
+    spans from top, 1 Row
+    defines uppermost span of, Mc Spanning Node
+--
+    R23
+    spans to bottom, 1 Row
+    defines lowermost span of, Mc Spanning Node
+--
+    R24
+    spans from left, 1 Column
+    defines leftmost span of, Mc Spanning Node
+--
+    R25
+    spans from right, 1 Column
+    defines rightmost span of, Mc Spanning Node
+--
+    R30
+    renders, 1c Diagram
+    is rendered using, 1 Diagram Notation
+--
+    R32
+    is supported by, M Notation
+    supports, Mc Diagram Type
+    1 Diagram Notation
+--
