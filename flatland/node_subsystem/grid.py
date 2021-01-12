@@ -2,6 +2,7 @@
 grid.py
 """
 
+import logging
 from flatland.flatland_exceptions import CellOccupiedFE, SheetWidthExceededFE, SheetHeightExceededFE
 from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification as connector_layout
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
@@ -57,6 +58,7 @@ class Grid:
 
         :param diagram:  Reference to the Diagram
         """
+        self.logger = logging.getLogger(__name__)
         self.Cells = []  # No rows or columns in grid yet
         self.Nodes = []  # No nodes in the grid yet
         self.Connectors = []
@@ -99,7 +101,7 @@ class Grid:
         tablet = self.Diagram.Canvas.Tablet
 
         if show_grid:
-            print("Drawing grid")
+            self.logger.info("Drawing grid")
             # Draw rows
             left_extent = self.Diagram.Origin.x
             right_extent = self.Diagram.Origin.x + self.Diagram.Size.width

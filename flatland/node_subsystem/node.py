@@ -1,6 +1,7 @@
 """
 node.py
 """
+import logging
 from flatland.flatland_exceptions import UnsupportedNodeType
 from flatland.datatypes.geometry_types import Rect_Size, Position, Alignment
 from flatland.node_subsystem.compartment import Compartment
@@ -36,6 +37,7 @@ class Node:
         :param grid: Reference to the Grid
         :param local_alignment: Overrides default alignment within Cell or Cell range
         """
+        self.logger = logging.getLogger(__name__)
         self.Grid = grid
         try:
             self.Node_type = self.Grid.Diagram.Diagram_type.NodeTypes[node_type_name]
@@ -91,7 +93,7 @@ class Node:
     def render(self):
         """Calculate final position on the Canvas and register my rectangle in the Tablet"""
 
-        print("Drawing node")
+        self.logger.info("Drawing node")
         # Start at the bottom of the node and render each compartment upward
         comp_y = self.Canvas_position.y
         for c in self.Compartments[::-1]:  # Reverse the compartment order to bottom up

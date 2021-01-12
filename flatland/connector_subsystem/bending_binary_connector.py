@@ -1,6 +1,8 @@
 """
 bending_binary_connector.py
 """
+import logging
+import logging.config
 from flatland.flatland_exceptions import UnsupportedConnectorType, InvalidBendNumber
 from flatland.connector_subsystem.binary_connector import BinaryConnector
 from flatland.connector_subsystem.tertiary_stem import TertiaryStem
@@ -37,6 +39,7 @@ class BendingBinaryConnector(BinaryConnector):
         :param name: User supplied name of the Connector
         :param tertiary_stem:
         """
+        self.logger = logging.getLogger(__name__)
         # Verify that the specified connector type name corresponds to a supported connector type
         # found in our database
         try:
@@ -146,7 +149,7 @@ class BendingBinaryConnector(BinaryConnector):
         Draw a line from the vine end of the T node stem to the vine end of the P node stem
         """
         # Create line from root end of T_stem to root end of P_stem, bending along the way
-        print("Drawing bending binary connector")
+        self.logger.info("Drawing bending binary connector")
         tablet = self.Diagram.Canvas.Tablet
         tablet.add_open_polygon(
             asset=self.Connector_type.Name+' connector',

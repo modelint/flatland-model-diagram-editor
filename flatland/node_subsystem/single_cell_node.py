@@ -43,8 +43,10 @@ class SingleCellNode(Node):
 
     def __repr__(self):
         return f'{self.Compartments[0].Content}[R{self.Row}, C{self.Column}]'
-        # return f'Grid [{self.Row}, {self.Column}] @ ({round(self.Canvas_position.x, 2)}, ' \
-        #        f'{round(self.Canvas_position.y, 2)}), W {self.Size.width} x H {round(self.Size.height, 2)}'
+
+    def __str__(self):
+        return f'Grid [{self.Row}, {self.Column}] @ ({round(self.Canvas_position.x, 2)}, ' \
+               f'{round(self.Canvas_position.y, 2)}), W {self.Size.width} x H {round(self.Size.height, 2)}'
 
     @property
     def Canvas_position(self):

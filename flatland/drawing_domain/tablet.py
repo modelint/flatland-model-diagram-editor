@@ -2,6 +2,7 @@
 tablet.py – Flatland binds a Canvas instance in the Flatland Application domain to a Tablet instance
 in the drawing domain. The Tablet can be drawn using cairo or some other graphics drawing framework.
 """
+import logging
 from flatland.datatypes.geometry_types import Rect_Size, Position, HorizAlign
 from typing import List
 import cairo
@@ -78,6 +79,7 @@ class Tablet:
         :param drawing_type: Type of drawing so we can determine what kinds of shapes and text will be drawn
         :param presentation: User selected Presentation Style so we know which styles to load from the database
         """
+        self.logger = logging.getLogger(__name__)
 
         # Load all of the draw styles from the flatland database
         # We only need to load the styles for the user selected Presentation Style and only for the Assets
@@ -161,7 +163,7 @@ class Tablet:
                 lower_left=self.to_dc(lower_left), text=text, style=StyleDB.text_presentation[asset]
             )
         )
-        print('Text added')
+        self.logger.info('Text added')
 
     def add_text_block(self, asset: str, lower_left: Position, text: List[str],
                        align: HorizAlign = HorizAlign.LEFT):

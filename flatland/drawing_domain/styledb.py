@@ -1,6 +1,7 @@
 """
 styledb.py
 """
+import logging
 from flatland.database.flatlanddb import FlatlandDB as fdb
 from sqlalchemy import select, and_
 from collections import namedtuple
@@ -23,13 +24,15 @@ class StyleDB:
     text_presentation = {}
 
     def __init__(self, drawing_type, presentation):
+        self.logger = logging.getLogger(__name__)
+        self.logger.info("Loading styles from flatland db")
         load_colors()
         load_dash_patterns()
         load_line_styles()
         load_typefaces()
         load_text_styles()
         load_asset_presentations(drawing_type=drawing_type, presentation=presentation)
-        print("presentations loaded")
+        self.logger.info("presentations loaded from flatland db")
 
 # TODO: change to static methods
 def load_colors():

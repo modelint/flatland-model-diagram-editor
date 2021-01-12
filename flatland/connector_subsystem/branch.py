@@ -1,6 +1,7 @@
 """
 branch.py
 """
+import logging
 from typing import Set, TYPE_CHECKING
 from flatland.connector_subsystem.anchored_tree_stem import AnchoredTreeStem
 from flatland.datatypes.geometry_types import Line_Segment, Position, Coordinate
@@ -23,6 +24,7 @@ class Branch:
         :param hanging_stems:
         :param axis_orientation:
         """
+        self.logger = logging.getLogger(__name__)
         self.Order = order
         self.Connector = connector
         self.Hanging_stems = hanging_stems
@@ -66,7 +68,7 @@ class Branch:
                 x = self.Axis
                 y = s.Root_end.y
 
-            print("Drawing branch stem")
+            self.logger.info("Drawing branch stem")
             tablet.add_line_segment(
                 asset=self.Connector.Connector_type.Name+' connector', from_here=s.Root_end, to_there=Position(x, y)
             )

@@ -1,6 +1,7 @@
 """
 rendered_symbol.py
 """
+import logging
 from flatland.datatypes.geometry_types import Position
 from flatland.datatypes.connection_types import NodeFace, OppositeFace
 from flatland.decoration_subsystem.symbol import Symbol
@@ -20,6 +21,7 @@ class RenderedSymbol:
     """
 
     def __init__(self, stem: 'Stem', end: str, location: Position, symbol_name: str):
+        self.logger = logging.getLogger(__name__)
         self.Symbol_spec = Symbol.instances[symbol_name]
         self.Symbol_name = symbol_name
         self.Stem = stem
@@ -34,7 +36,7 @@ class RenderedSymbol:
             stack = self.Symbol_spec.spec
             next_location = location  # Start at the original location
             for s in stack:
-                print(f'NEXT LOCATION: {next_location}')
+                self.logger.info(f'NEXT LOCATION: {next_location}')
                 if s.type == 'arrow':
                     next_location = self.draw_arrow(tablet=tablet, arrow_symbol=s.symbol, location=next_location)
 

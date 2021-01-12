@@ -102,5 +102,10 @@ class Canvas:
         self.Tablet.render()
 
     def __repr__(self):
+        return f'Canvas(diagram_type={self.Diagram.Diagram_type}, presentation={self.Diagram.Presentation},' \
+               f'notation={self.Diagram.Notation}, standard_sheet_name={self.Sheet}, orientation={self.Orientation},' \
+               f'drawoutput={self.Tablet.Output_file}, show_margin={self.Show_margin})'
+
+    def __str__(self):
         return f'Sheet: {self.Sheet}, Orientation: {self.Orientation}, '\
                f'Canvas size: h{self.Size.height} pt x w{self.Size.width} pt Margin: {self.Margin}'

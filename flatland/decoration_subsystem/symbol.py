@@ -256,4 +256,3 @@ if __name__ == "__main__":
     smd = 'state machine'
     cd = 'class'
     s = Symbol(diagram_type=cd, notation=starr)
-    print("Symbols loaded from main")

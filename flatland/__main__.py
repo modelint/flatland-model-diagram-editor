@@ -12,7 +12,6 @@ import argparse
 from pathlib import Path
 from flatland.xuml.xuml_classdiagram import XumlClassDiagram
 from flatland import version
-from flatland.tests.test_logging import doMessage
 
 def get_logger():
     """Initiate the logger"""

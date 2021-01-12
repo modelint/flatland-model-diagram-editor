@@ -45,7 +45,6 @@ tests = {
 
 exdir = Path(__file__).parent.parent / "examples"
 
-print("")
 selected_tests = []  # Selected tests to run, if any
 #selected_tests = ['t010', 't011', 't012', 't013']  # Selected tests to run, if any
 # If no tests are selected, all of them will be run

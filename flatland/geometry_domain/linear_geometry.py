@@ -8,7 +8,6 @@ the need to differentiate between the two.
 """
 from flatland.datatypes.geometry_types import Position
 from typing import Set
-
 scale = 2  # For float rounding errors (change to 3 or 4 if errors are visible on drawings)
 
 def nearest_parallel_segment(psegs: Set[tuple], point: Position, ascending: bool) -> float:

@@ -1,6 +1,7 @@
 """
 straight_binary_connector.py
 """
+import logging
 from flatland.flatland_exceptions import UnsupportedConnectorType, MultipleFloatsInSameStraightConnector
 from flatland.flatland_exceptions import NoFloatInStraightConnector
 from flatland.connector_subsystem.binary_connector import BinaryConnector
@@ -53,6 +54,7 @@ class StraightBinaryConnector(BinaryConnector):
         :param name: User supplied name of the Connector
         :param tertiary_stem: An optional user supplied form requesting a tertiary stem
         """
+        self.logger = logging.getLogger(__name__)
         # Verify that the specified connector type name corresponds to a supported connector type
         # found in our database
         try:
@@ -150,7 +152,7 @@ class StraightBinaryConnector(BinaryConnector):
         if self.Tertiary_stem:
             self.Tertiary_stem.render()
 
-        print("Drawing connector name")
+        self.logger.info("Drawing connector name")
         name_position = self.compute_name_position(
             point_t=self.Projecting_stem.Root_end, point_p=self.Floating_stem.Root_end
         )

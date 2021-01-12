@@ -4,7 +4,6 @@ xUML_class_diagram.py – Generates an xuml diagram for an xuml model using the 
 
 import sys
 import logging
-import logging.config
 from pathlib import Path
 from flatland.flatland_exceptions import FlatlandIOException, MultipleFloatsInSameBranch
 from flatland.input.model_parser import ModelParser
@@ -167,7 +166,6 @@ class XumlClassDiagram:
                 tertiary_stem=a_stem,
                 name=rnum_data
             )
-            print("Straight connector")
         else:
             BendingBinaryConnector(
                 diagram=self.flatland_canvas.Diagram,
