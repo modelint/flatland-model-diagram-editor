@@ -5,11 +5,20 @@ Usage:
 ------
     $ flatland [-h] [-m model] [-l layout] [-d diagram]
 """
+import logging
+import logging.config
 import sys
 import argparse
 from pathlib import Path
 from flatland.xuml.xuml_classdiagram import XumlClassDiagram
 from flatland import version
+from flatland.tests.test_logging import doMessage
+
+def get_logger():
+    """Initiate the logger"""
+    log_conf_path = Path(__file__).parent / 'log.conf'  # Logging configuration is in this file
+    logging.config.fileConfig(fname=log_conf_path, disable_existing_loggers=False)
+    return logging.getLogger(__name__)  # Create a logger for this module
 
 # Configure the expected parameters and actions for the argparse module
 def parse(cl_input):
@@ -20,11 +29,14 @@ def parse(cl_input):
                         help='Flatland layout file defining all layout information with light references to model file.')
     parser.add_argument('-d', '--diagram', action='store', default='diagram.pdf',
                         help='Name of file to generate, .pdf extension automatically added')
+    parser.add_argument('-R', '--rebuild', action='store_true',
+                        help='Rebuild the flatland database. Necessary only if corrupted.')
     return parser.parse_args(cl_input)
 
 
 def main():
-    print(f'Flatland version: {version}')
+    logger = get_logger()
+    logger.info(f'Flatland version: {version}')
     # Parse the command line args
     args = parse(sys.argv[1:])
 
@@ -32,7 +44,7 @@ def main():
     if args.model:
         model_path = Path(args.model)
         if not model_path.is_file():
-            print(f"Model file: {args.model} specified on command line not found")
+            logger.error(f"Model file: {args.model} specified on command line not found")
             sys.exit()
     else:
         # TODO: Standard input is not yet supported, so this is a placeholder
@@ -42,7 +54,7 @@ def main():
     # layout file: This must be supplied via an argument or the default layout file is presumed
     layout_path = Path(args.layout)
     if not layout_path.is_file():
-        print(f"Layout file: {args.layout} specified on command line not found")
+        logger.error(f"Layout file: {args.layout} specified on command line not found")
         sys.exit()
 
     # output file: If no output file is specified, the generated diagram is provided as standard output
@@ -62,9 +74,10 @@ def main():
         xuml_model_path=model_path,
         flatland_layout_path=layout_path,
         diagram_file_path=diagram_path,
+        rebuild=args.rebuild
     )
 
-    print("No problemo")
+    logger.info("No problemo")  # We didn't die on an exception, basically
 
 
 if __name__ == "__main__":

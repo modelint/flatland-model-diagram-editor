@@ -5,3 +5,4 @@
 *.dot
 /flatland/diagnostics/
 /flatland/*.pdf
+*.log

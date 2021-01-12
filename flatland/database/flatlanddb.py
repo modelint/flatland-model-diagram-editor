@@ -2,6 +2,8 @@
 flatlanddb.py - Loads the existing flatland database
 """
 import sys
+import logging
+import logging.config
 from pathlib import Path
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy import event
@@ -67,30 +69,48 @@ class FlatlandDB:
         - Engine -- Sqlalchemy database engine
         - Relvars -- Dictionary of all relvar names and values (table names and row populations)
     """
-    db_file_name = "database/flatland.db"
-    File = Path(__file__).parent.parent / db_file_name
-    print(f'Flatalnd database file stored in: {str(File)}')
+    File = Path(__file__).parent / "flatland.db"
+    LogFile = Path(__file__).parent / "db.log"
     MetaData = None
     Connection = None
     Engine = None
     Relvars = None
 
-    def __init__(self, rebuild=True):
+    def __init__(self, rebuild: bool):
         """
         Create the sqlite3 database using Sqlalchemy
 
         :param rebuild: During development this will usually be true.  For deployment it should be false.
         """
-        if rebuild:
+        self.logger = logging.getLogger(__name__)
+        self.rebuild = rebuild
+
+        if self.rebuild:  # DB rebuild requested
             # Start with a fresh database
             if FlatlandDB.File.exists():
                 FlatlandDB.File.unlink()
+        else:  # No rebuild requested
+            if FlatlandDB.File.exists():
+                self.logger.info("Using existing database")
+            else:  # We're going to have to rebuild it anyway
+                self.rebuild = True
+                self.logger.info("No db file, rebuilding flatland database")
 
         db_path_str = str( FlatlandDB.File )
-        FlatlandDB.Engine = create_engine(f'sqlite:///{db_path_str}', echo=True)
+
+        # Configure sql logger
+        db_file_handler = logging.FileHandler(FlatlandDB.LogFile, 'w')
+        # db_file_handler.setLevel(logging.DEBUG)
+        dblogger = logging.getLogger('sqlalchemy.engine')
+        dblogger.setLevel(logging.DEBUG)
+        dblogger.addHandler(db_file_handler)
+        dblogger.propagate = False  # To keep sql events from bleeding into the flatland log
+
+        FlatlandDB.Engine = create_engine(f'sqlite:///{db_path_str}', echo=False)
         FlatlandDB.Connection = FlatlandDB.Engine.connect()
         FlatlandDB.MetaData = MetaData(FlatlandDB.Engine)
-        if rebuild:
+        if self.rebuild:
+            self.logger.info(f"Re-creating database file at: {db_path_str}")
             Create_relvars()
             Populate()
         else:
