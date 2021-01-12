@@ -1,3 +1,4 @@
 include flatland/model_markup/*.peg
 recursive-include flatland/examples *
 recursive-include flatland/documentation *
+include flatland/*.conf
