@@ -41,6 +41,10 @@ tests = {
     't055': ('aircraft_tree4', 't055_p2_three_branch_one_graft'),
     't056': ('aircraft_tree4', 't056_p3_single_branch_graft_float'),
     't100': ('flatland_node_subsystem', 't100_flatland_node_subsystem'),
+    # Issue Fixes
+    # phrase ordering in layout file must match model file
+    'tticket9': ('aircraft2', 'tticket9_phase_ordering_mismatch_model'),
+    
 }
 
 exdir = Path(__file__).parent.parent / "examples"
