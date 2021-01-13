@@ -126,11 +126,21 @@ class XumlClassDiagram:
 
     def draw_association(self, rnum, association, binary_layout):
         """Draw the binary association"""
+        # coordinate t & p  
+        # move this higher up in flow validate that this is not an issue for
+        # other types of relations.
+        t_side = association['t_side']
+        p_side = association['p_side']
+        if(binary_layout['tstem']['name'] == p_side['cname']):
+            xfer = binary_layout['tstem']
+            binary_layout['tstem'] = binary_layout['pstem']
+            binary_layout['pstem'] = xfer
+
         # Straight or bent connector?
         tstem = binary_layout['tstem']
         pstem = binary_layout['pstem']
         astem = binary_layout.get('tertiary_node', None)
-        t_side = association['t_side']
+        
         t_phrase = StemName(
             text=TextBlock(t_side['phrase'], wrap=tstem['wrap']),
             side=tstem['stem_dir'], axis_offset=None, end_offset=None
@@ -138,7 +148,6 @@ class XumlClassDiagram:
         t_stem = New_Stem(stem_type='class mult', semantic=t_side['mult'] + ' mult',
                           node=self.nodes[t_side['cname']], face=tstem['face'],
                           anchor=tstem.get('anchor', None), stem_name=t_phrase)
-        p_side = association['p_side']
         p_phrase = StemName(
             text=TextBlock(p_side['phrase'], wrap=pstem['wrap']),
             side=pstem['stem_dir'], axis_offset=None, end_offset=None
