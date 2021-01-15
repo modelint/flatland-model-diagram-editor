@@ -57,7 +57,8 @@ def main():
                 print("examples already exists in the current directory.")
                 if not args.docs:
                     sys.exit()
-            shutil.copytree(ex_path, local_ex_path)
+            else:
+                shutil.copytree(ex_path, local_ex_path)
         if args.docs:
             if local_docs_path.exists():
                 sys.exit("documentation already exists in the current directory.")
