@@ -28,16 +28,44 @@ def parse(cl_input):
                         help='Flatland layout file defining all layout information with light references to model file.')
     parser.add_argument('-d', '--diagram', action='store', default='diagram.pdf',
                         help='Name of file to generate, .pdf extension automatically added')
+    parser.add_argument('-D', '--docs', action='store_true',
+                        help='Copy the project documentation directory into the local directory')
+    parser.add_argument('-E', '--examples', action='store_true',
+                        help='Create a directory of examples in the current directory')
+    parser.add_argument('-V', '--version', action='store_true',
+                        help='Print the current version of flatland')
     parser.add_argument('-R', '--rebuild', action='store_true',
                         help='Rebuild the flatland database. Necessary only if corrupted.')
     return parser.parse_args(cl_input)
 
 
 def main():
+    args = parse(sys.argv[1:])
+    if args.version:
+        print(f'Flatland version: {version}')
+        sys.exit()
+
+    if args.examples or args.docs:
+        # Make a local copy of the examples and/or documentation directories for the user
+        import shutil
+        ex_path = Path(__file__).parent / 'examples'
+        docs_path = Path(__file__).parent / 'documentation'
+        local_ex_path = Path.cwd() / 'examples'
+        local_docs_path = Path.cwd() / 'documentation'
+        if args.examples:
+            if local_ex_path.exists():
+                sys.exit("examples already exists in the current directory.")
+            shutil.copytree(ex_path, local_ex_path)
+        if args.docs:
+            if local_docs_path.exists():
+                sys.exit("documentation already exists in the current directory.")
+            import shutil
+            shutil.copytree(docs_path, local_docs_path)
+        sys.exit()
+
     logger = get_logger()
     logger.info(f'Flatland version: {version}')
     # Parse the command line args
-    args = parse(sys.argv[1:])
 
     # model file: This can be provided via standard input or specified as an argument
     if args.model:
