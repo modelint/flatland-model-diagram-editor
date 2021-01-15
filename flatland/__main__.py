@@ -58,7 +58,9 @@ def main():
                 if not args.docs:
                     sys.exit()
             else:
-                shutil.copytree(ex_path, local_ex_path)
+                shutil.copytree(ex_path, local_ex_path)  # Copy the example directory
+                test_gen_path = Path(__file__).parent / 'tests' / 'gen_example_diagrams.py'
+                shutil.copy(test_gen_path, local_ex_path)  # Copy the gen_example file into the copied example dir
         if args.docs:
             if local_docs_path.exists():
                 sys.exit("documentation already exists in the current directory.")

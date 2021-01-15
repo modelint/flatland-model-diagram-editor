@@ -53,13 +53,29 @@ Flatland is supported on Python 3.9 and above
 
 ## How to use
 
-Assuming you have two files, my_model.xmm (xmm = Executable Model Markdown) and my_layout.xss (xss = Executable model Style Sheet),
+Assuming you have two files, my_model.xmm (xmm = Executable Model Markdown) and my_layout.mss (mss = Model Style Sheet),
+and you would like a generated pdf diagram named 'my_beautiful_diagram.pdf', type this:
 
-    $ flatland -m my_model.xmm -l my_layout.xss -d my_beautiful_diagram.pdf
+    $ flatland -m my_model.xmm -l my_layout.mss -d my_beautiful_diagram.pdf
 
 The use of standard input / output is not yet supported so all files must be supplied as parameters.
-If no files are specified, the following default names will be assumed 'model.xmm', 'layout.xss' and
-'diagram.pdf'.
+All arguments are optional. If no files are specified, the following default names will be assumed 'model.xmm',
+'layout.xss' and 'diagram.pdf'. The command will fail, however, if the first two files are not found in the current
+directory.
+
+To get a local copy of the example model and layout file directory, use the -E option. The -D option gets you a local
+copy of the documentation direcotry including the models used to design flatland itself. Type the following to get
+both directories:
+
+    $ flatland -E -D
+
+Inside the examples directory you will find a copy of the test script used to test all of the examples. It won't run
+locally, but you can look inside this file to see which model and layout files pair together. For example, you
+can see that test `t001` pairs the `aircraft2.xmm` model with the `t001_straight_binary_horiz.mss` layout. At this
+point there is no documentation available on the xmm scripting language or the mss layout language, but you should
+be able to figure them out by scanning the examples and comparing with generated pdf output. Have fun with that.
+
+Don't worry, more documentation is coming soon.
 
 ## Model and layout files
 
