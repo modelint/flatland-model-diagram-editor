@@ -131,6 +131,10 @@ class XumlClassDiagram:
         pstem = binary_layout['pstem']
         astem = binary_layout.get('tertiary_node', None)
         t_side = association['t_side']
+        if tstem['name'] != t_side['cname']:
+            # Swap them
+            tstem, pstem = pstem, tstem
+
         t_phrase = StemName(
             text=TextBlock(t_side['phrase'], wrap=tstem['wrap']),
             side=tstem['stem_dir'], axis_offset=None, end_offset=None

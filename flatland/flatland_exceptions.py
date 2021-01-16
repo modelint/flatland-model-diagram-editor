@@ -101,6 +101,13 @@ class MultipleFloatsInSameBranch(FlatlandUserInputException):
     def __str__(self):
         return f'{pre}There may be at most one floating anchor (*) per branch: "{self.branch}"{post}'
 
+class MultipleFloatsInSameBranch(FlatlandUserInputException):
+    def __init__(self, branch):
+        self.branch = branch
+
+    def __str__(self):
+        return f'{pre}There may be at most one floating anchor (*) per branch: "{self.branch}"{post}'
+
 
 class ModelInputFileOpen(FlatlandIOException):
     def __init__(self, path):

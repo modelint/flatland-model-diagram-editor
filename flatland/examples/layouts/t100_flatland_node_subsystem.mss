@@ -45,7 +45,7 @@ connectors
     -R14 : -/2 r|Canvas : +/2 l*|Diagram
     +R16.1 : -/2 l+1|Annotation Layout : +/2 b+1|Canvas
     +R17 : -/1 t*|Block : -/1 b|Annotation Layout
-    +R18 : -/1 l|Block : -/1 r*|Field Spec
+    +R18 : -/1 r|Block : -/1 l*|Field Spec
     +R20 : l|Node { r|Non Spanning Node, r|Spanning Node }
     +R22 : +/2 r+1|Row : +/2 t|Spanning Node
     -R23 : -/2 r-1|Row : -/2 t-2|Spanning Node
