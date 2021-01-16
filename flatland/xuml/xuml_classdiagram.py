@@ -132,8 +132,10 @@ class XumlClassDiagram:
         astem = binary_layout.get('tertiary_node', None)
         t_side = association['t_side']
         if tstem['name'] != t_side['cname']:
+            # The user put the tstems in the wrong order in the layout file
             # Swap them
             tstem, pstem = pstem, tstem
+            self.logger.warning(f"Stems order in layout file does not match model, swapping stem order for connector {rnum}")
 
         t_phrase = StemName(
             text=TextBlock(t_side['phrase'], wrap=tstem['wrap']),

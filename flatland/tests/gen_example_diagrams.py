@@ -13,7 +13,7 @@ tests = {
     't003': ('aircraft2', 't003_straight_binary_vert'),
     't004': ('tall_class', 't004_single_cell_node_tall'),
     't005': ('aircraft2', 't005_bending_binary_one'),
-    't006': ('aircraft2', 't001_reverse_straight_binary_horiz'),
+    't006': ('aircraft2', 't006_reverse_straight_binary_horiz'),
     't010': ('fat_class', 't010_spanning_node_ll_corner'),
     't011': ('tall_class', 't011_spanning_node_middle_tall'),
     't012': ('fat_class', 't012_spanning_node_middle_wide'),
@@ -46,7 +46,7 @@ tests = {
 
 exdir = Path(__file__).parent.parent / "examples"
 
-selected_tests = ['t100']  # Selected tests to run, if any
+selected_tests = ['t006']  # Selected tests to run, if any
 #selected_tests = ['t010', 't011', 't012', 't013']  # Selected tests to run, if any
 # If no tests are selected, all of them will be run
 run_tests = selected_tests if selected_tests else list(tests.keys())
