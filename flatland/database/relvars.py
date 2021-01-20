@@ -20,6 +20,12 @@ def define(db) -> dict:
     """
     return {
         # Flatland diagram domain
+        'titleblock_pattern': Table('Title Block Pattern', db.MetaData,
+                                    Column('Name', String(20), nullable=False, primary_key=True),
+                                    ),
+        'sheet_size_group': Table('Sheet Size Group', db.MetaData,
+                                  Column('Name', String(20), nullable=False, primary_key=True),
+                                  ),
         'sheet': Table('Sheet', db.MetaData,
                        Column('Name', String(20), nullable=False, primary_key=True),
                        # US or International names and units
@@ -28,7 +34,19 @@ def define(db) -> dict:
                        # Sizes as string since all metric units are integer and some US values are
                        # half sizes such as 8.5".  Converted to numeric on load from DB
                        Column('Height', String(8), nullable=False),
-                       Column('Width', String(8), nullable=False)
+                       Column('Width', String(8), nullable=False),
+                       Column('Size group', String(20),
+                              ForeignKey('Sheet Size Group.Name', name='R316'), nullable=False),
+                       ),
+        'frame': Table('Frame', db.MetaData,
+                       Column('Name', String(20), nullable=False),
+                       Column('Sheet', String(20), ForeignKey('Sheet.Name', name='R300'), nullable=False),
+                       PrimaryKeyConstraint('Name', 'Sheet', name='I1'),
+                       ),
+        'open_field': Table('Open Field', db.MetaData,
+                       Column('Name', String(20), nullable=False),
+                       Column('Frame', String(20), ForeignKey('Frame.Name', name='R307'), nullable=False),
+                       PrimaryKeyConstraint('Name', 'Frame', name='I1'),
                        ),
         'diagram_layout_specification': Table('Diagram Layout Specification', db.MetaData,
                                               Column('Name', String(20), nullable=False, primary_key=True),
@@ -113,7 +131,7 @@ def define(db) -> dict:
         'nameable_connector_location': Table('Nameable Connector Location', db.MetaData,
                                              Column('Name', String, nullable=False),
                                              Column('Diagram type', String,
-                                                    ForeignKey('Diagram Type.Name',name='UR70'), nullable=False),
+                                                    ForeignKey('Diagram Type.Name', name='UR70'), nullable=False),
                                              PrimaryKeyConstraint('Name', 'Diagram type', name='I1'),
                                              ),
         'connector_type': Table('Connector Type', db.MetaData,
