@@ -20,6 +20,9 @@ def define(db) -> dict:
     """
     return {
         # Flatland diagram domain
+        'metadata': Table('Meta Data', db.MetaData,
+                          Column('Name', String(20), nullable=False, primary_key=True),
+                          ),
         'titleblock_pattern': Table('Title Block Pattern', db.MetaData,
                                     Column('Name', String(20), nullable=False, primary_key=True),
                                     ),
@@ -44,10 +47,10 @@ def define(db) -> dict:
                        PrimaryKeyConstraint('Name', 'Sheet', name='I1'),
                        ),
         'open_field': Table('Open Field', db.MetaData,
-                       Column('Name', String(20), nullable=False),
-                       Column('Frame', String(20), ForeignKey('Frame.Name', name='R307'), nullable=False),
-                       PrimaryKeyConstraint('Name', 'Frame', name='I1'),
-                       ),
+                            Column('Name', String(20), nullable=False),
+                            Column('Frame', String(20), ForeignKey('Frame.Name', name='R307'), nullable=False),
+                            PrimaryKeyConstraint('Name', 'Frame', name='I1'),
+                            ),
         'diagram_layout_specification': Table('Diagram Layout Specification', db.MetaData,
                                               Column('Name', String(20), nullable=False, primary_key=True),
                                               Column('Default margin top', Integer, nullable=False),
