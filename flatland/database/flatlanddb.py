@@ -42,7 +42,7 @@ def Populate():
     # refer to each population module by the same path
     here = Path(__file__).parent / "population"  # Adjacent population directory
     pop_dirs = [  # Subdirectories organizing all population modules
-        here / "connector", here / "decorator", here / "drawing", here / "node",
+        here / "connector", here / "decorator", here / "drawing", here / "node", here / "sheet"
     ]
     # Convert each Path object to a string and tack it on the end of our module search path
     sys.path.extend([str(p) for p in pop_dirs])

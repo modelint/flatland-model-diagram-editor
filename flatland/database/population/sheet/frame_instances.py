@@ -2,6 +2,8 @@
 frame_instances.py
 """
 population = [
-    # Only one title block for now
-    {'Name': 'OS Engineer', 'Sheet': 'Letter', 'Title block pattern': 'SE Simple'},
+    {'Name': 'OS Engineer', 'Sheet': 'letter'},
+    {'Name': 'OS Engineer', 'Sheet': 'tabloid'},
+    {'Name': 'OS Engineer', 'Sheet': 'C'},
+    {'Name': 'OS Engineer', 'Sheet': 'D'},
 ]
