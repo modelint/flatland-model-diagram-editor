@@ -4,6 +4,7 @@ from arpeggio import PTNodeVisitor
 
 class SubsystemVisitor(PTNodeVisitor):
 
+    # Elements
     def visit_nl(self, node, children):
         return None
 
@@ -103,6 +104,20 @@ class SubsystemVisitor(PTNodeVisitor):
 
     def visit_rel_section(self, node, children):
         """Relationships section with all of the relationships"""
+        return children
+
+    # Metadata
+    def visit_item_text(self, node, children):
+        return children[0]
+
+    def visit_item_name(self, node, children):
+        return children[0]
+
+    def visit_data_item(self, node, children):
+        return {"item_name": children[0], "item_data": children[1]}
+
+    def visit_metadata(self, node, children):
+        """Meta data section"""
         return children
 
     def visit_subsystem(self, node, children):

@@ -56,6 +56,9 @@ class XumlClassDiagram:
         # Draw the blank canvas of the appropriate size, diagram type and presentation style
         self.flatland_canvas = self.create_canvas()
 
+        # Draw the frame and title block
+        self.draw_frame()
+
         # Draw all of the classes
         self.nodes = self.draw_classes()
 
@@ -85,6 +88,10 @@ class XumlClassDiagram:
             drawoutput=self.diagram_file_path,
             show_margin=True
         )
+
+    def draw_frame(self):
+        print("drawing frame")
+        pass
 
     def draw_classes(self) -> Dict[str, SingleCellNode]:
         """Draw all of the classes on the class diagram"""

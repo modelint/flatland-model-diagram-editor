@@ -15,7 +15,7 @@ rnum = r'O?R[1-9][0-9]*' // Relationship number
 lword = r'[a-z][a-z]*' // Lower case only word (used in relationship phrase)
 iword = r'[A-Z][A-Za-z0-9]*' // Initial cap word (used in Class and Subsystem names)
 acword = r'[A-Z][A-Z0-9]*' // All caps words for class abbreviations
-phrase = lword (delim lword)*  // Relatshionship phrase
+phrase = lword (delim lword)*  // Relationship phrase
 block_end = "--" nl?  // Signifies end of a block (within section)
 body_line = indent r'.*' nl // An unstructured line of text
 icaps_name = iword (delim iword)*  // A name using iniital caps only
@@ -43,4 +43,11 @@ relationship_header = "relationships" nl
 rel_section = relationship_header rel*  // All relationships in the subsystem
 
 subsystem_header = "subsystem" sp icaps_name (',' sp+ acword)? nl  // Declares the name of the subsystem
-subsystem = subsystem_header class_set rel_section? EOF
+
+item_text = r'.*' nl
+item_name = iword (delim (iword / lword))*
+data_item = indent item_name sp* ':' sp* item_text
+metadata_header = "metadata" nl
+metadata = metadata_header data_item*
+
+subsystem = metadata? subsystem_header class_set rel_section? EOF
