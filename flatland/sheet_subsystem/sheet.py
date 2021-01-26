@@ -30,12 +30,13 @@ class Sheet:
 
         :param name:  A standard sheet name in our database such as letter, tabloid, A3, etc
         """
-        sheets = fdb.MetaData.tables['Sheet']
-        query = select([sheets]).where(sheets.c.Name == name)
+        sheet_t = fdb.MetaData.tables['Sheet']
+        query = select([sheet_t]).where(sheet_t.c.Name == name)
         i = fdb.Connection.execute(query).fetchone()
         if not i:
             raise UnknownSheetSize(name)
         self.Name = name
+        self.Size_group = i['Size group']
         if i.Group == 'us':
             self.Group = Group.US
         elif i.Group == 'int':
@@ -49,5 +50,8 @@ class Sheet:
             self.Size = Rect_Size(height=int(i.Height), width=int(i.Width))
 
     def __repr__(self):
+        return f'Sheet({self.Name})'
+
+    def __str__(self):
         u = "in" if self.Group == Group.US else 'mm'
-        return f'Name: {self.Name}, Size: h{self.Size.height} {u} x w{self.Size.width} {u}'
+        return f'{self.Name} ({self.Size_group}): H{self.Size.height} {u} x W{self.Size.width} {u}'

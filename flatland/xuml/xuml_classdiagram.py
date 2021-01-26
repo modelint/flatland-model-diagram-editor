@@ -10,6 +10,7 @@ from flatland.input.model_parser import ModelParser
 from flatland.input.layout_parser import LayoutParser
 from flatland.database.flatlanddb import FlatlandDB
 from flatland.node_subsystem.canvas import Canvas
+from flatland.sheet_subsystem.frame import Frame
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.connector_subsystem.tree_connector import TreeConnector
@@ -57,7 +58,9 @@ class XumlClassDiagram:
         self.flatland_canvas = self.create_canvas()
 
         # Draw the frame and title block
-        self.draw_frame()
+        self.frame = Frame(
+            name=self.layout.layout_spec.frame, canvas=self.flatland_canvas, metadata=self.subsys.metadata
+        )
 
         # Draw all of the classes
         self.nodes = self.draw_classes()
@@ -89,9 +92,6 @@ class XumlClassDiagram:
             show_margin=True
         )
 
-    def draw_frame(self):
-        print("drawing frame")
-        pass
 
     def draw_classes(self) -> Dict[str, SingleCellNode]:
         """Draw all of the classes on the class diagram"""

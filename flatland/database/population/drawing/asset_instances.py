@@ -3,6 +3,27 @@ asset_instances.py
 """
 
 population = [
+    # Frame OS Engineer large
+    {'Name': 'Title primary', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Title secondary', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer large'},
+
+    # Frame OS Engineer medium
+    {'Name': 'Title primary', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
+    {'Name': 'Title secondary', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
+    {'Name': 'Copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
+    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
+    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer medium'},
+
+    # Frame OS Engineer small
+    {'Name': 'Title primary', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
+    {'Name': 'Title secondary', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
+    {'Name': 'Copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
+    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
+    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer small'},
+
     # xUML class diagram
     {'Name': 'class compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
     {'Name': 'binary association connector', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},

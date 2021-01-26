@@ -3,6 +3,19 @@ text_presentation_instances.py
 """
 
 population = [
+    # Frame OS Engineer, default
+    {'Asset': 'Title primary', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+     'Text style': 'Block Title Large'},
+
+    {'Asset': 'Title secondary', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+     'Text style': 'Corner Title Large'},
+
+    {'Asset': 'Copyright notice', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+     'Text style': 'boilerplate'},
+
+    {'Asset': 'Block body', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+     'Text style': 'Block Body Large'},
+
     # Starr class diagram, default
     {'Asset': 'label', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Text style': 'p9body'},
     {'Asset': 'binary association name', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Text style': 'p9body'},

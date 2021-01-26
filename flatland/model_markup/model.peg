@@ -44,10 +44,14 @@ rel_section = relationship_header rel*  // All relationships in the subsystem
 
 subsystem_header = "subsystem" sp icaps_name (',' sp+ acword)? nl  // Declares the name of the subsystem
 
-item_text = r'.*' nl
-item_name = iword (delim (iword / lword))*
-data_item = indent item_name sp* ':' sp* item_text
-metadata_header = "metadata" nl
-metadata = metadata_header data_item*
+// Metadata
+text_item = ':' sp* r'.*' // Field content can be any text
+resource_item = '>' sp* (iword / lword) (delim (iword / lword))* // Resource is a name
+item_name = iword (delim (iword / lword))* // Meta data item starts with initial cap
+data_item = indent item_name sp* (resource_item / text_item) nl // Metadata item
+metadata_header = "metadata" nl // Metadata header
+metadata = metadata_header data_item* // Header and set of metadata items
 
+// Subsystem
+// The only thing required is a subsystem name and a set of possibly empty classes
 subsystem = metadata? subsystem_header class_set rel_section? EOF

@@ -43,6 +43,10 @@ class LayoutVisitor(PTNodeVisitor):
         """Keyword argument"""
         return children[0]
 
+    def visit_frame(self, node, children):
+        """Keyword argument"""
+        return children[0]
+
     def visit_notation(self, node, children):
         """Keyword argument"""
         return children[0]

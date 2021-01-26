@@ -22,6 +22,7 @@
       <sourceFolder url="file://$MODULE_DIR$/flatland/text" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/database/population/sheet" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/flatland/title_block" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/flatland/sheet_subsystem" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/dist 2" />

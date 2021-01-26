@@ -3,6 +3,14 @@ shape_presentation_instances.py
 """
 
 population = [
+    # Frame: OS Engineer default
+    {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+     'Line style': 'normal'},
+    {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium',
+     'Line style': 'normal'},
+    {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer small',
+     'Line style': 'normal'},
+
     # Starr class default
     {'Asset': 'class compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Line style': 'normal'},
     {'Asset': 'binary association connector', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Line style': 'normal'},

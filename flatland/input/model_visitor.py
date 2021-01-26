@@ -107,14 +107,17 @@ class SubsystemVisitor(PTNodeVisitor):
         return children
 
     # Metadata
-    def visit_item_text(self, node, children):
-        return children[0]
+    def visit_text_item(self, node, children):
+        return {node.rule_name: children[0]}
+
+    def visit_resource_item(self, node, children):
+        return {node.rule_name: ''.join(children)}
 
     def visit_item_name(self, node, children):
         return children[0]
 
     def visit_data_item(self, node, children):
-        return {"item_name": children[0], "item_data": children[1]}
+        return {"item_name": children[0], **children[1]}
 
     def visit_metadata(self, node, children):
         """Meta data section"""

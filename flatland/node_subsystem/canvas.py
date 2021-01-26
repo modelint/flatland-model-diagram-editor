@@ -10,7 +10,7 @@ from flatland.connector_subsystem.connector_layout_specification import Connecto
 from flatland.datatypes.geometry_types import Rect_Size, Position
 from flatland.node_subsystem.diagram import Diagram
 from flatland.drawing_domain.tablet import Tablet
-from flatland.node_subsystem.sheet import Sheet, Group
+from flatland.sheet_subsystem.sheet import Sheet, Group
 from flatland.decoration_subsystem.symbol import Symbol
 
 # All sheet and canvas related constants are kept together here for easy review and editing
