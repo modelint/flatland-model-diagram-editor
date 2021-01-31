@@ -25,6 +25,9 @@ class FlatlandUserInputException(FlatlandException):
 class UnknownSheetGroup(FlatlandDBException):
     pass
 
+class NonSystemInitialLayer(FlatlandException):
+    pass
+
 class LayoutParseError(FlatlandUserInputException):
     def __init__(self, layout_file, e):
         self.layout_file = layout_file

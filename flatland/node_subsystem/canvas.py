@@ -4,7 +4,8 @@ canvas.py
 This is the Flatland (and not the cairo) Canvas class
 """
 import sys
-from flatland.flatland_exceptions import InvalidOrientation
+import logging
+from flatland.flatland_exceptions import InvalidOrientation, NonSystemInitialLayer
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
 from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification as connector_layout
 from flatland.datatypes.geometry_types import Rect_Size, Position
@@ -38,7 +39,7 @@ class Canvas:
     """
 
     def __init__(self, diagram_type: str, presentation: str, notation: str, standard_sheet_name: str, orientation: str,
-                 drawoutput=sys.stdout.buffer, show_margin=False):
+                 drawoutput=sys.stdout.buffer):
         """
         Constructor
 
@@ -50,6 +51,7 @@ class Canvas:
         :param drawoutput: A standard IO binary object obtained from sys
         :param show_margin: For diagnostics, show the canvas margin in the drawn output
         """
+        self.logger = logging.getLogger(__name__)
         # Load layout specifications
         diagram_layout()
         connector_layout()
@@ -73,28 +75,26 @@ class Canvas:
         # Load symbol data
         Symbol(diagram_type=self.Diagram.Diagram_type.Name, notation=self.Diagram.Notation)
 
-        self.Tablet = Tablet(
-            size=self.Size, output_file=drawoutput,
-            # Drawing types include notation such as 'xUML class diagram' since notation affects the choice
-            # of shape and text styles.  An xUML class diagram association class stem is dashed, for example.
-            drawing_type=' '.join([self.Diagram.Notation, diagram_type, 'diagram']), presentation=presentation
-        )
+        # Create the one and only Tablet instance and initialize it with the Presentation on the diagram
+        # Layer
+        try:
+            self.Tablet = Tablet(
+                size=self.Size, output_file=drawoutput,
+                # Drawing types include notation such as 'xUML class diagram' since notation affects the choice
+                # of shape and text styles.  An xUML class diagram association class stem is dashed, for example.
+                drawing_type=' '.join([self.Diagram.Notation, diagram_type, 'diagram']), presentation=presentation,
+                layer='diagram'
+            )
+        except NonSystemInitialLayer:
+            self.logger.exception("Initial layer [diagram] not found in Tablet layer order")
+            sys.exit()
+        # TODO: Margin should be created on its own 'diagnostic' layer or something like that maybe
         self.Show_margin = show_margin
 
     def render(self):
         """
         Draw all content of this Canvas onto the Tablet
         """
-        if self.Show_margin:
-            # Add the margin boundary rectangle to the Tablet
-            # The margin rectangle represents the drawable area defined for our Canvas
-            # and may be equal to or smaller than the Tablet area
-            drawable_origin = Position(x=self.Margin.left, y=self.Margin.bottom)
-            draw_area_height = self.Size.height - self.Margin.top - self.Margin.bottom
-            draw_area_width = self.Size.width - self.Margin.left - self.Margin.right
-            draw_area_size = Rect_Size(height=draw_area_height, width=draw_area_width)
-            self.Tablet.add_rectangle(asset='margin', lower_left=drawable_origin, size=draw_area_size)
-
         # Now add all Diagram content to the Tablet
         self.Diagram.render()
 

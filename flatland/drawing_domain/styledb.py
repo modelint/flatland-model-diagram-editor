@@ -6,35 +6,12 @@ from flatland.database.flatlanddb import FlatlandDB as fdb
 from sqlalchemy import select, and_
 from collections import namedtuple
 
-
 Float_RGB = namedtuple('Float_RGB', 'R G B')
 Line_Style = namedtuple('Line_Style', 'pattern width color')
 Text_Style = namedtuple('Text_Style', 'typeface size slant weight color spacing')
 Dash_Pattern = namedtuple('Dash_Pattern', 'solid blank')
+Layer = namedtuple('Layer', 'shape_presentation text_presentation')
 
-
-class StyleDB:
-    rgbF = {}  # rgb color float representation
-    dash_pattern = {}
-    line_style = {}
-    typeface = {}
-    text_style = {}
-    fill_style = {}
-    shape_presentation = {} # asset : style (for loaded presentation)
-    text_presentation = {}
-
-    def __init__(self, drawing_type, presentation):
-        self.logger = logging.getLogger(__name__)
-        self.logger.info("Loading styles from flatland db")
-        load_colors()
-        load_dash_patterns()
-        load_line_styles()
-        load_typefaces()
-        load_text_styles()
-        load_asset_presentations(drawing_type=drawing_type, presentation=presentation)
-        self.logger.info("presentations loaded from flatland db")
-
-# TODO: change to static methods
 def load_colors():
     colors = fdb.MetaData.tables['Color']
     q = select([colors])
@@ -68,7 +45,6 @@ def load_text_styles():
         StyleDB.text_style[i.Name] = Text_Style(
             typeface=StyleDB.typeface[i.Typeface], size=i.Size, slant=i.Slant, weight=i.Weight, color=i.Color, spacing=i.Spacing)
 
-
 def load_line_styles():
     lstyles = fdb.MetaData.tables['Line Style']
     q = select([lstyles])
@@ -77,27 +53,82 @@ def load_line_styles():
         StyleDB.line_style[i.Name] = Line_Style( pattern=i.Pattern, width=i.Width, color=i.Color )
 
 
-def load_asset_presentations(presentation: str, drawing_type: str):
-    shape_pres_t = fdb.MetaData.tables['Shape Presentation']
-    q = select([shape_pres_t.c.Asset, shape_pres_t.c['Line style']]).where( and_(
-        shape_pres_t.c.Presentation == presentation, shape_pres_t.c['Drawing type'] == drawing_type
-    ))
-    f = fdb.Connection.execute(q).fetchall()
-    for i in f:
-        StyleDB.shape_presentation[i.Asset] = i['Line style']
+class StyleDB:
+    """
+    Singleton class interface to the Presentation and Styles in the Flatland database. Created with an initial
+    Presentation and loads all presentation/style data for that Presentation for easy access by
+    the Tablet.
+    """
+    rgbF = {}  # rgb color float representation
+    dash_pattern = {}
+    line_style = {}
+    typeface = {}
+    text_style = {}
+    fill_style = {}
+    layers = {}  # Loaded presentations will be indexed by layer name
+    shape_presentation = {}  # asset : style (for loaded presentation)
+    text_presentation = {}
 
-    shape_fill_t = fdb.MetaData.tables['Closed Shape Fill']
-    q = select([shape_fill_t.c.Asset, shape_fill_t.c.Fill]).where( and_(
-        shape_fill_t.c.Presentation == presentation, shape_fill_t.c['Drawing type'] == drawing_type
-    ))
-    f = fdb.Connection.execute(q).fetchall()
-    for i in f:
-        StyleDB.fill_style[i.Asset] = i.Fill
+    def __init__(self, drawing_type: str, presentation: str, layer: str):
+        """
+        Constructor
 
-    text_pres_t = fdb.MetaData.tables['Text Presentation']
-    q = select([text_pres_t.c.Asset, text_pres_t.c['Text style']]).where( and_(
-        text_pres_t.c.Presentation == presentation, text_pres_t.c['Drawing type'] == drawing_type
-    ))
-    f = fdb.Connection.execute(q).fetchall()
-    for i in f:
-        StyleDB.text_presentation[i.Asset] = i['Text style']
+        :param drawing_type: The Presentation's Drawing Type, 'xUML Class Diagram', for example
+        :param presentation: The Presentation's name, 'default' or 'diagnostic', as examples
+        """
+        self.logger = logging.getLogger(__name__)
+        self.logger.info("Loading styles from flatland db")
+        # Load all graphical and text styles in the database (regardless of what we might actually use)
+        load_colors()
+        load_dash_patterns()
+        load_line_styles()
+        load_typefaces()
+        load_text_styles()
+        # Initialize with the requested Presentation. More may be added later if
+        # the Tablet has additional drawing Layers. (Each Layer can have its own Presentation,
+        # but we always start out with the assumption that there is just one Layer).
+        StyleDB.load_asset_presentations(drawing_type=drawing_type, presentation=presentation, layer=layer)
+        self.logger.info("Presentation loaded from flatland db for initial Layer in Tablet")
+
+    @staticmethod
+    def load_asset_presentations(presentation: str, drawing_type: str, layer_name: str):
+        """
+        Load all text, shape presentations and closed shape fills for the given Presentation
+        identified as a presentation name and drawing type name. Associate this Presentation with the
+        specified Layer.
+
+        :param layer_name: The loaded Presentation applies to this Layer
+        :param presentation: The name of the Presentation
+        :param drawing_type: The name of the Drawing Type
+        :return:
+        """
+        this_layer = Layer(shape_presentation=None, text_presentation=None)
+        StyleDB.layers[layer_name] = this_layer
+        shape_pres_t = fdb.MetaData.tables['Shape Presentation']
+        q = select([shape_pres_t.c.Asset, shape_pres_t.c['Line style']]).where( and_(
+            shape_pres_t.c.Presentation == presentation, shape_pres_t.c['Drawing type'] == drawing_type
+        ))
+        f = fdb.Connection.execute(q).fetchall()
+        # TODO: associate each loaded asset with the layer
+        for i in f:
+            StyleDB.shape_presentation[i.Asset] = i['Line style']
+
+        shape_fill_t = fdb.MetaData.tables['Closed Shape Fill']
+        q = select([shape_fill_t.c.Asset, shape_fill_t.c.Fill]).where( and_(
+            shape_fill_t.c.Presentation == presentation, shape_fill_t.c['Drawing type'] == drawing_type
+        ))
+        f = fdb.Connection.execute(q).fetchall()
+        # TODO: associate each loaded asset with the layer
+        for i in f:
+            StyleDB.fill_style[i.Asset] = i.Fill
+
+        text_pres_t = fdb.MetaData.tables['Text Presentation']
+        q = select([text_pres_t.c.Asset, text_pres_t.c['Text style']]).where( and_(
+            text_pres_t.c.Presentation == presentation, text_pres_t.c['Drawing type'] == drawing_type
+        ))
+        f = fdb.Connection.execute(q).fetchall()
+        # TODO: associate each loaded asset with the layer
+        for i in f:
+            StyleDB.text_presentation[i.Asset] = i['Text style']
+
+

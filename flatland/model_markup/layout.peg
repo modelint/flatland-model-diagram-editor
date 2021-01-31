@@ -29,8 +29,9 @@ notation =  "notation" space name nl // The notation to use in the diagram
 presentation = "presentation" space name nl // The presentation style for drawing
 sheet = "sheet" space name nl // The sheet size name
 frame = "frame" space name nl // The frame name
+frame_presentation = "frame_presentation" space name nl // The presentation style for the frame
 orientation = "orientation" space ("portrait" / "landscape") nl // The sheet orientation
-layout_spec = (diagram notation presentation sheet orientation frame)# // Each of these in any order
+layout_spec = (diagram notation presentation sheet orientation frame frame_presentation)# // Each of these in any order
 
 // Alignment
 valign = ">" ("top" / "bottom")

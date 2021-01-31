@@ -23,6 +23,13 @@ class Sheet:
         - Name -- A name like A3, tabloid, letter, D, etc
         - Group -- Either *us* or *int* to distinguish between measurement units
         - Size --  Sheet dimensions float since us has 8.5 x 11 or int for international mm units
+        - Size_group -- Sheet Size Groups are used to determine the scaling for each available Title Block Pattern.
+
+          Roughly similar sizes such as Letter, A4 and Legal may be grouped together in the same Sheet Size Group
+          since the same Title Block scale will work for all three sizes.
+
+          Since any Sheet must specify a scale to be used for any Title Block Patterns, each Sheet must be categorized
+          in a Sheet Size Group.
     """
     def __init__(self, name: str):
         """

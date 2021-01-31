@@ -59,7 +59,8 @@ class XumlClassDiagram:
 
         # Draw the frame and title block
         self.frame = Frame(
-            name=self.layout.layout_spec.frame, canvas=self.flatland_canvas, metadata=self.subsys.metadata
+            name=self.layout.layout_spec.frame, presentation=self.layout.layout_spec.frame_presentation,
+            canvas=self.flatland_canvas, metadata=self.subsys.metadata
         )
 
         # Draw all of the classes
@@ -78,7 +79,6 @@ class XumlClassDiagram:
 
         self.flatland_canvas.render()
 
-
     def create_canvas(self) -> Canvas:
         """Create a blank canvas"""
         lspec = self.layout.layout_spec
@@ -89,9 +89,7 @@ class XumlClassDiagram:
             standard_sheet_name=lspec.sheet,
             orientation=lspec.orientation,
             drawoutput=self.diagram_file_path,
-            show_margin=True
         )
-
 
     def draw_classes(self) -> Dict[str, SingleCellNode]:
         """Draw all of the classes on the class diagram"""
