@@ -88,15 +88,13 @@ class Canvas:
         except NonSystemInitialLayer:
             self.logger.exception("Initial layer [diagram] not found in Tablet layer order")
             sys.exit()
-        # TODO: Margin should be created on its own 'diagnostic' layer or something like that maybe
-        self.Show_margin = show_margin
 
     def render(self):
         """
         Draw all content of this Canvas onto the Tablet
         """
         # Now add all Diagram content to the Tablet
-        self.Diagram.render()
+        # self.Diagram.render()
 
         # Draw all added content and output a PDF using whatever graphics library is configured in the Tablet
         self.Tablet.render()
@@ -104,7 +102,7 @@ class Canvas:
     def __repr__(self):
         return f'Canvas(diagram_type={self.Diagram.Diagram_type}, presentation={self.Diagram.Presentation},' \
                f'notation={self.Diagram.Notation}, standard_sheet_name={self.Sheet}, orientation={self.Orientation},' \
-               f'drawoutput={self.Tablet.Output_file}, show_margin={self.Show_margin})'
+               f'drawoutput={self.Tablet.Output_file} )'
 
     def __str__(self):
         return f'Sheet: {self.Sheet}, Orientation: {self.Orientation}, '\

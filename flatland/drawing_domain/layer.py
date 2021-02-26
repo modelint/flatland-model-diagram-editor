@@ -34,6 +34,14 @@ class Layer:
     """
 
     def __init__(self, name: str, tablet: 'Tablet', presentation: str, drawing_type: str):
+        """
+        Constructor
+
+        :param name:
+        :param tablet:
+        :param presentation:
+        :param drawing_type:
+        """
         self.logger = logging.getLogger(__name__)
         self.Name = name
         self.Tablet = tablet
@@ -107,7 +115,6 @@ class Layer:
 
         return Rect_Size(width=block_width, height=block_height)
 
-
     def add_text_block(self, asset: str, lower_left: Position, text: List[str],
                        align: HorizAlign = HorizAlign.LEFT):
         """
@@ -157,6 +164,9 @@ class Layer:
             element.Line_Segment(from_here=self.Tablet.to_dc(from_here), to_there=self.Tablet.to_dc(to_there),
                                  style=StyleDB.shape_presentation[asset])
         )
+
+    def add_image(self, resource_path):
+        self.logger.info(f"Looking for image: {resource_path}")
 
     def add_rectangle(self, asset: str, lower_left: Position, size: Rect_Size):
         """

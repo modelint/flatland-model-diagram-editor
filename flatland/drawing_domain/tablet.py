@@ -8,6 +8,7 @@ from flatland.datatypes.geometry_types import Rect_Size, Position
 import cairo
 from flatland.drawing_domain.styledb import StyleDB
 from layer import Layer
+from typing import Optional
 
 class Tablet:
     """
@@ -69,7 +70,7 @@ class Tablet:
         # list, it will be placed as the topmost layer. Usually, though, the initial layer should be diagram
 
         # Load all of the asset styles from the flatland database required by the initial drawing type and presentation
-        StyleDB(drawing_type=drawing_type, presentation=presentation)
+        StyleDB(drawing_type=drawing_type, presentation=presentation, layer=layer)
 
         self.Drawing_type = drawing_type  # class diagram, state diagram, etc
         self.Presentation = presentation  # informal, sexy, etc
@@ -78,13 +79,15 @@ class Tablet:
         self.PDF_sheet = cairo.PDFSurface(self.Output_file, self.Size.width, self.Size.height)
         self.Context = cairo.Context(self.PDF_sheet)
 
-    def add_layer(self, name: str, presentation: str, drawing_type: str):
-        """Add a new layer if not already instantiated"""
-        if not self.layers[name]:
+    def add_layer(self, name: str, presentation: str, drawing_type: str) -> Optional[Layer]:
+        """Add a new layer if not already instantiated and return it"""
+        if not self.layers.get(name):
             self.layer_order.append(name)
             self.layers[name] = Layer(name=name, tablet=self, presentation=presentation, drawing_type=drawing_type)
+            return self.layers[name]
         else:
             self.logger.warning(f"Layer: [{name}] previously instantiated")
+            return None
 
     def render(self):
         """

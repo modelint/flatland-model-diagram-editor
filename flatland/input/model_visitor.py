@@ -108,21 +108,23 @@ class SubsystemVisitor(PTNodeVisitor):
 
     # Metadata
     def visit_text_item(self, node, children):
-        return {node.rule_name: children[0]}
+        return children[0], False  # Item, Not a resource
 
     def visit_resource_item(self, node, children):
-        return {node.rule_name: ''.join(children)}
+        return ''.join(children), True  # Item, Is a resource
 
     def visit_item_name(self, node, children):
-        return children[0]
+        return ''.join(children)
 
     def visit_data_item(self, node, children):
-        return {"item_name": children[0], **children[1]}
+        return { children[0]: children[1] }
 
     def visit_metadata(self, node, children):
         """Meta data section"""
-        return children
+        items = {k: v for c in children for k, v in c.items()}
+        return items
 
+    # Root
     def visit_subsystem(self, node, children):
         """The complete subsystem"""
         return children

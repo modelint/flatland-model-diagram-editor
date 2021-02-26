@@ -4,10 +4,10 @@ text_presentation_instances.py
 
 population = [
     # Frame OS Engineer, default
-    {'Asset': 'Title primary', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    {'Asset': 'Title blocked', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
      'Text style': 'Block Title Large'},
 
-    {'Asset': 'Title secondary', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    {'Asset': 'Title open', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
      'Text style': 'Corner Title Large'},
 
     {'Asset': 'Copyright notice', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',

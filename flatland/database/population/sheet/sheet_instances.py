@@ -6,9 +6,10 @@ population = [
     # us sizes in landscape
     {'Name': 'letter', 'Group': 'us', 'Height': '8.5', 'Width': '11', 'Size group': 'small'},
     {'Name': 'tabloid', 'Group': 'us', 'Height': '11', 'Width': '17', 'Size group': 'smallwide'},
-    {'Name': 'C', 'Group': 'us', 'Height': '17', 'Width': '22', 'Size group': 'medium'},
-    {'Name': 'D', 'Group': 'us', 'Height': '22', 'Width': '34', 'Size group': 'large'},
-    {'Name': 'E', 'Group': 'us', 'Height': '34', 'Width': '44', 'Size group': 'large'},
+    # The following are architectural sizes
+    {'Name': 'C', 'Group': 'us', 'Height': '18', 'Width': '24', 'Size group': 'medium'},
+    {'Name': 'D', 'Group': 'us', 'Height': '24', 'Width': '36', 'Size group': 'large'},
+    {'Name': 'E', 'Group': 'us', 'Height': '36', 'Width': '48', 'Size group': 'large'},
 
     # International sizes landscape
     {'Name': 'A4', 'Group': 'int', 'Height': '210', 'Width': '297', 'Size group': 'small'},

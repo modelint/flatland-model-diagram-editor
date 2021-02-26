@@ -6,7 +6,7 @@ metadata
     creation date : January 5, 2020
     modification date :  January 11, 2021
     version number : 0.6.1
-    copyright : <<MIT license>>
+    copyright notice : <<MIT license>>
     organization : <<Model Integration, LLC>>
 subsystem Node
 class Annotation Layout

@@ -63,19 +63,19 @@ class XumlClassDiagram:
             canvas=self.flatland_canvas, metadata=self.subsys.metadata
         )
 
-        # Draw all of the classes
-        self.nodes = self.draw_classes()
-
-        # If there are any relationships, draw them
-        if self.subsys.rels:
-            cp = self.layout.connector_placement
-            for r in self.subsys.rels:  # r is the model data without any layout info
-                rnum = r['rnum']
-                rlayout = cp[rnum]  # How this r is to be laid out on the diagram
-                if 'superclass' in r.keys():
-                    self.draw_generalization(rnum=rnum, generalization=r, tree_layout=rlayout)
-                else:
-                    self.draw_association(rnum=rnum, association=r, binary_layout=rlayout)
+        # # Draw all of the classes
+        # self.nodes = self.draw_classes()
+        #
+        # # If there are any relationships, draw them
+        # if self.subsys.rels:
+        #     cp = self.layout.connector_placement
+        #     for r in self.subsys.rels:  # r is the model data without any layout info
+        #         rnum = r['rnum']
+        #         rlayout = cp[rnum]  # How this r is to be laid out on the diagram
+        #         if 'superclass' in r.keys():
+        #             self.draw_generalization(rnum=rnum, generalization=r, tree_layout=rlayout)
+        #         else:
+        #             self.draw_association(rnum=rnum, association=r, binary_layout=rlayout)
 
         self.flatland_canvas.render()
 

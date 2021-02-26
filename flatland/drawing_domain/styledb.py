@@ -87,7 +87,7 @@ class StyleDB:
         # Initialize with the requested Presentation. More may be added later if
         # the Tablet has additional drawing Layers. (Each Layer can have its own Presentation,
         # but we always start out with the assumption that there is just one Layer).
-        StyleDB.load_asset_presentations(drawing_type=drawing_type, presentation=presentation, layer=layer)
+        StyleDB.load_asset_presentations(drawing_type=drawing_type, presentation=presentation, layer_name=layer)
         self.logger.info("Presentation loaded from flatland db for initial Layer in Tablet")
 
     @staticmethod
