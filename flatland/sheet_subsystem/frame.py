@@ -6,6 +6,7 @@ from flatland.database.flatlanddb import FlatlandDB as fdb
 from collections import namedtuple
 from flatland.datatypes.geometry_types import Position, Rect_Size
 from flatland.node_subsystem.canvas import points_in_cm
+from flatland.sheet_subsystem.resource import resource_locator
 from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
@@ -30,7 +31,6 @@ class Frame:
 
         :param name:
         :param canvas:
-        :param drawing_type:
         :param presentation:
         :param metadata:
         """
@@ -47,7 +47,7 @@ class Frame:
             name='frame', presentation=presentation, drawing_type=drawing_type_name
         )
 
-        # Now we have a surface to draw the fram on!
+        # Now we have a surface to draw the frame on!
 
         # First render the non-title block fields
         open_field_t = fdb.MetaData.tables['Open Field']
@@ -73,16 +73,21 @@ class Frame:
         # Fill each open field
         for f in self.Open_fields:
             a = ' '.join([f.metadata, 'open'])
-            t,r = self.metadata[f.metadata]
-            if r:
-                # It's a resource locator leading to an image
-                self.Layer.add_image(resource_path=t)
-            else:
-                # It's a line of text
+            content, isresource = self.metadata.get(f.metadata, (None, None))
+            # If there is no data supplied to fill in the field, just leave it blank and move on
+            if content and isresource:
+                # Content is a resource locator, get the path to the resource (image)
+                rloc = resource_locator.get(content)
+                if rloc:
+                    self.Layer.add_image(resource_path=rloc, lower_left=f.position, size=f.max_area)
+                else:
+                    self.logger.warning(f"Couldn't find resource file for: [{content}]")
+            elif content:  # Text content
+                # Content is a line of text to print directly
                 self.Layer.add_text_line(
                     asset=a,
                     lower_left=f.position,
-                    text=t,
+                    text=content,
                 )
 
         # TODO: Fill each box field (in a Title Block)

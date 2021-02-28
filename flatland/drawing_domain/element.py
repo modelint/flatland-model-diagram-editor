@@ -11,3 +11,5 @@ Rectangle = namedtuple('_Rectangle', 'upper_left size border_style fill')
 """A rectangle is positioned at its lower left corner and then drawn with the specified size"""
 Text_line = namedtuple('_Text_line', 'lower_left text style')
 """A line of text (no CR/LF characters) rendered with a given style"""
+Image = namedtuple('_Image', 'resource_path upper_left size')
+"""A png or jpeg image file and a position"""

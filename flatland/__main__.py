@@ -98,6 +98,7 @@ def main():
         # TODO: Since a default diagram file is always supplied via argparse above, this clause will never execute
         diagram_path = sys.stdout
 
+
     # Make a Diagnostics directory if it doesn't exist
     Path('Diagnostics').mkdir(parents=True, exist_ok=True)
 

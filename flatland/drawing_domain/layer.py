@@ -7,6 +7,8 @@ import cairo
 from flatland.drawing_domain.styledb import StyleDB
 import flatland.drawing_domain.element as element
 from flatland.datatypes.geometry_types import Rect_Size, Position, HorizAlign
+from flatland.drawing_domain.presentation import  Presentation
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -37,20 +39,33 @@ class Layer:
         """
         Constructor
 
-        :param name:
-        :param tablet:
-        :param presentation:
-        :param drawing_type:
+        :param name: The Layer name
+        :param tablet: The Tablet object
+        :param presentation: Presentation to be applied to this Layer
+        :param drawing_type: The Presentation's Drawing Type
         """
         self.logger = logging.getLogger(__name__)
         self.Name = name
         self.Tablet = tablet
-        self.Presentation = presentation
         self.Drawing_type = drawing_type
+
+        # Stuff we will draw on the Layer
         self.Line_segments: List[element.Line_Segment] = []
         self.Polygons: List[element.Polygon] = []
         self.Rectangles: List[element.Rectangle] = []
         self.Text: List[element.Text_line] = []
+        self.Images: List[element.Image] = []
+
+        # Load this Layer's presentation assets if they haven't been already
+        # Unique ID (see Tablet Subsystem class diagram) of a Presentation is both
+        # its name and its Drawing Type name.  So we combine them to form the index
+        pres_index = ':'.join([self.Drawing_type, presentation])
+        self.Presentation = self.Tablet.Presentations.get(pres_index)
+        if not self.Presentation:
+            # It hasn't been loaded from the Flatland DB yet
+            self.Presentation = Presentation(name=presentation, drawing_type=self.Drawing_type)
+            self.Tablet.Presentations[pres_index] = self.Presentation
+
 
     def render(self):
         """Renders the tablet using Cairo for now"""
@@ -61,6 +76,7 @@ class Layer:
         self.render_rects()
         self.render_polygons()
         self.render_text()
+        self.render_images()
 
     def add_text_line(self, asset: str, lower_left: Position, text: str):
         """
@@ -69,7 +85,7 @@ class Layer:
         """
         self.Text.append(
             element.Text_line(
-                lower_left=self.Tablet.to_dc(lower_left), text=text, style=StyleDB.text_presentation[asset]
+                lower_left=self.Tablet.to_dc(lower_left), text=text, style=self.Presentation.Text_presentation[asset]
             )
         )
         self.logger.info('Text added')
@@ -81,7 +97,7 @@ class Layer:
         :param text_line: Text that would be rendered
         :return: Size of the text line ink area
         """
-        style_name = StyleDB.text_presentation[asset]  # Look up the text style for this asset
+        style_name = self.Presentation.Text_presentation[asset]  # Look up the text style for this asset
         style = StyleDB.text_style[style_name]
         # Configure the Cairo context with style properties and the text line
         self.Tablet.Context.select_font_face(
@@ -99,7 +115,7 @@ class Layer:
         :param text_block:
         :return:
         """
-        style_name = StyleDB.text_presentation[asset]  # Look up the text style for this asset
+        style_name = self.Presentation.Text_presentation[asset]  # Look up the text style for this asset
         style = StyleDB.text_style[style_name]
         font_height = style.size
         spacing = font_height*style.spacing
@@ -127,7 +143,7 @@ class Layer:
         :param text: One or more lines of text
         :param align: Horizontal text alignment (left, right or center)
         """
-        style_name = StyleDB.text_presentation[asset]  # Look up the text style for this asset
+        style_name = self.Presentation.Text_presentation[asset]  # Look up the text style for this asset
         style = StyleDB.text_style[style_name]
         font_height = style.size
         spacing = font_height*style.spacing
@@ -162,11 +178,25 @@ class Layer:
         """
         self.Line_segments.append(
             element.Line_Segment(from_here=self.Tablet.to_dc(from_here), to_there=self.Tablet.to_dc(to_there),
-                                 style=StyleDB.shape_presentation[asset])
+                                 style=self.Presentation.Shape_presentation[asset])
         )
 
-    def add_image(self, resource_path):
-        self.logger.info(f"Looking for image: {resource_path}")
+    def add_image(self, resource_path: Path, lower_left: Position, size: Rect_Size):
+        """
+        Adds the image
+
+        :param size:
+        :param resource_path: Path to an image file
+        :param lower_left:  Lower left corner of the image in Cartesian coordinates
+        """
+        # Flip lower left corner to device coordinates
+        ll_dc = self.Tablet.to_dc(Position(x=lower_left.x, y=lower_left.y))
+
+        # Use upper left corner instead
+        ul = Position(x=ll_dc.x, y=ll_dc.y - size.height)
+
+        # Add it to the list
+        self.Images.append(element.Image(resource_path=resource_path, upper_left=ul, size=size))
 
     def add_rectangle(self, asset: str, lower_left: Position, size: Rect_Size):
         """
@@ -179,10 +209,10 @@ class Layer:
         ul = Position(x=ll_dc.x, y=ll_dc.y - size.height)
 
         # Check to see if this rectangle is filled
-        fill = StyleDB.fill_style.get(asset, None)
+        fill = self.Presentation.Closed_shape_fill.get(asset, None)
 
         self.Rectangles.append(element.Rectangle(
-            upper_left=ul, size=size, border_style=StyleDB.shape_presentation[asset], fill=fill
+            upper_left=ul, size=size, border_style=self.Presentation.Shape_presentation[asset], fill=fill
         ))
 
     def add_polygon(self, asset: str, vertices: List[Position]):
@@ -197,8 +227,8 @@ class Layer:
         device_vertices = [self.Tablet.to_dc(v) for v in vertices]
         self.Polygons.append(element.Polygon(
             vertices= device_vertices,
-            border_style=StyleDB.shape_presentation[asset],
-            fill=StyleDB.fill_style[asset]
+            border_style=self.Presentation.Shape_presentation[asset],
+            fill=self.Presentation.Closed_shape_fill[asset]
         ))
 
     def add_open_polygon(self, asset: str, vertices: List[Position]):
@@ -286,4 +316,11 @@ class Layer:
             self.Tablet.Context.fill_preserve()
             self.Tablet.Context.set_source_rgb(*line_rgb_color_value)
             self.Tablet.Context.stroke()
+
+    def render_images(self):
+        """Render all images"""
+        for i in self.Images:
+            image_surface = cairo.ImageSurface.create_from_png(i.resource_path)
+            self.Tablet.Context.set_source_surface(image_surface, i.upper_left.x, i.upper_left.y)
+            self.Tablet.Context.paint()
 

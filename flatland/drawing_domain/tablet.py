@@ -10,6 +10,7 @@ from flatland.drawing_domain.styledb import StyleDB
 from layer import Layer
 from typing import Optional
 
+
 class Tablet:
     """
     The Tablet class is part of the drawing_domain which provides a service to the Flatland model
@@ -55,25 +56,29 @@ class Tablet:
         Constructs a new Tablet instance
         :param size: Vertical and horizontal span of the entire draw surface in points
         :param output_file: Name of the drawing file to be generated, PDF only for now
-        :param drawing_type: Type of drawing so we can determine what kinds of shapes and text will be drawn
-        :param presentation: User selected Presentation Style so we know which styles to load from the database
+        :param drawing_type: Type of drawing so we can determine what kinds text and graphics can be drawn
+        :param presentation: The layer's Presentation to load
+        :param layer: The initial layer to be created on this Tablet (usually 'diagram')
         """
         self.logger = logging.getLogger(__name__)
+
+        # Load all of the common font, color, etc. styles used by all Presentations from the
+        # Flatland DB
+        StyleDB()
+
         # Establish a system default layer ordering. Not all of them will be used in any given
         # Drawing, but this is the draw order from bottom-most layer upward
         # It can (should be) customizable by the user, but this should work for most diagrams
         self.layer_order = ['sheet', 'grid', 'frame', 'diagram', 'scenario', 'annotation']
+        self.Presentations = {}  # Presentations loaded from the Flatland database, updated by Layer class
+
         if layer not in self.layer_order:
             raise NonSystemInitialLayer
         self.layers = {layer: Layer(name=layer, tablet=self, presentation=presentation, drawing_type=drawing_type)}
         # Initialize the first layer at the indicated position. If the position is not in the system layer order
         # list, it will be placed as the topmost layer. Usually, though, the initial layer should be diagram
 
-        # Load all of the asset styles from the flatland database required by the initial drawing type and presentation
-        StyleDB(drawing_type=drawing_type, presentation=presentation, layer=layer)
-
         self.Drawing_type = drawing_type  # class diagram, state diagram, etc
-        self.Presentation = presentation  # informal, sexy, etc
         self.Size = size
         self.Output_file = output_file
         self.PDF_sheet = cairo.PDFSurface(self.Output_file, self.Size.width, self.Size.height)
@@ -93,7 +98,7 @@ class Tablet:
         """
         Renders each instantiated layer of the Tablet moving up the z axis. Any uninstantiated layers are skipped.
         """
-        [self.layers[name].render() for name in self.layer_order if self.layers[name]]
+        [self.layers[name].render() for name in self.layer_order if self.layers.get(name)]
 
     def to_dc(self, tablet_coord: Position) -> Position:
         """
@@ -106,5 +111,5 @@ class Tablet:
         return Position(x=tablet_coord.x, y=self.Size.height - tablet_coord.y)
 
     def __repr__(self):
-        return f'Size: {self.Size}, Presentation: {self.Presentation}, drawing: {self.Drawing_type},' \
+        return f'Size: {self.Size}, Dtype: {self.Drawing_type},' \
                f'Output: {self.Output_file}'
