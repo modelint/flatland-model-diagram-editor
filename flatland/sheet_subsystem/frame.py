@@ -5,14 +5,14 @@ from sqlalchemy import select, and_
 from flatland.database.flatlanddb import FlatlandDB as fdb
 from collections import namedtuple
 from flatland.datatypes.geometry_types import Position, Rect_Size
-from flatland.node_subsystem.canvas import points_in_cm
+from flatland.node_subsystem.canvas import points_in_mm
 from flatland.sheet_subsystem.resource import resource_locator
+from flatland.sheet_subsystem.titleblock_placement import draw_titleblock
 from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
     from flatland.node_subsystem.canvas import Canvas
 
-points_in_mm = points_in_cm / 10
 
 FieldPlacement = namedtuple('FieldPlacement', 'metadata position max_area')
 
@@ -89,6 +89,9 @@ class Frame:
                     lower_left=f.position,
                     text=content,
                 )
+
+        # Draw the title block, if any
+        draw_titleblock(frame=self.Name, sheet=self.Canvas.Sheet.Name, layer=self.Layer)
 
         # TODO: Fill each box field (in a Title Block)
 

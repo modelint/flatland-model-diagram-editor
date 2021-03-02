@@ -53,6 +53,9 @@ class XumlClassDiagram:
 
         # Load the flatland database
         self.db = FlatlandDB(rebuild=self.rebuild)
+        if self.rebuild:
+            from flatland.sheet_subsystem.titleblock_placement import TitleBlockPlacement
+            TitleBlockPlacement()
 
         # Draw the blank canvas of the appropriate size, diagram type and presentation style
         self.flatland_canvas = self.create_canvas()

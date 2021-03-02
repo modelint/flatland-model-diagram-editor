@@ -51,7 +51,8 @@ def Populate():
     for instances, relvar in FlatlandDB.Relvars.items():
         # Set i to the initial population of row values (set of relation values)
         i = __import__(instances + '_instances')  # Each population filename ends with '_instances.py'
-        FlatlandDB.Connection.execute(relvar.insert(), i.population)  # Sqlalchemy populates the table schema
+        if i.population:  # A computed relations may start with an empty population, so skip the insert if empty
+            FlatlandDB.Connection.execute(relvar.insert(), i.population)  # Sqlalchemy populates the table schema
 
 
 class FlatlandDB:

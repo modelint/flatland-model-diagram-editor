@@ -16,6 +16,7 @@ from flatland.decoration_subsystem.symbol import Symbol
 
 # All sheet and canvas related constants are kept together here for easy review and editing
 points_in_cm = 28.3465
+points_in_mm = 2.83465
 points_in_inch = 72
 
 
