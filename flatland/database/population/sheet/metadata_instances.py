@@ -2,7 +2,7 @@
 metadata_instances.py
 """
 population = [
-    {'Name': 'Organization name'},
+    {'Name': 'Organization'},
     {'Name': 'Creation date'},
     {'Name': 'Modification date'},
     {'Name': 'Author'},

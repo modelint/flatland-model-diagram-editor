@@ -39,25 +39,76 @@ class Frame:
         self.Canvas = canvas
         self.metadata = metadata
         self.Open_fields = []
+        self.Databox = {}
+        self.Box_fields = []
 
         # The Frame's drawing type name is composed from the frame's name and size
         drawing_type_name = ' '.join([name, self.Canvas.Sheet.Size_group])  # e.g. "OS Engineer large"
         # Now create a Layer for the Frame
         self.Layer = self.Canvas.Tablet.add_layer(
             name='frame', presentation=presentation, drawing_type=drawing_type_name
+        )  # Now we have a surface to draw the frame on!
+
+        # If there is a title block placement specified for this Frame, get the name of the pattern
+        tb_placement_t = fdb.MetaData.tables['Title Block Placement']
+        f = and_(
+            (tb_placement_t.c['Frame'] == self.Name),
+            (tb_placement_t.c['Sheet'] == self.Canvas.Sheet.Name),
         )
+        query = select([tb_placement_t.c['Title block pattern']]).select_from(tb_placement_t).where(f)
+        row = fdb.Connection.execute(query).fetchone()
+        self.Title_block_pattern = None if not row else row[0]
 
-        # Now we have a surface to draw the frame on!
+        if self.Title_block_pattern:
+            # Build a text block for each Data Box containing the Metadata Text Content
+            # Resource Metacontent (graphics) is not allowed like it is for Open Fields, so
+            # we assume all Metacontent is text
+            boxline_t = fdb.MetaData.tables['Box Text Line']
+            p = [boxline_t.c.Box, boxline_t.c.Order, boxline_t.c.Metadata]
+            q = select(p).where(boxline_t.c['Title block pattern'] == self.Title_block_pattern).order_by(
+                boxline_t.c.Box, boxline_t.c.Order)
+            rows = fdb.Connection.execute(q).fetchall()
+            # Lookup the Text Content for each Box Text Line and create
+            # a text block for each Data Box
+            for r in rows:
+                if r.Box in self.Databox:
+                    # The Data Box was recorded with an initial text line, so this must be an additional line
+                    self.Databox[r.Box].append(metadata[r.Metadata][0])
+                else:
+                    # Rows are ordered by Data Box, so if the box id is new, we create an initial dictioary entry
+                    # With level 1
+                    self.Databox[r.Box] = [metadata[r.Metadata][0]]
 
-        # First render the non-title block fields
+            # TODO: Join Data Box/Box/Box Placement to get Placement
+            # TODO: and Data Box alignment
+            # TODO: Put all this in the Databox record
+
+            # Get the margin to use in each Data Box
+            tb_place_t = fdb.MetaData.tables['Title Block Placement']
+            scaledtb_t = fdb.MetaData.tables['Scaled Title Block']
+            p = [scaledtb_t.c['Margin H'], scaledtb_t.c['Margin V']]
+            j = tb_place_t.join(scaledtb_t)
+            q = select(p).select_from(j).where(tb_place_t.c.Frame == self.Name)
+            row = fdb.Connection.execute(q).fetchone()
+            assert row, f"No Title Block Placement for frame: {name}"
+            h_margin, v_margin = row
+            # text_box_corner = Position()
+            print()
+
+
+
+
+
+
+        # Render the non-title block fields
         open_field_t = fdb.MetaData.tables['Open Field']
 
         f = and_(
             (open_field_t.c['Frame'] == self.Name),
             (open_field_t.c['Sheet'] == self.Canvas.Sheet.Name)
         )
-        query = select([open_field_t]).where(f)
-        rows = fdb.Connection.execute(query).fetchall()
+        q = select([open_field_t]).where(f)
+        rows = fdb.Connection.execute(q).fetchall()
         for r in rows:
             p = Position(r['x position']*points_in_mm, r['y position']*points_in_mm)
             ma = Rect_Size(r['max height']*points_in_mm, r['max width']*points_in_mm)
@@ -65,6 +116,11 @@ class Frame:
                 FieldPlacement(metadata=r.Metadata, position=p, max_area=ma)
             )
         self.render()
+
+
+        # Now render the title block fields
+
+        print()
 
     def render(self):
         """Draw the Frame on its Layer"""
@@ -93,5 +149,6 @@ class Frame:
         # Draw the title block, if any
         draw_titleblock(frame=self.Name, sheet=self.Canvas.Sheet.Name, layer=self.Layer)
 
-        # TODO: Fill each box field (in a Title Block)
+        # Fill in each box field
+
 
