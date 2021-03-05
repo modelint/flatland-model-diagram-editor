@@ -68,8 +68,8 @@ def compute_box_placements(pattern: str, placement: Position, size: Rect_Size) -
             )
             x_up = x_down
             w_up = w_down
-            y_up = y_down + h_down
-            h_up = round((enclosing_box.size.height - h_down),2)
+            y_up = round(y_down + h_down, 2)
+            h_up = round((enclosing_box.size.height - h_down), 2)
             boxplacements[p.Up] = BoxPlacement(
                 size=Rect_Size(width=w_up, height=h_up), placement=Position(x_up, y_up)
             )
@@ -77,12 +77,12 @@ def compute_box_placements(pattern: str, placement: Position, size: Rect_Size) -
             x_down = enclosing_box.placement.x
             y_down = enclosing_box.placement.y
             w_down = round((p.Distance * enclosing_box.size.width), 2)
-            h_down = enclosing_box.size.height
+            h_down = round(enclosing_box.size.height, 2)
             boxplacements[p.Down] = BoxPlacement(
                 size=Rect_Size(width=w_down, height=h_down), placement=Position(x_down, y_down)
             )
-            x_up = x_down + w_down
-            w_up = round((enclosing_box.size.width - w_down),2)
+            x_up = round(x_down + w_down, 2)
+            w_up = round((enclosing_box.size.width - w_down), 2)
             y_up = y_down
             h_up = h_down
             boxplacements[p.Up] = BoxPlacement(
@@ -115,8 +115,9 @@ class TitleBlockPlacement:
         # Compute the box placements for each Title Block Placement
         for r in rows:
             boxplacements = compute_box_placements(
-                pattern=r['Title block pattern'], placement=Position(r.X*points_in_mm, r.Y*points_in_mm),
-                size=Rect_Size(width=r.Width*points_in_mm, height=r.Height*points_in_mm)
+                pattern=r['Title block pattern'], placement=Position(
+                    round(r.X*points_in_mm, 2), round(r.Y*points_in_mm, 2)),
+                size=Rect_Size(width=round(r.Width*points_in_mm, 2), height=round(r.Height*points_in_mm, 2))
             )
             # Update flatland database with newly computed instances of Box Placement
             for k, v in boxplacements.items():

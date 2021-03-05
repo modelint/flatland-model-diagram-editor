@@ -4,7 +4,7 @@ import logging
 from sqlalchemy import select, and_
 from flatland.database.flatlanddb import FlatlandDB as fdb
 from collections import namedtuple
-from flatland.datatypes.geometry_types import Position, Rect_Size
+from flatland.datatypes.geometry_types import Position, Rect_Size, Alignment, HorizAlign, VertAlign
 from flatland.node_subsystem.canvas import points_in_mm
 from flatland.sheet_subsystem.resource import resource_locator
 from flatland.sheet_subsystem.titleblock_placement import draw_titleblock
@@ -14,7 +14,8 @@ if TYPE_CHECKING:
     from flatland.node_subsystem.canvas import Canvas
 
 
-FieldPlacement = namedtuple('FieldPlacement', 'metadata position max_area')
+DataBox = namedtuple('_Databox', 'content position size alignment')
+FieldPlacement = namedtuple('_FieldPlacement', 'metadata position max_area')
 
 class Frame:
     """
@@ -39,7 +40,7 @@ class Frame:
         self.Canvas = canvas
         self.metadata = metadata
         self.Open_fields = []
-        self.Databox = {}
+        self.Databoxes = {}
         self.Box_fields = []
 
         # The Frame's drawing type name is composed from the frame's name and size
@@ -63,25 +64,40 @@ class Frame:
             # Build a text block for each Data Box containing the Metadata Text Content
             # Resource Metacontent (graphics) is not allowed like it is for Open Fields, so
             # we assume all Metacontent is text
+            boxplace_t = fdb.MetaData.tables['Box Placement']
+            databox_t = fdb.MetaData.tables['Data Box']
             boxline_t = fdb.MetaData.tables['Box Text Line']
-            p = [boxline_t.c.Box, boxline_t.c.Order, boxline_t.c.Metadata]
-            q = select(p).where(boxline_t.c['Title block pattern'] == self.Title_block_pattern).order_by(
-                boxline_t.c.Box, boxline_t.c.Order)
+            f = and_(
+                (boxplace_t.c.Frame == self.Name),
+                (boxplace_t.c.Sheet == self.Canvas.Sheet.Name),
+                (boxplace_t.c['Title block pattern'] == self.Title_block_pattern),
+            )
+            p = [databox_t.c.ID, boxplace_t.c.X, boxplace_t.c.Y, boxplace_t.c.Width, boxplace_t.c.Height,
+                 databox_t.c['H align'], databox_t.c['V align'],
+                 boxline_t.c.Box, boxline_t.c.Order, boxline_t.c.Metadata]
+            j = databox_t.join(
+                boxplace_t, and_((databox_t.c.Pattern == boxplace_t.c['Title block pattern']), (databox_t.c.ID == boxplace_t.c.Box))
+            ).join(
+                boxline_t, and_((databox_t.c.Pattern == boxline_t.c['Title block pattern']), (databox_t.c.ID == boxline_t.c.Box))
+            )
+            q = select(p).select_from(j).where(f).order_by(boxplace_t.c.Box, boxline_t.c.Order)
+            # q = select(p).select_from(j).where(f)
             rows = fdb.Connection.execute(q).fetchall()
             # Lookup the Text Content for each Box Text Line and create
             # a text block for each Data Box
             for r in rows:
-                if r.Box in self.Databox:
+                if r.Box in self.Databoxes:
                     # The Data Box was recorded with an initial text line, so this must be an additional line
-                    self.Databox[r.Box].append(metadata[r.Metadata][0])
+                    self.Databoxes[r.Box].content.append(metadata[r.Metadata][0])
                 else:
                     # Rows are ordered by Data Box, so if the box id is new, we create an initial dictioary entry
                     # With level 1
-                    self.Databox[r.Box] = [metadata[r.Metadata][0]]
-
-            # TODO: Join Data Box/Box/Box Placement to get Placement
-            # TODO: and Data Box alignment
-            # TODO: Put all this in the Databox record
+                    self.Databoxes[r.Box] = DataBox(
+                        content=[metadata[r.Metadata][0]],
+                        position=Position(r.X, r.Y),
+                        size=Rect_Size(height=r.Height, width=r.Width),
+                        alignment=Alignment(vertical=HorizAlign[r['H align']], horizontal=VertAlign[r['V align']])
+                    )
 
             # Get the margin to use in each Data Box
             tb_place_t = fdb.MetaData.tables['Title Block Placement']
