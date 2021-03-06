@@ -197,6 +197,7 @@ class Layer:
 
         # Add it to the list
         self.Images.append(element.Image(resource_path=resource_path, upper_left=ul, size=size))
+        self.logger.info(f'Drawing>> Layer {self.Name} registered resource at: {resource_path}')
 
     def add_rectangle(self, asset: str, lower_left: Position, size: Rect_Size):
         """

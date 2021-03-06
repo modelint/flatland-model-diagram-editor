@@ -184,7 +184,7 @@ class Frame:
             p = [scaledtb_t.c['Margin H'], scaledtb_t.c['Margin V']]
             q = select(p).where(s)
             row = fdb.Connection.execute(q).fetchone()
-            assert row, f"No Title Block Placement for frame: {name}"
+            assert row, f"No Title Block Placement for frame: {self.Name}"
             h_margin, v_margin = row
 
             # Render all the box fields
