@@ -4,25 +4,31 @@ asset_instances.py
 
 population = [
     # Frame OS Engineer large
-    {'Name': 'Title blocked', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
-    {'Name': 'Title open', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
-    {'Name': 'Copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
-    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
-    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer large'},
+    # Open field assets
+    {'Name': 'Open title large', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Open copyright notice large', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    # Title block assets
+    {'Name': 'Block title large', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Block body large', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Block border large', 'Form': 'shape', 'Drawing type': 'OS Engineer large'},
 
-    # Frame OS Engineer medium
-    {'Name': 'Title blocked', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
-    {'Name': 'Title open', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
-    {'Name': 'Copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
-    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
-    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer medium'},
-
-    # Frame OS Engineer small
-    {'Name': 'Title blocked', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
-    {'Name': 'Title open', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
-    {'Name': 'Copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
-    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
-    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer small'},
+    # # Frame OS Engineer medium
+    # # Open field assets
+    # {'Name': 'Open title medium', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
+    # {'Name': 'Open copyright notice medium', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
+    # # Title block assets
+    # {'Name': 'Block title medium', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
+    # {'Name': 'Block body medium', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
+    # {'Name': 'Block border medium', 'Form': 'shape', 'Drawing type': 'OS Engineer medium'},
+    #
+    # # Frame OS Engineer small
+    # # Open field assets
+    # {'Name': 'Open title small', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
+    # {'Name': 'Open copyright notice small', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
+    # # Title block assets
+    # {'Name': 'Block title small', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
+    # {'Name': 'Block body small', 'Form': 'text', 'Drawing type': 'OS Engineer small'},
+    # {'Name': 'Block border small', 'Form': 'shape', 'Drawing type': 'OS Engineer small'},
 
     # xUML class diagram
     {'Name': 'class compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},

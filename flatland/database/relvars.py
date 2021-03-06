@@ -42,6 +42,7 @@ def define(db) -> dict:
                                  ForeignKey('Title Block Pattern.Name', name='R308_R313'), nullable=False),
                           Column('H align', Enum('LEFT', 'CENTER', 'RIGHT', name='enum_HorizAlign'), nullable=False),
                           Column('V align', Enum('TOP', 'CENTER', 'BOTTOM', name='enum_VertAlign'), nullable=False),
+                          Column('Style', Text, nullable=False),
                           PrimaryKeyConstraint('ID', 'Pattern', name='I1'),
                           ),
         'sheet_size_group': Table('Sheet Size Group', db.MetaData,

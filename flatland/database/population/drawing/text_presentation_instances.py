@@ -4,17 +4,35 @@ text_presentation_instances.py
 
 population = [
     # Frame OS Engineer, default
-    {'Asset': 'Title blocked', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
-     'Text style': 'Block Title Large'},
-
-    {'Asset': 'Title open', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    # Large
+    {'Asset': 'Open title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
      'Text style': 'Corner Title Large'},
-
-    {'Asset': 'Copyright notice', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    {'Asset': 'Open copyright notice large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
      'Text style': 'boilerplate'},
-
-    {'Asset': 'Block body', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    {'Asset': 'Block title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+     'Text style': 'Block Title Large'},
+    {'Asset': 'Block body large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
      'Text style': 'Block Body Large'},
+
+    # # Medium
+    # {'Asset': 'Open title medium', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium',
+    #  'Text style': 'Corner Title Large'},
+    # {'Asset': 'Open copyright notice large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    #  'Text style': 'boilerplate'},
+    # {'Asset': 'Block title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    #  'Text style': 'Block title Large'},
+    # {'Asset': 'Block body large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    #  'Text style': 'Block Body Large'},
+    #
+    # # Small
+    # {'Asset': 'Open title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    #  'Text style': 'Corner Title Large'},
+    # {'Asset': 'Open copyright notice large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    #  'Text style': 'boilerplate'},
+    # {'Asset': 'Block title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    #  'Text style': 'Block title Large'},
+    # {'Asset': 'Block body large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    #  'Text style': 'Block Body Large'},
 
     # Starr class diagram, default
     {'Asset': 'label', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Text style': 'p9body'},

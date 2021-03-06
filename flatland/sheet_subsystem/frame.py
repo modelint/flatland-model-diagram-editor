@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from flatland.node_subsystem.canvas import Canvas
 
 
-DataBox = namedtuple('_Databox', 'content position size alignment')
+DataBox = namedtuple('_Databox', 'metadata content position size alignment style')
 FieldPlacement = namedtuple('_FieldPlacement', 'metadata position max_area')
 
 class Frame:
@@ -73,7 +73,7 @@ class Frame:
                 (boxplace_t.c['Title block pattern'] == self.Title_block_pattern),
             )
             p = [databox_t.c.ID, boxplace_t.c.X, boxplace_t.c.Y, boxplace_t.c.Width, boxplace_t.c.Height,
-                 databox_t.c['H align'], databox_t.c['V align'],
+                 databox_t.c['H align'], databox_t.c['V align'], databox_t.c.Style,
                  boxline_t.c.Box, boxline_t.c.Order, boxline_t.c.Metadata]
             j = databox_t.join(
                 boxplace_t, and_((databox_t.c.Pattern == boxplace_t.c['Title block pattern']), (databox_t.c.ID == boxplace_t.c.Box))
@@ -96,6 +96,7 @@ class Frame:
                         content=[metadata[r.Metadata][0]],
                         position=Position(r.X, r.Y),
                         size=Rect_Size(height=r.Height, width=r.Width),
+                        style=r.Style, metadata=r.Metadata,
                         alignment=Alignment(vertical=HorizAlign[r['H align']], horizontal=VertAlign[r['V align']])
                     )
 
@@ -108,8 +109,17 @@ class Frame:
             row = fdb.Connection.execute(q).fetchone()
             assert row, f"No Title Block Placement for frame: {name}"
             h_margin, v_margin = row
-            # text_box_corner = Position()
-            print()
+
+            # Now update the Tablet with all Databox content so it can be rendered
+            for k,v in self.Databoxes:
+                # compute lower left corner position
+                block_size = self.Layer.text_block_size(asset=v.style, text_block=v.content)
+                xpos = v.X + h_margin
+                ypos = v.Y + v_margin + round((v.Size.height - block_size.height)/2, 2)
+                self.Layer.add_text_block(
+                    asset=v.style, lower_left=Position(xpos, ypos), text=v.content, align=v.alignment.horizontal
+                )
+
 
 
 
