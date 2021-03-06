@@ -5,7 +5,8 @@ from sqlalchemy import select, and_
 from flatland.database.flatlanddb import FlatlandDB as fdb
 from collections import namedtuple
 from flatland.datatypes.geometry_types import Position, Rect_Size, Alignment, HorizAlign, VertAlign
-from flatland.node_subsystem.canvas import points_in_mm
+from flatland.text.text_block import TextBlock
+import math
 from flatland.sheet_subsystem.resource import resource_locator
 from flatland.sheet_subsystem.titleblock_placement import draw_titleblock
 from typing import TYPE_CHECKING, Dict
@@ -97,7 +98,7 @@ class Frame:
                         position=Position(r.X, r.Y),
                         size=Rect_Size(height=r.Height, width=r.Width),
                         style=r.Style, metadata=r.Metadata,
-                        alignment=Alignment(vertical=HorizAlign[r['H align']], horizontal=VertAlign[r['V align']])
+                        alignment=Alignment(vertical=VertAlign[r['V align']], horizontal=HorizAlign[r['H align']])
                     )
 
             # Get the margin to use in each Data Box
@@ -111,14 +112,27 @@ class Frame:
             h_margin, v_margin = row
 
             # Now update the Tablet with all Databox content so it can be rendered
-            for k,v in self.Databoxes:
+            for k,v in self.Databoxes.items():
                 # compute lower left corner position
-                block_size = self.Layer.text_block_size(asset=v.style, text_block=v.content)
-                xpos = v.X + h_margin
-                ypos = v.Y + v_margin + round((v.Size.height - block_size.height)/2, 2)
+                # Layer asset is composed from the data box style and its size group
+                asset = ' '.join([v.style, self.Canvas.Sheet.Size_group])
+                block_size = self.Layer.text_block_size(asset=asset, text_block=v.content)
+                # When there is a single line of text in a Data Box that is longer than the Box width,
+                # we will wrap it as necessary. Especially useful for a long title in the title box
+                # For multiple line boxes, this feature is not yet (or ever) supported
+                padded_box_width = round(v.size.width - h_margin*2, 2)
+                content = v.content
+                if len(v.content) == 1 and block_size.width > padded_box_width:
+                    lines_to_wrap = math.ceil(block_size.width / padded_box_width)  # Round up to nearest int
+                    content = TextBlock(v.content[0], wrap=lines_to_wrap).text
+                    block_size = self.Layer.text_block_size(asset=asset, text_block=content)
+
+                xpos = v.position.x + h_margin
+                ypos = v.position.y + v_margin + round((v.size.height - block_size.height)/2, 2)
                 self.Layer.add_text_block(
-                    asset=v.style, lower_left=Position(xpos, ypos), text=v.content, align=v.alignment.horizontal
+                    asset=asset, lower_left=Position(xpos, ypos), text=content, align=v.alignment.horizontal
                 )
+            self.render()
 
 
 
@@ -126,27 +140,26 @@ class Frame:
 
 
 
-        # Render the non-title block fields
-        open_field_t = fdb.MetaData.tables['Open Field']
-
-        f = and_(
-            (open_field_t.c['Frame'] == self.Name),
-            (open_field_t.c['Sheet'] == self.Canvas.Sheet.Name)
-        )
-        q = select([open_field_t]).where(f)
-        rows = fdb.Connection.execute(q).fetchall()
-        for r in rows:
-            p = Position(r['x position']*points_in_mm, r['y position']*points_in_mm)
-            ma = Rect_Size(r['max height']*points_in_mm, r['max width']*points_in_mm)
-            self.Open_fields.append(
-                FieldPlacement(metadata=r.Metadata, position=p, max_area=ma)
-            )
-        self.render()
+        # # Render the non-title block fields
+        # open_field_t = fdb.MetaData.tables['Open Field']
+        #
+        # f = and_(
+        #     (open_field_t.c['Frame'] == self.Name),
+        #     (open_field_t.c['Sheet'] == self.Canvas.Sheet.Name)
+        # )
+        # q = select([open_field_t]).where(f)
+        # rows = fdb.Connection.execute(q).fetchall()
+        # for r in rows:
+        #     p = Position(r['x position']*points_in_mm, r['y position']*points_in_mm)
+        #     ma = Rect_Size(r['max height']*points_in_mm, r['max width']*points_in_mm)
+        #     self.Open_fields.append(
+        #         FieldPlacement(metadata=r.Metadata, position=p, max_area=ma)
+        #     )
+        # self.render()
 
 
         # Now render the title block fields
 
-        print()
 
     def render(self):
         """Draw the Frame on its Layer"""
@@ -173,7 +186,7 @@ class Frame:
                 )
 
         # Draw the title block, if any
-        draw_titleblock(frame=self.Name, sheet=self.Canvas.Sheet.Name, layer=self.Layer)
+        draw_titleblock(frame=self.Name, sheet=self.Canvas.Sheet, layer=self.Layer)
 
         # Fill in each box field
 

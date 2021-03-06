@@ -10,18 +10,19 @@ from typing import Dict, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from flatland.drawing_domain.layer import Layer
+    from flatland.sheet_subsystem.sheet import Sheet
 
 CompartmentBox = namedtuple("_CompartmentBox", "distance upper_box lower_box")
 BoxPlacement = namedtuple("_BoxPlacement", "placement size")
 
 
-def draw_titleblock(frame: str, sheet: str, layer: 'Layer'):
+def draw_titleblock(frame: str, sheet: 'Sheet', layer: 'Layer'):
     """
     Draw each box in the title block on the specified layer
 
     :param layer:  Layer to draw the box on
     :param frame:  Title block is fitted to this frame
-    :param sheet:  Frame is drawn on this sheet size
+    :param sheet:  Frame is drawn on this Sheet (sizing info)
     :return:
     """
     bplace_t = fdb.MetaData.tables['Box Placement']
@@ -29,13 +30,13 @@ def draw_titleblock(frame: str, sheet: str, layer: 'Layer'):
     p = [bplace_t.c.X, bplace_t.c.Y, bplace_t.c.Height, bplace_t.c.Width]
     f = and_(
         (bplace_t.c.Frame == frame),
-        (bplace_t.c.Sheet == sheet)
+        (bplace_t.c.Sheet == sheet.Name)
     )
     q = select(p).select_from(bplace_t).where(f)
     rows = fdb.Connection.execute(q).fetchall()
     for r in rows:
         layer.add_rectangle(
-            asset='Block border', lower_left=Position(r.X, r.Y),
+            asset='Block border '+sheet.Size_group, lower_left=Position(r.X, r.Y),
             size=Rect_Size(height=r.Height, width=r.Width)
         )
 
