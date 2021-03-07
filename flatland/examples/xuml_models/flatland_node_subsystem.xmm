@@ -233,6 +233,10 @@ relationships
     is laid out on, 1 Canvas
     frames placement of, 1 Diagram
 --
+    R15
+    can be used in, M Node Type
+    can use, 1 Diagram Type
+--
     R16
     annotation is organized by, 1c Annotation Layout
     organizes annotation on, 1 Canvas

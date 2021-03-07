@@ -82,15 +82,15 @@ class Grid:
         """
         if orientation == Orientation.Horizontal:
             # TODO: Consider expressing row/column boundaries in Canvas coordinates so this offset is not needed
-            margin_offset = self.Diagram.Canvas.Margin.bottom  # row and column boundaries are relative to margin
+            origin_offset = self.Diagram.Origin.y  # Boundaries are relative to the Diagram origin
             low_boundary = self.Row_boundaries[lane - 1]
             lane_width = self.Row_boundaries[lane] - low_boundary
         else:
-            margin_offset = self.Diagram.Canvas.Margin.left
+            origin_offset = self.Diagram.Origin.x
             low_boundary = self.Col_boundaries[lane - 1]
             lane_width = self.Col_boundaries[lane] - low_boundary
 
-        return margin_offset + low_boundary + step_edge_distance(
+        return origin_offset + low_boundary + step_edge_distance(
             num_of_steps=connector_layout.Default_rut_positions, extent=lane_width, step=rut)
 
     def render(self):

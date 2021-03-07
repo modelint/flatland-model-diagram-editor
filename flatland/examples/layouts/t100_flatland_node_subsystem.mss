@@ -17,7 +17,7 @@ nodes
     Data Compartment 4,16 >top
     Diagram 4,3
     Diagram Notation 10,6
-    Diagram Type 8,8
+    Diagram Type 8-9,8
     Field Spec 1,5
     Grid 4,5
     Layout Specification 9,1
@@ -45,6 +45,7 @@ connectors
     +R12.2 : -/1 t|Cell : -/2 t-1|Node : L7
     +R13 : -/2 b|Canvas : -/2 t*|Sheet
     -R14 : -/2 r|Canvas : +/2 l*|Diagram
+    +R15 : -/1 r|Diagram Type : -/1 l*|Node Type
     +R16.1 : -/2 l+1|Annotation Layout : +/2 b+1|Canvas
     +R17 : -/1 t*|Block : -/1 b|Annotation Layout
     +R18 : -/1 r|Block : -/1 l*|Field Spec

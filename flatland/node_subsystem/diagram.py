@@ -64,7 +64,7 @@ class Diagram:
         # Testing this now to replace above line
         self.Diagram_type = DiagramType(name=diagram_type_name, notation=self.Notation)
         self.Grid = Grid(diagram=self)  # Start with an empty grid
-        self.Padding = Padding(top=0, bottom=0, left=0, right=0)
+        self.Padding = Padding(top=0, bottom=250, left=40, right=0)
         self.Origin = Position(
             x=self.Canvas.Margin.left + self.Padding.left,
             y=self.Canvas.Margin.bottom + self.Padding.bottom
