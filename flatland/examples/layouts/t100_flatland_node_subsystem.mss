@@ -4,6 +4,7 @@ notation Starr
 presentation default
 orientation landscape
 sheet D
+padding 50 250 50 20 // left, bottom, top, right diagram padding between canvas margin to avoid frame overlap
 frame OS Engineer
 frame_presentation default
 nodes

@@ -8,7 +8,7 @@ import logging
 from flatland.flatland_exceptions import InvalidOrientation, NonSystemInitialLayer
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification
 from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification
-from flatland.datatypes.geometry_types import Rect_Size, Position
+from flatland.datatypes.geometry_types import Rect_Size, Padding
 from flatland.node_subsystem.diagram import Diagram
 from flatland.drawing_domain.tablet import Tablet
 from flatland.sheet_subsystem.sheet import Sheet, Group
@@ -40,7 +40,7 @@ class Canvas:
     """
 
     def __init__(self, diagram_type: str, presentation: str, notation: str, standard_sheet_name: str, orientation: str,
-                 drawoutput=sys.stdout.buffer):
+                 diagram_padding: Padding, drawoutput=sys.stdout.buffer):
         """
         Constructor
 
@@ -86,7 +86,8 @@ class Canvas:
             self.logger.exception("Initial layer [diagram] not found in Tablet layer order")
             sys.exit()
         self.Diagram = Diagram(
-            self, diagram_type_name=diagram_type, layer=self.Tablet.layers['diagram'], notation_name=notation
+            self, diagram_type_name=diagram_type, layer=self.Tablet.layers['diagram'],
+            notation_name=notation, padding=diagram_padding,
         )
         # Load symbol data
         self.logger.info("Loading symbol decoration data from flatland database")

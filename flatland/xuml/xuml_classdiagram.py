@@ -14,7 +14,7 @@ from flatland.sheet_subsystem.frame import Frame
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.connector_subsystem.tree_connector import TreeConnector
-from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
+from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign, Padding
 from flatland.datatypes.command_interface import New_Stem, New_Path, New_Trunk_Branch, New_Offshoot_Branch, New_Branch_Set
 from typing import Optional, Dict
 from collections import namedtuple
@@ -89,12 +89,15 @@ class XumlClassDiagram:
     def create_canvas(self) -> Canvas:
         """Create a blank canvas"""
         lspec = self.layout.layout_spec
+        padding = Padding(top=lspec.padding['top'], bottom=lspec.padding['bottom'],
+                          left=lspec.padding['left'], right=lspec.padding['right'])
         return Canvas(
             diagram_type=lspec.dtype,
             presentation=lspec.pres,
             notation=lspec.notation,
             standard_sheet_name=lspec.sheet,
             orientation=lspec.orientation,
+            diagram_padding=padding,
             drawoutput=self.diagram_file_path,
         )
 
