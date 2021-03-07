@@ -19,6 +19,7 @@ class Compartment:
         - Padding -- Extra space between text block and Node boundary
         - Text style -- Font, size, etc of text
     """
+
     def __init__(self, node: 'Node', ctype: CompartmentType, content: List[str]):
         """
         Constructor
@@ -34,8 +35,8 @@ class Compartment:
     @property
     def Text_block_size(self) -> Rect_Size:
         """Compute the size of the text block with required internal compartment padding"""
-        tablet = self.Node.Grid.Diagram.Canvas.Tablet
-        unpadded_text_size = tablet.text_block_size(asset=self.Type.name, text_block=self.Content)
+        layer = self.Node.Grid.Diagram.Layer
+        unpadded_text_size = layer.text_block_size(asset=self.Type.name, text_block=self.Content)
 
         padded_text_width = unpadded_text_size.width + self.Type.padding.left + self.Type.padding.right
         padded_text_height = unpadded_text_size.height + self.Type.padding.top + self.Type.padding.bottom
@@ -50,9 +51,9 @@ class Compartment:
 
     def render(self, lower_left_corner: Position):
         """Create rectangle on the tablet and add each line of text"""
-        tablet = self.Node.Grid.Diagram.Canvas.Tablet
-        tablet.add_rectangle(asset=self.Node.Node_type.Name+' compartment', lower_left=lower_left_corner,
-                             size=self.Size)
+        layer = self.Node.Grid.Diagram.Layer
+        layer.add_rectangle(asset=self.Node.Node_type.Name + ' compartment', lower_left=lower_left_corner,
+                            size=self.Size)
 
         # Horizontal alignment of text block relative to its compartment by calculating lower left x position
         if self.Type.alignment == HorizAlign.LEFT:
@@ -70,5 +71,5 @@ class Compartment:
         ypos = lower_left_corner.y + self.Type.padding.bottom
 
         text_position = Position(xpos, ypos)
-        tablet.add_text_block(asset=self.Type.name, lower_left=text_position, text=self.Content,
-                              align=self.Type.alignment)
+        layer.add_text_block(asset=self.Type.name, lower_left=text_position, text=self.Content,
+                             align=self.Type.alignment)

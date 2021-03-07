@@ -169,7 +169,7 @@ class TreeConnector(Connector):
         """
         Draw the Branch line segment for a single-branch Tree Connector
         """
-        tablet = self.Diagram.Canvas.Tablet
+        layer = self.Diagram.Layer
         for b in self.Branches:
             b.render()
         self.Trunk_stem.render()
@@ -203,4 +203,4 @@ class TreeConnector(Connector):
                 name_y = vine_end.y - (vbuffer + self.Name_size.height)  # Shift name below the stem
 
         name_position = Position(name_x, name_y)
-        tablet.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
+        layer.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)

@@ -51,10 +51,10 @@ class Branch:
         return Line_Segment(from_position=Position(x, y1), to_position=Position(x, y2))
 
     def render(self):
-        tablet = self.Connector.Diagram.Canvas.Tablet
+        layer = self.Connector.Diagram.Layer
 
         # Draw the axis
-        tablet.add_line_segment(
+        layer.add_line_segment(
             asset=self.Connector.Connector_type.Name+' connector',
             from_here=self.Shoot.from_position, to_there=self.Shoot.to_position
         )
@@ -69,6 +69,6 @@ class Branch:
                 y = s.Root_end.y
 
             self.logger.info("Drawing branch stem")
-            tablet.add_line_segment(
+            layer.add_line_segment(
                 asset=self.Connector.Connector_type.Name+' connector', from_here=s.Root_end, to_there=Position(x, y)
             )

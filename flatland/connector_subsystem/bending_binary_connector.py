@@ -150,8 +150,8 @@ class BendingBinaryConnector(BinaryConnector):
         """
         # Create line from root end of T_stem to root end of P_stem, bending along the way
         self.logger.info("Drawing bending binary connector")
-        tablet = self.Diagram.Canvas.Tablet
-        tablet.add_open_polygon(
+        layer = self.Diagram.Layer
+        layer.add_open_polygon(
             asset=self.Connector_type.Name+' connector',
             vertices=[self.T_stem.Root_end] + self.Corners + [self.P_stem.Root_end]
         )
@@ -174,4 +174,4 @@ class BendingBinaryConnector(BinaryConnector):
         # If there are two corners and the bend is 2, use the Corner at index 1 (2nd corner)
         point_p = self.P_stem.Root_end if bend == len(self.Corners)+1 else self.Corners[bend-1]
         name_position = self.compute_name_position(point_t, point_p)
-        tablet.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
+        layer.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)

@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from flatland.connector_subsystem.stem import Stem
-    from flatland.drawing_domain.tablet import Tablet
+    from flatland.drawing_domain.layer import Layer
 
 
 class RenderedSymbol:
@@ -28,27 +28,27 @@ class RenderedSymbol:
         self.End = end
         self.Growth = 0
 
-        tablet = self.Stem.Connector.Diagram.Canvas.Tablet
+        layer = self.Stem.Connector.Diagram.Layer
 
         if self.Symbol_spec.type != 'compound':
-            self.draw_simple_symbol(tablet, symbol_name=self.Symbol_name, location=location)
+            self.draw_simple_symbol(layer=layer, symbol_name=self.Symbol_name, location=location)
         else:
             stack = self.Symbol_spec.spec
             next_location = location  # Start at the original location
             for s in stack:
                 self.logger.info(f'NEXT LOCATION: {next_location}')
                 if s.type == 'arrow':
-                    next_location = self.draw_arrow(tablet=tablet, arrow_symbol=s.symbol, location=next_location)
+                    next_location = self.draw_arrow(layer=layer, arrow_symbol=s.symbol, location=next_location)
 
-    def draw_simple_symbol(self, tablet: 'Tablet', symbol_name: str, location: Position):
+    def draw_simple_symbol(self, layer: 'Layer', symbol_name: str, location: Position):
         """ Draw any simple symbol at the indicated location """
         if self.Symbol_spec.type == 'arrow':
-            self.draw_arrow(tablet, arrow_symbol=symbol_name, location=location)
+            self.draw_arrow(layer, arrow_symbol=symbol_name, location=location)
         else:
             # TODO: Support all of the Decorator subsystem symbols
             assert False, f'Symbol: {self.Symbol_name} not supported yet.'
 
-    def draw_arrow(self, tablet: 'Tablet', arrow_symbol: str, location: Position) -> Position:
+    def draw_arrow(self, layer: 'Layer', arrow_symbol: str, location: Position) -> Position:
         """Draw an arrow symbol at the indicated location pointing toward our face"""
         # Get the numpy polygon matrix with the rotation pointing toward the Node face
         orientation = self.Stem.Node_face  # Will not work for a tertiary stem!
@@ -59,7 +59,7 @@ class RenderedSymbol:
         rotated_arrow = Symbol.instances[arrow_symbol].spec.shape.rotations[orientation]
         # Add the coordinates to our location
         vertices = [Position(location.x + x, location.y + y) for x, y in rotated_arrow]
-        tablet.add_polygon(asset=arrow_symbol, vertices=vertices)
+        layer.add_polygon(asset=arrow_symbol, vertices=vertices)
         offset = Symbol.instances[arrow_symbol].length
         # TODO: Growth needs to be updated regardless of symbol type (not just arrow)
         self.Growth += offset

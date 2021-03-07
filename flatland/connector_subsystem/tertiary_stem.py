@@ -51,6 +51,6 @@ class TertiaryStem(AnchoredStem):
         """
         Create line from root end to the vine end attached to the Binary Connector line
         """
-        tablet = self.Connector.Diagram.Canvas.Tablet
-        tablet.add_line_segment(asset=self.Stem_type.Name+' stem', from_here=self.Root_end, to_there=self.Vine_end)
+        layer = self.Connector.Diagram.Layer
+        layer.add_line_segment(asset=self.Stem_type.Name+' stem', from_here=self.Root_end, to_there=self.Vine_end)
         super().render()

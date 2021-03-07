@@ -11,6 +11,7 @@ from sqlalchemy import select, and_
 
 if TYPE_CHECKING:
     from flatland.node_subsystem.canvas import Canvas
+    from flatland.drawing_domain.layer import Layer
 
 
 class Diagram:
@@ -31,17 +32,16 @@ class Diagram:
 
     """
 
-    def __init__(self, canvas: 'Canvas', diagram_type_name: str, presentation: str, notation_name: str):
+    def __init__(self, canvas: 'Canvas', diagram_type_name: str, layer: 'Layer', notation_name: str):
         """
         Constructor
 
         :param canvas: Reference to the Canvas
         :param diagram_type_name: A supported type of model diagram such as class, state machine, collaboration
-        :param presentation: A predefined set of style specifications such as default, diagnostic, fullcolor
         :param notation_name: A supported notation such as xUML, Starr, Shlaer-Mellor
         """
         self.Canvas = canvas
-        self.Presentation = presentation
+        self.Layer = layer
 
         # Validate notation for this diagram type
         dnots = fdb.MetaData.tables['Diagram Notation']

@@ -58,28 +58,32 @@ class XumlClassDiagram:
             TitleBlockPlacement()
 
         # Draw the blank canvas of the appropriate size, diagram type and presentation style
+        self.logger.info("Creating the canvas")
         self.flatland_canvas = self.create_canvas()
 
         # Draw the frame and title block
+        self.logger.info("Creating the frame")
         self.frame = Frame(
             name=self.layout.layout_spec.frame, presentation=self.layout.layout_spec.frame_presentation,
             canvas=self.flatland_canvas, metadata=self.subsys.metadata
         )
 
-        # # Draw all of the classes
-        # self.nodes = self.draw_classes()
-        #
-        # # If there are any relationships, draw them
-        # if self.subsys.rels:
-        #     cp = self.layout.connector_placement
-        #     for r in self.subsys.rels:  # r is the model data without any layout info
-        #         rnum = r['rnum']
-        #         rlayout = cp[rnum]  # How this r is to be laid out on the diagram
-        #         if 'superclass' in r.keys():
-        #             self.draw_generalization(rnum=rnum, generalization=r, tree_layout=rlayout)
-        #         else:
-        #             self.draw_association(rnum=rnum, association=r, binary_layout=rlayout)
+        # Draw all of the classes
+        self.logger.info("Drawing the classes")
+        self.nodes = self.draw_classes()
 
+        # If there are any relationships, draw them
+        if self.subsys.rels:
+            cp = self.layout.connector_placement
+            for r in self.subsys.rels:  # r is the model data without any layout info
+                rnum = r['rnum']
+                rlayout = cp[rnum]  # How this r is to be laid out on the diagram
+                if 'superclass' in r.keys():
+                    self.draw_generalization(rnum=rnum, generalization=r, tree_layout=rlayout)
+                else:
+                    self.draw_association(rnum=rnum, association=r, binary_layout=rlayout)
+
+        self.logger.info("Rendering the Canvas")
         self.flatland_canvas.render()
 
     def create_canvas(self) -> Canvas:
@@ -100,6 +104,7 @@ class XumlClassDiagram:
         np = self.layout.node_placement
         for c in self.subsys.classes:
             cname = c['name']
+            self.logger.info(f'Processing class: {cname}')
             nlayout = np[cname]
             nlayout['wrap'] = nlayout.get('wrap', 1)
             name_block = TextBlock(cname, nlayout['wrap'])

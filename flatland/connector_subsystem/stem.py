@@ -54,9 +54,9 @@ class Stem:
         if self.Name:
             if self.Name.side not in {1, -1}:
                 raise InvalidNameSide(self.Name.side)
-            tablet = self.Connector.Diagram.Canvas.Tablet
+            layer = self.Connector.Diagram.Layer
             # Get size of name bounding box
-            self.Name_size = tablet.text_block_size(asset=self.Stem_type.Name + ' name', text_block=self.Name.text.text)
+            self.Name_size = layer.text_block_size(asset=self.Stem_type.Name + ' name', text_block=self.Name.text.text)
 
         # There are at most two rendered symbols (one on each end) of a Stem and usually none or one
         self.Root_rendered_symbol = None  # Default assumption until lookup a bit later
@@ -83,7 +83,7 @@ class Stem:
         """
         Draw a symbol at the root, vine, both or neither end of this Stem
         """
-        tablet = self.Connector.Diagram.Canvas.Tablet
+        layer = self.Connector.Diagram.Layer
 
         if self.Name:
             align = HorizAlign.LEFT  # Assume left alignment of text lines
@@ -117,7 +117,7 @@ class Stem:
                     name_y > diagram.Canvas.Size.height - diagram.Padding.top:
                 raise OutofDiagramBounds(object_type='text block', x_value=name_x, y_value=name_y)
 
-            tablet.add_text_block(asset=self.Stem_type.Name + ' name', lower_left=Position(name_x, name_y),
+            layer.add_text_block(asset=self.Stem_type.Name + ' name', lower_left=Position(name_x, name_y),
                                   text=self.Name.text.text, align=align)
 
         root_symbol_name = self.Stem_type.DecoratedStems[self.Semantic].Root_symbol

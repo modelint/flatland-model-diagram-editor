@@ -40,9 +40,9 @@ class Connector:
         if self.Name:
             if self.Name.side not in {1, -1}:
                 raise InvalidNameSide(self.Name.side)
-            tablet = self.Diagram.Canvas.Tablet
+            layer = self.Diagram.Layer
             # Get size of bounding box
-            self.Name_size = tablet.text_block_size(
+            self.Name_size = layer.text_block_size(
                 asset=self.Connector_type.Name + ' name', text_block=[self.Name.text]
             )
 

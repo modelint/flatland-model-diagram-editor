@@ -6,8 +6,8 @@ This is the Flatland (and not the cairo) Canvas class
 import sys
 import logging
 from flatland.flatland_exceptions import InvalidOrientation, NonSystemInitialLayer
-from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
-from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification as connector_layout
+from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification
+from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification
 from flatland.datatypes.geometry_types import Rect_Size, Position
 from flatland.node_subsystem.diagram import Diagram
 from flatland.drawing_domain.tablet import Tablet
@@ -50,12 +50,11 @@ class Canvas:
         :param standard_sheet_name: A US or international printer sheet size such as A1, tabloid, letter
         :param orientation: portrait or landscape
         :param drawoutput: A standard IO binary object obtained from sys
-        :param show_margin: For diagnostics, show the canvas margin in the drawn output
         """
         self.logger = logging.getLogger(__name__)
         # Load layout specifications
-        diagram_layout()
-        connector_layout()
+        DiagramLayoutSpecification()
+        ConnectorLayoutSpecification()
 
         self.Sheet = Sheet(standard_sheet_name)  # Ensure that the user has specified a known sheet size
         if orientation not in ('portrait', 'landscape'):
@@ -71,10 +70,7 @@ class Canvas:
             height=int(round(h * factor)),
             width=int(round(w * factor))
         )
-        self.Margin = diagram_layout.Default_margin
-        self.Diagram = Diagram(self, diagram_type_name=diagram_type, presentation=presentation, notation_name=notation)
-        # Load symbol data
-        Symbol(diagram_type=self.Diagram.Diagram_type.Name, notation=self.Diagram.Notation)
+        self.Margin = DiagramLayoutSpecification.Default_margin
 
         # Create the one and only Tablet instance and initialize it with the Presentation on the diagram
         # Layer
@@ -83,25 +79,31 @@ class Canvas:
                 size=self.Size, output_file=drawoutput,
                 # Drawing types include notation such as 'xUML class diagram' since notation affects the choice
                 # of shape and text styles.  An xUML class diagram association class stem is dashed, for example.
-                drawing_type=' '.join([self.Diagram.Notation, diagram_type, 'diagram']), presentation=presentation,
+                drawing_type=' '.join([notation, diagram_type, 'diagram']), presentation=presentation,
                 layer='diagram'
             )
         except NonSystemInitialLayer:
             self.logger.exception("Initial layer [diagram] not found in Tablet layer order")
             sys.exit()
+        self.Diagram = Diagram(
+            self, diagram_type_name=diagram_type, layer=self.Tablet.layers['diagram'], notation_name=notation
+        )
+        # Load symbol data
+        self.logger.info("Loading symbol decoration data from flatland database")
+        Symbol(diagram_type=self.Diagram.Diagram_type.Name, notation=self.Diagram.Notation)
 
     def render(self):
         """
         Draw all content of this Canvas onto the Tablet
         """
         # Now add all Diagram content to the Tablet
-        # self.Diagram.render()
+        self.Diagram.render()
 
         # Draw all added content and output a PDF using whatever graphics library is configured in the Tablet
         self.Tablet.render()
 
     def __repr__(self):
-        return f'Canvas(diagram_type={self.Diagram.Diagram_type}, presentation={self.Diagram.Presentation},' \
+        return f'Canvas(diagram_type={self.Diagram.Diagram_type}, layer={self.Diagram.Layer},' \
                f'notation={self.Diagram.Notation}, standard_sheet_name={self.Sheet}, orientation={self.Orientation},' \
                f'drawoutput={self.Tablet.Output_file} )'
 

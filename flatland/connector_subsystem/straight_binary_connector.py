@@ -133,14 +133,14 @@ class StraightBinaryConnector(BinaryConnector):
         """
         Draw the binary connector on the tablet
         """
-        tablet = self.Diagram.Canvas.Tablet
+        layer = self.Diagram.Layer
         # Note that the draw order is not established here, but in the Tablet
         # The Tablet doesn't begin drawing until all render elements are added
         # But we still put them in a desired draw order to help visualize the
         # desired layering
 
         # Add line segment between the node faces
-        tablet.add_line_segment(
+        layer.add_line_segment(
             asset=self.Connector_type.Name+' connector',
             from_here=self.Projecting_stem.Root_end,
             to_there=self.Floating_stem.Root_end
@@ -156,5 +156,5 @@ class StraightBinaryConnector(BinaryConnector):
         name_position = self.compute_name_position(
             point_t=self.Projecting_stem.Root_end, point_p=self.Floating_stem.Root_end
         )
-        tablet.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
+        layer.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
 
