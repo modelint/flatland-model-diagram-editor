@@ -61,12 +61,13 @@ class XumlClassDiagram:
         self.logger.info("Creating the canvas")
         self.flatland_canvas = self.create_canvas()
 
-        # Draw the frame and title block
-        self.logger.info("Creating the frame")
-        self.frame = Frame(
-            name=self.layout.layout_spec.frame, presentation=self.layout.layout_spec.frame_presentation,
-            canvas=self.flatland_canvas, metadata=self.subsys.metadata
-        )
+        # Draw the frame and title block if one was supplied
+        if self.layout.layout_spec.frame:
+            self.logger.info("Creating the frame")
+            self.frame = Frame(
+                name=self.layout.layout_spec.frame, presentation=self.layout.layout_spec.frame_presentation,
+                canvas=self.flatland_canvas, metadata=self.subsys.metadata
+            )
 
         # Draw all of the classes
         self.logger.info("Drawing the classes")
@@ -89,8 +90,11 @@ class XumlClassDiagram:
     def create_canvas(self) -> Canvas:
         """Create a blank canvas"""
         lspec = self.layout.layout_spec
-        padding = Padding(top=lspec.padding['top'], bottom=lspec.padding['bottom'],
-                          left=lspec.padding['left'], right=lspec.padding['right'])
+        if not lspec.padding:
+            pad_l, pad_b, pad_t, pad_r = 0, 0, 0, 0
+        else:
+            pad_l, pad_b, pad_t, pad_r = lspec.padding.values()
+        padding = Padding(top=pad_t, bottom=pad_b, left=pad_l, right=pad_r)
         return Canvas(
             diagram_type=lspec.dtype,
             presentation=lspec.pres,
