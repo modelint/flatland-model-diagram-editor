@@ -16,13 +16,13 @@ population = [
 
     # Medium
     {'Asset': 'Open title', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
-     'Text style': 'Corner Title Large'},
+     'Text style': 'Corner Title Medium'},
     {'Asset': 'Open copyright notice', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
      'Text style': 'boilerplate'},
     {'Asset': 'Block title', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
-     'Text style': 'Block title'},
+     'Text style': 'Block Title Medium'},
     {'Asset': 'Block body', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
-     'Text style': 'Block Body Large'},
+     'Text style': 'Block Body Medium'},
     #
     # # Small
     # {'Asset': 'Open title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
