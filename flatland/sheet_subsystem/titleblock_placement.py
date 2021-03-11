@@ -36,7 +36,7 @@ def draw_titleblock(frame: str, sheet: 'Sheet', layer: 'Layer'):
     rows = fdb.Connection.execute(q).fetchall()
     for r in rows:
         layer.add_rectangle(
-            asset='Block border '+sheet.Size_group, lower_left=Position(r.X, r.Y),
+            asset='Block border', lower_left=Position(r.X, r.Y),
             size=Rect_Size(height=r.Height, width=r.Width)
         )
 

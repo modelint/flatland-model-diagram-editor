@@ -1,0 +1,84 @@
+/// Flatland Decoration Subsystem
+metadata
+    Title : Flatland Decoration Subsystem Class Diagram
+    Author : Leon Starr
+    Document ID : mint.flatland3.td.5a
+    Version : 0.1.0
+    Modification date : July 24, 2020
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT_small
+    Organization logo > mint_small
+subsystem Node
+class Decoration
+attributes
+    Name : Name {I}
+    Size : Rect Size
+--
+class Label
+attributes
+    Name {I, R104}
+--
+class Symbol
+attributes
+    Name {I, R104}
+    Length : Distance
+--
+class Compound Symbol
+attributes
+    Name {I, R103}
+--
+class Simple Symbol
+attributes
+    Name {I, R103}
+    Stroke: Stroke style
+    Terminal offset : DistanceName {I, R103}
+--
+class Arrow Symbol
+attributes
+    Name {I, R100}
+    Base : Distance
+    Height : Distance
+    Fill : Hollow Solid Open
+--
+class Circle Symbol
+attributes
+    Name {I, R100}
+    Radius : Distance
+    Solid : Boolean
+--
+class Cross Symbol
+attributes
+    Name {I, R100}
+    Width: Distance
+    Angle : Degrees
+--
+class Symbol Stack Placement
+attributes
+    Position : Ordinal {I. OR102}
+    Compound symbol {I, R101, OR102}
+    Simple symbol {R101}
+    Arrange : Adjacent Layer Last
+    Offset : Distance
+--
+relationships
+    R104
+    Decoration +
+        Label
+        Symbol
+--
+    R103
+    Symbol +
+        Compound Symbol
+        Simple Symbol
+--
+    R101
+    is stacked in, Mc Compound Symbol
+    stacks, M Simple Symbol
+    M Symbol Stack Placement
+--
+    R100
+    Simple Symbol +
+        Arrow Symbol
+        Circle Symbol
+        Cross Symbol
+--

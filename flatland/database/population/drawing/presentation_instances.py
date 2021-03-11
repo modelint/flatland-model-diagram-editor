@@ -22,7 +22,6 @@ population = [
     {'Name': 'default', 'Drawing type': 'xUML class collaboration diagram'},
 
     # Frames
-    {'Name': 'default', 'Drawing type': 'OS Engineer small'},
-    {'Name': 'default', 'Drawing type': 'OS Engineer medium'},
-    {'Name': 'default', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'default', 'Drawing type': 'OS Engineer large frame'},
+    {'Name': 'default', 'Drawing type': 'OS Engineer medium frame'},
 ]

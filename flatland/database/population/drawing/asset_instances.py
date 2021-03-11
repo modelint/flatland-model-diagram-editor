@@ -5,21 +5,22 @@ asset_instances.py
 population = [
     # Frame OS Engineer large
     # Open field assets
-    {'Name': 'Open title large', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
-    {'Name': 'Open copyright notice large', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},
+    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},
     # Title block assets
-    {'Name': 'Block title large', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
-    {'Name': 'Block body large', 'Form': 'text', 'Drawing type': 'OS Engineer large'},
-    {'Name': 'Block border large', 'Form': 'shape', 'Drawing type': 'OS Engineer large'},
+    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},
+    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},
+    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer large frame'},
 
-    # # Frame OS Engineer medium
-    # # Open field assets
-    # {'Name': 'Open title medium', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
-    # {'Name': 'Open copyright notice medium', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
-    # # Title block assets
-    # {'Name': 'Block title medium', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
-    # {'Name': 'Block body medium', 'Form': 'text', 'Drawing type': 'OS Engineer medium'},
-    # {'Name': 'Block border medium', 'Form': 'shape', 'Drawing type': 'OS Engineer medium'},
+    # Frame OS Engineer medium
+    # Open field assets
+    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
+    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
+    # Title block assets
+    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
+    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
+    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer medium frame'},
+
     #
     # # Frame OS Engineer small
     # # Open field assets

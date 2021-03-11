@@ -17,7 +17,13 @@ population = [
     {'Name': 'Corner Title Large', 'Typeface': 'Eurostile', 'Size': 14, 'Slant': 'normal', 'Weight': 'normal',
      'Color': 'black', 'Spacing': 1.3},
 
+    {'Name': 'Corner Title Medium', 'Typeface': 'Eurostile', 'Size': 14, 'Slant': 'normal', 'Weight': 'normal',
+     'Color': 'black', 'Spacing': 1.3},
+
     {'Name': 'Block Title Large', 'Typeface': 'Eurostile', 'Size': 11, 'Slant': 'normal', 'Weight': 'normal',
+     'Color': 'block blue', 'Spacing': 1.3},
+
+    {'Name': 'Block Title Medium', 'Typeface': 'Eurostile', 'Size': 11, 'Slant': 'normal', 'Weight': 'normal',
      'Color': 'block blue', 'Spacing': 1.3},
 
     {'Name': 'boilerplate', 'Typeface': 'Courier', 'Size': 9, 'Slant': 'normal', 'Weight': 'normal',
@@ -26,4 +32,6 @@ population = [
     {'Name': 'Block Body Large', 'Typeface': 'Verdana', 'Size': 9, 'Slant': 'normal', 'Weight': 'normal',
      'Color': 'black', 'Spacing': 1.3},
 
+    {'Name': 'Block Body Medium', 'Typeface': 'Verdana', 'Size': 9, 'Slant': 'normal', 'Weight': 'normal',
+     'Color': 'black', 'Spacing': 1.3},
 ]

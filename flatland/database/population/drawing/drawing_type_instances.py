@@ -16,7 +16,6 @@ population = [
     {'Name': 'xUML domain diagram'},
 
     # Frame styles
-    {'Name': 'OS Engineer large'},   # For large sheet sizes (D, E, A2-A0)
-    {'Name': 'OS Engineer medium'},  # For medium sheet sizes (tabloid, A3)
-    {'Name': 'OS Engineer small'},   # FOr small sheet sizes (letter, A4)
+    {'Name': 'OS Engineer large frame'},   # For large sheet sizes (D, E, A2-A0)
+    {'Name': 'OS Engineer medium frame'},  # For medium sheet sizes (tabloid, A3)
 ]

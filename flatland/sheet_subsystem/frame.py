@@ -55,7 +55,7 @@ class Frame:
         # Create a Layer where we'll draw all of the Frame contents
 
         self.logger.info('Creating Frame Layer')
-        drawing_type_name = ' '.join([name, self.Canvas.Sheet.Size_group])  # e.g. "OS Engineer large"
+        drawing_type_name = ' '.join([name, self.Canvas.Sheet.Size_group, 'frame'])  # e.g. "OS Engineer large frame"
         # Whereas a diagram's drawing type is something like 'xUML Class Diagram',
         # the Frame's drawing type name systematically incorporates both purpose and Sheet Size Group
         # That's because a model element like a class or state is typically drawn the same size regardless
@@ -151,7 +151,7 @@ class Frame:
 
         # Fill each open field
         for f in self.Open_fields:
-            asset = ' '.join(['Open', f.metadata.lower(), self.Canvas.Sheet.Size_group])
+            asset = 'Open ' + f.metadata.lower()
             content, isresource = self.metadata.get(f.metadata, (None, None))
             # If there is no data supplied to fill in the field, just leave it blank and move on
             if content and isresource:
@@ -191,8 +191,7 @@ class Frame:
             for k, v in self.Databoxes.items():
                 # compute lower left corner position
                 # Layer asset is composed from the data box style and its size group
-                asset = ' '.join([v.style, self.Canvas.Sheet.Size_group])
-                block_size = self.Layer.text_block_size(asset=asset, text_block=v.content)
+                block_size = self.Layer.text_block_size(asset=v.style, text_block=v.content)
                 # When there is a single line of text in a Data Box that is longer than the Box width,
                 # we will wrap it as necessary. Especially useful for a long title in the title box
                 # For multiple line boxes, this feature is not yet (or ever) supported
@@ -201,7 +200,7 @@ class Frame:
                 if len(v.content) == 1 and block_size.width > padded_box_width:
                     lines_to_wrap = math.ceil(block_size.width / padded_box_width)  # Round up to nearest int
                     content = TextBlock(v.content[0], wrap=lines_to_wrap).text
-                    block_size = self.Layer.text_block_size(asset=asset, text_block=content)
+                    block_size = self.Layer.text_block_size(asset=v.style, text_block=content)
                 # For now we will just let any exessive line length in multi field Data Boxes
                 # overrun the title block boundary, since it is not so obvious how to recover automatically
                 # User correction is more likely to yield a satisfactory outcome
@@ -210,5 +209,5 @@ class Frame:
                 xpos = v.position.x + h_margin
                 ypos = v.position.y + v_margin + round((v.size.height - block_size.height) / 2, 2)
                 self.Layer.add_text_block(
-                    asset=asset, lower_left=Position(xpos, ypos), text=content, align=v.alignment.horizontal
+                    asset=v.style, lower_left=Position(xpos, ypos), text=content, align=v.alignment.horizontal
                 )

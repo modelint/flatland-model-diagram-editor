@@ -5,24 +5,24 @@ text_presentation_instances.py
 population = [
     # Frame OS Engineer, default
     # Large
-    {'Asset': 'Open title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    {'Asset': 'Open title', 'Presentation': 'default', 'Drawing type': 'OS Engineer large frame',
      'Text style': 'Corner Title Large'},
-    {'Asset': 'Open copyright notice large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    {'Asset': 'Open copyright notice', 'Presentation': 'default', 'Drawing type': 'OS Engineer large frame',
      'Text style': 'boilerplate'},
-    {'Asset': 'Block title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    {'Asset': 'Block title', 'Presentation': 'default', 'Drawing type': 'OS Engineer large frame',
      'Text style': 'Block Title Large'},
-    {'Asset': 'Block body large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    {'Asset': 'Block body', 'Presentation': 'default', 'Drawing type': 'OS Engineer large frame',
      'Text style': 'Block Body Large'},
 
-    # # Medium
-    # {'Asset': 'Open title medium', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium',
-    #  'Text style': 'Corner Title Large'},
-    # {'Asset': 'Open copyright notice large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
-    #  'Text style': 'boilerplate'},
-    # {'Asset': 'Block title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
-    #  'Text style': 'Block title Large'},
-    # {'Asset': 'Block body large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
-    #  'Text style': 'Block Body Large'},
+    # Medium
+    {'Asset': 'Open title', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
+     'Text style': 'Corner Title Large'},
+    {'Asset': 'Open copyright notice', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
+     'Text style': 'boilerplate'},
+    {'Asset': 'Block title', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
+     'Text style': 'Block title'},
+    {'Asset': 'Block body', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
+     'Text style': 'Block Body Large'},
     #
     # # Small
     # {'Asset': 'Open title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',

@@ -5,7 +5,6 @@ sheet_size_group_instances.py – Sheet size ranges that include both US and Int
 population = [
     # Suggested groupings in comments (not necessarily what's in the database!)
     {"Name": "small"},  # Letter, A4
-    {"Name": "smallwide"},  # Tabloid, A3
-    {"Name": "medium"},  # C, A2
+    {"Name": "medium"},  # C, A2, Tabloid, A3
     {"Name": "large"},  # D, E, A1, A0
 ]
