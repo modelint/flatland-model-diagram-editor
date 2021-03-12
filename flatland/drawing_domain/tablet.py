@@ -7,7 +7,7 @@ from flatland.flatland_exceptions import NonSystemInitialLayer
 from flatland.datatypes.geometry_types import Rect_Size, Position
 import cairo
 from flatland.drawing_domain.styledb import StyleDB
-from layer import Layer
+from flatland.drawing_domain.layer import Layer
 from typing import Optional
 
 
