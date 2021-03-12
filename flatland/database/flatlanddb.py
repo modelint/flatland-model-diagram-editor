@@ -42,7 +42,7 @@ def Populate():
     # refer to each population module by the same path
     here = Path(__file__).parent / "population"  # Adjacent population directory
     pop_dirs = [  # Subdirectories organizing all population modules
-        here / "connector", here / "decorator", here / "drawing", here / "node",
+        here / "connector", here / "decorator", here / "drawing", here / "node", here / "sheet"
     ]
     # Convert each Path object to a string and tack it on the end of our module search path
     sys.path.extend([str(p) for p in pop_dirs])
@@ -51,7 +51,8 @@ def Populate():
     for instances, relvar in FlatlandDB.Relvars.items():
         # Set i to the initial population of row values (set of relation values)
         i = __import__(instances + '_instances')  # Each population filename ends with '_instances.py'
-        FlatlandDB.Connection.execute(relvar.insert(), i.population)  # Sqlalchemy populates the table schema
+        if i.population:  # A computed relations may start with an empty population, so skip the insert if empty
+            FlatlandDB.Connection.execute(relvar.insert(), i.population)  # Sqlalchemy populates the table schema
 
 
 class FlatlandDB:

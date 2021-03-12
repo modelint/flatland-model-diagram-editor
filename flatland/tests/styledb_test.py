@@ -5,6 +5,6 @@ styledb_test.py – Ensure that we can build the drawing domain database
 from flatland.database.flatlanddb import FlatlandDB
 from flatland.drawing_domain.styledb import StyleDB
 
-fdb = FlatlandDB()
-sdb = StyleDB(drawing_type='Starr class diagram', presentation='diagnostic')
+fdb = FlatlandDB(rebuild=True)
+sdb = StyleDB(drawing_type='Starr class diagram', presentation='diagnostic', layer='frame')
 print("Finished")

@@ -1,4 +1,13 @@
 /// Flatland Node Subsystem
+metadata
+    Title : Flatland Node Subsystem Class Diagram
+    Author : Leon Starr
+    Document ID : mint.flatland3.td.1a
+    Version : 0.7.0
+    Modification date : January 17, 2021
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint_large
 subsystem Node
 class Annotation Layout
 attributes
@@ -223,6 +232,10 @@ relationships
     R14
     is laid out on, 1 Canvas
     frames placement of, 1 Diagram
+--
+    R15
+    can be used in, M Node Type
+    can use, 1 Diagram Type
 --
     R16
     annotation is organized by, 1c Annotation Layout

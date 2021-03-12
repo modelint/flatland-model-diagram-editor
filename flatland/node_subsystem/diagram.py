@@ -11,6 +11,8 @@ from sqlalchemy import select, and_
 
 if TYPE_CHECKING:
     from flatland.node_subsystem.canvas import Canvas
+    from flatland.drawing_domain.layer import Layer
+    from flatland.datatypes.geometry_types import Padding
 
 
 class Diagram:
@@ -31,17 +33,16 @@ class Diagram:
 
     """
 
-    def __init__(self, canvas: 'Canvas', diagram_type_name: str, presentation: str, notation_name: str):
+    def __init__(self, canvas: 'Canvas', diagram_type_name: str, layer: 'Layer', notation_name: str, padding: Padding):
         """
         Constructor
 
         :param canvas: Reference to the Canvas
         :param diagram_type_name: A supported type of model diagram such as class, state machine, collaboration
-        :param presentation: A predefined set of style specifications such as default, diagnostic, fullcolor
         :param notation_name: A supported notation such as xUML, Starr, Shlaer-Mellor
         """
         self.Canvas = canvas
-        self.Presentation = presentation
+        self.Layer = layer
 
         # Validate notation for this diagram type
         dnots = fdb.MetaData.tables['Diagram Notation']
@@ -64,7 +65,7 @@ class Diagram:
         # Testing this now to replace above line
         self.Diagram_type = DiagramType(name=diagram_type_name, notation=self.Notation)
         self.Grid = Grid(diagram=self)  # Start with an empty grid
-        self.Padding = Padding(top=0, bottom=0, left=0, right=0)
+        self.Padding = padding
         self.Origin = Position(
             x=self.Canvas.Margin.left + self.Padding.left,
             y=self.Canvas.Margin.bottom + self.Padding.bottom

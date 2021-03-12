@@ -23,6 +23,13 @@ class Sheet:
         - Name -- A name like A3, tabloid, letter, D, etc
         - Group -- Either *us* or *int* to distinguish between measurement units
         - Size --  Sheet dimensions float since us has 8.5 x 11 or int for international mm units
+        - Size_group -- Sheet Size Groups are used to determine the scaling for each available Title Block Pattern.
+
+          Roughly similar sizes such as Letter, A4 and Legal may be grouped together in the same Sheet Size Group
+          since the same Title Block scale will work for all three sizes.
+
+          Since any Sheet must specify a scale to be used for any Title Block Patterns, each Sheet must be categorized
+          in a Sheet Size Group.
     """
     def __init__(self, name: str):
         """
@@ -30,12 +37,13 @@ class Sheet:
 
         :param name:  A standard sheet name in our database such as letter, tabloid, A3, etc
         """
-        sheets = fdb.MetaData.tables['Sheet']
-        query = select([sheets]).where(sheets.c.Name == name)
+        sheet_t = fdb.MetaData.tables['Sheet']
+        query = select([sheet_t]).where(sheet_t.c.Name == name)
         i = fdb.Connection.execute(query).fetchone()
         if not i:
             raise UnknownSheetSize(name)
         self.Name = name
+        self.Size_group = i['Size group']
         if i.Group == 'us':
             self.Group = Group.US
         elif i.Group == 'int':
@@ -49,5 +57,8 @@ class Sheet:
             self.Size = Rect_Size(height=int(i.Height), width=int(i.Width))
 
     def __repr__(self):
+        return f'Sheet({self.Name})'
+
+    def __str__(self):
         u = "in" if self.Group == Group.US else 'mm'
-        return f'Name: {self.Name}, Size: h{self.Size.height} {u} x w{self.Size.width} {u}'
+        return f'{self.Name} ({self.Size_group}): H{self.Size.height} {u} x W{self.Size.width} {u}'

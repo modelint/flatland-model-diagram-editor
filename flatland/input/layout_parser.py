@@ -10,7 +10,7 @@ from collections import namedtuple
 from flatland.input.nocomment import nocomment
 
 DiagramLayout = namedtuple('DiagramLayout', 'layout_spec node_placement connector_placement')
-LayoutSpec = namedtuple('LayoutSpec', 'dtype pres notation sheet orientation')
+LayoutSpec = namedtuple('LayoutSpec', 'dtype pres notation sheet orientation frame frame_presentation, padding')
 NodePlacement = namedtuple('NodePlacement', 'wrap row column halign valign')
 ConnPlacement = namedtuple('ConnPlacement', 'name_side bend t_data, p_data')
 StemSpec = namedtuple('StemSpec', 'name_side wrap face node anchor_at')
@@ -88,8 +88,16 @@ class LayoutParser:
             peg_model_dot.unlink(missing_ok=True)
         # Refine parsed result into something more useful for the client
         ld = result.results['layout_spec'][0]  # layout data
+        # Some items are optional
+        frame = ld.get('frame')
+        frame_presentation = ld.get('frame_presentation')
+        padding = ld.get('padding')
         lspec = LayoutSpec(dtype=ld['diagram'][0], notation=ld['notation'][0], pres=ld['presentation'][0],
-                           orientation=ld['orientation'][0], sheet=ld['sheet'][0])
+                           orientation=ld['orientation'][0], sheet=ld['sheet'][0],
+                           frame=None if not frame else frame[0],
+                           # frame_presentation not relevant if no frame
+                           frame_presentation=None if not frame else frame_presentation[0],
+                           padding=None if not padding else padding[0])
         node_pdict = { n['node_name']: n for n in result.results['node_block'][0] }
         if 'connector_block' in result.results:
             conn_pdict = { c['cname']: c for c in result.results['connector_block'][0] }

@@ -82,15 +82,15 @@ class Grid:
         """
         if orientation == Orientation.Horizontal:
             # TODO: Consider expressing row/column boundaries in Canvas coordinates so this offset is not needed
-            margin_offset = self.Diagram.Canvas.Margin.bottom  # row and column boundaries are relative to margin
+            origin_offset = self.Diagram.Origin.y  # Boundaries are relative to the Diagram origin
             low_boundary = self.Row_boundaries[lane - 1]
             lane_width = self.Row_boundaries[lane] - low_boundary
         else:
-            margin_offset = self.Diagram.Canvas.Margin.left
+            origin_offset = self.Diagram.Origin.x
             low_boundary = self.Col_boundaries[lane - 1]
             lane_width = self.Col_boundaries[lane] - low_boundary
 
-        return margin_offset + low_boundary + step_edge_distance(
+        return origin_offset + low_boundary + step_edge_distance(
             num_of_steps=connector_layout.Default_rut_positions, extent=lane_width, step=rut)
 
     def render(self):
@@ -98,7 +98,7 @@ class Grid:
         Draw Grid on Tablet for diagnostic purposes
         """
 
-        tablet = self.Diagram.Canvas.Tablet
+        layer = self.Diagram.Layer
 
         if show_grid:
             self.logger.info("Drawing grid")
@@ -106,19 +106,19 @@ class Grid:
             left_extent = self.Diagram.Origin.x
             right_extent = self.Diagram.Origin.x + self.Diagram.Size.width
             for h in self.Row_boundaries:
-                tablet.add_line_segment(asset='grid',
-                                        from_here=Position(left_extent, h + self.Diagram.Origin.y),
-                                        to_there=Position(right_extent, h + self.Diagram.Origin.y)
-                                        )
+                layer.add_line_segment(asset='grid',
+                                       from_here=Position(left_extent, h + self.Diagram.Origin.y),
+                                       to_there=Position(right_extent, h + self.Diagram.Origin.y)
+                                       )
 
             # Draw columns
             bottom_extent = self.Diagram.Origin.y
             top_extent = bottom_extent + self.Diagram.Size.height
             for w in self.Col_boundaries:
-                tablet.add_line_segment(asset='grid',
-                                        from_here=Position(w + self.Diagram.Origin.x, bottom_extent),
-                                        to_there=Position(w + self.Diagram.Origin.x, top_extent)
-                                        )
+                layer.add_line_segment(asset='grid',
+                                       from_here=Position(w + self.Diagram.Origin.x, bottom_extent),
+                                       to_there=Position(w + self.Diagram.Origin.x, top_extent)
+                                       )
 
         # Draw nodes
         [n.render() for n in self.Nodes]
@@ -181,13 +181,14 @@ class Grid:
         # specified node spanning range?
         spanned_existing_rows = list(range(node.Low_row, min(node.High_row, highest_row_number)))
         spanned_existing_cols = list(range(node.Left_column, min(node.Right_column, rightmost_col_number)))
-        #spanned_existing_rows = list(range(node.Low_row, node.High_row + 1))
-        #spanned_existing_cols = list(range(node.Left_column, node.Right_column + 1))
+        # spanned_existing_rows = list(range(node.Low_row, node.High_row + 1))
+        # spanned_existing_cols = list(range(node.Left_column, node.Right_column + 1))
 
         # Now take all existing cells in the occupied area and ensure that each is empty
         if spanned_existing_rows and spanned_existing_cols:
             # We subtract 1 to get from canvas row col coordinates to grid cell indices
-            occupied_cells = [self.Cells[r-1][c-1] for r, c in product(spanned_existing_rows, spanned_existing_cols)]
+            occupied_cells = [self.Cells[r - 1][c - 1] for r, c in
+                              product(spanned_existing_rows, spanned_existing_cols)]
             if any(occupied_cells):
                 raise CellOccupiedFE
 
@@ -230,8 +231,8 @@ class Grid:
 
         # Now we add rows and columns that will actually be spanned by the node
         # These are sized based on the space required to accommodate this node
-        [self.add_row(cell_height) for _ in range(total_rows_to_add-spacer_rows_to_add)]
-        [self.add_column(cell_width) for _ in range(total_cols_to_add-spacer_cols_to_add)]
+        [self.add_row(cell_height) for _ in range(total_rows_to_add - spacer_rows_to_add)]
+        [self.add_column(cell_width) for _ in range(total_cols_to_add - spacer_cols_to_add)]
 
         # Assign each cell to this node
         spanned_rows = list(range(node.Low_row, node.High_row + 1))

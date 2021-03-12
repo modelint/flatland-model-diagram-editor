@@ -10,10 +10,11 @@ from flatland.input.model_parser import ModelParser
 from flatland.input.layout_parser import LayoutParser
 from flatland.database.flatlanddb import FlatlandDB
 from flatland.node_subsystem.canvas import Canvas
+from flatland.sheet_subsystem.frame import Frame
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.connector_subsystem.tree_connector import TreeConnector
-from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
+from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign, Padding
 from flatland.datatypes.command_interface import New_Stem, New_Path, New_Trunk_Branch, New_Offshoot_Branch, New_Branch_Set
 from typing import Optional, Dict
 from collections import namedtuple
@@ -52,11 +53,24 @@ class XumlClassDiagram:
 
         # Load the flatland database
         self.db = FlatlandDB(rebuild=self.rebuild)
+        if self.rebuild:
+            from flatland.sheet_subsystem.titleblock_placement import TitleBlockPlacement
+            TitleBlockPlacement()
 
         # Draw the blank canvas of the appropriate size, diagram type and presentation style
+        self.logger.info("Creating the canvas")
         self.flatland_canvas = self.create_canvas()
 
+        # Draw the frame and title block if one was supplied
+        if self.layout.layout_spec.frame:
+            self.logger.info("Creating the frame")
+            self.frame = Frame(
+                name=self.layout.layout_spec.frame, presentation=self.layout.layout_spec.frame_presentation,
+                canvas=self.flatland_canvas, metadata=self.subsys.metadata
+            )
+
         # Draw all of the classes
+        self.logger.info("Drawing the classes")
         self.nodes = self.draw_classes()
 
         # If there are any relationships, draw them
@@ -70,20 +84,25 @@ class XumlClassDiagram:
                 else:
                     self.draw_association(rnum=rnum, association=r, binary_layout=rlayout)
 
+        self.logger.info("Rendering the Canvas")
         self.flatland_canvas.render()
-
 
     def create_canvas(self) -> Canvas:
         """Create a blank canvas"""
         lspec = self.layout.layout_spec
+        if not lspec.padding:
+            pad_l, pad_b, pad_t, pad_r = 0, 0, 0, 0
+        else:
+            pad_l, pad_b, pad_t, pad_r = lspec.padding.values()
+        padding = Padding(top=pad_t, bottom=pad_b, left=pad_l, right=pad_r)
         return Canvas(
             diagram_type=lspec.dtype,
             presentation=lspec.pres,
             notation=lspec.notation,
             standard_sheet_name=lspec.sheet,
             orientation=lspec.orientation,
+            diagram_padding=padding,
             drawoutput=self.diagram_file_path,
-            show_margin=True
         )
 
     def draw_classes(self) -> Dict[str, SingleCellNode]:
@@ -92,6 +111,7 @@ class XumlClassDiagram:
         np = self.layout.node_placement
         for c in self.subsys.classes:
             cname = c['name']
+            self.logger.info(f'Processing class: {cname}')
             nlayout = np[cname]
             nlayout['wrap'] = nlayout.get('wrap', 1)
             name_block = TextBlock(cname, nlayout['wrap'])

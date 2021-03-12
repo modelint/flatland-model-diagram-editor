@@ -64,4 +64,4 @@ class SingleCellNode(Node):
             from_padding=self.Grid.Cell_padding.bottom, to_padding=self.Grid.Cell_padding.top,
             node_extent=self.Size.height
         ) + self.Grid.Diagram.Origin.y  # + self.Grid.Row_boundaries[self.Row-1]
-        return Position(x=lower_left_x, y=lower_left_y)
+        return Position(lower_left_x, lower_left_y)
