@@ -268,6 +268,7 @@ class Grid:
 
         # If there is already a node at that location, raise an exception
         if not rows_to_add and not columns_to_add and self.Cells[node.Row - 1][node.Column - 1]:
+            self.logger.error(f'Cell overlap at [{node.Row}, {node.Column}]')
             raise CellOccupiedFE
 
         # Add necessary rows and columns, if any

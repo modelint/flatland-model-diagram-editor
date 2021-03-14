@@ -10,6 +10,6 @@ resource_locator = {
     'MIT_small': image_path / 'MIT boilerplate small.png',
     'mint_large': image_path / 'mint logo large.png',
     'mint_small': image_path / 'mint logo small.png',
-    'toy_large': image_path / 'toyota large.png',
-    'toy_small': image_path / 'toyota small.png',
+    'toyota_large': image_path / 'toyota logo large.png',
+    'toyota_small': image_path / 'toyota logo small.png',
 }

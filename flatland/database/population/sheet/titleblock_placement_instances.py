@@ -7,4 +7,6 @@ population = [
      'X': 275, 'Y': 9},
     {'Frame': 'OS Engineer', 'Sheet': 'D', 'Title block pattern': 'SE Simple', 'Sheet size group': 'large',
      'X': 753, 'Y': 38},
+    {'Frame': 'TRI MBSE', 'Sheet': 'D', 'Title block pattern': 'SE Simple', 'Sheet size group': 'large',
+     'X': 753, 'Y': 38},
 ]

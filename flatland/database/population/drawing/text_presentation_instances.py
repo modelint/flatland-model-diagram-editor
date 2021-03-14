@@ -23,6 +23,18 @@ population = [
      'Text style': 'Block Title Medium'},
     {'Asset': 'Block body', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
      'Text style': 'Block Body Medium'},
+
+    # Frame TRI MBSE, default
+    # Large
+    {'Asset': 'Open title', 'Presentation': 'default', 'Drawing type': 'TRI MBSE large frame',
+     'Text style': 'Corner Title Large'},
+    {'Asset': 'Open copyright notice', 'Presentation': 'default', 'Drawing type': 'TRI MBSE large frame',
+     'Text style': 'Footer Central'},
+    {'Asset': 'Block title', 'Presentation': 'default', 'Drawing type': 'TRI MBSE large frame',
+     'Text style': 'Block Title Large'},
+    {'Asset': 'Block body', 'Presentation': 'default', 'Drawing type': 'TRI MBSE large frame',
+     'Text style': 'Block Body Large'},
+
     #
     # # Small
     # {'Asset': 'Open title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',

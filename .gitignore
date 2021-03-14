@@ -6,3 +6,4 @@
 /flatland/diagnostics/
 /flatland/*.pdf
 *.log
+/flatland/tri_setup/
