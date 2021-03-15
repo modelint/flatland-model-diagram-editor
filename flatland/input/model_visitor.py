@@ -99,7 +99,7 @@ class SubsystemVisitor(PTNodeVisitor):
     def visit_method_block(self, node, children):
         """Methods (unparsed)"""
         # TODO: Parse these eventually
-        return children  # truncate newline terminator
+        return {"methods": children}
 
     def visit_attr_block(self, node, children):
         """Attribute text (unparsed)"""
@@ -113,7 +113,9 @@ class SubsystemVisitor(PTNodeVisitor):
     def visit_class_block(self, node, children):
         """A complete class with attributes, methods, state model"""
         # TODO: No state models yet
-        return {**children[0], **children[1]}
+        class_attrs = children[0] | children[1]
+        block = class_attrs if len(children) == 2 else class_attrs | children[2]
+        return block
 
     def visit_rel_section(self, node, children):
         """Relationships section with all of the relationships"""
