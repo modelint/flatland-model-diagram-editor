@@ -68,24 +68,32 @@ class Layer:
 
 
     def render(self):
-        """Renders the tablet using Cairo for now"""
+        """Renders all Elements on this Layer"""
 
         # For now, always assume output to cairo
         self.Tablet.Context.set_line_join(cairo.LINE_JOIN_ROUND)
+        # Rendering order determines what can potentially overlap on this Layer, so order matters
         self.render_line_segments()
         self.render_rects()
         self.render_polygons()
-        self.render_text()
-        self.render_images()
+        self.render_text()  # Render text after vector content so that it is never underneath
+        self.render_images()  # Text should not be drawn over images, so we can render these last
 
-    def add_text_line(self, asset: str, lower_left: Position, text: str):
+    def add_text_line(self, asset: str, lower_left: Position, text: str, underlay_asset: str = None):
         """
         Adds a line of text to the tablet at the specified lower left corner location which will be converted
         to device coordinates
         """
+        if underlay_asset:
+            # We will draw the underlay asset underneath the text (probably a blank rectangle)
+            tl_size = self.text_line_size(asset=asset, text_line=text)
+            underlay_size = Rect_Size(height=tl_size.height+5, width=tl_size.width+5)
+            underlay_pos = Position(lower_left.x-2, lower_left.y-3)
+            self.add_rectangle(asset=underlay_asset, lower_left=underlay_pos, size=underlay_size)
         self.Text.append(
             element.Text_line(
-                lower_left=self.Tablet.to_dc(lower_left), text=text, style=self.Presentation.Text_presentation[asset]
+                lower_left=self.Tablet.to_dc(lower_left), text=text,
+                style=self.Presentation.Text_presentation[asset],
             )
         )
         self.logger.info('Text added')

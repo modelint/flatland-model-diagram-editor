@@ -203,4 +203,6 @@ class TreeConnector(Connector):
                 name_y = vine_end.y - (vbuffer + self.Name_size.height)  # Shift name below the stem
 
         name_position = Position(name_x, name_y)
-        layer.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
+        layer.add_text_line(
+            asset=self.Connector_type.Name + ' name',
+            lower_left=name_position, text=self.Name.text, underlay_asset='name underlay')

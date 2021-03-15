@@ -10,6 +10,7 @@ population = [
     {'Asset': 'class compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'white'},
     {'Asset': 'imported class compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram',
      'Fill': 'white'},
+    {'Asset': 'name underlay', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'white'},
 
     # Starr/diagnostic symbols
     {'Asset': 'solid arrow', 'Presentation': 'diagnostic', 'Drawing type': 'Starr class diagram', 'Fill': 'black'},

@@ -80,6 +80,7 @@ population = [
     {'Name': 'label', 'Form': 'text', 'Drawing type': 'Starr class diagram'},
     {'Name': 'binary association name', 'Form': 'text', 'Drawing type': 'Starr class diagram'},
     {'Name': 'generalization name', 'Form': 'text', 'Drawing type': 'Starr class diagram'},
+    {'Name': 'name underlay', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
     {'Name': 'class mult name', 'Form': 'text', 'Drawing type': 'Starr class diagram'},
     {'Name': 'imported class compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
     {'Name': 'see also', 'Form': 'text', 'Drawing type': 'Starr class diagram'},
