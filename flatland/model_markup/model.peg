@@ -24,8 +24,11 @@ method_block = method_header body_line+ block_end // A set of class methods
 method_header = "methods" nl
 attr_header = "attributes" nl
 attr_block = attr_header body_line+ block_end // A set of attributes
+class_name = icaps_name
 import = sp+ '<import:' icaps_name '>' // Import marker and name of origin subsystem
-class_header = "class" sp icaps_name (',' sp+ acword)? import? nl
+keyletter = ',' sp+ acword
+class_name = icaps_name
+class_header = "class" sp class_name keyletter? import? nl
 class_block = class_header attr_block method_block? // All information about a class
 class_set = class_block*  // All classes in the subsystem
 

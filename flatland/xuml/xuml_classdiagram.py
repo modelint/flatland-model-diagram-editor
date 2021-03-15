@@ -117,11 +117,14 @@ class XumlClassDiagram:
             name_block = TextBlock(cname, nlayout['wrap'])
             h = HorizAlign[nlayout.get('halign', 'CENTER')]
             v = VertAlign[nlayout.get('valign', 'CENTER')]
+            # If this is an imported class, append the import reference to the attribute list
+            import_subsys_name = c.get('import')
+            internal_ref = [' ', f'(See {import_subsys_name} subsystem)'] if import_subsys_name else []
             row_span, col_span = nlayout['node_loc']
             if len(row_span) == 1 and len(col_span) == 1:
                 nodes[cname] = SingleCellNode(
-                    node_type_name='class',
-                    content=[name_block.text, c['attributes']],
+                    node_type_name='class' if not import_subsys_name else 'imported class',
+                    content=[name_block.text, c['attributes'] + internal_ref ],
                     grid=self.flatland_canvas.Diagram.Grid,
                     row=row_span[0], column=col_span[0],
                     local_alignment=Alignment(vertical=v, horizontal=h)
