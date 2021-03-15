@@ -122,6 +122,7 @@ class XumlClassDiagram:
             internal_ref = [' ', f'(See {import_subsys_name} subsystem)'] if import_subsys_name else []
             row_span, col_span = nlayout['node_loc']
             # If methods were supplied, include them in content
+            # text content includes text for all compartments other than the title compartment
             text_content = [name_block.text, c['attributes'] + internal_ref ]
             if c.get('methods'):
                 text_content.append(c['methods'])
@@ -141,7 +142,7 @@ class XumlClassDiagram:
                 right_col = left_col if len(col_span) == 1 else col_span[1]
                 nodes[cname] = SpanningNode(
                     node_type_name='class',
-                    content=[name_block.text, c['attributes']],
+                    content=text_content,
                     grid=self.flatland_canvas.Diagram.Grid,
                     low_row=low_row, high_row=high_row,
                     left_column=left_col, right_column=right_col,
