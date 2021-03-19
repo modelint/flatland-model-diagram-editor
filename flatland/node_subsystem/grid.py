@@ -98,7 +98,7 @@ class Grid:
         Draw Grid on Tablet for diagnostic purposes
         """
 
-        layer = self.Diagram.Layer
+        grid_layer = self.Diagram.Canvas.Tablet.layers['grid']
 
         if show_grid:
             self.logger.info("Drawing grid")
@@ -106,19 +106,19 @@ class Grid:
             left_extent = self.Diagram.Origin.x
             right_extent = self.Diagram.Origin.x + self.Diagram.Size.width
             for h in self.Row_boundaries:
-                layer.add_line_segment(asset='grid',
-                                       from_here=Position(left_extent, h + self.Diagram.Origin.y),
-                                       to_there=Position(right_extent, h + self.Diagram.Origin.y)
-                                       )
+                grid_layer.add_line_segment(asset='row boundary',
+                                            from_here=Position(left_extent, h + self.Diagram.Origin.y),
+                                            to_there=Position(right_extent, h + self.Diagram.Origin.y)
+                                            )
 
             # Draw columns
             bottom_extent = self.Diagram.Origin.y
             top_extent = bottom_extent + self.Diagram.Size.height
             for w in self.Col_boundaries:
-                layer.add_line_segment(asset='grid',
-                                       from_here=Position(w + self.Diagram.Origin.x, bottom_extent),
-                                       to_there=Position(w + self.Diagram.Origin.x, top_extent)
-                                       )
+                grid_layer.add_line_segment(asset='column boundary',
+                                            from_here=Position(w + self.Diagram.Origin.x, bottom_extent),
+                                            to_there=Position(w + self.Diagram.Origin.x, top_extent)
+                                            )
 
         # Draw nodes
         [n.render() for n in self.Nodes]

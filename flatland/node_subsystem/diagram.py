@@ -68,7 +68,8 @@ class Diagram:
 
        # Set up grid
         if show_grid:
-            self.Canvas.Tablet.add_layer(name='grid', presentation='diagnostic', drawing_type='grid')
+            # Create the grid layer
+            self.Canvas.Tablet.add_layer(name='grid', presentation='default', drawing_type='Grid Diagnostic')
         self.Grid = Grid(diagram=self)  # Start with an empty grid
         self.Padding = padding
         self.Origin = Position(

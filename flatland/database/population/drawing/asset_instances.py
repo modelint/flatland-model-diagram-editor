@@ -3,6 +3,10 @@ asset_instances.py
 """
 
 population = [
+    # Grid
+    {'Name': 'column boundary', 'Form': 'shape', 'Drawing type': 'Grid Diagnostic'},
+    {'Name': 'row boundary', 'Form': 'shape', 'Drawing type': 'Grid Diagnostic'},
+
     # Frame OS Engineer large
     # Open field assets
     {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},

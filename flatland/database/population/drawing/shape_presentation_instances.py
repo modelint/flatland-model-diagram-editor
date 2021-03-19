@@ -3,6 +3,12 @@ shape_presentation_instances.py
 """
 
 population = [
+    # Grid Diagnostic
+    {'Asset': 'row boundary', 'Presentation': 'default', 'Drawing type': 'Grid Diagnostic',
+     'Line style': 'grid'},
+    {'Asset': 'column boundary', 'Presentation': 'default', 'Drawing type': 'Grid Diagnostic',
+     'Line style': 'grid'},
+
     # Frame: OS Engineer default
     {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer large frame',
      'Line style': 'double'},
