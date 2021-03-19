@@ -34,6 +34,8 @@ def parse(cl_input):
                         help='Create a directory of examples in the current directory')
     parser.add_argument('-V', '--version', action='store_true',
                         help='Print the current version of flatland')
+    parser.add_argument('-G', '--grid', action='store_true',
+                        help='Print the grid so you can diagnose output with row and column boundaries visible')
     parser.add_argument('-R', '--rebuild', action='store_true',
                         help='Rebuild the flatland database. Necessary only if corrupted.')
     return parser.parse_args(cl_input)
@@ -107,7 +109,8 @@ def main():
         xuml_model_path=model_path,
         flatland_layout_path=layout_path,
         diagram_file_path=diagram_path,
-        rebuild=args.rebuild
+        rebuild=args.rebuild,
+        show_grid=args.grid
     )
 
     logger.info("No problemo")  # We didn't die on an exception, basically

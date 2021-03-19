@@ -33,7 +33,8 @@ class Diagram:
 
     """
 
-    def __init__(self, canvas: 'Canvas', diagram_type_name: str, layer: 'Layer', notation_name: str, padding: Padding):
+    def __init__(self, canvas: 'Canvas', diagram_type_name: str, layer: 'Layer', notation_name: str,
+                 padding: Padding, show_grid: bool):
         """
         Constructor
 
@@ -64,6 +65,10 @@ class Diagram:
         # self.Diagram_type = diagram_type_name
         # Testing this now to replace above line
         self.Diagram_type = DiagramType(name=diagram_type_name, notation=self.Notation)
+
+       # Set up grid
+        if show_grid:
+            self.Canvas.Tablet.add_layer(name='grid', presentation='diagnostic', drawing_type='grid')
         self.Grid = Grid(diagram=self)  # Start with an empty grid
         self.Padding = padding
         self.Origin = Position(

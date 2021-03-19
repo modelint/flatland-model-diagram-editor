@@ -40,7 +40,7 @@ class Canvas:
     """
 
     def __init__(self, diagram_type: str, presentation: str, notation: str, standard_sheet_name: str, orientation: str,
-                 diagram_padding: Padding, drawoutput=sys.stdout.buffer):
+                 diagram_padding: Padding, show_grid: bool, drawoutput=sys.stdout.buffer):
         """
         Constructor
 
@@ -87,7 +87,7 @@ class Canvas:
             sys.exit()
         self.Diagram = Diagram(
             self, diagram_type_name=diagram_type, layer=self.Tablet.layers['diagram'],
-            notation_name=notation, padding=diagram_padding,
+            notation_name=notation, padding=diagram_padding, show_grid=show_grid
         )
         # Load symbol data
         self.logger.info("Loading symbol decoration data from flatland database")
