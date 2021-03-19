@@ -105,20 +105,26 @@ class Grid:
             # Draw rows
             left_extent = self.Diagram.Origin.x
             right_extent = self.Diagram.Origin.x + self.Diagram.Size.width
-            for h in self.Row_boundaries:
+            for r, h in enumerate(self.Row_boundaries):
                 grid_layer.add_line_segment(asset='row boundary',
                                             from_here=Position(left_extent, h + self.Diagram.Origin.y),
                                             to_there=Position(right_extent, h + self.Diagram.Origin.y)
                                             )
+                grid_layer.add_text_line(asset='grid label',
+                                         lower_left=Position(left_extent-20,self.Diagram.Origin.y+h+30),
+                                         text=str(r+1))
 
             # Draw columns
             bottom_extent = self.Diagram.Origin.y
             top_extent = bottom_extent + self.Diagram.Size.height
-            for w in self.Col_boundaries:
+            for c, w in enumerate(self.Col_boundaries):
                 grid_layer.add_line_segment(asset='column boundary',
                                             from_here=Position(w + self.Diagram.Origin.x, bottom_extent),
                                             to_there=Position(w + self.Diagram.Origin.x, top_extent)
                                             )
+                grid_layer.add_text_line(asset='grid label',
+                                         lower_left=Position(w+self.Diagram.Origin.x+30, bottom_extent-20),
+                                         text=str(c+1))
 
             # Draw diagram boundary
             grid_layer.add_rectangle(asset='grid boundary',

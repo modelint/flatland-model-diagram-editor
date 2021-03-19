@@ -3,6 +3,10 @@ text_presentation_instances.py
 """
 
 population = [
+    # Grid Diagnostic
+    {'Asset': 'grid label', 'Presentation': 'default', 'Drawing type': 'Grid Diagnostic',
+     'Text style': 'coordinate'},
+
     # Frame OS Engineer, default
     # Large
     {'Asset': 'Open title', 'Presentation': 'default', 'Drawing type': 'OS Engineer large frame',

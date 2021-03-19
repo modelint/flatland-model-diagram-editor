@@ -29,6 +29,9 @@ population = [
     {'Name': 'boilerplate', 'Typeface': 'Courier', 'Size': 9, 'Slant': 'normal', 'Weight': 'normal',
      'Color': 'black', 'Spacing': 1.3},
 
+    {'Name': 'coordinate', 'Typeface': 'Courier', 'Size': 12, 'Slant': 'normal', 'Weight': 'normal',
+     'Color': 'toyota red', 'Spacing': 1.3},
+
     {'Name': 'Footer Central', 'Typeface': 'Verdana', 'Size': 11, 'Slant': 'italic', 'Weight': 'normal',
      'Color': 'black', 'Spacing': 1.3},
 
