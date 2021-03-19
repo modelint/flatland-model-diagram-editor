@@ -7,7 +7,7 @@ from flatland.flatland_exceptions import CellOccupiedFE, SheetWidthExceededFE, S
 from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification as connector_layout
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
 from flatland.geometry_domain.linear_geometry import expand_boundaries, span, step_edge_distance
-from flatland.datatypes.geometry_types import Position
+from flatland.datatypes.geometry_types import Position, Rect_Size
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.datatypes.connection_types import Orientation
@@ -120,11 +120,17 @@ class Grid:
                                             to_there=Position(w + self.Diagram.Origin.x, top_extent)
                                             )
 
+            # Draw diagram boundary
+            grid_layer.add_rectangle(asset='grid boundary',
+                                     lower_left=Position(x=self.Diagram.Origin.x, y=self.Diagram.Origin.y),
+                                     size=self.Diagram.Size)
+
         # Draw nodes
         [n.render() for n in self.Nodes]
 
         # Draw connectors
         [c.render() for c in self.Connectors]
+
 
     def add_row(self, cell_height):
         """Adds an empty row upward with the given height"""

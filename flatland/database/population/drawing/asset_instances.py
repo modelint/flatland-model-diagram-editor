@@ -6,6 +6,7 @@ population = [
     # Grid
     {'Name': 'column boundary', 'Form': 'shape', 'Drawing type': 'Grid Diagnostic'},
     {'Name': 'row boundary', 'Form': 'shape', 'Drawing type': 'Grid Diagnostic'},
+    {'Name': 'grid boundary', 'Form': 'shape', 'Drawing type': 'Grid Diagnostic'},
 
     # Frame OS Engineer large
     # Open field assets

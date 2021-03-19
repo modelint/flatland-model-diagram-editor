@@ -8,6 +8,8 @@ population = [
      'Line style': 'grid'},
     {'Asset': 'column boundary', 'Presentation': 'default', 'Drawing type': 'Grid Diagnostic',
      'Line style': 'grid'},
+    {'Asset': 'grid boundary', 'Presentation': 'default', 'Drawing type': 'Grid Diagnostic',
+     'Line style': 'margin'},
 
     # Frame: OS Engineer default
     {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer large frame',
