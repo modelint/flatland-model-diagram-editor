@@ -52,7 +52,7 @@ class Grid:
         - Diagram -- The Diagram that this Grid organizes content of
     """
 
-    def __init__(self, diagram: 'Diagram'):
+    def __init__(self, diagram: 'Diagram', show: bool = False):
         """
         Constructor
 
@@ -67,6 +67,7 @@ class Grid:
         self.Cell_padding = diagram_layout.Default_cell_padding
         self.Cell_alignment = diagram_layout.Default_cell_alignment
         self.Diagram = diagram
+        self.Show = show
 
     def __repr__(self):
         return f'Cells: {self.Cells}, Row boundaries: {self.Row_boundaries}, Col boundaries: {self.Col_boundaries}' \
@@ -98,9 +99,8 @@ class Grid:
         Draw Grid on Tablet for diagnostic purposes
         """
 
-        grid_layer = self.Diagram.Canvas.Tablet.layers['grid']
-
-        if show_grid:
+        if self.Show:
+            grid_layer = self.Diagram.Canvas.Tablet.layers['grid']
             self.logger.info("Drawing grid")
             # Draw rows
             left_extent = self.Diagram.Origin.x
@@ -111,8 +111,8 @@ class Grid:
                                             to_there=Position(right_extent, h + self.Diagram.Origin.y)
                                             )
                 grid_layer.add_text_line(asset='grid label',
-                                         lower_left=Position(left_extent-20,self.Diagram.Origin.y+h+30),
-                                         text=str(r+1))
+                                         lower_left=Position(left_extent - 20, self.Diagram.Origin.y + h + 30),
+                                         text=str(r + 1))
 
             # Draw columns
             bottom_extent = self.Diagram.Origin.y
@@ -123,8 +123,8 @@ class Grid:
                                             to_there=Position(w + self.Diagram.Origin.x, top_extent)
                                             )
                 grid_layer.add_text_line(asset='grid label',
-                                         lower_left=Position(w+self.Diagram.Origin.x+30, bottom_extent-20),
-                                         text=str(c+1))
+                                         lower_left=Position(w + self.Diagram.Origin.x + 30, bottom_extent - 20),
+                                         text=str(c + 1))
 
             # Draw diagram boundary
             grid_layer.add_rectangle(asset='grid boundary',
@@ -136,7 +136,6 @@ class Grid:
 
         # Draw connectors
         [c.render() for c in self.Connectors]
-
 
     def add_row(self, cell_height):
         """Adds an empty row upward with the given height"""
