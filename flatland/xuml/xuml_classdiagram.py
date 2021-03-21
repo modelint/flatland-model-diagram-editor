@@ -117,7 +117,9 @@ class XumlClassDiagram:
             self.logger.info(f'Processing class: {cname}')
             nlayout = np[cname]
             nlayout['wrap'] = nlayout.get('wrap', 1)
-            name_block = TextBlock(cname, nlayout['wrap'])
+            keyletter = c.get('keyletter')
+            keyletter_display = f' {{{keyletter}}}' if keyletter else ''
+            name_block = TextBlock(cname+keyletter_display, nlayout['wrap'])
             h = HorizAlign[nlayout.get('halign', 'CENTER')]
             v = VertAlign[nlayout.get('valign', 'CENTER')]
             # If this is an imported class, append the import reference to the attribute list
