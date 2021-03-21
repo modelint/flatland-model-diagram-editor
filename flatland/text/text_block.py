@@ -1,5 +1,7 @@
 """ text_block.py """
 
+import logging
+
 class TextBlock:
     """
     A list of strings
@@ -14,8 +16,9 @@ class TextBlock:
         :param line: A single line of text without any newlines in it
         :param wrap: The number of lines desired in the text block
         """
-        assert line, "Tried to create empty text block"
-
+        self.logger = logging.getLogger(__name__)
+        if not line:
+            self.logger.exception('Tried to wrap an empty line')
         self.wrap = wrap  # Number of requested lines, may not match actual total wrapped lines
         self.text = []
 
@@ -27,20 +30,24 @@ class TextBlock:
         max_len = round(num_chars / num_lines)
         line_remaining = line[:] # Copy the original line
         while num_lines > len(self.text)+1 and ' ' in line_remaining:
-            caret = max_len-1
-            if line_remaining[caret] == ' ':
+            # Keep going as long as the remaining line exceeds our desired box width AND has at least one space in it
+            caret = max_len-1  # Put the caret at our desired box width
+            if line_remaining[caret] == ' ':  # Caret is on a space, so just cut the line there
                 self.text.append(line_remaining[:caret])
                 line_remaining = line_remaining[caret+1:]
-            else:
-                lspace = line_remaining[:caret].rfind(' ')  # Get left space distance from caret
-                rspace = line_remaining[caret:].find(' ')  # Get right space distance from caret
-                ldist = caret-lspace
-                rdist = rspace
-                cut = caret+rdist if rdist <= ldist else caret-ldist
+            else:  # Cut at the space nearest to caret (there must be one either to the right or left
+                lspace = line_remaining[:caret].rfind(' ')  # Get space on left distance, if any, from start of line
+                rspace = line_remaining[caret:].find(' ')  # Get space on right distance, if any, from caret
+                # If either of these is -1, there is no space in that direction, so make it the longest possible dist
+                # There is definitely at least one space left, right or both or we wouldn't be here
+                ldist = num_chars if lspace == -1 else caret-lspace
+                rdist = num_chars if rspace == -1 else rspace
+                cut = caret-ldist if ldist <= rdist else caret+rdist  # Move left or right of the caret to find the cut
                 self.text.append(line_remaining[:cut])
                 line_remaining = line_remaining[cut+1:]
 
         if line_remaining:
+            # Put any left over text in the last line of our block
             self.text.append(line_remaining)
 
     def __repr__(self):
