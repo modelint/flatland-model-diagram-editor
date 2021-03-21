@@ -124,7 +124,12 @@ class XumlClassDiagram:
             v = VertAlign[nlayout.get('valign', 'CENTER')]
             # If this is an imported class, append the import reference to the attribute list
             import_subsys_name = c.get('import')
-            internal_ref = [' ', f'(See {import_subsys_name} subsystem)'] if import_subsys_name else []
+            if not import_subsys_name:
+                internal_ref = []
+            elif import_subsys_name.endswith('TBD'):
+                internal_ref = [' ', f'{import_subsys_name.removesuffix(" TBD")} subsystem', '(not yet modeled)']
+            else:
+                internal_ref = [' ', f'(See {import_subsys_name} subsystem)']
             row_span, col_span = nlayout['node_loc']
             # If methods were supplied, include them in content
             # text content includes text for all compartments other than the title compartment
@@ -146,7 +151,7 @@ class XumlClassDiagram:
                 left_col = col_span[0]
                 right_col = left_col if len(col_span) == 1 else col_span[1]
                 nodes[cname] = SpanningNode(
-                    node_type_name='class',
+                    node_type_name='class' if not import_subsys_name else 'imported class',
                     content=text_content,
                     grid=self.flatland_canvas.Diagram.Grid,
                     low_row=low_row, high_row=high_row,
