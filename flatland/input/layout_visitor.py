@@ -34,6 +34,10 @@ class LayoutVisitor(PTNodeVisitor):
         name = ''.join(children)
         return name
 
+    def visit_duplicate(self, node, children):
+        """Repeated node number"""
+        return {node.rule_name: int(children[0]) }
+
     def visit_wrap(self, node, children):
         """Number of lines to wrap"""
         return {node.rule_name: int(children[0]) }

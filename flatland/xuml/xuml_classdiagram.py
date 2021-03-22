@@ -116,6 +116,9 @@ class XumlClassDiagram:
             cname = c['name']
             self.logger.info(f'Processing class: {cname}')
             nlayout = np[cname]
+            # there may be many layouts for a given cname
+            # We need to build np so that class name keys to a set of layouts
+            # Then draw node for each layout
             nlayout['wrap'] = nlayout.get('wrap', 1)
             keyletter = c.get('keyletter')
             keyletter_display = f' {{{keyletter}}}' if keyletter else ''

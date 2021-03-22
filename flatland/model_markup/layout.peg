@@ -48,8 +48,9 @@ path = 'L' number ('R' notch)? // Lane and rut, assume rut 0 if R not specified
 nodes_header = "nodes" nl
 span =  number '-' number / number
 node_loc = span ',' span  // Row and column
+duplicate = '(' number ')'
 node_name = name
-node_placement = indent node_name wrap? space node_loc (space node_align)? nl
+node_placement = indent node_name duplicate? wrap? space node_loc (space node_align)? nl
 node_block = nodes_header node_placement+
 
 // Face attachment

@@ -98,12 +98,20 @@ class LayoutParser:
                            # frame_presentation not relevant if no frame
                            frame_presentation=None if not frame else frame_presentation[0],
                            padding=None if not padding else padding[0])
-        node_pdict = { n['node_name']: n for n in result.results['node_block'][0] }
+
+        node_pdict = {}
+        for n in result.results['node_block'][0]:
+            dup_num = n.get('duplicate')
+            key = n['node_name'] if not dup_num else f"{n['node_name']}_{dup_num}"
+            node_pdict[key] = n
+
+
         if 'connector_block' in result.results:
             conn_pdict = { c['cname']: c for c in result.results['connector_block'][0] }
         else:
             conn_pdict = None
         return DiagramLayout(layout_spec=lspec, node_placement=node_pdict, connector_placement=conn_pdict)
+
 
 
 if __name__ == "__main__":
