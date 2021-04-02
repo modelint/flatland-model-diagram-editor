@@ -49,6 +49,13 @@ class SpanningNode(Node):
         self.Right_column = right_column
         self.Grid.place_spanning_node(node=self)
 
+    def __repr__(self):
+        return f'{self.Compartments[0].Content}[R{self.Low_row}-{self.High_row}, C{self.Left_column}-{self.Right_column}]'
+
+    def __str__(self):
+        return f'Grid [{self.Low_row}-{self.High_row}, {self.Left_column}-{self.Right_column}] @ ({round(self.Canvas_position.x, 2)}, ' \
+               f'{round(self.Canvas_position.y, 2)}), W {round(self.Size.width, 2)} x H {round(self.Size.height, 2)}'
+
     @property
     def Canvas_position(self):
         """Position of lower left corner on the Canvas"""

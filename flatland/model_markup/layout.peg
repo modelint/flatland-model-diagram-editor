@@ -45,21 +45,22 @@ notch = '0' / ('+' / '-') number // A unit of alignment, center, or a positive o
 path = 'L' number ('R' notch)? // Lane and rut, assume rut 0 if R not specified
 
 // Node
+node_name = name
 nodes_header = "nodes" nl
 span =  number '-' number / number
 node_loc = span ',' span  // Row and column
-node_name = name ('.' number)? // Optional additional placement of the same node
-grid_place = node_loc (space node_align)?
-node_placement = grid_place (space ':' space grid_place)*
+grid_place = node_loc (space node_align)? // Location in grid where a node will appear
+node_placement = grid_place (space ':' space grid_place)*  // One or more such locations
 node_spec = indent node_name wrap? space node_placement nl
 node_block = nodes_header node_spec+
 
 // Face attachment
+node_ref = name ('.' number)? // Optional additional placement of the same node
 face =  "t" / "b" / "l" / "r" // top, bottom, left or right node face
 dir = "+" / "-" // direction of increasing coord values, up and to the right is positive
 csep = space ':' space // argument separator
 anchor = notch / '*'
-node_face = face anchor? "|" node_name // Where a stem attaches to a node face
+node_face = face anchor? "|" node_ref // Where a stem attaches to a node face
 
 // Binary connector
 tertiary_node = ',' space node_face

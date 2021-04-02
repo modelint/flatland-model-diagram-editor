@@ -77,6 +77,11 @@ class LayoutVisitor(PTNodeVisitor):
         return children[0]
 
     # Face attachment
+    def visit_node_ref(self, node, children):
+        """name number?"""
+        return children
+
+
     def visit_face(self, node, children):
         """Face character"""
         return face_map[node.value]

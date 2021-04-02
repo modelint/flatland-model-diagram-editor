@@ -153,15 +153,20 @@ class XumlClassDiagram:
             # from a single model, there is no harm in duplicating the same class on a
             # diagram.
 
-            for p in nlayout['placements']:
+            for i, p in enumerate(nlayout['placements']):
                 h = HorizAlign[p.get('halign', 'CENTER')]
                 v = VertAlign[p.get('valign', 'CENTER')]
                 # If this is an imported class, append the import reference to the attribute list
                 row_span, col_span = p['node_loc']
                 # If methods were supplied, include them in content
                 # text content includes text for all compartments other than the title compartment
+                # When drawing connectors, we want to attach to a specific node placement
+                # In most cases, this will just be the one and only indicated by the node name
+                # But if a node is duplicated, i will not be 0 and we add a suffix to the node
+                # name for the additional placement
+                node_name = cname if i == 0 else f'{cname}_{i+1}'
                 if len(row_span) == 1 and len(col_span) == 1:
-                    nodes[cname] = SingleCellNode(
+                    nodes[node_name] = SingleCellNode(
                         node_type_name='class' if not import_subsys_name else 'imported class',
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
@@ -174,7 +179,7 @@ class XumlClassDiagram:
                     high_row = low_row if len(row_span) == 1 else row_span[1]
                     left_col = col_span[0]
                     right_col = left_col if len(col_span) == 1 else col_span[1]
-                    nodes[cname] = SpanningNode(
+                    nodes[node_name] = SpanningNode(
                         node_type_name='class' if not import_subsys_name else 'imported class',
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
@@ -183,7 +188,6 @@ class XumlClassDiagram:
                         local_alignment=Alignment(vertical=v, horizontal=h)
                     )
         return nodes
-        # TODO:  Include method section in content
         # TODO:  Add support for axis offset on stem names
 
     def draw_association(self, rnum, association, binary_layout):
@@ -192,10 +196,13 @@ class XumlClassDiagram:
         tstem = binary_layout['tstem']
         pstem = binary_layout['pstem']
         astem = binary_layout.get('tertiary_node', None)
+
         t_side = association['t_side']
-        if tstem['name'] != t_side['cname']:
+        if tstem['node_ref'][0] != t_side['cname']:
             # The user put the tstems in the wrong order in the layout file
             # Swap them
+            # The node_ref is a list and the first element refers to the model class name
+            # (the 2nd element indicates duplicate placement, if any, and is not relevant for the comparison above)
             tstem, pstem = pstem, tstem
             self.logger.warning(f"Stems order in layout file does not match model, swapping stem order for connector {rnum}")
 
@@ -203,17 +210,28 @@ class XumlClassDiagram:
             text=TextBlock(t_side['phrase'], wrap=tstem['wrap']),
             side=tstem['stem_dir'], axis_offset=None, end_offset=None
         )
+        # The node_ref refers to a specific placment of a model element on the grid
+        # If the same model element appears more than once, we add a _number suffix for each additional
+        # placement
+        node_name = tstem['node_ref'][0]  # Just the model element name by itself
+        # This name is good enough unless it is an additional placement, in which case we add a numbered suffix
+        node_ref = node_name if len(tstem['node_ref']) < 2 else f"{node_name}_{tstem['node_ref'][1]}"
         t_stem = New_Stem(stem_type='class mult', semantic=t_side['mult'] + ' mult',
-                          node=self.nodes[t_side['cname']], face=tstem['face'],
+                          node=self.nodes[node_ref], face=tstem['face'],
                           anchor=tstem.get('anchor', None), stem_name=t_phrase)
+
+        # Same as for the t_side, but with p instead
         p_side = association['p_side']
         p_phrase = StemName(
             text=TextBlock(p_side['phrase'], wrap=pstem['wrap']),
             side=pstem['stem_dir'], axis_offset=None, end_offset=None
         )
+        node_name = pstem['node_ref'][0]
+        node_ref = node_name if len(pstem['node_ref']) < 2 else f"{node_name}_{pstem['node_ref'][1]}"
         p_stem = New_Stem(stem_type='class mult', semantic=p_side['mult'] + ' mult',
-                          node=self.nodes[p_side['cname']], face=pstem['face'],
+                          node=self.nodes[node_ref], face=pstem['face'],
                           anchor=pstem.get('anchor', None), stem_name=p_phrase)
+        # There is an optional stem for an association class
         if astem:
             a_stem = New_Stem(stem_type='associative mult', semantic=association['assoc_mult'] + ' mult',
                               node=self.nodes[association['assoc_cname']], face=astem['face'], anchor=astem.get('anchor', None),
