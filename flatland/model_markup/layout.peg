@@ -48,17 +48,18 @@ path = 'L' number ('R' notch)? // Lane and rut, assume rut 0 if R not specified
 nodes_header = "nodes" nl
 span =  number '-' number / number
 node_loc = span ',' span  // Row and column
-duplicate = '(' number ')'
-node_name = name
-node_placement = indent node_name duplicate? wrap? space node_loc (space node_align)? nl
-node_block = nodes_header node_placement+
+node_name = name ('.' number)? // Optional additional placement of the same node
+grid_place = node_loc (space node_align)?
+node_placement = grid_place (space ':' space grid_place)*
+node_spec = indent node_name wrap? space node_placement nl
+node_block = nodes_header node_spec+
 
 // Face attachment
 face =  "t" / "b" / "l" / "r" // top, bottom, left or right node face
 dir = "+" / "-" // direction of increasing coord values, up and to the right is positive
 csep = space ':' space // argument separator
 anchor = notch / '*'
-node_face = face anchor? "|" name // Where a stem attaches to a node face
+node_face = face anchor? "|" node_name // Where a stem attaches to a node face
 
 // Binary connector
 tertiary_node = ',' space node_face

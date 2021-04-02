@@ -128,19 +128,30 @@ class LayoutVisitor(PTNodeVisitor):
 
     # Node
     def visit_node_loc(self, node, children):
+        """row_span col_span"""
         return {node.rule_name: children}
 
     def visit_span(self, node, children):
+        """number number?"""
         return children
 
     def visit_node_name(self, node, children):
+        """name number?"""
         return {node.rule_name: ''.join(children)}
 
+    def visit_grid_place(self, node, children):
+        """node_loc node_align?"""
+        d = {k: v for c in children for k, v in c.items()}
+        return d
+
     def visit_node_placement(self, node, children):
-        """node_name, wrap?, row, column"""
-        # Combine all child dictionaries
-        items = {k: v for d in children for k, v in d.items()}
-        return items
+        """grid_place+"""
+        return {'placements': children}
+
+    def visit_node_spec(self, node, children):
+        """node_name wrap? node_placement"""
+        ditems = {k: v for c in children for k, v in c.items()}
+        return ditems
 
     def visit_node_block(self, node, children):
         """All node placements"""
@@ -281,5 +292,3 @@ class LayoutVisitor(PTNodeVisitor):
     # Root
     def visit_diagram_layout(self, node, children):
         return children
-
-

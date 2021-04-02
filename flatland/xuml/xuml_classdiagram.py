@@ -110,22 +110,29 @@ class XumlClassDiagram:
 
     def draw_classes(self) -> Dict[str, SingleCellNode]:
         """Draw all of the classes on the class diagram"""
+
         nodes = {}
-        np = self.layout.node_placement
+        np = self.layout.node_placement # Layout data for all classes
+
         for c in self.subsys.classes:
+
+            # Get the class name from the model
             cname = c['name']
             self.logger.info(f'Processing class: {cname}')
+
+            # Get the layout data for this class
             nlayout = np[cname]
-            # there may be many layouts for a given cname
-            # We need to build np so that class name keys to a set of layouts
-            # Then draw node for each layout
+
+            # Layout data for all placements
+            # By default the class name is all on one line, but it may be wrapped across multiple
             nlayout['wrap'] = nlayout.get('wrap', 1)
+            # There is an optional keyletter (class name abbreviation) displayed as {keyletter}
+            # after the class name
             keyletter = c.get('keyletter')
             keyletter_display = f' {{{keyletter}}}' if keyletter else ''
+            # Class name and optional keyletter are in the same wrapped text block
             name_block = TextBlock(cname+keyletter_display, nlayout['wrap'])
-            h = HorizAlign[nlayout.get('halign', 'CENTER')]
-            v = VertAlign[nlayout.get('valign', 'CENTER')]
-            # If this is an imported class, append the import reference to the attribute list
+            # Class might be imported. If so add a reference to subsystem or TBD in attr compartment
             import_subsys_name = c.get('import')
             if not import_subsys_name:
                 internal_ref = []
@@ -133,34 +140,48 @@ class XumlClassDiagram:
                 internal_ref = [' ', f'{import_subsys_name.removesuffix(" TBD")} subsystem', '(not yet modeled)']
             else:
                 internal_ref = [' ', f'(See {import_subsys_name} subsystem)']
-            row_span, col_span = nlayout['node_loc']
-            # If methods were supplied, include them in content
-            # text content includes text for all compartments other than the title compartment
+            # Now assemble all the text content for each class compartment
+            # One list item per compartment in descending vertical order of display
+            # (class name, attributes and optional methods)
             text_content = [name_block.text, c['attributes'] + internal_ref ]
             if c.get('methods'):
                 text_content.append(c['methods'])
-            if len(row_span) == 1 and len(col_span) == 1:
-                nodes[cname] = SingleCellNode(
-                    node_type_name='class' if not import_subsys_name else 'imported class',
-                    content=text_content,
-                    grid=self.flatland_canvas.Diagram.Grid,
-                    row=row_span[0], column=col_span[0],
-                    local_alignment=Alignment(vertical=v, horizontal=h)
-                )
-            else:
-                # Span might be only 1 column or row
-                low_row = row_span[0]
-                high_row = low_row if len(row_span) == 1 else row_span[1]
-                left_col = col_span[0]
-                right_col = left_col if len(col_span) == 1 else col_span[1]
-                nodes[cname] = SpanningNode(
-                    node_type_name='class' if not import_subsys_name else 'imported class',
-                    content=text_content,
-                    grid=self.flatland_canvas.Diagram.Grid,
-                    low_row=low_row, high_row=high_row,
-                    left_column=left_col, right_column=right_col,
-                    local_alignment=Alignment(vertical=v, horizontal=h)
-                )
+
+            # The same class may be placed more than once so that the connectors
+            # have less bends and crossovers. This is usually, but not limited to,
+            # the placement of imported classes. Since we generate the diagram
+            # from a single model, there is no harm in duplicating the same class on a
+            # diagram.
+
+            for p in nlayout['placements']:
+                h = HorizAlign[p.get('halign', 'CENTER')]
+                v = VertAlign[p.get('valign', 'CENTER')]
+                # If this is an imported class, append the import reference to the attribute list
+                row_span, col_span = p['node_loc']
+                # If methods were supplied, include them in content
+                # text content includes text for all compartments other than the title compartment
+                if len(row_span) == 1 and len(col_span) == 1:
+                    nodes[cname] = SingleCellNode(
+                        node_type_name='class' if not import_subsys_name else 'imported class',
+                        content=text_content,
+                        grid=self.flatland_canvas.Diagram.Grid,
+                        row=row_span[0], column=col_span[0],
+                        local_alignment=Alignment(vertical=v, horizontal=h)
+                    )
+                else:
+                    # Span might be only 1 column or row
+                    low_row = row_span[0]
+                    high_row = low_row if len(row_span) == 1 else row_span[1]
+                    left_col = col_span[0]
+                    right_col = left_col if len(col_span) == 1 else col_span[1]
+                    nodes[cname] = SpanningNode(
+                        node_type_name='class' if not import_subsys_name else 'imported class',
+                        content=text_content,
+                        grid=self.flatland_canvas.Diagram.Grid,
+                        low_row=low_row, high_row=high_row,
+                        left_column=left_col, right_column=right_col,
+                        local_alignment=Alignment(vertical=v, horizontal=h)
+                    )
         return nodes
         # TODO:  Include method section in content
         # TODO:  Add support for axis offset on stem names
