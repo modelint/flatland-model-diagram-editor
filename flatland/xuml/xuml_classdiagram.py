@@ -25,6 +25,15 @@ from flatland.text.text_block import TextBlock
 
 BranchLeaves = namedtuple('BranchLeaves', 'leaf_stems local_graft next_graft floating_leaf_stem')
 
+def make_node_ref(node_ref) -> str:
+    """
+    Composes a fully qualified placement name based on a node reference in a layout file
+
+    :param node_ref:  A layout reference to a node placement
+    :return: The model elment name if it is only placed once, otherwise name suffixed by an underscore and a numbered placement
+    """
+    return node_ref[0] if len(node_ref) < 2 else f"{node_ref[0]}_{node_ref[1]}"
+
 class XumlClassDiagram:
 
     def __init__(self, xuml_model_path: Path, flatland_layout_path: Path, diagram_file_path: Path,
@@ -210,12 +219,7 @@ class XumlClassDiagram:
             text=TextBlock(t_side['phrase'], wrap=tstem['wrap']),
             side=tstem['stem_dir'], axis_offset=None, end_offset=None
         )
-        # The node_ref refers to a specific placment of a model element on the grid
-        # If the same model element appears more than once, we add a _number suffix for each additional
-        # placement
-        node_name = tstem['node_ref'][0]  # Just the model element name by itself
-        # This name is good enough unless it is an additional placement, in which case we add a numbered suffix
-        node_ref = node_name if len(tstem['node_ref']) < 2 else f"{node_name}_{tstem['node_ref'][1]}"
+        node_ref = make_node_ref(tstem['node_ref'])
         t_stem = New_Stem(stem_type='class mult', semantic=t_side['mult'] + ' mult',
                           node=self.nodes[node_ref], face=tstem['face'],
                           anchor=tstem.get('anchor', None), stem_name=t_phrase)
@@ -226,15 +230,15 @@ class XumlClassDiagram:
             text=TextBlock(p_side['phrase'], wrap=pstem['wrap']),
             side=pstem['stem_dir'], axis_offset=None, end_offset=None
         )
-        node_name = pstem['node_ref'][0]
-        node_ref = node_name if len(pstem['node_ref']) < 2 else f"{node_name}_{pstem['node_ref'][1]}"
+        node_ref = make_node_ref(pstem['node_ref'])
         p_stem = New_Stem(stem_type='class mult', semantic=p_side['mult'] + ' mult',
                           node=self.nodes[node_ref], face=pstem['face'],
                           anchor=pstem.get('anchor', None), stem_name=p_phrase)
         # There is an optional stem for an association class
         if astem:
+            node_ref = make_node_ref(astem['node_ref'])
             a_stem = New_Stem(stem_type='associative mult', semantic=association['assoc_mult'] + ' mult',
-                              node=self.nodes[association['assoc_cname']], face=astem['face'], anchor=astem.get('anchor', None),
+                              node=self.nodes[node_ref], face=astem['face'], anchor=astem.get('anchor', None),
                               stem_name=None)
         else:
             a_stem = None
@@ -317,9 +321,9 @@ class XumlClassDiagram:
         """
         One of the rare times it is a good idea to draw one – LS
         """
-        super_name = generalization['superclass']
-        trunk_node = self.nodes[super_name]
         trunk_layout = tree_layout['trunk_face']
+        node_ref = make_node_ref(trunk_layout['node_ref'])
+        trunk_node = self.nodes[node_ref]
 
         # Process trunk branch
         trunk_stem = New_Stem(stem_type='superclass', semantic='superclass', node=trunk_node,

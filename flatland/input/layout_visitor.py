@@ -209,7 +209,7 @@ class LayoutVisitor(PTNodeVisitor):
         graft = False if len(children) == 1 else True
         if 'anchor' not in face.keys():
             face['anchor'] = 0  # A Trunk face is never grafted, so an unspecified anchor is 0
-        tface = { 'trunk_face': { 'name': face.pop('name'), **face, 'graft': graft } }
+        tface = { 'trunk_face': { 'node_ref': face.pop('node_ref'), **face, 'graft': graft } }
         return tface
 
     def visit_leaf_face(self, node, children):
@@ -223,7 +223,8 @@ class LayoutVisitor(PTNodeVisitor):
         if lface['anchor'] == 'float' and graft:
             raise ConflictingGraftFloat(stem=lface['name'])
         lface['graft'] = graft
-        name = lface.pop('name')
+        node_ref = lface.pop('node_ref')
+        name = node_ref[0] if len(node_ref) == 1 else f"{node_ref[0]}_{node_ref[1]}"
         return { name: lface }  # Single element dictionary indexed by the node name
 
     def visit_leaf_faces(self, node, children):
