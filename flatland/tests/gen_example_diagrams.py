@@ -46,7 +46,7 @@ tests = {
 
 exdir = Path(__file__).parent.parent / "examples"
 
-selected_tests = ['t006']  # Selected tests to run, if any
+selected_tests = ['t001']  # Selected tests to run, if any
 #selected_tests = ['t010', 't011', 't012', 't013']  # Selected tests to run, if any
 # If no tests are selected, all of them will be run
 run_tests = selected_tests if selected_tests else list(tests.keys())
@@ -64,5 +64,7 @@ for selected_test in run_tests:
     cd = XumlClassDiagram(
         xuml_model_path=model_file_path,
         flatland_layout_path=layout_file_path,
-        diagram_file_path=diagram_file_path
+        diagram_file_path=diagram_file_path,
+        rebuild=False,
+        show_grid=False
     )

@@ -1,9 +1,9 @@
 // t001_straight_binary_horiz.mss – Two nodes and a single horizontal binary connector, 2-line wrap
 diagram class
 notation Starr
-presentation diagnostic
+presentation default
 orientation landscape
-sheet letter
+sheet tabloid
 nodes
     // node [wrap] row,col align [ right | left ] [top | bottom]
     Aircraft 1,1

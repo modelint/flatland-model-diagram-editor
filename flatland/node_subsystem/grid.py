@@ -7,7 +7,7 @@ from flatland.flatland_exceptions import CellOccupiedFE, SheetWidthExceededFE, S
 from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification as connector_layout
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
 from flatland.geometry_domain.linear_geometry import expand_boundaries, span, step_edge_distance
-from flatland.datatypes.geometry_types import Position, Rect_Size
+from flatland.datatypes.geometry_types import Position
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.datatypes.connection_types import Orientation
@@ -17,7 +17,21 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from flatland.node_subsystem.diagram import Diagram
 
-show_grid = True
+# A grid is useful to help the user determine where to place drawing elements and
+# do diagnose any unexpected drawing results
+show_grid = True  # If true, draw the grid on its own dedicated layer
+
+# Row labels graduate the vertical axis on the left
+# There is a horizontal gap between the grid edge and the label
+# and a vertical gap between each row boundary and that row's label
+# These gaps are swapped when positioning column labels
+boundary_label_gap = 30  # Max distance between row or col boundary and label
+grid_label_gap = 20  # Max distance between grid boundary and label
+min_grid_lable_gap = 2  # Min distance between grid boundary and label
+# We use the min when the grid edge is too close to the canvas edge to leave enough space for the labels
+# Rather than try to draw the labels at negative coordinates (causing an error), we just use the minimum
+# If the diagram is offset by at least the grid_label_gap in the layout file using diagram paddding
+# the min value won't be used
 
 
 class Grid:
@@ -111,8 +125,10 @@ class Grid:
                                             to_there=Position(right_extent, h + self.Diagram.Origin.y)
                                             )
                 grid_layer.add_text_line(asset='grid label',
-                                         lower_left=Position(left_extent - 20, self.Diagram.Origin.y + h + 30),
+                                         lower_left=Position(max(left_extent - grid_label_gap, min_grid_lable_gap),
+                                                             self.Diagram.Origin.y + h + boundary_label_gap),
                                          text=str(r + 1))
+                # We discard the grid_label_gap
 
             # Draw columns
             bottom_extent = self.Diagram.Origin.y
@@ -123,7 +139,8 @@ class Grid:
                                             to_there=Position(w + self.Diagram.Origin.x, top_extent)
                                             )
                 grid_layer.add_text_line(asset='grid label',
-                                         lower_left=Position(w + self.Diagram.Origin.x + 30, bottom_extent - 20),
+                                         lower_left=Position(w + self.Diagram.Origin.x + boundary_label_gap,
+                                                             max(bottom_extent - grid_label_gap, min_grid_lable_gap)),
                                          text=str(c + 1))
 
             # Draw diagram boundary
