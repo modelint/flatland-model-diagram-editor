@@ -5,9 +5,7 @@ presentation diagnostic
 orientation landscape
 sheet letter
 nodes
-    // node [wrap] row,col align [ right | left ] [top | bottom]
-    Aircraft 1,1
+    Aircraft 1,1  // Both nodes in same column
     Pilot 3,1
 connectors
-    // <side><connector name>[>bend] : <side><lines> <face><anchor>|<node> : <side><lines> <face><anchor>|<node>
-    -R1 : +/1 t|Aircraft : +/2 b*|Pilot
+    -R1 : +/1 t|Aircraft : +/2 b*|Pilot // Pilot stem name is wrapped on two lines with connector name to the left

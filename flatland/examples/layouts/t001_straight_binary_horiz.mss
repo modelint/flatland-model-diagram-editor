@@ -3,7 +3,7 @@ diagram class
 notation Starr
 presentation default
 orientation landscape
-sheet tabloid
+sheet letter
 nodes
     // node [wrap] row,col align [ right | left ] [top | bottom]
     Aircraft 1,1

@@ -87,7 +87,8 @@ class Tablet:
     def add_layer(self, name: str, presentation: str, drawing_type: str) -> Optional[Layer]:
         """Add a new layer if not already instantiated and return it"""
         if not self.layers.get(name):
-            self.layer_order.append(name)
+            if name not in self.layer_order:
+                self.layer_order.append(name)
             self.layers[name] = Layer(name=name, tablet=self, presentation=presentation, drawing_type=drawing_type)
             return self.layers[name]
         else:

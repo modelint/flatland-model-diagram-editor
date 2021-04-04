@@ -70,6 +70,7 @@ class Layer:
     def render(self):
         """Renders all Elements on this Layer"""
 
+        self.logger.info(f'Rendering layer: {self.Name}')
         # For now, always assume output to cairo
         self.Tablet.Context.set_line_join(cairo.LINE_JOIN_ROUND)
         # Rendering order determines what can potentially overlap on this Layer, so order matters

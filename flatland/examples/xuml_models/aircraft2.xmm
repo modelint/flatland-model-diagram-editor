@@ -3,15 +3,15 @@ subsystem Test
 class Aircraft
 attributes
     Tail number: ACAO {I}
-    Altitude
+    Altitude : Altitude MSL
     Airspeed : Knots
-    Heading
+    Heading : Compass
 --
 class Pilot
 attributes
-    Name : Name {I}
-    Size : Sheet Size
-    Units : US Metric
+    ID : Pilot ID {I}
+    Hours flown : Hours
+    Aircraft {R1}
 --
 relationships
     R1
