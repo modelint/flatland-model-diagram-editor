@@ -32,6 +32,10 @@ def parse(cl_input):
                         help='Copy the project documentation directory into the local directory')
     parser.add_argument('-E', '--examples', action='store_true',
                         help='Create a directory of examples in the current directory')
+    parser.add_argument('-L', '--log', action='store_true',
+                        help='Generate a diagnostic flatland.log file')
+    parser.add_argument('-N', '--nodes_only', action='store_true',
+                        help='Do not draw any connectors. Helpful to diagnose connector failures due to bad node placement.')
     parser.add_argument('-V', '--version', action='store_true',
                         help='Print the current version of flatland')
     parser.add_argument('-G', '--grid', action='store_true',
@@ -106,11 +110,15 @@ def main():
         flatland_layout_path=layout_path,
         diagram_file_path=diagram_path,
         rebuild=args.rebuild,
-        show_grid=args.grid
+        show_grid=args.grid,
+        nodes_only=args.nodes_only
     )
-
     logger.info("No problemo")  # We didn't die on an exception, basically
 
+    if not args.log:
+        # If we didn't crash and no log is explicitly requested, delete it
+        logpath = Path("flatland.log")
+        logpath.unlink(missing_ok=True)
 
 if __name__ == "__main__":
     main()

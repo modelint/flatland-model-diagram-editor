@@ -47,9 +47,21 @@ class LayoutVisitor(PTNodeVisitor):
         """Keyword argument"""
         return children[0]
 
+    def visit_tpad(self, node, children):
+        return {'top': children[0]}
+
+    def visit_bpad(self, node, children):
+        return {'bottom': children[0]}
+
+    def visit_rpad(self, node, children):
+        return {'right': children[0]}
+
+    def visit_lpad(self, node, children):
+        return {'left': children[0]}
+
     def visit_padding(self, node, children):
         """Keyword argument"""
-        d = dict(zip(['left', 'bottom', 'top', 'right'], children))
+        d = {k: v for c in children for k, v in c.items()}
         return d
 
     def visit_frame(self, node, children):

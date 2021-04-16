@@ -3,16 +3,15 @@ diagram.py
 """
 from flatland.node_subsystem.diagram_type import DiagramType
 from flatland.flatland_exceptions import NotationUnsupportedForDiagramType, UnsupportedDiagramType
-from flatland.datatypes.geometry_types import Position, Padding, Rect_Size
+from flatland.datatypes.geometry_types import Position, Rect_Size
 from flatland.node_subsystem.grid import Grid
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 from flatland.database.flatlanddb import FlatlandDB as fdb
 from sqlalchemy import select, and_
 
 if TYPE_CHECKING:
     from flatland.node_subsystem.canvas import Canvas
     from flatland.drawing_domain.layer import Layer
-    from flatland.datatypes.geometry_types import Padding
 
 
 class Diagram:
@@ -34,7 +33,7 @@ class Diagram:
     """
 
     def __init__(self, canvas: 'Canvas', diagram_type_name: str, layer: 'Layer', notation_name: str,
-                 padding: Padding, show_grid: bool):
+                 padding: Dict[str, int], show_grid: bool):
         """
         Constructor
 
@@ -73,12 +72,12 @@ class Diagram:
         self.Grid = Grid(diagram=self, show=show_grid)  # Start with an empty grid
         self.Padding = padding
         self.Origin = Position(
-            x=self.Canvas.Margin.left + self.Padding.left,
-            y=self.Canvas.Margin.bottom + self.Padding.bottom
+            x=self.Canvas.Margin.left + self.Padding.get('left', 0),
+            y=self.Canvas.Margin.bottom + self.Padding.get('bottom', 0)
         )
         self.Size = Rect_Size(  # extent from origin to right or upper canvas margin
-            width=self.Canvas.Size.width - self.Origin.x - self.Canvas.Margin.right,
-            height=self.Canvas.Size.height - self.Origin.y - self.Canvas.Margin.top
+            width=self.Canvas.Size.width - self.Origin.x - max(self.Canvas.Margin.right, self.Padding.get('right', 0)),
+            height=self.Canvas.Size.height - self.Origin.y - max(self.Canvas.Margin.top, self.Padding.get('top', 0))
         )
 
     def render(self):

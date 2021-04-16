@@ -13,6 +13,7 @@ from flatland.node_subsystem.diagram import Diagram
 from flatland.drawing_domain.tablet import Tablet
 from flatland.sheet_subsystem.sheet import Sheet, Group
 from flatland.decoration_subsystem.symbol import Symbol
+from typing import Dict
 
 # All sheet and canvas related constants are kept together here for easy review and editing
 points_in_cm = 28.3465
@@ -40,7 +41,7 @@ class Canvas:
     """
 
     def __init__(self, diagram_type: str, presentation: str, notation: str, standard_sheet_name: str, orientation: str,
-                 diagram_padding: Padding, show_grid: bool, drawoutput=sys.stdout.buffer):
+                 diagram_padding: Dict[str, int], show_grid: bool, drawoutput=sys.stdout.buffer):
         """
         Constructor
 

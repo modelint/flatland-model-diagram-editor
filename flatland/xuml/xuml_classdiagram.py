@@ -14,7 +14,7 @@ from flatland.sheet_subsystem.frame import Frame
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.connector_subsystem.tree_connector import TreeConnector
-from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign, Padding
+from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
 from flatland.datatypes.command_interface import New_Stem, New_Path, New_Trunk_Branch, New_Offshoot_Branch, New_Branch_Set
 from typing import Optional, Dict
 from collections import namedtuple
@@ -37,7 +37,7 @@ def make_node_ref(node_ref) -> str:
 class XumlClassDiagram:
 
     def __init__(self, xuml_model_path: Path, flatland_layout_path: Path, diagram_file_path: Path,
-                 rebuild: bool, show_grid: bool):
+                 rebuild: bool, show_grid: bool, nodes_only: bool):
         """Constructor"""
         self.logger = logging.getLogger(__name__)
         self.xuml_model_path = xuml_model_path
@@ -85,7 +85,7 @@ class XumlClassDiagram:
         self.nodes = self.draw_classes()
 
         # If there are any relationships, draw them
-        if self.subsys.rels:
+        if self.subsys.rels and not nodes_only:
             cp = self.layout.connector_placement
             for r in self.subsys.rels:  # r is the model data without any layout info
                 rnum = r['rnum']
@@ -101,18 +101,13 @@ class XumlClassDiagram:
     def create_canvas(self) -> Canvas:
         """Create a blank canvas"""
         lspec = self.layout.layout_spec
-        if not lspec.padding:
-            pad_l, pad_b, pad_t, pad_r = 0, 0, 0, 0
-        else:
-            pad_l, pad_b, pad_t, pad_r = lspec.padding.values()
-        padding = Padding(top=pad_t, bottom=pad_b, left=pad_l, right=pad_r)
         return Canvas(
             diagram_type=lspec.dtype,
             presentation=lspec.pres,
             notation=lspec.notation,
             standard_sheet_name=lspec.sheet,
             orientation=lspec.orientation,
-            diagram_padding=padding,
+            diagram_padding=lspec.padding,
             drawoutput=self.diagram_file_path,
             show_grid=self.show_grid,
         )
