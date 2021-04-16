@@ -112,9 +112,9 @@ class Stem:
 
             diagram = self.Connector.Diagram
             if name_x < diagram.Origin.x or \
-                    name_x > diagram.Canvas.Size.width - diagram.Padding.right or \
+                    name_x > diagram.Origin.x + diagram.Size.width or \
                     name_y < diagram.Origin.y or \
-                    name_y > diagram.Canvas.Size.height - diagram.Padding.top:
+                    name_y > diagram.Origin.y + diagram.Size.height:
                 raise OutofDiagramBounds(object_type='text block', x_value=name_x, y_value=name_y)
 
             layer.add_text_block(asset=self.Stem_type.Name + ' name', lower_left=Position(name_x, name_y),
