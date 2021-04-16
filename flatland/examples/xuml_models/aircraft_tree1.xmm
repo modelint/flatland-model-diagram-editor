@@ -4,22 +4,21 @@ subsystem Test, T
 class Aircraft, AC
 attributes
     Tail number: ACAO {I}
-    Altitude
+    Altitude : Altitude MSL
     Airspeed : Knots
-    Heading
+    Heading : Compass
 --
-class Helicopter
+class Helicopter, H
 attributes
-    ID : Pilot ID {I}
-    Name : Call Sign
-    Experience : Hours
-    Aircraft {R13}
+    Tail number {I, R1}
+    Landing gear : Gear
+    Landing pad {R4}
 --
 class Fixed Wing, FW
 attributes
-    Aircraft {I, R1}
-    Pilot {I2, R1}
-    Flight time : Duration
+    Tail number {I, R1}
+    Weight : Category
+    Runway {R5}
 --
 relationships
     R1

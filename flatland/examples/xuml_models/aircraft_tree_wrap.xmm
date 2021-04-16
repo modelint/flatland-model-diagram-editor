@@ -1,0 +1,25 @@
+/// aircraft_tree_wrap - to test line wrapping on long class names
+
+subsystem Test, T
+class Drone
+attributes
+    ID: Remote ID {I}
+    Altitude : Altitude MSL
+    Airspeed : Knots
+    Heading : Compass
+--
+class Remote Controlled Fixed Wing Drone, RCFD
+attributes
+    ID {I, R103}
+--
+class Remote Controlled Rotary Wing Drone, RCRD
+attributes
+    ID {I, R103}
+    Rotary configuration : Rotor Style
+--
+relationships
+    R103
+    Drone +
+        Remote Controlled Fixed Wing Drone
+        Remote Controlled Rotary Wing Drone
+--

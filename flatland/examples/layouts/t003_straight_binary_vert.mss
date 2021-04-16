@@ -1,7 +1,7 @@
 // t003_straight_binary_vert.mss – Two nodes and a single horizontal binary connector, 2-line wrap
 diagram class
 notation Starr
-presentation diagnostic
+presentation default
 orientation landscape
 sheet letter
 nodes

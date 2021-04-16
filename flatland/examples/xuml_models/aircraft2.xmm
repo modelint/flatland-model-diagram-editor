@@ -1,8 +1,12 @@
-/// aircraft 2 – One binary, non-composite symbols
+/// Hello world aircraft class model example
+metadata
+    Title : Hello World Example
+    Author : Leon Starr
+    Organization : Model Integration, LLC
 subsystem Test
-class Aircraft
+class Aircraft, AC
 attributes
-    Tail number: ACAO {I}
+    Tail number : ACAO {I}
     Altitude : Altitude MSL
     Airspeed : Knots
     Heading : Compass
