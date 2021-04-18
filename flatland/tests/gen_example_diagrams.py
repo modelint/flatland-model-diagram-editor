@@ -25,6 +25,7 @@ tests = {
     't005': ('aircraft2', 't005_bending_binary_one'),
     't006': ('aircraft2', 't006_reverse_straight_binary_horiz'),
     't007': ('aircraft2', 't007_straight_binary_horiz_offset'),
+    't008': ('widenode2', 't008_wide_node_stack'),
     't010': ('fat_class', 't010_spanning_node_ll_corner'),
     't011': ('tall_class', 't011_spanning_node_middle_tall'),
     't012': ('fat_class', 't012_spanning_node_middle_wide'),
@@ -64,7 +65,7 @@ logger.info(f'Flatland version: {version}')
 
 exdir = Path(__file__).parent.parent / "examples"
 
-selected_tests = ['t025']  # Selected tests to run, if any
+selected_tests = ['t008']  # Selected tests to run, if any
 #selected_tests = ['t010', 't011', 't012', 't013']  # Selected tests to run, if any
 # If no tests are selected, all of them will be run
 run_tests = selected_tests if selected_tests else list(tests.keys())
@@ -84,5 +85,6 @@ for selected_test in run_tests:
         flatland_layout_path=layout_file_path,
         diagram_file_path=diagram_file_path,
         rebuild=False,
-        show_grid=False
+        show_grid=True,
+        nodes_only=False
     )

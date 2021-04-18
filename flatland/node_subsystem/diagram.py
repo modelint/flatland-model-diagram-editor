@@ -70,7 +70,7 @@ class Diagram:
             # Create the grid layer
             self.Canvas.Tablet.add_layer(name='grid', presentation='default', drawing_type='Grid Diagnostic')
         self.Grid = Grid(diagram=self, show=show_grid)  # Start with an empty grid
-        self.Padding = padding
+        self.Padding = padding if padding else {}
         self.Origin = Position(
             x=self.Canvas.Margin.left + self.Padding.get('left', 0),
             y=self.Canvas.Margin.bottom + self.Padding.get('bottom', 0)

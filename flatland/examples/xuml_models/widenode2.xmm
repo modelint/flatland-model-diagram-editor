@@ -1,0 +1,21 @@
+/// Wide node 2 - to test grid resizing with a single wide node
+metadata
+    Title : Grid Resize Test
+    Author : Leon Starr
+    Organization : Model Integration, LLC
+subsystem Test
+class Non Traveling Ego Vehicle, EVNT
+attributes
+    Ego {I, R156}
+--
+class Traveling Ego Vehicle, EVTRAV
+attributes
+    Ego {I, R156}
+    LCS {R158}
+    LCS road segment {R158c}
+--
+methods
+    This is a really long method that just keeps
+    on going
+    And here is one that is even longer and it stretches out to here
+--
