@@ -116,6 +116,6 @@ class LayoutParser:
 
 if __name__ == "__main__":
     # For diagnostics
-    layout_path = Path(__file__).parent.parent / 'Test/t052_rbranch_vert_corner.mss'
+    layout_path = Path(__file__).parent.parent / 'Test/t052_rbranch_vert_corner.mls'
     x = LayoutParser(layout_file_path=layout_path, debug=True)
     x.parse()

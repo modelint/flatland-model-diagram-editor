@@ -24,7 +24,7 @@ def parse(cl_input):
     parser = argparse.ArgumentParser(description='Flatland model diagram generator')
     parser.add_argument('-m', '--model', action='store', default='model.xmm',
                         help='xuml model file name defining model connectivity without any layout information')
-    parser.add_argument('-l', '--layout', action='store', default='normal.mss',
+    parser.add_argument('-l', '--layout', action='store', default='normal.mls',
                         help='Flatland layout file defining all layout information with light references to model file.')
     parser.add_argument('-d', '--diagram', action='store', default='diagram.pdf',
                         help='Name of file to generate, .pdf extension automatically added')

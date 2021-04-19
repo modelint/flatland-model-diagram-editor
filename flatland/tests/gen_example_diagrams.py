@@ -73,7 +73,7 @@ run_tests = selected_tests if selected_tests else list(tests.keys())
 for selected_test in run_tests:
     # We using the selected_test key, we compose our model and layout file names
     model_file_path = (exdir / "xuml_models" / tests[selected_test][0]).with_suffix(".xmm")
-    layout_file_path = (exdir / "layouts" / tests[selected_test][1]).with_suffix(".mss")
+    layout_file_path = (exdir / "layouts" / tests[selected_test][1]).with_suffix(".mls")
 
     # The diagram output will always go into this file for visual inspection
     diagram_file_path = (exdir / "diagrams" / selected_test).with_suffix(".pdf")
