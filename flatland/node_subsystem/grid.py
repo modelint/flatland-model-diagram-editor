@@ -244,8 +244,8 @@ class Grid:
 
         # Now we add rows and columns that will actually be spanned by the node
         # These are sized based on the space required to accommodate this node
-        [self.add_row(padded_node_height) for _ in range(rows_to_add - spacer_rows_to_add)]
-        [self.add_column(padded_node_width) for _ in range(cols_to_add - spacer_cols_to_add)]
+        [self.add_row(default_cell_height) for _ in range(rows_to_add - spacer_rows_to_add)]
+        [self.add_column(default_cell_width) for _ in range(cols_to_add - spacer_cols_to_add)]
 
         # Assign each cell to this node
         # ---
@@ -263,14 +263,17 @@ class Grid:
         top_boundary = self.Row_boundaries[node.High_row]  # Row_boundaries are total rows + 1 to include 0 boundary
         assert node.Low_row >= 1, "Low row of node span is less than 1"  # Should be validated in Spanning Node
         bottom_boundary = self.Row_boundaries[node.Low_row - 1]
-        extra_height_required = max(0, padded_node_height - top_boundary - bottom_boundary)
+        span_height = top_boundary - bottom_boundary
+        extra_height_required = max(0, padded_node_height - span_height)
 
         # How much of the padded node width is accommodated by existing columns?
         assert node.Right_column < len(self.Col_boundaries), "Right col of span exceeds outer grid boundary"
         right_boundary = self.Col_boundaries[node.Right_column]  # Similar to row boundaries above
         assert node.Left_column >= 1, "Left column of node span is less than 1"
         left_boundary = self.Col_boundaries[node.Left_column - 1]
-        extra_width_required = max(0, padded_node_width - right_boundary - left_boundary)
+        # Node width minus the col span width.  Zero if the node fits as is
+        span_width = right_boundary - left_boundary
+        extra_width_required = max(0, padded_node_width - span_width)
 
         # How much height would be added by default size extra rows?
         if extra_height_required:

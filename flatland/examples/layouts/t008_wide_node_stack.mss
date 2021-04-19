@@ -5,5 +5,5 @@ presentation default
 orientation landscape
 sheet letter
 nodes
-    Traveling Ego Vehicle 1,1-2
-    Non Traveling Ego Vehicle 3,2
+    Traveling Ego Vehicle 2,1-2
+    Non Traveling Ego Vehicle 1,1
