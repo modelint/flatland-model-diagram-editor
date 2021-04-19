@@ -263,14 +263,14 @@ class Grid:
         top_boundary = self.Row_boundaries[node.High_row]  # Row_boundaries are total rows + 1 to include 0 boundary
         assert node.Low_row >= 1, "Low row of node span is less than 1"  # Should be validated in Spanning Node
         bottom_boundary = self.Row_boundaries[node.Low_row - 1]
-        extra_height_required = min(0, top_boundary - bottom_boundary - padded_node_height)
+        extra_height_required = max(0, padded_node_height - top_boundary - bottom_boundary)
 
         # How much of the padded node width is accommodated by existing columns?
         assert node.Right_column < len(self.Col_boundaries), "Right col of span exceeds outer grid boundary"
         right_boundary = self.Col_boundaries[node.Right_column]  # Similar to row boundaries above
         assert node.Left_column >= 1, "Left column of node span is less than 1"
         left_boundary = self.Col_boundaries[node.Left_column - 1]
-        extra_width_required = min(0, right_boundary - left_boundary - padded_node_width) * -1
+        extra_width_required = max(0, padded_node_width - right_boundary - left_boundary)
 
         # How much height would be added by default size extra rows?
         if extra_height_required:
@@ -278,7 +278,7 @@ class Grid:
             extra_height_per_row = extra_height_required / row_span
             for b in range(node.Low_row, node.High_row+1):
                 # Move this row boundary up by required distance and then offset all those above it
-                self.Col_boundaries = expand_boundaries(
+                self.Row_boundaries = expand_boundaries(
                     boundaries=self.Row_boundaries, start_boundary=b, expansion=extra_height_per_row
                 )
 
@@ -291,7 +291,6 @@ class Grid:
                     boundaries=self.Col_boundaries, start_boundary=b, expansion=extra_width_per_col
                 )
         # ---
-
 
     def add_lane(self, lane, orientation: Orientation):
         """
