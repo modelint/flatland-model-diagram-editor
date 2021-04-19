@@ -264,6 +264,7 @@ class Grid:
         assert node.Low_row >= 1, "Low row of node span is less than 1"  # Should be validated in Spanning Node
         bottom_boundary = self.Row_boundaries[node.Low_row - 1]
         span_height = top_boundary - bottom_boundary
+        assert span_height > 0, "Zero or negative span height"
         extra_height_required = max(0, padded_node_height - span_height)
 
         # How much of the padded node width is accommodated by existing columns?
@@ -273,6 +274,7 @@ class Grid:
         left_boundary = self.Col_boundaries[node.Left_column - 1]
         # Node width minus the col span width.  Zero if the node fits as is
         span_width = right_boundary - left_boundary
+        assert span_width > 0, "Zero or negative span width"
         extra_width_required = max(0, padded_node_width - span_width)
 
         # How much height would be added by default size extra rows?

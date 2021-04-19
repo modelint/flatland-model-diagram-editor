@@ -4,10 +4,10 @@ metadata
     Author : Leon Starr
     Organization : Model Integration, LLC
 subsystem Test
-class Non Traveling Ego Vehicle, EVNT
-attributes
-    Ego {I, R156}
---
+///class Non Traveling Ego Vehicle, EVNT
+///attributes
+///    Ego {I, R156}
+///--
 class Traveling Ego Vehicle, EVTRAV
 attributes
     Ego {I, R156}
