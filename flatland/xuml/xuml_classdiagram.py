@@ -160,6 +160,8 @@ class XumlClassDiagram:
             for i, p in enumerate(nlayout['placements']):
                 h = HorizAlign[p.get('halign', 'CENTER')]
                 v = VertAlign[p.get('valign', 'CENTER')]
+                expansion_percent = max(min(100, nlayout.get('node_expansion', 0)), 1)
+                expansion_ratio = round(expansion_percent / 100, 2)
                 # If this is an imported class, append the import reference to the attribute list
                 row_span, col_span = p['node_loc']
                 # If methods were supplied, include them in content
@@ -175,7 +177,8 @@ class XumlClassDiagram:
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
                         row=row_span[0], column=col_span[0],
-                        local_alignment=Alignment(vertical=v, horizontal=h)
+                        local_alignment=Alignment(vertical=v, horizontal=h),
+                        expansion=expansion_ratio
                     )
                 else:
                     # Span might be only 1 column or row
@@ -189,7 +192,8 @@ class XumlClassDiagram:
                         grid=self.flatland_canvas.Diagram.Grid,
                         low_row=low_row, high_row=high_row,
                         left_column=left_col, right_column=right_col,
-                        local_alignment=Alignment(vertical=v, horizontal=h)
+                        local_alignment=Alignment(vertical=v, horizontal=h),
+                        expansion=expansion_ratio
                     )
         return nodes
         # TODO:  Add support for axis offset on stem names

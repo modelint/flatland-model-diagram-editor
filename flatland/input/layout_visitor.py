@@ -144,6 +144,10 @@ class LayoutVisitor(PTNodeVisitor):
         return path  # { path: { lane: <lane_num>, rut: <rut_displacement> }
 
     # Node
+    def visit_node_expansion(self, node, children):
+        """percent expansion"""
+        return {node.rule_name: children[0]}
+
     def visit_node_loc(self, node, children):
         """row_span col_span"""
         return {node.rule_name: children}

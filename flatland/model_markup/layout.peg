@@ -55,7 +55,8 @@ span =  number '-' number / number
 node_loc = span ',' span  // Row and column
 grid_place = node_loc (space node_align)? // Location in grid where a node will appear
 node_placement = grid_place (space ':' space grid_place)*  // One or more such locations
-node_spec = indent node_name wrap? space node_placement nl
+node_expansion = number '%'
+node_spec = indent node_name wrap? (space node_expansion)? space node_placement nl
 node_block = nodes_header node_spec+
 
 // Face attachment

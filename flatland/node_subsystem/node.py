@@ -28,7 +28,7 @@ class Node:
     """
 
     def __init__(self, node_type_name: str, content: List[List[str]], grid: 'Grid',
-                 local_alignment: Optional[Alignment]):
+                 expansion: float, local_alignment: Optional[Alignment]):
         """
         Constructor
 
@@ -38,6 +38,7 @@ class Node:
         :param local_alignment: Overrides default alignment within Cell or Cell range
         """
         self.logger = logging.getLogger(__name__)
+        self.Expansion = expansion
         self.Grid = grid
         try:
             self.Node_type = self.Grid.Diagram.Diagram_type.NodeTypes[node_type_name]
@@ -71,9 +72,10 @@ class Node:
         max_width = max([r.width for r in crects])
         # Height is the sum of all compartment heights
         # Ignore the default node type height for now
+        expanded_width = round(max_width + max_width * self.Expansion, 2)
         node_height = sum([r.height for r in crects])
         # Return a rectangle with the
-        return Rect_Size(height=node_height, width=max_width)
+        return Rect_Size(height=node_height, width=expanded_width)
 
     def Face_position(self, face: NodeFace):
         """
