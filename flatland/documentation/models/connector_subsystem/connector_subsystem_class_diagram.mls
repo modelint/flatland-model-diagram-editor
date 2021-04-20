@@ -1,0 +1,39 @@
+// Flatland Connector Subsystem Class Diagram
+// Model layout sheet
+
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet D
+padding l100 b350
+frame OS Engineer
+frame_presentation default
+nodes
+    Anchored Stem 4,7-8
+    Annotation 7,10
+    Diagram 7,1
+    Binary Connector 5,3
+    Connector 7,3
+    Connector Style 10,2
+    Connector Type 9,3
+    Diagram Notation 9,1
+    Floating Stem 5-6,7-8
+    Floating Binary Stem 6,6
+    Floating Leaf Stem 5,6
+    Node 4,11
+    Rendered Label 6,11
+    Rendered Symbol 6,13
+    Stem 4-5,9
+    Stem Type 9,8-9
+    Tree Connector 5,4
+    Unary Connector 5,2
+connectors
+    +R51 : -/1 b*|Connector Type : -/1 t|Connector
+    -R53 : -/1 b+2|Stem Type : +/1 r|Connector, t-2|Stem
+    +R59 : -/2 r|Connector Type : +/2 l*|Stem Type
+    -R60 : +/2 r|Diagram Notation : -/2 l*|Connector Type, b|Connector Style
+    -R63 : +/1 r|Diagram : +/1 l*|Connector
+    +R66 : l|Floating Stem { r|Floating Binary Stem, r|Floating Leaf Stem }
+    +R67 : l|Stem { r|Floating Stem, r|Anchored Stem }
+    +R69 : b|Connector { t|Unary Connector, t|Binary Connector, t|Tree Connector }

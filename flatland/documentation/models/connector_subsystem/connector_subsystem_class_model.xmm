@@ -1,0 +1,172 @@
+/// Flatland Node Subsystem
+/// Executable model markup
+metadata
+    Title : Flatland Node Subsystem Class Diagram
+    Author : Leon Starr
+    Document ID : mint.flatland3.td.1a
+    Version : 1.3.1
+    Modification date : April 19, 2021
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint_large
+subsystem Connector
+class Anchored Stem
+attributes
+    ID {I, R67}
+    Connector {I, R67}
+    Node {I2, R67}
+    Face {I2, R67}
+    Anchor position : Face Placement {I2}
+--
+class Annotation
+attributes
+    Stem type {I, R54}
+    Semantic {I, R54}
+    Diagram type {I, R54}
+    Notation {I, R54}
+    Label {R54}
+    Default stem side : Plus Minus
+    Vertical stem offset : Distance
+    Horizontal stem offset : Distance
+--
+class Diagram <import:Node>
+attributes
+    ID {I}
+--
+class Binary Connector <import:Binary Connector>
+attributes
+    ID {I, R69}
+--
+class Connector
+attributes
+    ID : Connector ID {I}
+    Diagram {R63}
+    Connector type {R51}
+    Diagram type {R51}
+--
+class Connector Style
+attributes
+    Connector type {I, R60}
+    Diagram type {I, R60}
+    Notation {I, R60}
+    Stroke : Stroke Style
+--
+class Connector Type
+attributes
+    Name : Name {I}
+    Diagram type {I, R50}
+    About : Description
+    Geometry : Connection Geometry
+--
+class Diagram Notation <import:Node>
+attributes
+    Diagram type {I}
+    Notation {I}
+--
+class Floating Stem
+attributes
+    ID {I, R67}
+    Connector {I, R67}
+--
+class Floating Binary Stem <import:Binary Connector>
+attributes
+    ID {I, R66, R109}
+    Connector {I, R66, R109}
+--
+class Floating Leaf Stem <import:Tree Connector>
+attributes
+    ID {I, R66, R150}
+    Connector {I, R66, R150}
+--
+class Node <import:Node>
+attributes
+    ID {I}
+--
+class Rendered Label
+attributes
+    Stem {I, R68}
+    Connector {I, R68}
+    Location : Position {I2}
+    Stem type {R68}
+    Semantic {R68}
+    Diagram type {R68}
+    Notation {R68}
+--
+class Rendered Symbol
+attributes
+    Stem {I, R61}
+    Connector {I, R61}
+    Stem type {I, R61}
+    Semantic {I, R61}
+    Diagram type {I, R61}
+    Notation {I, R61}
+    End : Stem End {I, R61}
+    Growth : Position
+--
+class Stem
+attributes
+    ID : Nominal {I, I2*}
+    Connector {I, I2*, R53}
+    Stem type {R53}
+    Semantic {R56}
+    Diagram type {R53, R56c}
+    Notation {R56c}
+    Node {I2*, I3, R52}
+    Face : Node Face {I2*, I3}
+    Root end : Position {I3}
+    Vine end : Position
+--
+class Stem Type
+attributes
+    Name : Name {I}
+    Diagram type {I, R59}
+    About : Description
+    Connector type {R59}
+--
+class Tree Connector <import:Tree Connector>
+attributes
+    ID {I, R69}
+--
+class Unary Connector
+attributes
+    ID {I, R69}
+--
+relationships
+    R51
+    is specified by, 1 Connector Type
+    specifies, Mc Connector
+--
+    R53
+    sprouts in, Mc Connector
+    sprouts as, M Stem Type
+    M Stem
+--
+    R59
+    defines node connections for, 1 Connector Type
+    connects nodes with, M Stem
+--
+    R60
+    styles lines of, Mc Connector Type
+    lines are styled in, Mc Diagram Notation
+    1 Connector Style
+--
+    R63
+    appears on, 1 Diagram
+    shows, Mc Connector
+--
+    R66
+    Floating Stem +
+        Floating Binary Stem
+        Floating Leaf Stem
+--
+    R67
+    Stem +
+        Floating Stem
+        Anchored Stem
+--
+    R69
+    Connector +
+        Unary Connector
+        Binary Connector
+        Tree Connector
+--
