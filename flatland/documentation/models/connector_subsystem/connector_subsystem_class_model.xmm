@@ -18,6 +18,16 @@ attributes
     Face {I2, R67}
     Anchor position : Face Placement {I2}
 --
+class Anchored Binary Stem <import:Binary Connector>
+attributes
+    ID {I, R65}
+    Connector {I, R65}
+--
+class Anchored Tree Stem <import:Tree Connector>
+attributes
+    ID {I, R65}
+    Connector {I, R65}
+--
 class Annotation
 attributes
     Stem type {I, R54}
@@ -28,10 +38,6 @@ attributes
     Default stem side : Plus Minus
     Vertical stem offset : Distance
     Horizontal stem offset : Distance
---
-class Diagram <import:Node>
-attributes
-    ID {I}
 --
 class Binary Connector <import:Binary Connector>
 attributes
@@ -58,10 +64,26 @@ attributes
     About : Description
     Geometry : Connection Geometry
 --
+class Decorated Stem
+attributes
+    Stem type {I, R55}
+    Semantic {I, R55}
+    Diagram type {I, R55}
+    Notation {I, R55}
+    Stroke : Stroke Style
+--
+class Diagram <import:Node>
+attributes
+    Name {I}
+--
 class Diagram Notation <import:Node>
 attributes
     Diagram type {I}
     Notation {I}
+--
+class Diagram Type <import:Node>
+attributes
+    Name {I}
 --
 class Floating Stem
 attributes
@@ -77,6 +99,15 @@ class Floating Leaf Stem <import:Tree Connector>
 attributes
     ID {I, R66, R150}
     Connector {I, R66, R150}
+--
+class Free Stem
+attributes
+    ID {I, R65}
+    Connector {I, R65}
+--
+class Label <import:Decoration>
+attributes
+    Name {I}
 --
 class Node <import:Node>
 attributes
@@ -116,12 +147,41 @@ attributes
     Root end : Position {I3}
     Vine end : Position
 --
+class Stem End Decoration
+attributes
+    Stem type {I, R58}
+    Semantic {I, R58}
+    Diagram type {I, R58}
+    Notation {I, R58}
+    Symbol {I, R58}
+    End : Root Vine {I}
+--
+class Stem Semantic
+attributes
+    Name : Name {I}
+    Diagram type {I, R57}
+--
+class Stem Signification
+attributes
+    Stem type {I, R62}
+    Semantic {I, R62}
+    Diagram type {I, R62}
+--
 class Stem Type
 attributes
     Name : Name {I}
     Diagram type {I, R59}
     About : Description
     Connector type {R59}
+--
+class Symbol <import:Decoration>
+attributes
+    Name {I}
+--
+class Ternary Stem <import:Binary Connector>
+attributes
+    ID {I, R65}
+    Connector {I, R65}
 --
 class Tree Connector <import:Tree Connector>
 attributes
@@ -132,14 +192,41 @@ attributes
     ID {I, R69}
 --
 relationships
+    R50
+    can draw, Mc Connector Type
+    can be drawn in, 1 Diagram Type
+--
     R51
     is specified by, 1 Connector Type
     specifies, Mc Connector
+--
+    R52
+    is source of, Mc Stem
+    is rooted in, 1 Node
 --
     R53
     sprouts in, Mc Connector
     sprouts as, M Stem Type
     M Stem
+--
+    R54
+    is annotated by, 1c Label
+    annotates, Mc Decorated Stem
+    1 Annotation
+--
+    R55
+    decorates, Mc Stem Signification
+    is decorated in, Mc Diagram Notation
+    1 Decorated Stem
+--
+    R57
+    is context for, Mc Stem Semantic
+    has meaning in, 1 Diagram Type
+--
+    R58
+    terminates, Mc Decorated Stem
+    is terminated by, Mc Symbol
+    M Stem End Decoration
 --
     R59
     defines node connections for, 1 Connector Type
@@ -150,9 +237,26 @@ relationships
     lines are styled in, Mc Diagram Notation
     1 Connector Style
 --
+    R61
+    renders, Mc Stem End Decoration
+    is rendered at end of, Mc Stem
+    1 Rendered Symbol
+--
+    R62
+    may be signified by, M Stem Type
+    may signify, M Stem Semantic
+    1 Stem Signification
+--
     R63
     appears on, 1 Diagram
     shows, Mc Connector
+--
+    R65
+    Anchored Stem +
+        Anchored Binary Stem
+        Ternary Stem
+        Anchored Tree Stem
+        Free Stem
 --
     R66
     Floating Stem +
@@ -163,6 +267,11 @@ relationships
     Stem +
         Floating Stem
         Anchored Stem
+--
+    R68
+    renders, 1c Annotation
+    is rendered near, Mc Stem
+    1 Rendered Label
 --
     R69
     Connector +

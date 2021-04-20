@@ -10,30 +10,51 @@ padding l100 b350
 frame OS Engineer
 frame_presentation default
 nodes
+    Anchored Binary Stem 2,7
     Anchored Stem 4,7-8
-    Annotation 7,10
-    Diagram 7,1
-    Binary Connector 5,3
+    Anchored Tree Stem 2,9
+    Annotation 7,11
+    Binary Connector 6,3
     Connector 7,3
     Connector Style 10,2
     Connector Type 9,3
-    Diagram Notation 9,1
+    Decorated Stem 10,11
+    Diagram 7,1
+    Diagram Notation 9,1 : 11,12
+    Diagram Type 12,3
     Floating Stem 5-6,7-8
     Floating Binary Stem 6,6
     Floating Leaf Stem 5,6
+    Free Stem 2,10
+    Label 8,12
     Node 4,11
-    Rendered Label 6,11
-    Rendered Symbol 6,13
+    Rendered Label 6,12
+    Rendered Symbol 6,14
     Stem 25% 4-5,9
+    Stem End Decoration 9,13
     Stem Type 9,8-9
-    Tree Connector 5,4
-    Unary Connector 5,2
+    Stem Semantic 12,8-9
+    Stem Signification 11,10
+    Symbol 10,14
+    Ternary Stem 2,8
+    Tree Connector 6,4
+    Unary Connector 6,2
 connectors
+    +R50 : -/1 b*|Diagram Type : -/1 t|Connector Type
     +R51 : -/1 b*|Connector Type : -/1 t|Connector
+    +R52 : -/1 r*|Stem : -/1 l|Node
     -R53 : -/1 b+2|Stem Type : +/1 r|Connector, t-2|Stem
+    -R54.2 : +/1 b|Decorated Stem : +/1 l|Label, t|Annotation
+    +R55 : +/1 r|Stem Signification : +/1 l*|Diagram Notation.2, t|Decorated Stem
+    +R57 : +/1 r|Diagram Type : +/1 l*|Stem Semantic
+    +R58 : +/1 r|Decorated Stem : +/1 l*|Symbol, t|Stem End Decoration
     +R59 : -/2 r|Connector Type : +/2 l*|Stem Type
     -R60 : +/2 r|Diagram Notation : -/2 l*|Connector Type, b|Connector Style
+    +R61 : +/1 b|Stem End Decoration : -/1 r|Stem, l|Rendered Symbol
+    -R62 : -/1 b*|Stem Semantic : -/1 t|Stem Type, l|Stem Signification
     -R63 : +/1 r|Diagram : +/1 l*|Connector
+    -R65 : b|Anchored Stem { t|Anchored Binary Stem, t|Ternary Stem, t|Anchored Tree Stem, t|Free Stem }
     +R66 : l|Floating Stem { r|Floating Binary Stem, r|Floating Leaf Stem }
     +R67 : l|Stem { r|Floating Stem, r|Anchored Stem }
+    -R68 : +/1 b|Annotation : -/1 r+2|Stem, l|Rendered Label
     +R69 : b|Connector { t|Unary Connector, t|Binary Connector, t|Tree Connector }
