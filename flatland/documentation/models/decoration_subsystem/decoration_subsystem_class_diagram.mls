@@ -1,0 +1,26 @@
+// Flatland Decoration Subsystem Class Diagram
+// Model layout sheet
+
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet tabloid
+padding b150 l100
+frame OS Engineer
+frame_presentation default
+nodes
+    Arrow Symbol 4,6
+    Circle Symbol 2,6
+    Compound Symbol/2 3,2
+    Cross Symbol 1,6
+    Decoration 6,2
+    Label 4-5,1
+    Symbol Stack Placement 2,3
+    Simple Symbol 3,4
+    Symbol 4-5,3
+connectors
+    -R100 : r|Simple Symbol { l|Arrow Symbol, l|Circle Symbol, l|Cross Symbol }
+    +R101 : +/1 r|Compound Symbol : -/1 l*|Simple Symbol, t|Symbol Stack Placement
+    +R103 : b|Symbol { t|Compound Symbol, t|Simple Symbol }
+    +R104 : b|Decoration { t|Label, t|Symbol }

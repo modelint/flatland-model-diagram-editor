@@ -1,0 +1,85 @@
+/// Flatland Decoration Subsystem
+/// Executable model markup
+metadata
+    Title : Flatland Tree Connector Subsystem Class Diagram
+    Author : Leon Starr
+    Document ID : mint.flatland.td.5a
+    Version : 0.1.1
+    Modification date : April 21, 2021
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT boilerplate small
+    Organization logo > mint logo small
+subsystem Decoration
+class Arrow Symbol
+attributes
+    Name {I, R100}
+    Base : Distance
+    Height : Distance
+    Fill : Hollow Solid Open
+--
+class Circle Symbol
+attributes
+    Name {I, R100}
+    Radius : Distance
+    Solid : Boolean
+--
+class Cross Symbol
+attributes
+    Name {I, R100}
+    Width: Distance
+    Angle : Degrees
+--
+class Compound Symbol
+attributes
+    Name {I, R103}
+--
+class Decoration
+attributes
+    Name : Name {I}
+    Size : Rect Size
+--
+class Label
+attributes
+    Name {I, R104}
+--
+class Simple Symbol
+attributes
+    Name {I, R103}
+    Stroke: Stroke style
+    Terminal offset : Distance
+--
+class Symbol
+attributes
+    Name {I, R104}
+    /Length : Distance
+--
+class Symbol Stack Placement
+attributes
+    Position : Ordinal {I. OR102}
+    Compound symbol {I, R101, OR102}
+    Simple symbol {R101}
+    Arrange : Adjacent Layer Last
+    Offset : Distance
+--
+relationships
+    R100
+    Simple Symbol +
+        Arrow Symbol
+        Circle Symbol
+        Cross Symbol
+--
+    R101
+    is stacked in, Mc Compound Symbol
+    stacks, M Simple Symbol
+    M Symbol Stack Placement
+--
+    R103
+    Symbol +
+        Compound Symbol
+        Simple Symbol
+--
+    R104
+    Decoration +
+        Label
+        Symbol
+--
