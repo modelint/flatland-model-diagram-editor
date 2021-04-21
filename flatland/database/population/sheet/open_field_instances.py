@@ -8,7 +8,7 @@ population = [
     {'Metadata': 'Title', 'Frame': 'OS Engineer', 'Sheet': 'tabloid',
      'x position': 8, 'y position': 264, 'max width': 254, 'max height': 13},
     {'Metadata': 'Copyright notice', 'Frame': 'OS Engineer', 'Sheet': 'tabloid',
-     'x position': 8, 'y position': 38, 'max width': 254, 'max height': 57},
+     'x position': 8, 'y position': 28, 'max width': 254, 'max height': 57},
     {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'tabloid',
      'x position': 8, 'y position': 9, 'max width': 180, 'max height': 24},
 

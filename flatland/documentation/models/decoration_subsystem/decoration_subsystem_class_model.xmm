@@ -7,8 +7,8 @@ metadata
     Version : 0.1.1
     Modification date : April 21, 2021
     Organization : Model Integration, LLC / www.modelint.com
-    Copyright notice > MIT boilerplate small
-    Organization logo > mint logo small
+    Copyright notice > MIT_small
+    Organization logo > mint_small
 subsystem Decoration
 class Arrow Symbol
 attributes
