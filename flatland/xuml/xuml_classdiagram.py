@@ -236,7 +236,14 @@ class XumlClassDiagram:
         # There is an optional stem for an association class
         if astem:
             node_ref = make_node_ref(astem['node_ref'])
-            a_stem = New_Stem(stem_type='associative mult', semantic=association['assoc_mult'] + ' mult',
+            try:
+                semantic = association['assoc_mult'] + ' mult'
+            except KeyError:
+                self.logger.error(
+                    f"Layout sheet calls for ternary stem, but class model does not specify any"
+                    f" association class on association: {rnum}")
+                sys.exit()
+            a_stem = New_Stem(stem_type='associative mult', semantic=semantic,
                               node=self.nodes[node_ref], face=astem['face'], anchor=astem.get('anchor', None),
                               stem_name=None)
         else:

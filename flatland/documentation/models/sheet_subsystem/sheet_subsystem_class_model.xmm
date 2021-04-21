@@ -1,0 +1,25 @@
+/// Flatland Sheet Subsystem
+/// Executable model markup
+metadata
+    Title : Flatland Sheet Subsystem Class Diagram
+    Author : Leon Starr
+    Document ID : mint.flatland.td.6a
+    Version : 0.6.2
+    Modification date : April 21, 2021
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint_large
+subsystem Sheet
+class Sheet Size Group
+attributes
+    Name : Sheet Group Name {I}
+--
+class Title Block Pattern
+attributes
+    Name : Name {I}
+--
+relationships
+    R301
+    scales, Mc Title Block Pattern
+    is scaled to look good in, Mc Sheet Size Group
+--

@@ -1,0 +1,17 @@
+// Flatland Sheet Subsystem Class Diagram
+// Model layout sheet
+
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet D
+padding l300 b350
+frame OS Engineer
+frame_presentation default
+nodes
+    Sheet Size Group 6,2
+    Title Block Pattern 6,5
+    Scaled Title Block 7,4
+connectors
+    -R301 : -/1 r*|Title Block Pattern : -/2 l|Sheet Size Group, b|Scaled Title Block
