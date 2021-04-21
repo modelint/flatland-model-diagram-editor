@@ -124,10 +124,6 @@ relationships
     guides, Mc Path
     is guided through, 1 Lane
 --
-    OR106
-    t, 1 Bend
-    p, 1 Bend
---
     R107
     takes, Mc Path
     is taken by, 1 Bending Binary Connector

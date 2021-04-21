@@ -1,0 +1,168 @@
+/// Flatland Tree Connector Subsystem
+/// Executable model markup
+metadata
+    Title : Flatland Tree Connector Subsystem Class Diagram
+    Author : Leon Starr
+    Document ID : mint.flatland3.td.3a
+    Version : 0.3.1
+    Modification date : April 20, 2021
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint_large
+subsystem Tree Connector
+class Anchored Leaf Stem
+attributes
+    ID {I, R163, R164}
+    Connector {I, R163, R164}
+--
+class Anchored Tree Stem
+attributes
+    ID {I, R65, R158}
+    Connector {I, R65, R158, R154}
+    Branch {R154}
+--
+class Binary Path <import:Binary Connector>
+attributes
+    ID {I, R155}
+    Connector {I}
+--
+class Branch
+attributes
+    ID {I, OR161} : Ordinal
+    Connector {I, R153, R159, OR161}
+--
+class Branch Path
+attributes
+    ID {I, R155}
+    Connector {I, R155}
+--
+class Column <import:Node>
+attributes
+    Number {I}
+--
+class Floating Leaf Stem
+attributes
+    ID {I, R66, R158, R164}
+    Grafted branch {R156}
+    Connector {I, R66, R158, R164, R156}
+--
+class Grafted Branch
+attributes
+    ID {I, R162}
+    Connector {I, R162}
+    Grafting stem {R157}
+--
+class Interpolated Branch
+attributes
+    ID {I, R162}
+    Connector {I, R162}
+--
+class Lane
+attributes
+    Number {I, UR108}
+    Orientation : Row_Column {I}
+--
+class Leaf Stem
+attributes
+    ID {I, UR164}
+    Connector {I, UR164, R152}
+--
+class Path
+attributes
+    ID: Path ID {I}
+    Connector {I, UR155}
+    Lane {R105}
+    Rut : Lane Placement
+--
+class Row <import:Node>
+attributes
+    Number {I}
+--
+class Rut Branch
+attributes
+    ID {I, R162}
+    Connector {I, R162, R153}
+    Path {R153}
+--
+class Tree Connector
+attributes
+    ID {I, R69}
+--
+class Tree Stem
+attributes
+    ID {I, UR158}
+    Connector {I, UR158}
+--
+class Trunk Stem
+attributes
+    ID {I, R163}
+    Connector {I, R163, R151}
+--
+relationships
+    R105
+    guides, Mc Path
+    is guided through, 1 Lane
+--
+    R108
+    Lane +
+        Row
+        Column
+--
+    R151
+    is rooted in, 1 Trunk Stem
+    is root of, 1 Tree Connector
+--
+    R152
+    radiates away from, 1 Tree Connector
+    radiates out to, M Leaf Stem
+--
+    R153
+    follows, 1 Branch Path
+    guides, 1 Rut Branch
+--
+    R154
+    hangs from, 1 Branch
+    hangs, M Anchored Tree Stem
+--
+    R155
+    Path +
+        Branch Path
+        Binary Path
+--
+    R156
+    is positioned by, 1 Grafted Branch
+    positions, 1c Floating Leaf Stem
+--
+    R157
+    establishes axis of, 1c Grafted Branch
+    is a collinear extension of, 1 Anchored Tree Stem
+--
+    R158
+    Tree Stem +
+        Floating Leaf Stem
+        Anchored Tree Stem
+--
+    R159
+    connects stems with, M Branch
+    connects stems in, 1 Tree Connector
+--
+    OR161
+    bends corner after, 1c Branch
+    bends corner before, 1c Branch
+--
+    R162
+    Branch +
+        Grafted Branch
+        Interpolated Branch
+        Rut Branch
+--
+    R163
+    Anchored Tree Stem +
+        Trunk Stem
+        Anchored Leaf Stem
+--
+    R164
+    Leaf Stem +
+        Anchored Leaf Stem
+        Floating Leaf Stem
+--

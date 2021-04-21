@@ -1,0 +1,45 @@
+// Flatland Tree Connector Subsystem Class Diagram
+// Model layout sheet
+
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet D
+padding l300 b350
+frame OS Engineer
+frame_presentation default
+nodes
+    Anchored Leaf Stem 4,3
+    Anchored Tree Stem 5-6,2-3
+    Binary Path 6-7,11
+    Branch 9-10,8
+    Branch Path 8,11 >right
+    Column 12,12
+    Floating Leaf Stem 4,6
+    Grafted Branch 8,6 >right
+    Interpolated Branch/2 8,7-8
+    Lane 10-11,12-13
+    Leaf Stem 2,5
+    Path 7-8,12-13
+    Row 12,13
+    Rut Branch 8,9
+    Tree Connector 1,2
+    Tree Stem 7,4
+    Trunk Stem 4,2
+connectors
+    +R105 : -/1 t|Path : -/2 b*|Lane
+    +R108 : t|Lane { b|Column, b|Row }
+    +R151 : -/1 b*|Trunk Stem : -/1 t|Tree Connector
+    -R152 : -/2 r|Tree Connector : +/1 b|Leaf Stem
+    +R153 : -/1 r|Rut Branch : +/1 l*|Branch Path
+    -R154 : -/1 l-1|Branch : +/1 l|Anchored Tree Stem : L1R+2
+    -R155 : l|Path { r|Branch Path, r|Binary Path }
+    +R156 : +/1 b*|Grafted Branch : +/1 t+1|Floating Leaf Stem
+    +R157 : -/2 t-2|Anchored Tree Stem : +/1 l|Grafted Branch
+    +R158 : b|Tree Stem { t-1|Floating Leaf Stem, t|Anchored Tree Stem }
+    +R159 : +/2 l+1|Branch : -/2 l|Tree Connector : L1R-1
+    +OR161.2 : -/2 t+2|Branch : -/2 r|Branch : L10R+1 L9R-2
+    +R162 : b|Branch { t|Grafted Branch, t|Interpolated Branch, t|Rut Branch }
+    +R163 : b|Anchored Tree Stem { t|Trunk Stem, t|Anchored Leaf Stem }
+    +R164 : t|Leaf Stem { b|Floating Leaf Stem, b|Anchored Leaf Stem }
