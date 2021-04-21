@@ -1,9 +1,9 @@
-/// Flatland Node Subsystem
+/// Flatland Connector Subsystem
 /// Executable model markup
 metadata
-    Title : Flatland Node Subsystem Class Diagram
+    Title : Flatland Connector Subsystem Class Diagram
     Author : Leon Starr
-    Document ID : mint.flatland3.td.1a
+    Document ID : mint.flatland3.td.2a
     Version : 1.3.1
     Modification date : April 19, 2021
     Organization : Model Integration, LLC / www.modelint.com

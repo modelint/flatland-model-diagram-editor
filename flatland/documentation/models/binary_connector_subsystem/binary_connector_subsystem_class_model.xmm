@@ -1,0 +1,157 @@
+/// Flatland Binary Connector Subsystem
+/// Executable model markup
+metadata
+    Title : Flatland Binary Connector Subsystem Class Diagram
+    Author : Leon Starr
+    Document ID : mint.flatland3.td.3a
+    Version : 0.2.1
+    Modification date : April 20, 2021
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint_large
+subsystem Binary Connector
+class Anchored Binary Stem
+attributes
+    ID {I, R65, R109}
+    Connector {I, R65, R109}
+--
+class Bend
+attributes
+    T location {I, R111}
+    P location {I2, R111}
+    Path {I3, R112}
+    Connector {I3, R111, R112}
+--
+class Bending Binary Connector
+attributes
+    ID {I, R103, R100}
+    Floating stem {R100}
+    Projecting stem {R100}
+--
+class Binary Connector
+attributes
+    ID {I, R69}
+--
+class Binary Stem
+attributes
+    ID {I, UR109}
+    Connector {I, UR109}
+--
+class Column <import:Node>
+attributes
+    Number {I}
+--
+class Corner
+attributes
+    Location : Position {I*, I2}
+    Connector {I*, R102}
+--
+class Counterpart Binary Stem
+attributes
+    ID {I, R101}
+    Connector {I, R101}
+--
+class Floating Binary Stem
+attributes
+    ID {I, R109}
+    Connector {I, R65, R109}
+--
+class Lane
+attributes
+    Number {I, UR108}
+    Orientation : Row Column {I}
+--
+class Path
+attributes
+    Connector {I, R107. OR106}
+    Sequence {I, OR106}
+    Lane {R105}
+    Rut : Lane Placement
+--
+class Projecting Binary Stem
+attributes
+    ID {I, R101}
+    Connector {I, R101}
+--
+class Reflexive Binary Connector
+attributes
+    ID {I, R103, R100}
+    Floating stem {R100}
+    Projecting stem {R100}
+--
+class Row <import:Node>
+attributes
+    Number {I}
+--
+class Straight Binary Connector
+attributes
+    ID {I, R103, R100}
+    Floating stem {R100}
+    Projecting stem {R100}
+--
+class Ternary Stem
+attributes
+    ID {I, R76}
+    Connector {I, R76, R110}
+--
+relationships
+    R100
+    establishes x or y coordinate of, 1 Floating Binary Stem
+    gets x or y coordinate from, 1 Projecting Binary Stem
+    1 Straight Binary Connector
+--
+    R101
+    Anchored Binary Stem +
+        Projecting Binary Stem
+        Counterpart Binary Stem
+--
+    R102
+    is a right angle turn of, 1 Bending Binary Connector
+    turns at right angle on, M Corner
+--
+    R103
+    Binary Connector +
+        Bending Binary Connector
+        Reflexive Binary Connector
+        Straight Binary Connector
+--
+    R104
+    ends line from, 1 Counterpart Binary Stem
+    starts line toward, 1 Counterpart Binary Stem
+    1 Bending Binary Connector
+--
+    R105
+    guides, Mc Path
+    is guided through, 1 Lane
+--
+    OR106
+    t, 1 Bend
+    p, 1 Bend
+--
+    R107
+    takes, Mc Path
+    is taken by, 1 Bending Binary Connector
+--
+    R108
+    Lane +
+        Column
+        Row
+--
+    R109
+    Binary Stem +
+        Floating Binary Stem
+        Anchored Binary Stem
+--
+    R110
+    connects to the middle of, 1 Binary Connector
+    connnects with, 1c Tertiary Stem
+--
+    R111
+    is toward the t anchor, 1c Corner
+    is toward the p anchor, 1c Corner
+    1 Bend
+--
+    R112
+    is drawn along, 1 Path
+    determines line of, 1 Bend
+--

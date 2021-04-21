@@ -1,0 +1,42 @@
+// Flatland Binary Connector Subsystem Class Diagram
+// Model layout sheet
+
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet D
+padding l100 b350
+frame OS Engineer
+frame_presentation default
+nodes
+    Anchored Binary Stem/2 8-9,5
+    Bend 3-4,10
+    Bending Binary Connector/2 5,6
+    Binary Connector 3-4,4
+    Binary Stem 10,3
+    Column 8-9,8
+    Corner 3,8
+    Counterpart Binary Stem/2 7,5-6
+    Floating Binary Stem/2 7,1-2
+    Lane 7,8-9
+    Path 5,8-9
+    Projecting Binary Stem/2 7,4
+    Reflexive Binary Connector/2 5,1
+    Row 8-9,9
+    Straight Binary Connector/2 5,3
+    Ternary Stem 1-2,4
+connectors
+    +R100 : -/4 r|Floating Binary Stem : -/3 l*|Projecting Binary Stem, t|Straight Binary Connector
+    +R101 : b|Anchored Binary Stem { t|Projecting Binary Stem, t|Counterpart Binary Stem }
+    +R102.2 : +/2 b+2|Bending Binary Connector : -/2 l|Corner
+    +R103 : t|Binary Connector { b|Reflexive Binary Connector, b|Straight Binary Connector, b|Bending Binary Connector }
+    +R104.2 : +/1 r|Counterpart Binary Stem : -/2 b|Counterpart Binary Stem, t|Bending Binary Connector : L6R+2 L6R+1
+    +R105 : -/1 t|Path : -/2 b*|Lane
+    +OR106.2 : +/1 t+2|Bend : +/1 r+2|Bend : L4R+2 L11R-2
+    +R107 : -/1 r|Bending Binary Connector : +/1 l*|Path
+    -R108 : t|Lane { b|Column, b|Row }
+    +R109 : b|Binary Stem { t|Floating Binary Stem, t|Anchored Binary Stem }
+    -R110 : +/1 t|Ternary Stem : +/2 b*|Binary Connector
+    +R111.2 : -/2 t+1|Corner : -/2 r+1|Corner, l|Bend : L4R-2 L9R-1
+    +R112.2 : +/2 r|Path : -/2 t|Bend
