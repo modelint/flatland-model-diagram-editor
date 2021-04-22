@@ -34,7 +34,7 @@ class LayoutParseError(FlatlandUserInputException):
         self.e = e
 
     def __str__(self):
-        return f'{pre}Parse error in layout "{self.layout_file}" : {self.e}"{post}'
+        return f'{pre}Parse error in layout "{self.layout_file}"\n\t{self.e}"{post}'
 
 class ModelParseError(FlatlandUserInputException):
     def __init__(self, model_file, e):

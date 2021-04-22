@@ -10,6 +10,115 @@ metadata
     Copyright notice > MIT
     Organization logo > mint_large
 subsystem Sheet
+class Box
+attributes
+    ID : Boundary ID {I}
+    Pattern {I, R303}
+--
+class Box Placement
+attributes
+    Frame {I, R318}
+    Sheet {I, R318}
+    Box {I, R318}
+    Title block pattern {I, R318}
+    Placement : Position
+    Box size : Rect Size
+--
+class Box Text Line
+attributes
+    Metadata [I, R306}
+    Box {I, I2, R306}
+    Title block pattern {I, I2, R306}
+    Order : Ordinal {I2, OR304}
+--
+class Boxed Field
+attributes
+    Metadata {I, R305, R317}
+    Frame {I, R305, R317}
+    Sheet {I, R305, R317}
+    Box {R321c}
+    Title block pattern {R321}
+--
+class Compartment Box
+attributes
+    ID {I, UR312}
+    Pattern {I, U312}
+--
+class Data Box
+attributes
+    ID {I, R308, R313}
+    Pattern {I, I2, R308, R313}
+    Alignment : VH Align
+    Style : Box Style Name
+--
+class Envelope Box
+attributes
+    ID {I, R308, R312}
+    Pattern {R314, R308, R312}
+--
+class Field
+attributes
+    Metadata {I, R320}
+    Frame {I, R320}
+    Sheet {I, R320}
+    Type: Open Box {I}
+    Placement : Position
+    Max area : Rect Size
+--
+class Frame
+attributes
+    Name : Frame Name {I}
+    Sheet {I, R300}
+--
+class Frame Metadata
+attributes
+    Name {I, R307}
+    Frame {I, R307}
+    Sheet {I, R307}
+--
+class Metadata
+attributes
+    Name : Name {I}
+--
+class Open Field
+attributes
+    Metadata {I, R305, R319}
+    Frame {I, R305, R319}
+    Sheet {I, R305, R319}
+--
+class Partition
+attributes
+    Compartment box {I, R302}
+    Pattern {I, U312}
+    Distance : Relative Distance
+    Orientation : Horiz Vert
+    Upper box {R310}
+    Lower box {R311}
+--
+class Partitioned Box
+attributes
+    ID {I, UR313}
+    Pattern {I, UR313}
+--
+class Scaled Title Block
+attributes
+    Title block pattern {I, R301}
+    Sheet size group {I, R301}
+    Block size : Rect Size
+    Margin : HV Spacing
+--
+class Section Box
+attributes
+    ID {I, R308, R312, R313}
+    Pattern {R308, R312, R313}
+--
+class Sheet
+attributes
+    Name : Sheet Name {I}
+    Size : Sheet Size
+    Units : US Metric
+    Size group {R316}
+--
 class Sheet Size Group
 attributes
     Name : Sheet Group Name {I}
@@ -18,8 +127,90 @@ class Title Block Pattern
 attributes
     Name : Name {I}
 --
+class Title Block Placement
+attributes
+    Frame {I, R315}
+    Sheet {I, R315c}
+    Title block pattern {R315}
+    Sheet size group {R315}
+    Placement : Position
+--
 relationships
+    R300
+    size fits, Mc Frame
+    is sized to overlay, 1 Sheet
+--
     R301
     scales, Mc Title Block Pattern
     is scaled to look good in, Mc Sheet Size Group
+    1 Scaled Title Block
+--
+    R302
+    splits, 1 Compartment Box
+    is split by, 1 Partition
+--
+    R303
+    defines a nested rectangular hierarchy of, M Box
+    is rectangle in nested hierarchy defined by, 1 Title Block Pattern
+--
+    R305
+    Field +
+        Open Field
+        Boxed Field
+--
+    R306
+    stacks, Mc Metadata
+    is stacked in, Mc Data Box
+    1 Body Text Line
+--
+    R307
+    displays, Mc Metadata
+    is displayed in, Mc Frame
+    1 Frame Metadata
+--
+    R308
+    Box +
+        Envelope Box
+        Section Box
+        Data Box
+--
+    R312
+    Compartment Box +
+        Envelope Box
+        Section Box
+--
+    R313
+    Partitioned Box +
+        Data Box
+        Section Box
+--
+    R315
+    places, 1c Scaled Title Block
+    is placed in, Mc Frame
+    1 Title Block Placement
+--
+    R316
+    is rough size of, M Sheet
+    is roughly sized as, 1 Sheet Size Group
+--
+    R317
+    shows, 1 Frame Metadata
+    appears in, 1c Boxed Field
+--
+    R318
+    determines placement of, M Box
+    placement is determined by, Mc Title Block Placement
+    1 Box Placement
+--
+    R319
+    appears in, 1c Open Field
+    shows, 1 Frame Metadata
+--
+    R320
+    must appear in, M Field
+    must show, 1 Frame Metadata
+--
+    R321
+    places, Mc Boxed Field
+    is placed on, 1 Box Text Line
 --

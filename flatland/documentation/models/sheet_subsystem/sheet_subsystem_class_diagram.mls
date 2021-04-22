@@ -10,8 +10,41 @@ padding l300 b350
 frame OS Engineer
 frame_presentation default
 nodes
+    Box 6,8
+    Boxed Field 11,7
+    Box Placement 9,8
+    Box Text Line 10,9-10
+    Compartment Box 3,7-8
+    Data Box 4-5,10
+    Envelope Box 4-5,7
+    Field 12-13,8-9
+    Frame 25% 10,4
+    Frame Metadata 12,5
+    Metadata 13,4
+    Open Field 13,7
+    Partition 1,7-8
+    Partitioned Box 3,9
+    Section Box 4-5,8
+    Sheet 10,2
     Sheet Size Group 6,2
-    Title Block Pattern 6,5
     Scaled Title Block 7,4
+    Title Block Pattern 6,5
+    Title Block Placement 8,5
 connectors
-    -R301 : -/1 r*|Title Block Pattern : -/2 l|Sheet Size Group, b|Scaled Title Block
+    +R300 : -/1 l*|Frame : -/2 r|Sheet
+    -R301 : -/1 l*|Title Block Pattern : -/2 r|Sheet Size Group, b|Scaled Title Block
+    +R302 : -/1 b|Compartment Box : -/1 t*|Partition
+    -R303 : +/4 l*|Box : +/3 r|Title Block Pattern
+    +R305 : l|Field { r|Open Field, r|Boxed Field }
+    +R306.3 : +/1 t|Metadata : +/1 t+2|Data Box, r|Box Text Line : L14
+    -R307 : -/1 b*|Metadata : -/1 t|Frame, l|Frame Metadata
+    +R308 : b|Box { t|Envelope Box, t|Section Box, t|Data Box }
+    -R312 : t|Compartment Box { b|Envelope Box, b-1|Section Box }
+    +R313 : t|Partitioned Box { b+1|Data Box, b+1|Section Box }
+    -R315 : -/1 b*|Frame : -/1 t|Scaled Title Block, l|Title Block Placement
+    -R316 : -/1 t|Sheet Size Group : -/1 b*|Sheet
+    -R317.2 : -/1 b|Frame Metadata : +/1 l|Boxed Field
+    +R318 : +/2 t|Box : +/2 r|Title Block Placement, b|Box Placement
+    +R319 : +/1 l|Open Field : -/1 t+2|Frame Metadata
+    +R320.2 : -/2 t|Field : -/2 t-2|Frame Metadata : L14R-2
+    -R321.2 : +/1 b|Boxed Field : +/1 l-2|Box Text Line

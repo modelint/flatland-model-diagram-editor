@@ -5,7 +5,7 @@ xUML_class_diagram.py – Generates an xuml diagram for an xuml model using the 
 import sys
 import logging
 from pathlib import Path
-from flatland.flatland_exceptions import FlatlandIOException, MultipleFloatsInSameBranch
+from flatland.flatland_exceptions import FlatlandIOException, MultipleFloatsInSameBranch, LayoutParseError
 from flatland.input.model_parser import ModelParser
 from flatland.input.layout_parser import LayoutParser
 from flatland.database.flatlanddb import FlatlandDB
@@ -60,7 +60,10 @@ class XumlClassDiagram:
             self.layout = LayoutParser(layout_file_path=self.flatland_layout_path, debug=False)
         except FlatlandIOException as e:
             sys.exit(e)
-        self.layout = self.layout.parse()
+        try:
+            self.layout = self.layout.parse()
+        except LayoutParseError as e:
+            sys.exit(e)
 
         # Load the flatland database
         self.db = FlatlandDB(rebuild=self.rebuild)
@@ -95,6 +98,13 @@ class XumlClassDiagram:
                 else:
                     self.draw_association(rnum=rnum, association=r, binary_layout=rlayout)
 
+            # Check to see if any connector placements were specified for non-existent relationships
+            rnum_placements = {r for r in cp.keys()}
+            rnum_defs = {r['rnum'] for r in self.subsys.rels}
+            orphaned_placements = rnum_placements - rnum_defs
+            if orphaned_placements:
+                self.logger.warning(f"Connector placements {orphaned_placements} in layout sheet refer to undeclared relationships")
+
         self.logger.info("Rendering the Canvas")
         self.flatland_canvas.render()
 
@@ -125,7 +135,10 @@ class XumlClassDiagram:
             self.logger.info(f'Processing class: {cname}')
 
             # Get the layout data for this class
-            nlayout = np[cname]
+            nlayout = np.get(cname)
+            if not nlayout:
+                self.logger.warning(f"Skipping class [{cname}] -- No placement specified in layout sheet")
+                continue
 
             # Layout data for all placements
             # By default the class name is all on one line, but it may be wrapped across multiple
@@ -212,7 +225,7 @@ class XumlClassDiagram:
             # The node_ref is a list and the first element refers to the model class name
             # (the 2nd element indicates duplicate placement, if any, and is not relevant for the comparison above)
             tstem, pstem = pstem, tstem
-            self.logger.warning(f"Stems order in layout file does not match model, swapping stem order for connector {rnum}")
+            self.logger.info(f"Stems order in layout file does not match model, swapping stem order for connector {rnum}")
 
         t_phrase = StemName(
             text=TextBlock(t_side['phrase'], wrap=tstem['wrap']),
@@ -230,8 +243,13 @@ class XumlClassDiagram:
             side=pstem['stem_dir'], axis_offset=None, end_offset=None
         )
         node_ref = make_node_ref(pstem['node_ref'])
+        try:
+            pnode = self.nodes[node_ref]
+        except KeyError:
+            self.logger.error(f"In layout sheet p-stem of {rnum} class [{node_ref}] is not defined in model")
+            sys.exit()
         p_stem = New_Stem(stem_type='class mult', semantic=p_side['mult'] + ' mult',
-                          node=self.nodes[node_ref], face=pstem['face'],
+                          node=pnode, face=pstem['face'],
                           anchor=pstem.get('anchor', None), stem_name=p_phrase)
         # There is an optional stem for an association class
         if astem:
@@ -242,6 +260,13 @@ class XumlClassDiagram:
                 self.logger.error(
                     f"Layout sheet calls for ternary stem, but class model does not specify any"
                     f" association class on association: {rnum}")
+                sys.exit()
+            try:
+                node=self.nodes[node_ref]
+            except KeyError:
+                self.logger.error(
+                    f"Association class [{node_ref}] is missing in relationship {rnum}"
+                )
                 sys.exit()
             a_stem = New_Stem(stem_type='associative mult', semantic=semantic,
                               node=self.nodes[node_ref], face=astem['face'], anchor=astem.get('anchor', None),
