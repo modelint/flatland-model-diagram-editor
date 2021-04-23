@@ -42,7 +42,7 @@ class ModelParseError(FlatlandUserInputException):
         self.e = e
 
     def __str__(self):
-        return f'{pre}Parse error in model "{self.model_file}" : {self.e}"{post}'
+        return f'{pre}Parse error in model "{self.model_file}"\n\t{self.e}"{post}'
 
 class ConflictingGraftFloat(FlatlandUserInputException):
     def __init__(self, stem):
@@ -221,6 +221,15 @@ class UnsupportedConnectorType(FlatlandException):
     def __str__(self):
         return f'Connector Type: "{self.connector_type_name}" is not defined for Diagram Type: "{self.diagram_type_name}"'
 
+
+class StemNameOutOfBounds(FlatlandException):
+    def __init__(self, text: str, x_value: float, y_value: float):
+        self.name = text
+        self.x_value = x_value
+        self.y_value = y_value
+
+    def __str__(self):
+        return f'Object [{self.object_type}] outside of diagram bounds at x:{self.x_value}, y:{self.y_value}'
 
 class OutofDiagramBounds(FlatlandException):
     def __init__(self, object_type: str, x_value: float, y_value: float):

@@ -2,7 +2,9 @@
 stem.py
 """
 
-from flatland.flatland_exceptions import InvalidNameSide, OutofDiagramBounds
+import sys
+import logging
+from flatland.flatland_exceptions import InvalidNameSide
 from flatland.connector_subsystem.stem_type import StemType
 from flatland.datatypes.geometry_types import Position, HorizAlign
 from flatland.connector_subsystem.rendered_symbol import RenderedSymbol
@@ -41,6 +43,7 @@ class Stem:
 
     def __init__(self, connector: 'Connector', stem_type: StemType, semantic: str, node: 'Node',
                  face: NodeFace, root_position: Position, name: Optional[StemName]):
+        self.logger = logging.getLogger(__name__)
         self.Connector = connector
         self.Stem_type = stem_type
         self.Node = node
@@ -115,7 +118,9 @@ class Stem:
                     name_x > diagram.Origin.x + diagram.Size.width or \
                     name_y < diagram.Origin.y or \
                     name_y > diagram.Origin.y + diagram.Size.height:
-                raise OutofDiagramBounds(object_type='text block', x_value=name_x, y_value=name_y)
+                self.logger.error(f"Stem text {self.Name.text.text} out of bounds on connector [{self.Connector.Name.text}]"
+                                  f"\n\tConsider wrapping name across more lines of text or move it to the other side of the stem")
+                sys.exit()
 
             layer.add_text_block(asset=self.Stem_type.Name + ' name', lower_left=Position(name_x, name_y),
                                   text=self.Name.text.text, align=align)

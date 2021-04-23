@@ -5,7 +5,8 @@ xUML_class_diagram.py – Generates an xuml diagram for an xuml model using the 
 import sys
 import logging
 from pathlib import Path
-from flatland.flatland_exceptions import FlatlandIOException, MultipleFloatsInSameBranch, LayoutParseError
+from flatland.flatland_exceptions import FlatlandIOException, MultipleFloatsInSameBranch
+from flatland.flatland_exceptions import LayoutParseError, ModelParseError
 from flatland.input.model_parser import ModelParser
 from flatland.input.layout_parser import LayoutParser
 from flatland.database.flatlanddb import FlatlandDB
@@ -52,7 +53,10 @@ class XumlClassDiagram:
             self.model = ModelParser(model_file_path=self.xuml_model_path, debug=False)
         except FlatlandIOException as e:
             sys.exit(e)
-        self.subsys = self.model.parse()
+        try:
+            self.subsys = self.model.parse()
+        except ModelParseError as e:
+            sys.exit(e)
 
         self.logger.info("Parsing the layout")
         # Parse the layout
@@ -92,7 +96,11 @@ class XumlClassDiagram:
             cp = self.layout.connector_placement
             for r in self.subsys.rels:  # r is the model data without any layout info
                 rnum = r['rnum']
-                rlayout = cp[rnum]  # How this r is to be laid out on the diagram
+                rlayout = cp.get(rnum)  # How this r is to be laid out on the diagram
+                if not rlayout:
+                    self.logger.warning(f"Relationship {rnum} skipped, no placement in layout sheet.")
+                    continue
+
                 if 'superclass' in r.keys():
                     self.draw_generalization(rnum=rnum, generalization=r, tree_layout=rlayout)
                 else:
@@ -216,6 +224,7 @@ class XumlClassDiagram:
         # Straight or bent connector?
         tstem = binary_layout['tstem']
         pstem = binary_layout['pstem']
+        reversed = False  # Assume that layout sheet and model order matches
         astem = binary_layout.get('tertiary_node', None)
 
         t_side = association['t_side']
@@ -225,6 +234,7 @@ class XumlClassDiagram:
             # The node_ref is a list and the first element refers to the model class name
             # (the 2nd element indicates duplicate placement, if any, and is not relevant for the comparison above)
             tstem, pstem = pstem, tstem
+            reversed = True
             self.logger.info(f"Stems order in layout file does not match model, swapping stem order for connector {rnum}")
 
         t_phrase = StemName(
@@ -246,7 +256,8 @@ class XumlClassDiagram:
         try:
             pnode = self.nodes[node_ref]
         except KeyError:
-            self.logger.error(f"In layout sheet p-stem of {rnum} class [{node_ref}] is not defined in model")
+            missing_side = "p-stem" if not reversed else "t-stem"
+            self.logger.error(f"In layout sheet {missing_side} of {rnum} class [{node_ref}] is not defined in model")
             sys.exit()
         p_stem = New_Stem(stem_type='class mult', semantic=p_side['mult'] + ' mult',
                           node=pnode, face=pstem['face'],

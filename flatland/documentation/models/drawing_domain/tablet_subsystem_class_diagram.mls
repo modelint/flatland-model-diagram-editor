@@ -1,0 +1,56 @@
+// Flatland Draing Domain / Tablet Subsystem Class Diagram
+// Model layout sheet
+
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet D
+padding l300 b350
+frame OS Engineer
+frame_presentation default
+nodes
+    Asset 3,5
+    Asset Presentation 4-5,6
+    Closed Shape 11-12,7
+    Closed Shape Fill 7,10-11
+    Drawing Type 5,3
+    Element 6,1
+    Layer 8,5
+    Line Pattern 5,13 >top
+    Line Segment 11-12,6
+    Line Style 5,10 >left
+    Presentation 5,5
+    Polygon 13,8 >left
+    Rectangle 13,6-7
+    RGB Color 50% 4-5,11-12
+    Shape Element 10,6-7
+    Shape Presentation/2 5,7-8
+    Tablet 8,8
+    Text Element 1,6
+    Text Presentation/2 4,7-8
+    Text Style 4,10
+    Typeface 3,12
+    Vertex 13,10
+connectors
+    +R1 : +/3 r|Drawing Type : -/2 l*|Presentation
+    +R2 : -/1 b*|Layer : -/1 t|Presentation
+    -R3 : +/2 b|Drawing Type : +/1 l|Asset
+    -R4 : -/1 t|Asset : -/1 b*|Presentation, l|Asset Presentation
+    +R5 : r|Asset Presentation { l|Shape Presentation, l|Text Presentation }
+    +R7 : +/1 r|Text Presentation : -/1 l*|Text Style
+    +R8 : +/1 r+2|Line Style : +/1 l*|Line Pattern
+    -R9 : -/1 r|Line Style : -/1 t-2|RGB Color
+    +R10 : -/1 r-1|Text Style : +/1 b|RGB Color
+    -R11.2 : -/1 b+1|Text Style : -/1 l|Typeface
+    +R12 : t|Shape Element { b|Line Segment, b|Closed Shape }
+    +R13 : +/3 r|Layer : -/3 l*|Tablet
+    +R14 : +/1 t|Line Style : +/1 r|Shape Element
+    -R15 : r|Element { l|Shape Element, l|Text Element : L2R-2 }
+    -R16 : -/1 r|Text Element : -/1 b|Text Style
+    +R17 : -/2 r|Polygon : -/2 l*|Vertex
+    +R18.2 : +/1 r|Closed Shape : +/1 t+2|RGB Color
+    +R19 : -/1 t|Element : -/1 l-2|Layer
+    -OR20.2 : -/1 l+1|Layer : +/1 t-1|Layer : L4R+1 L9R-1
+    +R21.2 : -/1 t|Shape Presentation : -/1 t|RGB Color, b|Closed Shape Fill : L6
+    +R22 : t|Closed Shape { b|Rectangle, b|Polygon }

@@ -1,0 +1,245 @@
+/// Flatland Drawing Domain / Tablet Subsystem
+/// Executable model markup
+metadata
+    Title : Flatland Draing Domain / Tablet Subsystem Class Diagram
+    Author : Leon Starr
+    Document ID : mint.flatland.td.6a
+    Version : 0.2.1
+    Modification date : April 22, 2021
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint_large
+subsystem Sheet
+class Asset
+attributes
+    Name {I}
+    Drawing type {I, R3}
+    Form : Text_Shape
+--
+class Asset Presentation
+attributes
+    Asset {I, R4}
+    Presentation {I, R4}
+    Drawing type {I, R4}
+--
+class Closed Shape
+attributes
+    ID {I, R12}
+    Layer {I, R12}
+    Fill color {R18}
+--
+class Closed Shape Fill
+attributes
+    Asset {I, R21}
+    Presentation {I, R21}
+    Drawing type {I, R21}
+    Fill color {R21}
+--
+class Drawing Type
+attributes
+    Name : Name {I}
+--
+class Element
+attributes
+    ID {I}
+    Layer {I, R19}
+    Size : Rect Size
+--
+class Layer
+attributes
+    Name : Layer Name {I}
+    Z coord : Ordinal {I2, OR20}
+    Presentation {R2}
+    Drawing type {R2}
+    Tablet {R13}
+--
+class Line Pattern
+attributes
+    Name : Name {I}
+    Solid : Points
+    Blank : Points
+--
+class Line Segment
+attributes
+    ID {I, R12}
+    Layer {I, R12}
+    From: Tablet Coord
+    To: Tablet Coord
+--
+class Line Style
+attributes
+    Name : Name {I}
+    Width : Points
+    Pattern {R8}
+    Color {R9}
+--
+class Polygon
+attributes
+    ID {I, R22}
+    Layer {I, R22}
+--
+class Presentation
+attributes
+    Name {I}
+    Drawing type {I, R1}
+--
+class Rectangle
+attributes
+    ID {I, R22}
+    Layer {I, R22}
+    Size: Rect Size
+    Lower left : Tablet Coord
+--
+class RGB Color
+attributes
+    Name : Name {I}
+    Red : Channel
+    Green : Channel
+    Blue : Channel
+--
+class Shape Element
+attributes
+    ID {I, R15}
+    Layer {I, R15}
+    Line style {R14}
+--
+class Shape Presentation
+attributes
+    Asset {I, R5}
+    Presentation {I, R5}
+    Drawing type {I, R5}
+    Line style {R6}
+--
+class Tablet
+attributes
+    ID {I}
+    Drawing type {R2}
+    Size : Rect_Size
+--
+class Text Element
+attributes
+    ID {I, R15}
+    Layer {I, R15}
+    Content : Text
+    Lower left : Tablet Coord
+    Text style {R16}
+--
+class Text Presentation
+attributes
+    Asset {I, R5}
+    Presentation {I, R5}
+    Drawing type {I, R5}
+    Text style {R7}
+--
+class Text Style
+attributes
+    Name : Name {I}
+    Size : Points
+    Slant : Font Slant
+    Weight : Font Weight
+    Leading : Points
+    Typeface {R11}
+    Color {R10}
+--
+class Typeface
+attributes
+    Alias : Name {I}
+    Name : Font Family {I2}
+--
+class Vertex
+attributes
+    Polygon {I, R17}
+    Layer {I, R17}
+    Position: Tablet Coord {I}
+--
+relationships
+    R1
+    defines appearance of, 1 Drawing Type
+    appears as defined by, M Presentation
+--
+    R2
+    is drawn on, Mc Layer
+    draws elements using, 1 Presentation
+--
+    R3
+    can be drawn on, 1 Drawing Type
+    can draw, M Asset
+--
+    R4
+    stylizes, M Asset
+    is styled by, M Presentation
+    1 Asset Presentation
+--
+    R5
+    Asset Presentation +
+        Shape Presentation
+        Text Presentation
+--
+    R7
+    xx, Mc Text Presentation
+    is rendered with, 1 Text Style
+--
+    R8
+    xx, Mc Line Style
+    yy, 1 Line Pattern
+--
+    R9
+    xx, Mc Line Style
+    yy, 1 RGB Color
+--
+    R10
+    xx, Mc Text Style
+    yy, 1 RGB Color
+--
+    R11
+    xx, Mc Text Style
+    yy, 1 Typeface
+--
+    R12
+    Shape Element +
+        Line Segment
+        Closed Shape
+--
+    R13
+    organizes content on z axis with, M Layer
+    holds z axis coordinate content of, 1 Tablet
+--
+    R14
+    xx, 1 Line Style
+    yy, Mc Shape Element
+--
+    R15
+    Element +
+        Shape Element
+        Text Element
+--
+    R16
+    xx, Mc Text Element
+    yy, 1 Text Style
+--
+    R17
+    is start of line segment in, 1 Polygon
+    starts line segment at, M Vertex
+--
+    R18
+    xx, Mc Closed Shape
+    yy, 1 RGB Color
+--
+    R19
+    draws, Mc Asset
+    is drawn on, 1 Layer
+--
+    OR20
+    is rendered below, 1c Layer
+    is rendered above, 1c Layer
+--
+    R21
+    xx, Mc Shape Presentation
+    yy, 1c RGB Color
+    1 Closed Shape Fill
+--
+    R22
+    Closed Shape +
+        Rectangle
+        Polygon
+--
