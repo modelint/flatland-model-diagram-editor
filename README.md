@@ -9,7 +9,7 @@ I built Flatland because the following benefits are critical for productive mode
 3. Consistent layout of model diagrams without forcing the user to accept or hack awkard, non-sensical placements of nodes and connectors (yeah, I'm lookin at YOU PlantUML)
 4. Maximum layout power with minimal specification:  No more carpal tunnel pixel pushing!
 5. Beautiful, readable diagram output in many output formats (pdf, svg, etc)
-6. Support for industrial strength modeling (many hundreds and thousands of model elements
+6. Support for industrial strength modeling (many hundreds and thousands of model elements)
 7. Use your favorite text editor and all the advanced facilities of it and whatever IDE you like without having to learn yet another draw tool that makes you and your team's life difficult.
 8. And since we're here on GitHub, wouldn't it be nice if all of your models were under proper configuration management where you and your team can diff and merge to your heart's content? Wouldn't it be nice to update a diagram layout without touching the underlying model (and vice versa)?
 
