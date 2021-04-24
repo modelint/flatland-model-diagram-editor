@@ -29,7 +29,7 @@ to play with it and look at the code and documentation. Follow me
 on [twitter](https://twitter.com/Leon_Starr) or
 [LinkedIn](https://linkedin.com/in/modelint) for updates.
 
-## Shameless plug
+## Models to Code
 
 In the meantime, if you are curious about the whole MBSE thing that this tool supports, take a look at our [book](https://modelstocode.com).
 Also, various resources at the [Model Integration](https://modelint.com/mbse) website.
