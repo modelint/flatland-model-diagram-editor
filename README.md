@@ -1,12 +1,21 @@
 # Flatland Model Diagram (non) Editor
 
-I built this tool because I want beautiful, human readable model diagram layouts. PlantUML (and its ilk), especially for large,
-detailed non-hierarchical diagrams do not deliver. Also, I have wasted way too many hours of my career pushing
-pixels around in both proprietary and open source diagram editors and I am sick of it!  No mas!!!
-I need to be able to quickly edit and change complex model diagrams, keep them under configuration management,
-and integrate them into our open source code/documentation generation pipeline.
+Ah yes, yet another tool for generating diagrams from text. But this one is different (otherwise I wouldn't have wasted all this time building it!)
 
-Flatland is a model diagram non-editor written by myself [Leon Starr](mailto:leon_starr@modelint.com) that generates
+I built Flatland because the following benefits are critical for productive model development:
+
+1. Complete separation of the model semantics from the diagram layout
+2. Complete separation of model semantics from model notation
+3. Consistent layout of model diagrams without forcing the user to accept or hack awkard, non-sensical placements of nodes and connectors (yeah, I'm lookin at YOU PlantUML)
+4. Maximum layout power with minimal specification:  No more carpal tunnel pixel pushing!
+5. Beautiful, readable diagram output in many output formats (pdf, svg, etc)
+6. Support for industrial strength modeling (many hundreds and thousands of model elements
+7. Use your favorite text editor and all the advanced facilities of it and whatever IDE you like without having to learn yet another draw tool that makes you and your team's life difficult.
+8. And since we're here on GitHub, wouldn't it be nice if all of your models were under proper configuration management where you and your team can diff and merge to your heart's content? Wouldn't it be nice to update a diagram layout without touching the underlying model (and vice versa)?
+
+Basically, I have wasted way too many hours of my career pushing pixels around and I just couldn't take it anymore!
+
+Flatland is a model diagram non-editor written by me [Leon Starr](mailto:leon_starr@modelint.com) that generates
 beautiful PDFs (and other output formats) based on two very
 human-readable input text files. The model file specifies model semantics
 (state transitions, generalizations, classes etc)
@@ -14,17 +23,8 @@ while the layout file specifies (node placement and alignment, connector anchors
 in the model file. You can think of the layout file as a "style sheet" for your models.
 Some benefits:
 
-* You can now put your models under configuration management since the source is all text.
-* Complex model layouts are easily edited without the need for tedious pixel pushing in a graphical editor
-* Executable UML (xUML) in particular is supported, but any similar kind of model diagrams can be supported with
-minor extensions
-  
-In fact, you edit the models and layout in your favorite text editor and then a diagram is generated. So,
-technically, this is not an editor at all, but a diagram generator. That said, the generator and associated
-model and layout grammar/parsers effectively set you up with a powerful open source model editor.
-
-WARNING: I am still in the early days of releasing so it's going to be a few weeks before
-this tool is ready to use. I don't recommend wasting your time downloading just yet unless you just want
+WARNING: I am still in the early days of releasing to the greater public so it's going to be a few weeks/months before
+this tool is ready for the outside world. We are currently using it at the Toyota Research Institute for our work modeling the driving environment for autonomous vehicles. So this tool is in production and improving daily. Nonetheless, I don't recommend wasting your time downloading just yet unless you just want
 to play with it and look at the code and documentation. Follow me
 on [twitter](https://twitter.com/Leon_Starr) or
 [LinkedIn](https://linkedin.com/in/modelint) for updates.
