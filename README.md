@@ -53,4 +53,4 @@ Flatland is supported on Python 3.9 and above
 
 ## How to use
 
-At this point I refer you to the wiki on this site for all of the user documentation. Enjoy (and feel free to contact me if you have any questions.
+At this point I refer you to the [wiki](https://github.com/modelint/flatland-model-diagram-editor/wiki) on this site for all of the user documentation. Enjoy (and feel free to contact me if you have any questions.
