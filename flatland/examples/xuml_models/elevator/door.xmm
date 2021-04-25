@@ -1,0 +1,68 @@
+metadata /// Single state machine flatland example
+    Title : Door State Machine
+    Author : Leon Starr
+    Document ID : mint.elevator3.td.7
+    Modification Date : May 12, 2019
+    Version : 3.2.1
+    Organization : Model Integration, LLC
+    Copyright notice > MIT
+    Organization logo > mint_large
+subsystem Elevator
+class Door
+events
+    Door opened
+    Time to close
+    Door closed
+    Lock
+    Unlock
+--
+state OPENING
+activity
+    Open door( Shaft ) => SIO
+    UI.Door opening( Shaft )
+--
+transitions
+    Door opened > OPEN
+    Lock
+--
+state OPEN
+activity
+    UI.Door opened( Shaft )
+    my Bank .= /R4/R2/Bank
+    Time to close -> me after Blocked ?
+        my Bank.Block clear time : my Bank.Passenger load time
+--
+transitions
+    Time to close > CLOSING
+--
+state CLOSING
+activity
+    [!Emergency hold] {
+        Close door( Shaft ) => SIO
+        UI.Door closing( Shaft )
+    }
+    [Emergency hold] Emergency hold -> me
+--
+transitions
+    Door closed > CLOSED
+--
+state CLOSED
+activity
+    UI.Door closed( Shaft )
+    Close attempts.reset
+    Blocked.unset
+    [Lock requested] Lock -> me
+    Door closed -> /R4/R53/Transfer // May be none
+--
+transitions
+    Lock > LOCKED
+--
+state LOCKED
+activity
+    // Tell the cabin that we’re ready to go
+    Lock requested.unset
+    Doors secure -> /R4/Cabin
+--
+transitions
+    Unlock > OPENING
+--
