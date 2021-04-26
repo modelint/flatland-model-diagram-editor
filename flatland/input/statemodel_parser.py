@@ -10,7 +10,7 @@ from flatland.input.nocomment import nocomment
 import os
 from pathlib import Path
 
-StateModel = namedtuple('State_model', 'metadata domain class_name relationship events states')
+StateModel = namedtuple('State_model', 'metadata domain lifecycle assigner events states')
 
 class StateModelParser:
     """
@@ -27,7 +27,7 @@ class StateModelParser:
     grammar_file_name = "model_markup/statemodel.peg"
     grammar_file = Path(__file__).parent.parent / grammar_file_name
     root_rule_name = 'statemodel'  # We don't draw a diagram larger than a single subsystem
-    xuml_model_dir = Path(__file__).parent.parent / "examples" / "xuml_models"
+    xuml_model_dir = Path(__file__).parent.parent / "examples" / "elevator"
 
     def __init__(self, model_file_path, debug=True):
         """
@@ -74,8 +74,8 @@ class StateModelParser:
             # Transform dot files into pdfs
             peg_tree_dot = Path("peggrammar_parse_tree.dot")
             peg_model_dot = Path("peggrammar_parser_model.dot")
-            parse_tree_dot = Path("state_model_parse_tree.dot")
-            parser_model_dot = Path("state_model_peg_parser_model.dot")
+            parse_tree_dot = Path("statemodel_parse_tree.dot")
+            parser_model_dot = Path("statemodel_peg_parser_model.dot")
 
             parse_tree_file = str(StateModelParser.xuml_model_dir / self.model_file_path.stem) + "_parse_tree.pdf"
             model_file = str(StateModelParser.xuml_model_dir / self.model_file_path.stem) + "_model.pdf"
@@ -88,15 +88,18 @@ class StateModelParser:
             peg_model_dot.unlink(missing_ok=True)
         # Return the refined model data, checking sequence length
         metadata = result.results.get('metadata', None)  # Optional section
-        class_data = result.results['class_set'][0]  # Required by model parser
+        domain = result.results.get('domain_header')
+        lifecycle = result.results.get('lifecycle', None)
+        assigner = result.results.get('assigner', None)
+        events = result.results.get('events')
+        states = result.results.get('state_block')
         # You can draw classes without rels, but not the other way around!
         return StateModel(
-            name=subsys_name, classes=class_data, rels=None if not rel_data else rel_data[0],
+            domain=domain, lifecycle=lifecycle, assigner=assigner, events=events, states=states,
             metadata=None if not metadata else metadata[0]
         )
 
-
 if __name__ == "__main__":
-    markup_path = Path(__file__).parent.parent / 'Test/aircraft_tree1.xsm'
+    markup_path = Path(__file__).parent.parent / 'Test/door.xsm'
     x = StateModelParser(model_file_path=markup_path, debug=True)
     x.parse()

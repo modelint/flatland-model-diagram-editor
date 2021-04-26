@@ -1,6 +1,10 @@
 """ statemodel_visitor.py """
 
 from arpeggio import PTNodeVisitor
+from collections import namedtuple
+
+StateBlock = namedtuple('StateBlock', 'activity transitions')
+Parameter = namedtuple('Parameter', 'name type')
 
 class StateModelVisitor(PTNodeVisitor):
 
@@ -34,7 +38,7 @@ class StateModelVisitor(PTNodeVisitor):
     # State block
     def visit_state_name(self, node, children):
         name = ''.join(children)
-        return {'state_name': name }
+        return name
 
     def visit_transition(self, node, children):
         d = { 'transition': {'event': children[0]} }
@@ -49,33 +53,48 @@ class StateModelVisitor(PTNodeVisitor):
         return children
 
     def visit_state_header(self, node, children):
-        return { 'state': children[0] }
+        """state_name"""
+        name = children[0]
+        return name
 
     def visit_state_block(self, node, children):
-        return children
-
+        t = None if len(children) < 3 else children[2]
+        d = { children[0]: StateBlock(activity=children[1], transitions=t)}
+        # d = { children[0]: {'activity': children[1], 'transitions': t}}
+        return d
 
     # Events
     def visit_event_name(self, node, children):
         name = ''.join(children)
-        return {'event_name': name }
+        return name
 
     def visit_type_name(self, node, children):
         name = ''.join(children)
-        return {'type': name }
+        return name
 
     def visit_param_name(self, node, children):
         name = ''.join(children)
-        return {'param': name }
+        return name
+
+    def visit_parameter(self, node, children):
+        """param_name, type_name"""
+        return Parameter(name=children[0], type=children[1])
+
+    def visit_parameter_set(self, node, children):
+        """list of { param_name: type_name } pairs"""
+        return children
 
     def visit_signature(self, node, children):
-        return children
+        """Strips out parenthesis"""
+        return children[0]
 
     def visit_event_spec(self, node, children):
-        return children
+        params = None if len(children) < 2 else children[1]
+        d = { children[0]: params }
+        return d
 
     def visit_events(self, node, children):
-        return children
+        return { node.rule_name: children }
 
     # Scope
     def visit_assigner(self, node, children):
@@ -86,10 +105,10 @@ class StateModelVisitor(PTNodeVisitor):
         """Scope: If value supplied this is a lifecycle state model"""
         return {'class': children[0] }
 
-
     def visit_domain_header(self, node, children):
-        """Scope: State model is defined in this domain"""
-        return {'domain_name': children[0]}
+        """domain_name"""
+        name = children[0]
+        return name
 
     # Metadata
     def visit_text_item(self, node, children):

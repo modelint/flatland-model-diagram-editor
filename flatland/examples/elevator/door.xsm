@@ -10,7 +10,7 @@ metadata /// Single state machine flatland example
 domain Elevator Application
 class Door
 events
-    Door opened
+    Door opened( door id: ID, time: Date Time )
     Door closed
     Lock
     Unlock
