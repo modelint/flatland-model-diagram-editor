@@ -1,0 +1,54 @@
+// Model Markdown Arpeggio Clean Peg Grammar
+// for state model files
+
+// This grammar describes the content of an xUML State Model file
+
+nl = "\n" // New line
+sp = " " // Single space
+delim = r'[ _]' // Delimiter used inside of names
+indent = "    "  // Need indent for clarity and to signal unstructured lines of text
+rnum = r'O?R[1-9][0-9]*' // Relationship number
+lword = r'[a-z][a-z]*' // Lower case only word (used in relationship phrase)
+iword = r'[A-Z][A-Za-z0-9]*' // Initial cap word (used in Class and Subsystem names)
+acword = r'[A-Z][A-Z0-9_]*' // All caps words for class abbreviations
+lc_name = lword (delim lword)*  // Relationship phrase
+block_end = "--" nl?  // Signifies end of a block (within section)
+body_line = indent r'.*' nl // An unstructured line of text
+icaps_name = iword (delim iword)*  // A name using iniital caps only
+sentence_name = iword (delim lword)*  // A name using iniital caps only
+
+// State block
+state_name = icaps_name
+transition = indent event_name (sp '>' sp state_name)? nl
+transition_header = "transitions" nl
+transitions = transition_header transition*
+activity_header = "activity" nl
+activity = activity_header body_line+ // A block of activity text (not parsed further)
+state_header = "state" sp icaps_name nl
+state_block = state_header activity transitions? block_end
+
+// Events
+event_name = sentence_name
+type_name = icaps_name
+param_name = lc_name
+signature = '(' (param_name sp ':' sp type_name)* ')'
+event_spec = indent event_name signature? nl
+events_header = "events" nl
+events = events_header event_spec* block_end
+
+// Scope headers
+assigner = "relationship" sp rnum nl
+lifecycle = "class" sp icaps_name nl
+domain_header = "domain" sp icaps_name nl
+
+// Metadata
+text_item = ':' sp* r'.*' // Field content can be any text
+resource_item = '>' sp* (iword / lword) (delim (iword / lword))* // Resource is a name
+item_name = iword (delim (iword / lword))* // Meta data item starts with initial cap
+data_item = indent item_name sp* (resource_item / text_item) nl // Metadata item
+metadata_header = "metadata" nl // Metadata header
+metadata = metadata_header data_item* // Header and set of metadata items
+
+// State Machine
+// In Executable UML a state model is either a lifecycle or an assigner
+statemodel = metadata? domain_header (lifecycle / assigner) events* state_block* EOF

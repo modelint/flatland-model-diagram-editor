@@ -1,9 +1,6 @@
 """
 Flatland Diagram Editor
 
-Usage:
-------
-    $ flatland [-h] [-m model] [-l layout] [-d diagram]
 """
 import logging
 import logging.config
@@ -11,6 +8,7 @@ import sys
 import argparse
 from pathlib import Path
 from flatland.xuml.xuml_classdiagram import XumlClassDiagram
+from flatland.xuml.xuml_statemachine_diagram import XumlStateMachineDiagram
 from flatland import version
 
 def get_logger():
@@ -105,14 +103,26 @@ def main():
         diagram_path = sys.stdout
 
     # Generate the xuml class diagram (we don't do anything with the returned variable yet)
-    class_diagram = XumlClassDiagram(
-        xuml_model_path=model_path,
-        flatland_layout_path=layout_path,
-        diagram_file_path=diagram_path,
-        rebuild=args.rebuild,
-        show_grid=args.grid,
-        nodes_only=args.nodes_only
-    )
+    mtype = model_path.suffix
+    if mtype == '.xmm' or mtype == '.xcm':
+        class_diagram = XumlClassDiagram(
+            xuml_model_path=model_path,
+            flatland_layout_path=layout_path,
+            diagram_file_path=diagram_path,
+            rebuild=args.rebuild,
+            show_grid=args.grid,
+            nodes_only=args.nodes_only
+        )
+    elif mtype == '.xsm':
+        statemodel_diagram = XumlStateMachineDiagram(
+            xuml_model_path=model_path,
+            flatland_layout_path=layout_path,
+            diagram_file_path=diagram_path,
+            rebuild=args.rebuild,
+            show_grid=args.grid,
+            nodes_only=args.nodes_only
+        )
+
     logger.info("No problemo")  # We didn't die on an exception, basically
 
     if not args.log:
