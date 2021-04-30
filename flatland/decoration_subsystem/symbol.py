@@ -82,12 +82,15 @@ class Symbol:
         cross_t = fdb.MetaData.tables['Cross Symbol']
         symbol_t = fdb.MetaData.tables['Symbol']
         s_symbol_t = fdb.MetaData.tables['Simple Symbol']
+        cmp_symbol_t = fdb.MetaData.tables['Compound Symbol']
         stackp_t = fdb.MetaData.tables['Symbol Stack Placement']
 
+        # Filter out only those symbols defined for this diagram type and notation
         f = and_(
             (sdecs_t.c['Diagram type'] == diagram_type),
             (sdecs_t.c['Notation'] == notation)
         )
+
         # Simple symbols
         # Arrow symbols
         p = [symbol_t.c.Name, symbol_t.c.Length, s_symbol_t.c['Terminal offset'], arrow_t.c['Half base'], arrow_t.c.Height,
@@ -106,6 +109,28 @@ class Symbol:
                 ),
             )
         # Circle symbols
+        # Circle components of any Compound Symbols
+        # TODO: This section should be copied in front of the cross and arrow symbols as well
+        # TODO: Better yet, figure out a smarter way to query the database so that a single
+        # TODO: table is built and only one row iteration is required per symbol type
+        p = [symbol_t.c.Length, stackp_t.c['Simple symbol'],
+             s_symbol_t.c.Stroke, s_symbol_t.c['Terminal offset'], circle_t.c.Radius, circle_t.c.Solid]
+        j = sdecs_t.join(symbol_t, sdecs_t.c.Symbol == symbol_t.c.Name).join(cmp_symbol_t).join(
+            stackp_t, symbol_t.c.Name == stackp_t.c['Compound symbol']
+        ).join(s_symbol_t, stackp_t.c['Simple symbol'] == s_symbol_t.c.Name).join(circle_t)
+        q = select(p).select_from(j).where(f)
+        rows = fdb.Connection.execute(q).fetchall()
+        for r in rows:
+            Symbol.instances[r['Simple symbol']] = SymbolSpec(
+                length=r.Length,
+                type='circle',
+                spec=SimpleSymbol(
+                    terminal_offset=r['Terminal offset'],
+                    shape=CircleSymbol(radius=r.Radius, solid=r.Solid)
+                ),
+            )
+        # Circle components of any Simple Symbols
+        # If there is overlap, that's okay. Just overwrite the compound elmeent (it will be the same data anyway)
         p = [symbol_t.c.Name, symbol_t.c.Length, s_symbol_t.c['Terminal offset'], circle_t.c.Radius, circle_t.c.Solid]
         j = sdecs_t.join(symbol_t, sdecs_t.c.Symbol == symbol_t.c.Name).join(s_symbol_t).join(circle_t)
         q = select(p).select_from(j).where(f)

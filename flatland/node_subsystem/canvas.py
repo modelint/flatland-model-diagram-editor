@@ -93,6 +93,7 @@ class Canvas:
         # Load symbol data
         self.logger.info("Loading symbol decoration data from flatland database")
         Symbol(diagram_type=self.Diagram.Diagram_type.Name, notation=self.Diagram.Notation)
+        print("done")
 
     def render(self):
         """
