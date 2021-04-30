@@ -124,16 +124,15 @@ class XumlStateMachineDiagram:
         nodes = {}
         np = self.layout.node_placement # Layout data for all classes
 
-        for s in self.statemodel.states:
+        for state in self.statemodel.states:
 
             # Get the state name from the model
-            sname = s['name']
-            self.logger.info(f'Processing state: {sname}')
+            self.logger.info(f'Processing state: {state.name}')
 
             # Get the layout data for this state
-            nlayout = np.get(sname)
+            nlayout = np.get(state.name)
             if not nlayout:
-                self.logger.warning(f"Skipping state [{sname}] -- No placement specified in layout sheet")
+                self.logger.warning(f"Skipping state [{state.name}] -- No placement specified in layout sheet")
                 continue
 
             # Layout data for all placements
@@ -141,11 +140,11 @@ class XumlStateMachineDiagram:
             nlayout['wrap'] = nlayout.get('wrap', 1)
             # There is an optional keyletter (class name abbreviation) displayed as {keyletter}
             # after the class name
-            name_block = TextBlock(sname, nlayout['wrap'])
+            name_block = TextBlock(state.name, nlayout['wrap'])
             # Now assemble all the text content for each class compartment
             # One list item per compartment in descending vertical order of display
             # (class name, attributes and optional methods)
-            text_content = [name_block.text, c['activity'] ]
+            text_content = [name_block.text, state.activity ]
 
             for i, p in enumerate(nlayout['placements']):
                 h = HorizAlign[p.get('halign', 'CENTER')]
@@ -160,10 +159,10 @@ class XumlStateMachineDiagram:
                 # In most cases, this will just be the one and only indicated by the node name
                 # But if a node is duplicated, i will not be 0 and we add a suffix to the node
                 # name for the additional placement
-                node_name = cname if i == 0 else f'{cname}_{i+1}'
+                node_name = state.name if i == 0 else f'{state.name}_{i+1}'
                 if len(row_span) == 1 and len(col_span) == 1:
                     nodes[node_name] = SingleCellNode(
-                        node_type_name='class' if not import_subsys_name else 'imported class',
+                        node_type_name='state',
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
                         row=row_span[0], column=col_span[0],
@@ -177,7 +176,7 @@ class XumlStateMachineDiagram:
                     left_col = col_span[0]
                     right_col = left_col if len(col_span) == 1 else col_span[1]
                     nodes[node_name] = SpanningNode(
-                        node_type_name='class' if not import_subsys_name else 'imported class',
+                        node_type_name='state',
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
                         low_row=low_row, high_row=high_row,
@@ -186,7 +185,6 @@ class XumlStateMachineDiagram:
                         expansion=expansion_ratio
                     )
         return nodes
-        # TODO:  Add support for axis offset on stem names
 
     # def draw_association(self, rnum, association, binary_layout):
     #     """Draw the binary association"""

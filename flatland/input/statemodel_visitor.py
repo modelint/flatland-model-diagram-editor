@@ -3,7 +3,7 @@
 from arpeggio import PTNodeVisitor
 from collections import namedtuple
 
-StateBlock = namedtuple('StateBlock', 'activity transitions')
+StateBlock = namedtuple('StateBlock', 'name activity transitions')
 Parameter = namedtuple('Parameter', 'name type')
 
 class StateModelVisitor(PTNodeVisitor):
@@ -59,9 +59,8 @@ class StateModelVisitor(PTNodeVisitor):
 
     def visit_state_block(self, node, children):
         t = None if len(children) < 3 else children[2]
-        d = { children[0]: StateBlock(activity=children[1], transitions=t)}
-        # d = { children[0]: {'activity': children[1], 'transitions': t}}
-        return d
+        s = StateBlock(name=children[0], activity=children[1], transitions=t)
+        return s
 
     # Events
     def visit_event_name(self, node, children):

@@ -3,6 +3,7 @@ diagram state machine
 notation xUML
 presentation default
 orientation landscape
+padding b200 l200
 sheet D
 nodes
     OPENING 1,5
