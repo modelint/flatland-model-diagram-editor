@@ -1,6 +1,6 @@
 // door.mls – Simplified elevator door state machine diagram
-diagram state
-notation Starr
+diagram state machine
+notation xUML
 presentation default
 orientation landscape
 sheet D
