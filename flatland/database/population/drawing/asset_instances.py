@@ -109,7 +109,9 @@ population = [
     {'Name': 'event', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'activity', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state name', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
-    {'Name': 'state compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'title compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'activity compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'title only compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     # Symbols
     {'Name': 'hollow large circle', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'solid dot', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},

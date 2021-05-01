@@ -14,6 +14,7 @@ nodes
     Asset Presentation 4-5,6
     Closed Shape 11-12,8
     Closed Shape Fill 7,10-11
+    Corner Spec 8,9
     Drawing Type 5,3
     Element 6,1
     Layer 8,5
@@ -25,7 +26,7 @@ nodes
     Rectangle 13,7-8
     RGB Color 50% 4-5,11-12
     Shape Element 10,7-8
-    Shape Presentation/2 5,7-8
+    Shape Presentation/2 5-6,7-8
     Tablet 9,3
     Text Element 1,6
     Text Presentation/2 4,7-8
@@ -38,7 +39,7 @@ connectors
     -R3 : +/2 b|Drawing Type : +/1 l|Asset
     -R4 : -/1 t|Asset : -/1 b*|Presentation, l|Asset Presentation
     +R5 : r|Asset Presentation { l|Shape Presentation, l|Text Presentation }
-    -R6 : +/1 b|Shape Element : -/1 t*|Shape Presentation
+    -R6 : +/1 b*|Shape Element : -/1 t|Shape Presentation
     +R7 : +/1 r|Text Presentation : -/1 l*|Text Style
     +R8 : +/1 r+2|Line Style : +/1 l*|Line Pattern
     +R9 : -/1 r|Line Style : -/1 t-2|RGB Color
@@ -46,11 +47,12 @@ connectors
     +R11.2 : +/1 b+1|Text Style : -/1 l|Typeface
     +R12 : t|Shape Element { b|Line Segment, b|Closed Shape }
     +R13.2 : +/3 t+2|Layer : +/3 r|Tablet
-    +R14 : -/2 l*|Line Style : +/2 r|Shape Presentation
+    +R14 : -/2 l*|Line Style : -/2 r-2|Shape Presentation
     -R15 : r|Element { l|Shape Element, l|Text Element : L2R-2 }
     -R16 : -/1 r|Text Element : -/1 b-2|Text Style
     +R17 : -/2 r|Polygon : -/2 l*|Vertex
+    +R18.2 : -/2 l|Corner Spec : +/2 t+2|Shape Presentation
     +R19 : -/1 t|Element : -/1 l-2|Layer
     -OR20.2 : -/1 l+1|Layer : +/2 t-2|Layer : L4R+2 L9R-1
-    +R21.2 : +/2 t+2|Shape Presentation : +/2 t|RGB Color, b|Closed Shape Fill : L6
+    +R21 : -/2 r+2|Shape Presentation : +/2 t|RGB Color, b|Closed Shape Fill
     +R22 : t|Closed Shape { b|Rectangle, b|Polygon }

@@ -4,7 +4,7 @@ metadata
     Title : Flatland Draing Domain / Tablet Subsystem Class Diagram
     Author : Leon Starr
     Document ID : mint.flatland.td.6a
-    Version : 0.3.0
+    Version : 0.3.1
     Modification date : May 1, 2021
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
@@ -34,6 +34,15 @@ attributes
     Presentation {I, R21}
     Drawing type {I, R21}
     Fill color {R21}
+--
+class Corner Spec
+attributes
+    Asset {I, R18}
+    Presentation {I, R18}
+    Drawing type {I, R18}
+    Radius : Distance
+    Top : Boolean
+    Bottom : Boolean
 --
 class Drawing Type
 attributes
@@ -109,8 +118,6 @@ attributes
     Presentation {I, R5}
     Drawing type {I, R5}
     Line style {R6}
-    Top rounded corners : Boolean
-    Bottom rounded corners : Boolean
 --
 class Tablet
 attributes
@@ -226,6 +233,10 @@ relationships
     R17
     is start of line segment in, 1 Polygon
     starts line segment at, M Vertex
+--
+    R18
+    rounds corners of, 1 Shape Presentation
+    has corners rounded by, 1c Corner Spec
 --
     R19
     draws, Mc Asset

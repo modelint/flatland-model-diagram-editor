@@ -91,7 +91,9 @@ population = [
 
     # xUML state default
     {'Asset': 'transition', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
-    {'Asset': 'state compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
+    {'Asset': 'title compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
+    {'Asset': 'activity compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
+    {'Asset': 'title only compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'solid dot', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
      'Line style': 'normal'},
     {'Asset': 'hollow large circle', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
