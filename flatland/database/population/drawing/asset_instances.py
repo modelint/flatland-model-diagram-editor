@@ -46,7 +46,9 @@ population = [
     # {'Name': 'Block border small', 'Form': 'shape', 'Drawing type': 'OS Engineer small'},
 
     # xUML class diagram
-    {'Name': 'class compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
+    {'Name': 'class title compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
+    {'Name': 'class attribute compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
+    {'Name': 'class method compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
     {'Name': 'binary association connector', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
     {'Name': 'generalization connector', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
     {'Name': 'label', 'Form': 'text', 'Drawing type': 'xUML class diagram'},
@@ -63,7 +65,9 @@ population = [
     {'Name': 'margin', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
 
     # Shlaer-Mellor class diagram
-    {'Name': 'class compartment', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
+    {'Name': 'class title compartment', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
+    {'Name': 'class attribute compartment', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
+    {'Name': 'class method compartment', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
     {'Name': 'binary association connector', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
     {'Name': 'generalization connector', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
     {'Name': 'label', 'Form': 'text', 'Drawing type': 'Shlaer-Mellor class diagram'},
@@ -80,7 +84,9 @@ population = [
     {'Name': 'margin', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
 
     # Starr class diagram
-    {'Name': 'class compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
+    {'Name': 'class title compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
+    {'Name': 'class attribute compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
+    {'Name': 'class method compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
     {'Name': 'binary association connector', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
     {'Name': 'generalization connector', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
     {'Name': 'label', 'Form': 'text', 'Drawing type': 'Starr class diagram'},

@@ -5,13 +5,10 @@ presentation_instances.py
 population = [
     # Diagrams
     {'Name': 'default', 'Drawing type': 'Starr class diagram'},
-    {'Name': 'diagnostic', 'Drawing type': 'Starr class diagram'},
 
     {'Name': 'default', 'Drawing type': 'Shlaer-Mellor class diagram'},
-    {'Name': 'diagnostic', 'Drawing type': 'Shlaer-Mellor class diagram'},
 
     {'Name': 'default', 'Drawing type': 'xUML class diagram'},
-    {'Name': 'diagnostic', 'Drawing type': 'xUML class diagram'},
 
     {'Name': 'default', 'Drawing type': 'xUML state machine diagram'},
 

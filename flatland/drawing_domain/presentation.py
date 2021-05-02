@@ -4,7 +4,9 @@ presentation.py – Presentation class in Drawing domain
 import logging
 from flatland.database.flatlanddb import FlatlandDB as fdb
 from sqlalchemy import select, and_
+from collections import namedtuple
 
+CornerSpec = namedtuple('Corner_Spec', 'radius top bottom')
 
 class Presentation:
     """
@@ -25,11 +27,13 @@ class Presentation:
         self.Text_presentation = {}
         self.Shape_presentation = {}
         self.Closed_shape_fill = {}
+        self.Corner_spec = {}
 
         # Load Asset Presentations for all Assets in this Presentation
         self.logger.info(f"Loading assets for Presentation [{self.Name}]")
         self.load_text_presentations()
         self.load_shape_presentations()
+        print()
 
     def load_text_presentations(self):
         """
@@ -62,3 +66,12 @@ class Presentation:
         f = fdb.Connection.execute(q).fetchall()
         for i in f:
             self.Closed_shape_fill[i.Asset] = i.Fill
+
+        corner_spec_t = fdb.MetaData.tables['Corner Spec']
+        p = [corner_spec_t.c.Asset, corner_spec_t.c.Radius, corner_spec_t.c.Top, corner_spec_t.c.Bottom]
+        q = select(p).where(and_(
+            corner_spec_t.c.Presentation == self.Name, corner_spec_t.c['Drawing type'] == self.Drawing_type
+        ))
+        f = fdb.Connection.execute(q).fetchall()
+        for i in f:
+            self.Corner_spec[i.Asset] = CornerSpec(radius=i.Radius, top=i.Top, bottom=i.Bottom)
