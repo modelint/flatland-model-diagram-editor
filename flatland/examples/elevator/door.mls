@@ -7,7 +7,7 @@ padding b200 l200
 sheet D
 nodes
     OPEN 3,5
-//    OPENING 1,5
-//    CLOSING 5,5
-//    CLOSED 7,5
-//    LOCKED 5,2
+    OPENING 1,5
+    CLOSING 5,5
+    CLOSED 7,5
+    LOCKED 5,2

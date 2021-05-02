@@ -29,11 +29,11 @@ population = [
     # State machine diagram
     # State
     {'Name': 'name', 'Horizontal alignment': 'CENTER',
-     'Pad top': 5, 'Pad bottom': 5, 'Pad left': 5, 'Pad right': 5, 'Text style': 'TITLE',
+     'Pad top': 5, 'Pad bottom': 10, 'Pad left': 5, 'Pad right': 5, 'Text style': 'TITLE',
      'Node type': 'state', 'Diagram type': 'state machine', 'Stack order': 1},
 
     {'Name': 'activity', 'Horizontal alignment': 'LEFT',
-     'Pad top': 4, 'Pad bottom': 4, 'Pad left': 5, 'Pad right': 5, 'Text style': 'BODY',
+     'Pad top': 4, 'Pad bottom': 10, 'Pad left': 5, 'Pad right': 5, 'Text style': 'BODY',
      'Node type': 'state', 'Diagram type': 'state machine', 'Stack order': 2},
 
     # Domain diagram
