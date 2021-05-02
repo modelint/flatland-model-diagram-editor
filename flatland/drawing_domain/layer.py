@@ -133,7 +133,9 @@ class Layer:
         )
         self.Tablet.Context.set_font_size(style.size)
         te = self.Tablet.Context.text_extents(text_line)
-        return Rect_Size(height=te.height, width=te.width)
+        # Add x_bearing to account for any indented whitespace
+        # Otherwise you just get the width of the text after the whitespace
+        return Rect_Size(height=te.height, width=te.width+te.x_bearing)
 
     def text_block_size(self, asset: str, text_block: List[str]) -> Rect_Size:
         """

@@ -6,8 +6,8 @@ orientation landscape
 padding b200 l200
 sheet D
 nodes
-    OPENING 1,5
     OPEN 3,5
-    CLOSING 5,5
-    CLOSED 7,5
-    LOCKED 5,2
+//    OPENING 1,5
+//    CLOSING 5,5
+//    CLOSED 7,5
+//    LOCKED 5,2
