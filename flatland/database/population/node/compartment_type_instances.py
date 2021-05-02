@@ -9,11 +9,11 @@ population = [
      'Pad top': 5, 'Pad bottom': 10, 'Pad left': 5, 'Pad right': 5, 'Text style': 'TITLE',
      'Node type': 'class', 'Diagram type': 'class', 'Stack order': 1},
 
-    {'Name': 'attributes', 'Horizontal alignment': 'LEFT',
+    {'Name': 'attribute', 'Horizontal alignment': 'LEFT',
      'Pad top': 5, 'Pad bottom': 10, 'Pad left': 5, 'Pad right': 5, 'Text style': 'BODY',
      'Node type': 'class', 'Diagram type': 'class', 'Stack order': 2},
 
-    {'Name': 'methods', 'Horizontal alignment': 'LEFT',
+    {'Name': 'method', 'Horizontal alignment': 'LEFT',
      'Pad top': 5, 'Pad bottom': 4, 'Pad left': 5, 'Pad right': 5, 'Text style': 'BODY',
      'Node type': 'class', 'Diagram type': 'class', 'Stack order': 3},
 
@@ -22,7 +22,7 @@ population = [
      'Pad top': 5, 'Pad bottom': 10, 'Pad left': 5, 'Pad right': 5, 'Text style': 'TITLE',
      'Node type': 'imported class', 'Diagram type': 'class', 'Stack order': 1},
 
-    {'Name': 'attributes', 'Horizontal alignment': 'LEFT',
+    {'Name': 'attribute', 'Horizontal alignment': 'LEFT',
      'Pad top': 5, 'Pad bottom': 10, 'Pad left': 5, 'Pad right': 5, 'Text style': 'BODY',
      'Node type': 'imported class', 'Diagram type': 'class', 'Stack order': 2},
 

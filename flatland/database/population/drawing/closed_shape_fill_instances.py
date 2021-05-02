@@ -10,7 +10,9 @@ population = [
     {'Asset': 'class name compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'white'},
     {'Asset': 'class attribute compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'white'},
     {'Asset': 'class method compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'white'},
-    {'Asset': 'imported class compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram',
+    {'Asset': 'imported class name compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram',
+     'Fill': 'white'},
+    {'Asset': 'imported class attribute compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram',
      'Fill': 'white'},
     {'Asset': 'name underlay', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'white'},
 
