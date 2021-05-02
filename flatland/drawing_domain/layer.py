@@ -219,10 +219,16 @@ class Layer:
         ul = Position(x=ll_dc.x, y=ll_dc.y - size.height)
 
         # Check to see if this rectangle is filled
-        fill = self.Presentation.Closed_shape_fill.get(asset, None)
+        fill = self.Presentation.Closed_shape_fill.get(asset)
+
+        # Set the corner spec, if any
+        cspec = self.Presentation.Corner_spec.get(asset)
+        # If no corner spec, assume 0 radius corners
+        radius, top, bottom = (0, False, False) if not cspec else (cspec.radius, cspec.top, cspec.bottom)
 
         self.Rectangles.append(element.Rectangle(
-            upper_left=ul, size=size, border_style=self.Presentation.Shape_presentation[asset], fill=fill
+            upper_left=ul, size=size, border_style=self.Presentation.Shape_presentation[asset], fill=fill,
+            radius=radius, top=top, bottom=bottom
         ))
 
     def add_polygon(self, asset: str, vertices: List[Position]):
