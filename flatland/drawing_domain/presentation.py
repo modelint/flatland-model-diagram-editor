@@ -33,7 +33,6 @@ class Presentation:
         self.logger.info(f"Loading assets for Presentation [{self.Name}]")
         self.load_text_presentations()
         self.load_shape_presentations()
-        print()
 
     def load_text_presentations(self):
         """

@@ -46,7 +46,7 @@ population = [
     # {'Name': 'Block border small', 'Form': 'shape', 'Drawing type': 'OS Engineer small'},
 
     # xUML class diagram
-    {'Name': 'class title compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
+    {'Name': 'class name compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
     {'Name': 'class attribute compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
     {'Name': 'class method compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
     {'Name': 'binary association connector', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
@@ -65,7 +65,7 @@ population = [
     {'Name': 'margin', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
 
     # Shlaer-Mellor class diagram
-    {'Name': 'class title compartment', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
+    {'Name': 'class name compartment', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
     {'Name': 'class attribute compartment', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
     {'Name': 'class method compartment', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
     {'Name': 'binary association connector', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
@@ -84,7 +84,7 @@ population = [
     {'Name': 'margin', 'Form': 'shape', 'Drawing type': 'Shlaer-Mellor class diagram'},
 
     # Starr class diagram
-    {'Name': 'class title compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
+    {'Name': 'class name compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
     {'Name': 'class attribute compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
     {'Name': 'class method compartment', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
     {'Name': 'binary association connector', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
@@ -111,13 +111,12 @@ population = [
     {'Name': 'gen arrow', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
 
     # xUML state machine diagram
-    {'Name': 'transition', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
-    {'Name': 'event', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
-    {'Name': 'activity', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'state transition', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'state event', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'state activity', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state name', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
-    {'Name': 'title compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
-    {'Name': 'activity compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
-    {'Name': 'title only compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'state name compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'state activity compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     # Symbols
     {'Name': 'hollow large circle', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'solid dot', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},

@@ -80,7 +80,8 @@ population = [
     {'Asset': 'attributes', 'Presentation': 'default', 'Drawing type': 'Shlaer-Mellor class diagram', 'Text style': 'p9body'},
     {'Asset': 'methods', 'Presentation': 'default', 'Drawing type': 'Shlaer-Mellor class diagram', 'Text style': 'p9body'},
 
-    {'Asset': 'event', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p9body'},
-    {'Asset': 'activity', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p9body'},
+    # xUML state machine diagram, default
+    {'Asset': 'state event', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p9body'},
+    {'Asset': 'state activity', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p9body'},
     {'Asset': 'state name', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p12title'}
 ]
