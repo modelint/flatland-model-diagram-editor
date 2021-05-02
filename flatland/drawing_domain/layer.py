@@ -4,6 +4,7 @@ layer.py - A layer of graphics drawn on a Tablet
 import logging
 from typing import List
 import cairo
+import math  # For rounded corners
 from flatland.drawing_domain.styledb import StyleDB
 import flatland.drawing_domain.element as element
 from flatland.datatypes.geometry_types import Rect_Size, Position, HorizAlign
@@ -19,6 +20,24 @@ Cairo_font_weight = {'normal': cairo.FontWeight.NORMAL, 'bold': cairo.FontWeight
 Cairo_font_slant = {'normal': cairo.FontSlant.NORMAL, 'italic': cairo.FontSlant.ITALIC}
 """Maps an application style to a cairo specific font slant"""
 
+def roundrect(ctx, x: float, y:float, width:float, height:float, top_r:int, bottom_r:int):
+    """
+    Draw rectangle with rounded corners on top, bottom or both. Radius is expressed in points
+    with zero resulting in a square corner on top, bottom or both
+
+    :param ctx: Pycairo context
+    :param x: Upper left x
+    :param y: Upper left y
+    :param width: Rect width
+    :param height: Rect height
+    :param top_r: Top corner radius
+    :param bottom_r: Bottom corner radius
+    """
+    ctx.arc(x+top_r, y+top_r, top_r, math.pi, 3*math.pi/2)
+    ctx.arc(x+width-top_r, y+top_r, top_r, 3*math.pi/2, 0)
+    ctx.arc(x+width-bottom_r, y+height-bottom_r, bottom_r, 0, math.pi/2)
+    ctx.arc(x+bottom_r, y+height-bottom_r, bottom_r, math.pi/2, math.pi)
+    ctx.close_path()
 
 class Layer:
     """
@@ -304,7 +323,12 @@ class Layer:
             w = StyleDB.line_style[r.border_style].width
             self.Tablet.Context.set_line_width(w)
             # Set rectangle extents and draw
-            self.Tablet.Context.rectangle(r.upper_left.x, r.upper_left.y, r.size.width, r.size.height)
+            top_radius = r.radius if r.top else 0
+            bottom_radius = r.radius if r.bottom else 0
+            # Zero radius gives us sharp corners top, bottom or both
+            roundrect( self.Tablet.Context,
+                       r.upper_left.x, r.upper_left.y, r.size.width, r.size.height,
+                       top_radius, bottom_radius )
             if r.fill:
                 self.Tablet.Context.set_source_rgb(*fill_rgb_color_value)
                 self.Tablet.Context.fill_preserve()

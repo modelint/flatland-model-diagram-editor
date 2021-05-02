@@ -3,9 +3,9 @@ corner_spec_instances.py
 """
 
 population = [
-    # xUML state default / Radius in mm
+    # xUML state default / Radius in points
     {'Asset': 'state name compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
-     'Line style': 'normal', 'Radius': 2, 'Top': True, 'Bottom': False},
+     'Line style': 'normal', 'Radius': 6, 'Top': True, 'Bottom': False},
     {'Asset': 'state activity compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
-     'Line style': 'normal', 'Radius': 2, 'Top': False, 'Bottom': True},
+     'Line style': 'normal', 'Radius': 6, 'Top': False, 'Bottom': True},
 ]
