@@ -106,7 +106,10 @@ class XumlStateMachineDiagram:
         p_stem = New_Stem(stem_type='to state', semantic='target state',
                           node=self.nodes[node_ref], face=pstem['face'],
                           anchor=pstem.get('anchor', None), stem_name=None)
-        paths = None
+
+        paths = None if not tlayout.get('paths', None) else \
+            [New_Path(lane=p['lane'], rut=p['rut']) for p in tlayout['paths']]
+
         evname_data = ConnectorName(text=evname, side=tlayout['dir'], bend=tlayout['bend'])
         if not paths and OppositeFace[tstem['face']] == pstem['face']:
             StraightBinaryConnector(
@@ -119,12 +122,11 @@ class XumlStateMachineDiagram:
         else:
             BendingBinaryConnector(
                 diagram=self.flatland_canvas.Diagram,
-                connector_type='binary association',
+                connector_type='transition',
                 anchored_stem_p=p_stem,
                 anchored_stem_t=t_stem,
-                tertiary_stem=a_stem,
                 paths=paths,
-                name=rnum_data)
+                name=evname_data)
 
     def create_canvas(self) -> Canvas:
         """Create a blank canvas"""
