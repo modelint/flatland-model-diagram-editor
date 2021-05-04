@@ -42,8 +42,9 @@ class Connector:
                 raise InvalidNameSide(self.Name.side)
             layer = self.Diagram.Layer
             # Get size of bounding box
+            asset = ' '.join([self.Connector_type.Name,'name'])
             self.Name_size = layer.text_block_size(
-                asset=self.Connector_type.Name + ' name', text_block=[self.Name.text]
+                asset=asset, text_block=[self.Name.text]
             )
 
         self.Diagram.Grid.Connectors.append(self)

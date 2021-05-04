@@ -125,8 +125,11 @@ class Stem:
             layer.add_text_block(asset=self.Stem_type.Name + ' name', lower_left=Position(name_x, name_y),
                                   text=self.Name.text.text, align=align)
 
-        root_symbol_name = self.Stem_type.DecoratedStems[self.Semantic].Root_symbol
-        vine_symbol_name = self.Stem_type.DecoratedStems[self.Semantic].Vine_symbol
+        # TODO: Double check four lines below (especially for class diagram ternary connector root)
+        root_dec_stem = self.Stem_type.DecoratedStems.get(self.Semantic)
+        root_symbol_name = None if not root_dec_stem else root_dec_stem.Root_symbol
+        vine_dec_stem = self.Stem_type.DecoratedStems.get(self.Semantic)
+        vine_symbol_name = None if not vine_dec_stem else vine_dec_stem.Vine_symbol
 
         if root_symbol_name:
             self.Root_rendered_symbol = RenderedSymbol(

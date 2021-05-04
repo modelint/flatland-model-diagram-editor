@@ -59,9 +59,10 @@ population = [
     {'Asset': 'margin', 'Presentation': 'default', 'Drawing type': 'Shlaer-Mellor class diagram', 'Line style': 'margin'},
 
     # xUML state default
-    {'Asset': 'state transition', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
+    {'Asset': 'transition connector', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'state name compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'state activity compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
+    {'Asset': 'solid arrow', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'solid dot', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
      'Line style': 'normal'},
     {'Asset': 'hollow large circle', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',

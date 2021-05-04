@@ -114,13 +114,14 @@ population = [
     {'Name': 'gen arrow', 'Form': 'shape', 'Drawing type': 'Starr class diagram'},
 
     # xUML state machine diagram
-    {'Name': 'state transition', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
-    {'Name': 'state event', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'transition connector', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'transition name', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state activity', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state name', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state name compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state activity compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     # Symbols
+    {'Name': 'solid arrow', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'hollow large circle', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'solid dot', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
 
