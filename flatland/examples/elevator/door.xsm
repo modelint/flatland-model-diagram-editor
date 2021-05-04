@@ -10,13 +10,14 @@ metadata /// Single state machine flatland example
 domain Elevator Application
 class Door
 events
+    *Create( door id: ID, time: Date Time )
     Door opened( door id: ID, time: Date Time )
     Door closed
     Lock
     Unlock
     Time to close
 --
-state OPENING
+state OPENING *Create
 activity
     Open door( Shaft ) => SIO
     UI.Door opening( Shaft )
@@ -60,4 +61,7 @@ activity
     Doors secure -> /R4/Cabin
 transitions
     Unlock > OPENING
+--
+state OUT OF SERVICE !*
+activity
 --

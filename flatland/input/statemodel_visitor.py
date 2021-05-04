@@ -3,8 +3,9 @@
 from arpeggio import PTNodeVisitor
 from collections import namedtuple
 
-StateBlock = namedtuple('StateBlock', 'name activity transitions')
+StateBlock = namedtuple('StateBlock', 'name type activity transitions')
 Parameter = namedtuple('Parameter', 'name type')
+EventSpec = namedtuple('EventSpec', 'name type signature')
 
 class StateModelVisitor(PTNodeVisitor):
 
@@ -36,6 +37,15 @@ class StateModelVisitor(PTNodeVisitor):
         return body_text_line
 
     # State block
+    def visit_deletion_state(self, node, children):
+        return children[0], 'deletion'
+
+    def visit_creation_state(self, node, children):
+        return children[0], 'creation'
+
+    def visit_normal_state(self, node, children):
+        return children[0], 'normal'
+
     def visit_state_name(self, node, children):
         name = ''.join(children)
         return name
@@ -54,15 +64,21 @@ class StateModelVisitor(PTNodeVisitor):
 
     def visit_state_header(self, node, children):
         """state_name"""
-        name = children[0]
-        return name
+        return children[0]
 
     def visit_state_block(self, node, children):
         t = None if len(children) < 3 else children[2]
-        s = StateBlock(name=children[0], activity=children[1], transitions=t)
+        n = children[0]  # name, type
+        s = StateBlock(name=n[0], type=n[1], activity=children[1], transitions=t)
         return s
 
     # Events
+    def visit_creation_event(self, node, children):
+        return children[0], 'creation'
+
+    def visit_normal_event(self, node, children):
+        return children[0], 'normal'
+
     def visit_event_name(self, node, children):
         name = ''.join(children)
         return name
@@ -89,8 +105,9 @@ class StateModelVisitor(PTNodeVisitor):
 
     def visit_event_spec(self, node, children):
         params = None if len(children) < 2 else children[1]
-        d = { children[0]: params }
-        return d
+        ename = children[0]  # name, type tuple
+        espec = EventSpec(name=ename[0], type=ename[1], signature=params)
+        return espec
 
     def visit_events(self, node, children):
         return { node.rule_name: children }

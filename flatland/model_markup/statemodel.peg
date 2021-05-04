@@ -23,8 +23,11 @@ transition = indent event_name (sp '>' sp state_name)? nl
 transition_header = "transitions" nl
 transitions = transition_header transition*
 activity_header = "activity" nl
-activity = activity_header body_line+ // A block of activity text (not parsed further)
-state_header = "state" sp icaps_name nl
+activity = activity_header body_line* // A block of activity text (not parsed further)
+deletion_state = icaps_name sp '!*'
+creation_state = icaps_name sp '*' event_name
+normal_state = event_name
+state_header = "state" sp (creation_state / deletion_state / normal_state) nl
 state_block = state_header activity transitions? block_end
 
 // Events
@@ -34,7 +37,9 @@ param_name = lc_name
 parameter = param_name sp? ':' sp? type_name
 parameter_set = parameter (',' sp parameter)*
 signature = '()' / '(' sp? parameter_set sp? ')'
-event_spec = indent event_name signature? nl
+creation_event = '*' event_name
+normal_event = event_name
+event_spec = indent (creation_event / normal_event) signature? nl
 events_header = "events" nl
 events = events_header event_spec* block_end
 
