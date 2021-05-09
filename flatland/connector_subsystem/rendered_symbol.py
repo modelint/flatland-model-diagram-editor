@@ -48,10 +48,11 @@ class RenderedSymbol:
             for s in stack:
                 self.logger.info(f'NEXT LOCATION: {next_location}')
                 if s.type == 'arrow':
-                    next_location = self.draw_arrow(layer=layer, arrow_symbol=s.symbol, location=next_location)
+                    adjacent_location = self.draw_arrow(layer=layer, arrow_symbol=s.symbol, location=next_location)
+                    next_location = adjacent_location if s.arrange == 'adjacent' else next_location
                 elif s.type == 'circle':
-                    # TODO: Need to take stack arrangement into account to see if location shifts
-                    next_location = self.draw_circle(layer=layer, circle_symbol=s.symbol, location=next_location)
+                    adjacent_location = self.draw_circle(layer=layer, circle_symbol=s.symbol, location=next_location)
+                    next_location = adjacent_location if s.arrange == 'adjacent' else next_location
 
     def draw_simple_symbol(self, layer: 'Layer', symbol_name: str, location: Position):
         """ Draw any simple symbol at the indicated location """

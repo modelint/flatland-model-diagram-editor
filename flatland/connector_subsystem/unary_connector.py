@@ -69,9 +69,11 @@ class UnaryConnector(Connector):
         # Add stem decorations
         self.Unary_stem.render()
 
-        self.logger.info("Drawing connector name")
-        name_position = self.compute_name_position(
-            point_t=self.Unary_stem.Root_end, point_p=self.Unary_stem.Vine_end
-        )
-        layer.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
+        if self.Name:
+            # Not all connectors are named
+            self.logger.info("Drawing connector name")
+            name_position = self.compute_name_position(
+                point_t=self.Unary_stem.Root_end, point_p=self.Unary_stem.Vine_end
+            )
+            layer.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
 

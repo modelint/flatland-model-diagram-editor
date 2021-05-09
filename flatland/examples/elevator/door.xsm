@@ -16,6 +16,7 @@ events
     Door closed
     Lock
     Unlock
+    Cannot close
 --
 state OUT OF SERVICE !*
 activity
@@ -57,6 +58,7 @@ activity
     Door closed -> /R4/R53/Transfer // May be none
 transitions
     Lock > LOCKED
+    Cannot close > OUT OF SERVICE
 --
 state LOCKED
 activity

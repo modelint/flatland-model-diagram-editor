@@ -5,7 +5,7 @@ xuml_statemachine_diagram.py – Generates a state machine diagram for an xuml m
 import sys
 import logging
 from pathlib import Path
-from flatland.flatland_exceptions import FlatlandIOException, MultipleFloatsInSameBranch
+from flatland.flatland_exceptions import FlatlandIOException
 from flatland.flatland_exceptions import LayoutParseError, ModelParseError
 from flatland.input.statemodel_parser import StateModelParser
 from flatland.input.layout_parser import LayoutParser
@@ -16,12 +16,11 @@ from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
 from flatland.datatypes.command_interface import New_Stem, New_Path
-from typing import Optional, Dict
-from collections import namedtuple
+from typing import Dict
 from flatland.connector_subsystem.unary_connector import UnaryConnector
 from flatland.connector_subsystem.straight_binary_connector import StraightBinaryConnector
 from flatland.connector_subsystem.bending_binary_connector import BendingBinaryConnector
-from flatland.datatypes.connection_types import ConnectorName, OppositeFace, StemName
+from flatland.datatypes.connection_types import ConnectorName, OppositeFace
 from flatland.text.text_block import TextBlock
 
 
@@ -107,9 +106,12 @@ class XumlStateMachineDiagram:
         if not nodes_only:
             self.logger.info("Drawing the transitions")
             for s in self.statemodel.states:
+                state_place = cp_dict[s.name]  # State placmeent (layout) info
+                if s.type == 'deletion':
+                    it_place = [tp for tp in state_place if tp.get('ustem')][0]
+                    self.draw_deletion_transition(cplace=it_place)
                 if s.type == 'creation':
                     # It must have a unary creation transition
-                    state_place = cp_dict[s.name]
                     it_place = [tp for tp in state_place if tp.get('ustem')][0]
                     cname = make_event_cname(self.statemodel.events[s.creation_event])
                     self.draw_initial_transition(creation_event=cname, cplace=it_place)
@@ -118,13 +120,26 @@ class XumlStateMachineDiagram:
                         if len(t) == 2:  # Not CH or IG
                             evname = t[0]
                             cname = make_event_cname(self.statemodel.events[evname])
-                            state_place = cp_dict[s.name]
                             t_place = [tp for tp in state_place if tp['cname'] == evname][0]
                             if t_place:
                                 self.draw_transition(cname, t_place)
 
         self.logger.info("Rendering the Canvas")
         self.flatland_canvas.render()
+
+    def draw_deletion_transition(self, cplace):
+        """Draw a deletion transition to a final pseudo-state"""
+        ustem = cplace['ustem']
+        node_ref = ustem['node_ref']
+        u_stem = New_Stem(stem_type='from deletion state', semantic='final pseudo state',
+                          node=self.nodes[node_ref], face=ustem['face'],
+                          anchor=ustem.get('anchor', None), stem_name=None)
+        UnaryConnector(
+            self.flatland_canvas.Diagram,
+            connector_type_name='deletion transition',
+            stem=u_stem,
+            name=None
+        )
 
     def draw_initial_transition(self, creation_event, cplace):
         """Draw an initial transition (with or without a creation event)"""
