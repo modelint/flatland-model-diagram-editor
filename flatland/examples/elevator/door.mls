@@ -6,12 +6,14 @@ orientation portrait
 padding l100 b300
 sheet tabloid
 nodes
-    CLOSING 3,3
-    CLOSED 1,3
-    OPEN 5,3
-    OPENING 7,3
-    LOCKED 5,1
+    CLOSING 5,3
+    CLOSED 3,3
+    OPEN 7,3
+    OPENING 9,3
+    LOCKED 7,1
+    OUT OF SERVICE 1,3
 connectors
+    +Create : t|OPENING
     +Door opened : b|OPENING : t*|OPEN
     +Time to close : b|OPEN : t*|CLOSING
     +Door closed : b|CLOSING : t*|CLOSED

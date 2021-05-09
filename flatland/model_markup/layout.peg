@@ -77,6 +77,9 @@ pstem = stem_side // the opposite stem in a binary connector
 paths = path (space path)*
 binary_layout = tstem csep pstem tertiary_node? (csep paths)? // All layout info for a binary connector
 
+// Unary connector
+unary_layout = stem_side
+
 // Tree connector
 // Within a branch, one leaf may either graft that branch > or graft the subsequent branch >>
 // See patterns 3 and 2 respectively in tech note tn.2 in the documentation folder for examples
@@ -92,8 +95,8 @@ branch = '{ ' leaf_faces (csep path)? ' }' // A branch is attached to one or mor
 tree_layout = trunk_face (space branch)+ // All layout info for a tree connector
 
 // Connector
-cname_place = dir? name // Side of connector axis and name of connector (since it is probably short)
-connector_layout = indent cname_place ( bend? csep binary_layout / csep tree_layout ) nl
+cname_place = dir? name bend? csep // Side of connector axis and name of connector (since it is probably short)
+connector_layout = indent cname_place?  ( binary_layout / tree_layout / unary_layout ) nl
 connectors_header = "connectors" nl // starts section where connector layout info is specified
 connector_block = connectors_header connector_layout+ // All
 

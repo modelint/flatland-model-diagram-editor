@@ -63,7 +63,7 @@ if __name__ == "__main__":
              'organizes annotation on',
              'a b',
              'requires semantic elements of',
-             'frames placement of',
+             'frames cplace of',
              'R16'
              ]
     nums = [4, 2, 3, 2, 8, 2, 3, 2, 1]

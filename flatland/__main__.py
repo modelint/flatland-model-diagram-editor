@@ -33,7 +33,7 @@ def parse(cl_input):
     parser.add_argument('-L', '--log', action='store_true',
                         help='Generate a diagnostic flatland.log file')
     parser.add_argument('-N', '--nodes_only', action='store_true',
-                        help='Do not draw any connectors. Helpful to diagnose connector failures due to bad node placement.')
+                        help='Do not draw any connectors. Helpful to diagnose connector failures due to bad node cplace.')
     parser.add_argument('-V', '--version', action='store_true',
                         help='Print the current version of flatland')
     parser.add_argument('-G', '--grid', action='store_true',

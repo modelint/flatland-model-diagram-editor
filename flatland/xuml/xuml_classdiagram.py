@@ -28,10 +28,10 @@ BranchLeaves = namedtuple('BranchLeaves', 'leaf_stems local_graft next_graft flo
 
 def make_node_ref(node_ref) -> str:
     """
-    Composes a fully qualified placement name based on a node reference in a layout file
+    Composes a fully qualified cplace name based on a node reference in a layout file
 
-    :param node_ref:  A layout reference to a node placement
-    :return: The model elment name if it is only placed once, otherwise name suffixed by an underscore and a numbered placement
+    :param node_ref:  A layout reference to a node cplace
+    :return: The model elment name if it is only placed once, otherwise name suffixed by an underscore and a numbered cplace
     """
     return node_ref[0] if len(node_ref) < 2 else f"{node_ref[0]}_{node_ref[1]}"
 
@@ -98,7 +98,7 @@ class XumlClassDiagram:
                 rnum = r['rnum']
                 rlayout = cp.get(rnum)  # How this r is to be laid out on the diagram
                 if not rlayout:
-                    self.logger.warning(f"Relationship {rnum} skipped, no placement in layout sheet.")
+                    self.logger.warning(f"Relationship {rnum} skipped, no cplace in layout sheet.")
                     continue
 
                 if 'superclass' in r.keys():
@@ -145,7 +145,7 @@ class XumlClassDiagram:
             # Get the layout data for this class
             nlayout = np.get(cname)
             if not nlayout:
-                self.logger.warning(f"Skipping class [{cname}] -- No placement specified in layout sheet")
+                self.logger.warning(f"Skipping class [{cname}] -- No cplace specified in layout sheet")
                 continue
 
             # Layout data for all placements
@@ -174,7 +174,7 @@ class XumlClassDiagram:
 
             # The same class may be placed more than once so that the connectors
             # have less bends and crossovers. This is usually, but not limited to,
-            # the placement of imported classes. Since we generate the diagram
+            # the cplace of imported classes. Since we generate the diagram
             # from a single model, there is no harm in duplicating the same class on a
             # diagram.
 
@@ -187,10 +187,10 @@ class XumlClassDiagram:
                 row_span, col_span = p['node_loc']
                 # If methods were supplied, include them in content
                 # text content includes text for all compartments other than the title compartment
-                # When drawing connectors, we want to attach to a specific node placement
+                # When drawing connectors, we want to attach to a specific node cplace
                 # In most cases, this will just be the one and only indicated by the node name
                 # But if a node is duplicated, i will not be 0 and we add a suffix to the node
-                # name for the additional placement
+                # name for the additional cplace
                 node_name = cname if i == 0 else f'{cname}_{i+1}'
                 if len(row_span) == 1 and len(col_span) == 1:
                     nodes[node_name] = SingleCellNode(
@@ -232,7 +232,7 @@ class XumlClassDiagram:
             # The user put the tstems in the wrong order in the layout file
             # Swap them
             # The node_ref is a list and the first element refers to the model class name
-            # (the 2nd element indicates duplicate placement, if any, and is not relevant for the comparison above)
+            # (the 2nd element indicates duplicate cplace, if any, and is not relevant for the comparison above)
             tstem, pstem = pstem, tstem
             reversed = True
             self.logger.info(f"Stems order in layout file does not match model, swapping stem order for connector {rnum}")

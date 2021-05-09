@@ -66,7 +66,7 @@ class Frame:
             name='frame', presentation=presentation, drawing_type=drawing_type_name
         )  # We're gonna be drawing metadata and title block borders all over this thing.
 
-        # If there is a title block placement specified for this Frame, get the name of the pattern
+        # If there is a title block cplace specified for this Frame, get the name of the pattern
         tb_placement_t = fdb.MetaData.tables['Title Block Placement']
         f = and_(
             (tb_placement_t.c['Frame'] == self.Name),

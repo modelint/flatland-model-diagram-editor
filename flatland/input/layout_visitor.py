@@ -91,7 +91,7 @@ class LayoutVisitor(PTNodeVisitor):
     # Face attachment
     def visit_node_ref(self, node, children):
         """name number?"""
-        return children
+        return children[0]
 
 
     def visit_face(self, node, children):
@@ -177,6 +177,11 @@ class LayoutVisitor(PTNodeVisitor):
     def visit_node_block(self, node, children):
         """All node placements"""
         return children
+
+    # Unary connector
+    def visit_unary_layout(self, node, children):
+        """Unary layout which is just a single stem"""
+        return {'ustem': children[0]}
 
     # Binary connector
     def visit_tertiary_node(self, node, children):

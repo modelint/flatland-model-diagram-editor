@@ -36,7 +36,7 @@ min_grid_lable_gap = 2  # Min distance between grid boundary and label
 
 class Grid:
     """
-    Positioning nodes in a drawing tool typically involves pixel level placement which
+    Positioning nodes in a drawing tool typically involves pixel level cplace which
     is overkill for most types of model drawings. To get straight lines you need to fidget
     the pixel level position and alignment. Some tools let you snap to a grid, but the grid
     is usually fine grained to make it possible to position the node connectors.
@@ -49,16 +49,16 @@ class Grid:
     For particularly large nodes, you can position them on a single Cell of the Grid and then have
     them span multiple Rows or Columns.
 
-    So the Grid defines a coordinate system for the placement of Nodes.
+    So the Grid defines a coordinate system for the cplace of Nodes.
 
     It starts out empty, with no Rows or Columns and only an origin. Each loaded Node specifies a desired
-    placement coordinate. The Grid then extends by the necessary (if any) Rows and Columns to create a place
+    cplace coordinate. The Grid then extends by the necessary (if any) Rows and Columns to create a place
     to position the Node.
 
         Attributes
 
         - Cells -- 2D array of Nodes, initially empty
-        - Nodes -- All the nodes on the grid in placement order
+        - Nodes -- All the nodes on the grid in cplace order
         - Row_boundaries -- Floor y of each row ascending upward
         - Col_boundaries -- Left side x of each column, ascending rightward
         - Cell_padding -- Distances from cell to drawn node boundaries

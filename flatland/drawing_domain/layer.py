@@ -70,6 +70,7 @@ class Layer:
 
         # Stuff we will draw on the Layer
         self.Line_segments: List[element.Line_Segment] = []
+        self.Circles: List[element.Circle] = []
         self.Polygons: List[element.Polygon] = []
         self.Rectangles: List[element.Rectangle] = []
         self.Text: List[element.Text_line] = []
@@ -94,6 +95,7 @@ class Layer:
         self.Tablet.Context.set_line_join(cairo.LINE_JOIN_ROUND)
         # Rendering order determines what can potentially overlap on this Layer, so order matters
         self.render_line_segments()
+        self.render_circles()
         self.render_rects()
         self.render_polygons()
         self.render_text()  # Render text after vector content so that it is never underneath
@@ -229,6 +231,20 @@ class Layer:
         self.Images.append(element.Image(resource_path=resource_path, upper_left=ul, size=size))
         self.logger.info(f'Drawing>> Layer {self.Name} registered resource at: {resource_path}')
 
+    def add_circle(self, asset: str, center: Position, radius: float):
+        """
+        Adds a circle to the layer and converts the center to device coordinates
+        """
+        # Flip lower left corner to device coordinates
+        center_dc = self.Tablet.to_dc(Position(x=center.x, y=center.y))
+
+        # Check to see if this circle is filled
+        fill = self.Presentation.Closed_shape_fill.get(asset)
+
+        self.Circles.append(element.Circle(
+            center=center_dc, radius=radius, border_style=self.Presentation.Shape_presentation[asset], fill=fill,
+        ))
+
     def add_rectangle(self, asset: str, lower_left: Position, size: Rect_Size):
         """
         Adds a rectangle to the tablet and converts the lower left corner to device coordinates
@@ -309,6 +325,26 @@ class Layer:
             # Set line segment and draw
             self.Tablet.Context.move_to(*l.from_here)
             self.Tablet.Context.line_to(*l.to_there)
+            self.Tablet.Context.stroke()
+
+    def render_circles(self):
+        """Draw the circle shapes"""
+        for c in self.Circles:
+            # Set the dash pattern
+            pname = StyleDB.line_style[c.border_style].pattern  # name of border line style's pattern
+            pvalue = StyleDB.dash_pattern[pname]  # find pattern value in dash pattern dict
+            self.Tablet.Context.set_dash(pvalue)  # If pvalue is [], line will be solid
+            # Set color and width
+            line_color_name = StyleDB.line_style[c.border_style].color
+            line_rgb_color_value = StyleDB.rgbF[line_color_name]
+            fill_rgb_color_value = None if not c.fill else StyleDB.rgbF[c.fill]
+            w = StyleDB.line_style[c.border_style].width
+            self.Tablet.Context.set_line_width(w)
+            self.Tablet.Context.arc(c.center.x, c.center.y, c.radius, 0, 2*math.pi)
+            if c.fill:
+                self.Tablet.Context.set_source_rgb(*fill_rgb_color_value)
+                self.Tablet.Context.fill_preserve()
+            self.Tablet.Context.set_source_rgb(*line_rgb_color_value)
             self.Tablet.Context.stroke()
 
     def render_rects(self):

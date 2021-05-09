@@ -34,7 +34,7 @@ StackPlacement = namedtuple('StackPlacement', 'symbol type arrange offset')
 """
 Symbol Stack Placement
 
-The placement of a Simple Symbol within a Compound Symbol
+The cplace of a Simple Symbol within a Compound Symbol
 A sequence of these constitues the spec for a Compound Symbol
 
 - symbol -- Name of a Simple Symbol positioned in the stack

@@ -36,7 +36,7 @@ population = [
     {'Asset': 'state activity compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
      'Fill': 'white'},
     {'Asset': 'solid arrow', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Fill': 'black'},
-    {'Asset': 'solid dot', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Fill': 'black'},
+    {'Asset': 'solid small dot', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Fill': 'black'},
     {'Asset': 'hollow large circle', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
      'Fill': 'white'},
 

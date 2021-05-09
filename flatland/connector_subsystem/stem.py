@@ -66,7 +66,7 @@ class Stem:
         self.Vine_rendered_symbol = None
 
         # Some stem subclasses will compute their vine end, but for a fixed geometry, we can do it right here
-        if self.Stem_type.Geometry == 'fixed':
+        if self.Stem_type.Geometry in {'fixed', 'free'}:
             # For a fixed geometry, the Vine end is a fixed distance from the Root End
             stem_len = self.Stem_type.Minimum_length
             # Compute the coordinates based on the stem direction using the rooted node face
@@ -80,7 +80,6 @@ class Stem:
             elif face == NodeFace.BOTTOM:
                 y = y - stem_len
             self.Vine_end = Position(x, y)
-        # TODO: consider Free geometry
 
     def render(self):
         """

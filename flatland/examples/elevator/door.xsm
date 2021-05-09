@@ -17,6 +17,10 @@ events
     Unlock
     Time to close
 --
+state OUT OF SERVICE !*
+activity
+    Wait for service
+--
 state OPENING *Create
 activity
     Open door( Shaft ) => SIO
@@ -61,7 +65,4 @@ activity
     Doors secure -> /R4/Cabin
 transitions
     Unlock > OPENING
---
-state OUT OF SERVICE !*
-activity
 --

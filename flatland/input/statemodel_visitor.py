@@ -3,7 +3,7 @@
 from arpeggio import PTNodeVisitor
 from collections import namedtuple
 
-StateBlock = namedtuple('StateBlock', 'name type activity transitions')
+StateBlock = namedtuple('StateBlock', 'name type creation_event activity transitions')
 Parameter = namedtuple('Parameter', 'name type')
 EventSpec = namedtuple('EventSpec', 'name type signature')
 
@@ -38,13 +38,15 @@ class StateModelVisitor(PTNodeVisitor):
 
     # State block
     def visit_deletion_state(self, node, children):
-        return children[0], 'deletion'
+        return {'state': children[0], 'type': 'deletion'}
 
     def visit_creation_state(self, node, children):
-        return children[0], 'creation'
+        s = children[0]
+        e = None if len(children) < 2 else children[1]
+        return { 'state': s,  'creation_event': e, 'type': 'creation' }
 
     def visit_normal_state(self, node, children):
-        return children[0], 'normal'
+        return {'state': children[0], 'type': 'normal'}
 
     def visit_state_name(self, node, children):
         name = ''.join(children)
@@ -67,10 +69,12 @@ class StateModelVisitor(PTNodeVisitor):
         return children[0]
 
     def visit_state_block(self, node, children):
-        t = None if len(children) < 3 else children[2]
-        n = children[0]  # name, type
-        s = StateBlock(name=n[0], type=n[1], activity=children[1], transitions=t)
-        return s
+        s = children[0]  # State info
+        a = children[1]  # Activity (could be empty, but always provided)
+        t = [] if len(children) < 3 else children[2]  # Optional transitions
+        sblock = StateBlock(name=s['state'], creation_event=s.get('creation_event'),
+                            type=s['type'], activity=a, transitions=t)
+        return sblock
 
     # Events
     def visit_creation_event(self, node, children):

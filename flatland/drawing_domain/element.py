@@ -3,6 +3,8 @@ element.py - Fundamental drawing elements such as shapes and text lines
 """
 from collections import namedtuple
 
+Circle = namedtuple('_Circle', 'center radius border_style fill')
+"""Circle"""
 Polygon = namedtuple('_Polygon', 'vertices border_style fill')
 """Closed polygon (other than a rectangle) that can be filled"""
 Line_Segment = namedtuple('_Line_Segment', 'from_here to_there style')

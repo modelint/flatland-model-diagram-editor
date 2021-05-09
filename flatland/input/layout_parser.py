@@ -107,10 +107,12 @@ class LayoutParser:
 
 
         if 'connector_block' in result.results:
-            conn_pdict = { c['cname']: c for c in result.results['connector_block'][0] }
+            rc = result.results['connector_block'][0]
+            # TODO: Saving comment below for reference, remove when not needed anymore
+            # conn_pdict = { c['cname']: c for c in result.results['connector_block'][0] }
         else:
-            conn_pdict = None
-        return DiagramLayout(layout_spec=lspec, node_placement=node_pdict, connector_placement=conn_pdict)
+            rc = None
+        return DiagramLayout(layout_spec=lspec, node_placement=node_pdict, connector_placement=rc)
 
 
 

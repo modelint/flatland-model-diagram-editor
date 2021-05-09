@@ -18,10 +18,12 @@ from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
 from flatland.datatypes.command_interface import New_Stem, New_Path
 from typing import Optional, Dict
 from collections import namedtuple
+from flatland.connector_subsystem.unary_connector import UnaryConnector
 from flatland.connector_subsystem.straight_binary_connector import StraightBinaryConnector
 from flatland.connector_subsystem.bending_binary_connector import BendingBinaryConnector
 from flatland.datatypes.connection_types import ConnectorName, OppositeFace, StemName
 from flatland.text.text_block import TextBlock
+
 
 class XumlStateMachineDiagram:
 
@@ -79,30 +81,65 @@ class XumlStateMachineDiagram:
         self.logger.info("Drawing the states")
         self.nodes = self.draw_states()
 
+        # Index all transitions by state
+        cp = self.layout.connector_placement
+        cp_dict = {}
+        for c in cp:
+            tstem = c.get('tstem')
+            if tstem:
+                k = tstem['node_ref']
+            else:
+                k = c['ustem']['node_ref']
+            if cp_dict.get(k):
+                cp_dict[k].append(c)
+            else:
+                cp_dict[k] = [c]
+
         # If there are any transitions, draw them
         if not nodes_only:
             self.logger.info("Drawing the transitions")
-            cp = self.layout.connector_placement
             for s in self.statemodel.states:
+                if s.type == 'creation':
+                    # It must have a unary creation transition
+                    state_place = cp_dict[s.name]
+                    it_place = [tp for tp in state_place if tp.get('ustem')][0]
+                    self.draw_initial_transition(creation_event=s.creation_event, cplace=it_place)
                 for t in s.transitions:
                     if len(t) == 2:  # Not CH or IG
                         evname = t[0]
-                        tlayout = cp.get(evname)
-                        if tlayout:
-                            self.draw_transition(evname, t, tlayout)
-
+                        state_place = cp_dict[s.name]
+                        t_place = [tp for tp in state_place if tp['cname'] == evname][0]
+                        if t_place:
+                            self.draw_transition(evname, t_place)
 
         self.logger.info("Rendering the Canvas")
         self.flatland_canvas.render()
 
-    def draw_transition(self, evname, t, tlayout):
+    def draw_initial_transition(self, creation_event, cplace):
+        """Draw an initial transition (with or without a creation event)"""
+        ustem = cplace['ustem']
+        node_ref = ustem['node_ref']
+        u_stem = New_Stem(stem_type='to initial state', semantic='initial pseudo state',
+                          node=self.nodes[node_ref], face=ustem['face'],
+                          anchor=ustem.get('anchor', None), stem_name=None)
+        evname_data = None if not creation_event else ConnectorName(
+            text=creation_event, side=cplace['dir'], bend=cplace['bend'])
+        UnaryConnector(
+            self.flatland_canvas.Diagram,
+            connector_type_name='initial transition',
+            stem=u_stem,
+            name=evname_data
+        )
+
+    def draw_transition(self, evname, tlayout):
+        """Draw a normal (non initial/non deletion transition)"""
         tstem = tlayout['tstem']
         pstem = tlayout['pstem']
-        node_ref = tstem['node_ref'][0]
+        node_ref = tstem['node_ref']
         t_stem = New_Stem(stem_type='from state', semantic='source state',
                           node=self.nodes[node_ref], face=tstem['face'],
                           anchor=tstem.get('anchor', None), stem_name=None)
-        node_ref = pstem['node_ref'][0]
+        node_ref = pstem['node_ref']
         p_stem = New_Stem(stem_type='to state', semantic='target state',
                           node=self.nodes[node_ref], face=pstem['face'],
                           anchor=pstem.get('anchor', None), stem_name=None)
@@ -146,7 +183,7 @@ class XumlStateMachineDiagram:
         """Draw all of the states on the state machine diagram"""
 
         nodes = {}
-        np = self.layout.node_placement # Layout data for all classes
+        np = self.layout.node_placement  # Layout data for all classes
 
         for state in self.statemodel.states:
 
@@ -168,7 +205,7 @@ class XumlStateMachineDiagram:
             # Now assemble all the text content for each class compartment
             # One list item per compartment in descending vertical order of display
             # (class name, attributes and optional methods)
-            text_content = [name_block.text, state.activity ]
+            text_content = [name_block.text, state.activity]
 
             for i, p in enumerate(nlayout['placements']):
                 h = HorizAlign[p.get('halign', 'CENTER')]
@@ -179,11 +216,11 @@ class XumlStateMachineDiagram:
                 row_span, col_span = p['node_loc']
                 # If methods were supplied, include them in content
                 # text content includes text for all compartments other than the title compartment
-                # When drawing connectors, we want to attach to a specific node placement
+                # When drawing connectors, we want to attach to a specific node cplace
                 # In most cases, this will just be the one and only indicated by the node name
                 # But if a node is duplicated, i will not be 0 and we add a suffix to the node
-                # name for the additional placement
-                node_name = state.name if i == 0 else f'{state.name}_{i+1}'
+                # name for the additional cplace
+                node_name = state.name if i == 0 else f'{state.name}_{i + 1}'
                 if len(row_span) == 1 and len(col_span) == 1:
                     nodes[node_name] = SingleCellNode(
                         node_type_name='state',

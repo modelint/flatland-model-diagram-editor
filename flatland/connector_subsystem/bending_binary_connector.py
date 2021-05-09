@@ -33,8 +33,8 @@ class BendingBinaryConnector(BinaryConnector):
 
         :param diagram: Reference to the Diagram
         :param connector_type: Name of connector type
-        :param anchored_stem_t: A user supplied specification of a stem with an anchored face placement
-        :param anchored_stem_p: A user supplied specification of the opposing stem with an anchored face placement
+        :param anchored_stem_t: A user supplied specification of a stem with an anchored face cplace
+        :param anchored_stem_p: A user supplied specification of the opposing stem with an anchored face cplace
         :param paths:
         :param name: User supplied name of the Connector
         :param tertiary_stem:

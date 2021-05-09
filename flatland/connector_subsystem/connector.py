@@ -53,8 +53,8 @@ class Connector:
         """
         Determine the lower left corner position of this Connector's name
 
-        :param point_t: Point closest to the T Node
-        :param point_p: Point closest to the P Node (furthest from the T Node)
+        :param point_t: Point closest to the T Node (for binary connector only, root end if unary)
+        :param point_p: Point closest to the P Node (for binary connector only, vine end if unary)
         :return: Position of name bounding box lower left corner
         """
         name_spec = self.Connector_type.Name_spec  # For easy access below
