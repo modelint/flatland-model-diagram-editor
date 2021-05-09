@@ -25,6 +25,14 @@ from flatland.datatypes.connection_types import ConnectorName, OppositeFace, Ste
 from flatland.text.text_block import TextBlock
 
 
+def make_event_cname(ev_spec) -> str:
+    """Create a transition connector name based on an event name and an optional signature"""
+    if not ev_spec.signature:
+        return ev_spec.name
+    else:
+        return ev_spec.name + '( ' + ', '.join( [f'{p.name}:{p.type}' for p in ev_spec.signature]) + ' )'
+
+
 class XumlStateMachineDiagram:
 
     def __init__(self, xuml_model_path: Path, flatland_layout_path: Path, diagram_file_path: Path,
@@ -103,14 +111,17 @@ class XumlStateMachineDiagram:
                     # It must have a unary creation transition
                     state_place = cp_dict[s.name]
                     it_place = [tp for tp in state_place if tp.get('ustem')][0]
-                    self.draw_initial_transition(creation_event=s.creation_event, cplace=it_place)
-                for t in s.transitions:
-                    if len(t) == 2:  # Not CH or IG
-                        evname = t[0]
-                        state_place = cp_dict[s.name]
-                        t_place = [tp for tp in state_place if tp['cname'] == evname][0]
-                        if t_place:
-                            self.draw_transition(evname, t_place)
+                    cname = make_event_cname(self.statemodel.events[s.creation_event])
+                    self.draw_initial_transition(creation_event=cname, cplace=it_place)
+                if s.transitions:
+                    for t in s.transitions:
+                        if len(t) == 2:  # Not CH or IG
+                            evname = t[0]
+                            cname = make_event_cname(self.statemodel.events[evname])
+                            state_place = cp_dict[s.name]
+                            t_place = [tp for tp in state_place if tp['cname'] == evname][0]
+                            if t_place:
+                                self.draw_transition(cname, t_place)
 
         self.logger.info("Rendering the Canvas")
         self.flatland_canvas.render()

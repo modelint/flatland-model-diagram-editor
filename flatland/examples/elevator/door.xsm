@@ -11,11 +11,11 @@ domain Elevator Application
 class Door
 events
     *Create( door id: ID, time: Date Time )
+    Time to close
     Door opened( door id: ID, time: Date Time )
     Door closed
     Lock
     Unlock
-    Time to close
 --
 state OUT OF SERVICE !*
 activity

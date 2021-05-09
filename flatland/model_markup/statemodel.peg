@@ -14,8 +14,8 @@ acword = r'[A-Z][A-Z0-9_]*' // All caps words for class abbreviations
 lc_name = lword (delim lword)*  // Relationship phrase
 block_end = "--" nl?  // Signifies end of a block (within section)
 body_line = indent r'.*' nl // An unstructured line of text
-icaps_name = iword (delim iword)*  // A name using iniital caps only
-sentence_name = iword (delim lword)*  // A name using iniital caps only
+icaps_name = iword (delim iword)*  // A name using initial caps only
+sentence_name = iword (delim lword)*  // A name starting with an initial cap word
 
 // State block
 state_name = icaps_name
@@ -25,9 +25,9 @@ transitions = transition_header transition*
 activity_header = "activity" nl
 activity = activity_header body_line* // A block of activity text (not parsed further)
 deletion_state = icaps_name sp '!*'
-creation_state = icaps_name sp '*' event_name
+initial_state = icaps_name sp '*' event_name
 normal_state = event_name
-state_header = "state" sp (creation_state / deletion_state / normal_state) nl
+state_header = "state" sp (initial_state / deletion_state / normal_state) nl
 state_block = state_header activity transitions? block_end
 
 // Events
