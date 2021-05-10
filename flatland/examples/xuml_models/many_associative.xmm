@@ -1,0 +1,30 @@
+/// Many associative example
+/// Executable model markup
+subsystem Connector
+class Decorated Stem
+attributes
+    Stem type {I, R55}
+    Semantic {I, R55}
+    Diagram type {I, R55}
+    Notation {I, R55}
+    Stroke : Stroke Style
+--
+class Stem End Decoration
+attributes
+    Stem type {I, R58}
+    Semantic {I, R58}
+    Diagram type {I, R58}
+    Notation {I, R58}
+    Symbol {I, R58}
+    End : Root Vine {I}
+--
+class Symbol <import:Decoration>
+attributes
+    Name {I}
+--
+relationships
+    R58
+    terminates, Mc Decorated Stem
+    is terminated by, Mc Symbol
+    M Stem End Decoration
+--

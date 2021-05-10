@@ -86,4 +86,5 @@ class RenderedSymbol:
         layer.add_polygon(asset=arrow_symbol, vertices=vertices)
         offset = Symbol.instances[arrow_symbol].length
         self.Growth += offset
-        return symbol_extent(orientation=self.Stem.Node_face, location=location, offset=offset)
+        return symbol_extent(orientation=orientation, location=location, offset=offset)
+        # return symbol_extent(orientation=self.Stem.Node_face, location=location, offset=offset)

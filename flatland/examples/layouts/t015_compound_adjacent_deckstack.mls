@@ -1,0 +1,15 @@
+// Flatland Connector Subsystem Class Diagram
+// Model layout sheet
+
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet D
+padding l100 b350
+nodes
+    Decorated Stem 10,11
+    Stem End Decoration 9,13
+    Symbol 10,14
+connectors
+    +R58 : +/1 r|Decorated Stem : +/1 l*|Symbol, t|Stem End Decoration

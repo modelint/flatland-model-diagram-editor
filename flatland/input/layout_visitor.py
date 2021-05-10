@@ -195,7 +195,9 @@ class LayoutVisitor(PTNodeVisitor):
 
     def visit_bend(self, node, children):
         """Number of bend where cname appears"""
-        return {node.rule_name: int(children[0])}
+        # return {node.rule_name: int(children[0])}
+        bend = int(children[0])
+        return bend
 
     def visit_tstem(self, node, children):
         """T stem layout info"""
@@ -299,7 +301,8 @@ class LayoutVisitor(PTNodeVisitor):
     # Connector
     def visit_cname_place(self, node, children):
         """Name of connector and the side of the connector axis where it is placed"""
-        cplace = {'cname': children.results['name'][0], 'dir': children.results.get('dir', [1])[0]}
+        cplace = {'cname': children.results['name'][0], 'dir': children.results.get('dir', [1])[0],
+                  'bend': children.results.get('bend', [1])[0]}
         return cplace
 
     def visit_connector_layout(self, node, children):
