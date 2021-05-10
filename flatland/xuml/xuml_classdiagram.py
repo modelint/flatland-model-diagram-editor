@@ -26,15 +26,6 @@ from flatland.text.text_block import TextBlock
 
 BranchLeaves = namedtuple('BranchLeaves', 'leaf_stems local_graft next_graft floating_leaf_stem')
 
-def make_node_ref(node_ref) -> str:
-    """
-    Composes a fully qualified cplace name based on a node reference in a layout file
-
-    :param node_ref:  A layout reference to a node cplace
-    :return: The model elment name if it is only placed once, otherwise name suffixed by an underscore and a numbered cplace
-    """
-    return node_ref[0] if len(node_ref) < 2 else f"{node_ref[0]}_{node_ref[1]}"
-
 class XumlClassDiagram:
 
     def __init__(self, xuml_model_path: Path, flatland_layout_path: Path, diagram_file_path: Path,
@@ -93,7 +84,7 @@ class XumlClassDiagram:
 
         # If there are any relationships, draw them
         if self.subsys.rels and not nodes_only:
-            cp = self.layout.connector_placement
+            cp = {p['cname']: p for p in self.layout.connector_placement}
             for r in self.subsys.rels:  # r is the model data without any layout info
                 rnum = r['rnum']
                 rlayout = cp.get(rnum)  # How this r is to be laid out on the diagram
@@ -228,7 +219,7 @@ class XumlClassDiagram:
         astem = binary_layout.get('tertiary_node', None)
 
         t_side = association['t_side']
-        if tstem['node_ref'][0] != t_side['cname']:
+        if tstem['node_ref'] != t_side['cname']:
             # The user put the tstems in the wrong order in the layout file
             # Swap them
             # The node_ref is a list and the first element refers to the model class name
@@ -241,7 +232,7 @@ class XumlClassDiagram:
             text=TextBlock(t_side['phrase'], wrap=tstem['wrap']),
             side=tstem['stem_dir'], axis_offset=None, end_offset=None
         )
-        node_ref = make_node_ref(tstem['node_ref'])
+        node_ref = tstem['node_ref']
         t_stem = New_Stem(stem_type='class mult', semantic=t_side['mult'] + ' mult',
                           node=self.nodes[node_ref], face=tstem['face'],
                           anchor=tstem.get('anchor', None), stem_name=t_phrase)
@@ -252,7 +243,7 @@ class XumlClassDiagram:
             text=TextBlock(p_side['phrase'], wrap=pstem['wrap']),
             side=pstem['stem_dir'], axis_offset=None, end_offset=None
         )
-        node_ref = make_node_ref(pstem['node_ref'])
+        node_ref = pstem['node_ref']
         try:
             pnode = self.nodes[node_ref]
         except KeyError:
@@ -264,7 +255,7 @@ class XumlClassDiagram:
                           anchor=pstem.get('anchor', None), stem_name=p_phrase)
         # There is an optional stem for an association class
         if astem:
-            node_ref = make_node_ref(astem['node_ref'])
+            node_ref = astem['node_ref']
             try:
                 semantic = association['assoc_mult'] + ' mult'
             except KeyError:
@@ -364,7 +355,7 @@ class XumlClassDiagram:
         One of the rare times it is a good idea to draw one – LS
         """
         trunk_layout = tree_layout['trunk_face']
-        node_ref = make_node_ref(trunk_layout['node_ref'])
+        node_ref = trunk_layout['node_ref']
         trunk_node = self.nodes[node_ref]
 
         # Process trunk branch

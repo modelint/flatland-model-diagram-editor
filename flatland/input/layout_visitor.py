@@ -91,8 +91,7 @@ class LayoutVisitor(PTNodeVisitor):
     # Face attachment
     def visit_node_ref(self, node, children):
         """name number?"""
-        return children[0]
-
+        return children[0] if len(children) < 2 else f"{children[0]}_{children[1]}"
 
     def visit_face(self, node, children):
         """Face character"""
@@ -245,8 +244,8 @@ class LayoutVisitor(PTNodeVisitor):
             raise ConflictingGraftFloat(stem=lface['name'])
         lface['graft'] = graft
         node_ref = lface.pop('node_ref')
-        name = node_ref[0] if len(node_ref) == 1 else f"{node_ref[0]}_{node_ref[1]}"
-        return { name: lface }  # Single element dictionary indexed by the node name
+        # name = node_ref[0] if len(node_ref) == 1 else f"{node_ref[0]}_{node_ref[1]}"
+        return { node_ref: lface }  # Single element dictionary indexed by the node name
 
     def visit_leaf_faces(self, node, children):
         """Combine into dictionary of each leaf face indexed by node name"""
