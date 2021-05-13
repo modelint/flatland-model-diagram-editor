@@ -29,13 +29,14 @@ population = [
      'x position': 330, 'y position': 38, 'max width': 254, 'max height': 57},
     {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'landscape',
      'x position': 19, 'y position': 38, 'max width': 191, 'max height': 25},
+
     # Portrait
     {'Metadata': 'Title', 'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'portrait',
-     'x position': 19, 'y position': 584, 'max width': 254, 'max height': 25},
+     'x position': 19, 'y position': 890, 'max width': 254, 'max height': 25},
     {'Metadata': 'Copyright notice', 'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'portrait',
-     'x position': 330, 'y position': 38, 'max width': 254, 'max height': 57},
+     'x position': 19, 'y position': 70, 'max width': 254, 'max height': 57},
     {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'portrait',
-     'x position': 19, 'y position': 38, 'max width': 191, 'max height': 25},
+     'x position': 19, 'y position': 18, 'max width': 191, 'max height': 25},
 
     # D TRI MBSE
     {'Metadata': 'Title', 'Frame': 'TRI MBSE', 'Sheet': 'D', 'Orientation': 'landscape',

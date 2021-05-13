@@ -21,7 +21,7 @@ population = [
     {'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'landscape',
      'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 753, 'Y': 38},
     {'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'portrait',
-     'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 653, 'Y': 38},
+     'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 450, 'Y': 18},
 
     {'Frame': 'TRI MBSE', 'Sheet': 'D', 'Orientation': 'landscape',
      'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 753, 'Y': 38},

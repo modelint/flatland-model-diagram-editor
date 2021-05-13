@@ -3,8 +3,8 @@ diagram state machine
 notation xUML
 presentation default
 orientation portrait
-sheet tabloid
-padding l100 b400
+sheet D
+padding l300 b700
 frame OS Engineer
 frame_presentation default
 nodes
