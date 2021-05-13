@@ -2,9 +2,14 @@
 frame_instances.py
 """
 population = [
-    {'Name': 'OS Engineer', 'Sheet': 'letter'},
-    {'Name': 'OS Engineer', 'Sheet': 'tabloid'},
-    {'Name': 'OS Engineer', 'Sheet': 'C'},
-    {'Name': 'OS Engineer', 'Sheet': 'D'},
-    {'Name': 'TRI MBSE', 'Sheet': 'D'},
+    {'Name': 'OS Engineer', 'Sheet': 'letter', 'Orientation': 'landscape'},
+    {'Name': 'OS Engineer', 'Sheet': 'letter', 'Orientation': 'portrait'},
+    {'Name': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'landscape'},
+    {'Name': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'portrait'},
+    {'Name': 'OS Engineer', 'Sheet': 'C', 'Orientation': 'landscape'},
+    {'Name': 'OS Engineer', 'Sheet': 'C', 'Orientation': 'portrait'},
+    {'Name': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'landscape'},
+    {'Name': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'portrait'},
+    {'Name': 'TRI MBSE', 'Sheet': 'D', 'Orientation': 'landscape'},
+    {'Name': 'TRI MBSE', 'Sheet': 'D', 'Orientation': 'portrait'},
 ]

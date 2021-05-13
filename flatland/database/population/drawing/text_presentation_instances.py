@@ -40,15 +40,15 @@ population = [
      'Text style': 'Block Body Large'},
 
     #
-    # # Small
-    # {'Asset': 'Open title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
-    #  'Text style': 'Corner Title Large'},
-    # {'Asset': 'Open copyright notice large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
+    # Small
+    # {'Asset': 'Open title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer small frame',
+    #  'Text style': 'Corner Title Small'},
+    # {'Asset': 'Open copyright notice large', 'Presentation': 'default', 'Drawing type': 'OS Engineer small frame',
     #  'Text style': 'boilerplate'},
-    # {'Asset': 'Block title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
-    #  'Text style': 'Block title Large'},
-    # {'Asset': 'Block body large', 'Presentation': 'default', 'Drawing type': 'OS Engineer large',
-    #  'Text style': 'Block Body Large'},
+    # {'Asset': 'Block title large', 'Presentation': 'default', 'Drawing type': 'OS Engineer small frame',
+    #  'Text style': 'Block Title Small'},
+    # {'Asset': 'Block body large', 'Presentation': 'default', 'Drawing type': 'OS Engineer small frame',
+    #  'Text style': 'Block Body Small'},
 
     # Starr class diagram, default
     {'Asset': 'label', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Text style': 'p9body'},

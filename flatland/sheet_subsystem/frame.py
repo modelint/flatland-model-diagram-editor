@@ -48,6 +48,7 @@ class Frame:
         self.logger = logging.getLogger(__name__)
         self.Name = name
         self.Canvas = canvas
+        self.Orientation = canvas.Orientation
         self.metadata = metadata
         self.Open_fields = []
         self.Databoxes = {}
@@ -71,6 +72,7 @@ class Frame:
         f = and_(
             (tb_placement_t.c['Frame'] == self.Name),
             (tb_placement_t.c['Sheet'] == self.Canvas.Sheet.Name),
+            (tb_placement_t.c['Orientation'] == self.Orientation),
         )
         query = select([tb_placement_t.c['Title block pattern']]).select_from(tb_placement_t).where(f)
         row = fdb.Connection.execute(query).fetchone()
@@ -92,6 +94,7 @@ class Frame:
             s = and_(
                 (boxplace_t.c.Frame == self.Name),
                 (boxplace_t.c.Sheet == self.Canvas.Sheet.Name),
+                (boxplace_t.c.Orientation == self.Orientation),
                 (boxplace_t.c['Title block pattern'] == self.Title_block_pattern),
             )
             p = [databox_t.c.ID, boxplace_t.c.X, boxplace_t.c.Y, boxplace_t.c.Width, boxplace_t.c.Height,
@@ -130,7 +133,8 @@ class Frame:
         open_field_t = fdb.MetaData.tables['Open Field']
         s = and_(
             (open_field_t.c['Frame'] == self.Name),
-            (open_field_t.c['Sheet'] == self.Canvas.Sheet.Name)
+            (open_field_t.c['Sheet'] == self.Canvas.Sheet.Name),
+            (open_field_t.c['Orientation'] == self.Orientation),
         )
         q = select([open_field_t]).where(s)
         rows = fdb.Connection.execute(q).fetchall()
@@ -171,7 +175,7 @@ class Frame:
 
         if self.Title_block_pattern:
             # Draw the title block box borders
-            draw_titleblock(frame=self.Name, sheet=self.Canvas.Sheet, layer=self.Layer)
+            draw_titleblock(frame=self.Name, sheet=self.Canvas.Sheet, orientation=self.Orientation, layer=self.Layer)
 
             # Get the margins to pad the Data Box content
             # The same margins are applied to each Data Box in the same Scaled Title Block

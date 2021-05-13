@@ -2,6 +2,8 @@
 tertiary_stem.py
 """
 
+import logging
+import sys
 from flatland.connector_subsystem.anchored_stem import AnchoredStem
 from flatland.connector_subsystem.stem_type import StemType
 from flatland.datatypes.connection_types import HorizontalFace, NodeFace, AnchorPosition, StemName
@@ -35,6 +37,7 @@ class TertiaryStem(AnchoredStem):
         :param parallel_segs: All binary connector line segments parallel to the rooted Node face
         :param name: Optional name to be drawn next to stem vine end
         """
+        self.logger = logging.getLogger(__name__)
         AnchoredStem.__init__(self, connector, stem_type, semantic, node, face, anchor_position, name)
         # At this point the anchor_position has been resolved to an x,y coordinate on the node face
 
@@ -44,7 +47,13 @@ class TertiaryStem(AnchoredStem):
         # Compute the vine end so that it touches the closest Binary Connector bend line segment
         # away from the root node face
         asc = True if face in {NodeFace.TOP, NodeFace.RIGHT} else False
-        axis = nearest_parallel_segment(psegs=parallel_segs, point=self.Root_end, ascending=asc)
+        try:
+            axis = nearest_parallel_segment(psegs=parallel_segs, point=self.Root_end, ascending=asc)
+        except ValueError:
+            cname = 'Unnamed' if not self.Connector else self.Connector.Name.text
+            self.logger.error(f"Ternary stem does not intersect binary connector [{cname}]")
+            sys.exit()
+
         self.Vine_end = Position(self.Root_end.x, axis) if face in HorizontalFace else Position(axis, self.Root_end.y)
 
     def render(self):

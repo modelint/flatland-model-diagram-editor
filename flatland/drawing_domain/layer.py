@@ -1,10 +1,12 @@
 """
 layer.py - A layer of graphics drawn on a Tablet
 """
+import sys
 import logging
 from typing import List
 import cairo
 import math  # For rounded corners
+from flatland.flatland_exceptions import TabletBoundsExceeded
 from flatland.drawing_domain.styledb import StyleDB
 import flatland.drawing_domain.element as element
 from flatland.datatypes.geometry_types import Rect_Size, Position, HorizAlign
@@ -112,12 +114,16 @@ class Layer:
             underlay_size = Rect_Size(height=tl_size.height+5, width=tl_size.width+5)
             underlay_pos = Position(lower_left.x-2, lower_left.y-3)
             self.add_rectangle(asset=underlay_asset, lower_left=underlay_pos, size=underlay_size)
-        self.Text.append(
-            element.Text_line(
-                lower_left=self.Tablet.to_dc(lower_left), text=text,
-                style=self.Presentation.Text_presentation[asset],
+        try:
+            self.Text.append(
+                element.Text_line(
+                    lower_left=self.Tablet.to_dc(lower_left), text=text,
+                    style=self.Presentation.Text_presentation[asset],
+                )
             )
-        )
+        except TabletBoundsExceeded:
+            self.logger.error(f"Asset: [{asset}] Text: [{text}] outside of tablet draw area")
+            sys.exit()
         self.logger.info('Text added')
 
     def text_line_size(self, asset: str, text_line: str) -> Rect_Size:
@@ -222,7 +228,11 @@ class Layer:
         :param lower_left:  Lower left corner of the image in Cartesian coordinates
         """
         # Flip lower left corner to device coordinates
-        ll_dc = self.Tablet.to_dc(Position(x=lower_left.x, y=lower_left.y))
+        try:
+            ll_dc = self.Tablet.to_dc(Position(x=lower_left.x, y=lower_left.y))
+        except TabletBoundsExceeded:
+            self.logger.exception(f"Lower left corner of image [{resource_path.name}] is outside tablet draw region")
+            sys.exit()
 
         # Use upper left corner instead
         ul = Position(x=ll_dc.x, y=ll_dc.y - size.height)

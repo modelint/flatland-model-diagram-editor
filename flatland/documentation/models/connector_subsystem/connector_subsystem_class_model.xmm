@@ -4,8 +4,8 @@ metadata
     Title : Flatland Connector Subsystem Class Diagram
     Author : Leon Starr
     Document ID : mint.flatland.td.2a
-    Version : 1.3.1
-    Modification date : April 19, 2021
+    Version : 1.3.2
+    Modification date : May 11, 2021
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint_large
@@ -173,6 +173,7 @@ attributes
     Diagram type {I, R59}
     About : Description
     Connector type {R59}
+    Minimum length : Distance
 --
 class Symbol <import:Decoration>
 attributes

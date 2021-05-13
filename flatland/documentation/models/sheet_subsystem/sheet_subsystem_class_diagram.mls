@@ -1,12 +1,11 @@
 // Flatland Sheet Subsystem Class Diagram
 // Model layout sheet
-
 diagram class
 notation Starr
 presentation default
 orientation landscape
 sheet D
-padding l300 b350
+padding l400 b300
 frame OS Engineer
 frame_presentation default
 nodes
@@ -47,4 +46,4 @@ connectors
     +R318 : +/2 t|Box : +/2 r|Title Block Placement, b|Box Placement
     +R319 : +/1 l|Open Field : -/1 t+2|Frame Metadata
     +R320.2 : -/2 t|Field : -/2 t-2|Frame Metadata : L14R-2
-    -R321.2 : +/1 b|Boxed Field : +/1 l-2|Box Text Line
+    -R321.2 : +/1 b|Boxed Field : +/1 l|Box Text Line

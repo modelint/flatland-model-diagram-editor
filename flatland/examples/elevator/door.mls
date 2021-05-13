@@ -4,7 +4,7 @@ notation xUML
 presentation default
 orientation portrait
 sheet tabloid
-padding l100 b300
+padding l100 b400
 frame OS Engineer
 frame_presentation default
 nodes

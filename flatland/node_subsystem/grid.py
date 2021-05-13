@@ -3,7 +3,8 @@ grid.py
 """
 
 import logging
-from flatland.flatland_exceptions import CellOccupiedFE, SheetWidthExceededFE, SheetHeightExceededFE
+import sys
+from flatland.flatland_exceptions import CellOccupiedFE
 from flatland.connector_subsystem.connector_layout_specification import ConnectorLayoutSpecification as connector_layout
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
 from flatland.geometry_domain.linear_geometry import expand_boundaries, span, step_edge_distance
@@ -160,7 +161,9 @@ class Grid:
         new_row_height = self.Row_boundaries[-1] + cell_height
         # Make sure that it's not above the Diagram area
         if new_row_height > self.Diagram.Size.height:
-            raise SheetHeightExceededFE
+            excess = round(new_row_height - self.Diagram.Size.height)
+            self.logger.error(f"Max diagram height exceeded by {excess}pt at row {len(self.Row_boundaries)}")
+            sys.exit()
         # Add it to the list of row boundaries
         self.Row_boundaries.append(new_row_height)
         # Create new empty row with an empty node for each column boundary after the leftmost edge (0)
@@ -174,7 +177,9 @@ class Grid:
         new_col_width = self.Col_boundaries[-1] + cell_width
         # Make sure that it's not right of the Diagram area
         if new_col_width > self.Diagram.Size.width:
-            raise SheetWidthExceededFE
+            excess = round(new_col_width - self.Diagram.Size.width)
+            self.logger.error(f"Max diagram width exceeded by {excess}pt at col {len(self.Col_boundaries)}")
+            sys.exit()
         # Add it to the list of column boundaries
         self.Col_boundaries.append(new_col_width)
         # For each row, add a rightmost empty node space
@@ -345,7 +350,9 @@ class Grid:
                     boundaries=self.Col_boundaries, start_boundary=node.Column, expansion=overlap)
                 # Check to see if the rightmost column position is now outside the diagram area
                 if self.Col_boundaries[-1] > self.Diagram.Size.width:
-                    raise SheetWidthExceededFE
+                    excess = round(self.Col_boundaries[-1] - self.Diagram.Size.width)
+                    self.logger.error(f"Max diagram width exceeded by {excess}pt at col {len(self.Col_boundaries)}")
+                    sys.exit()
 
         # Check for vertical overlap
         if not rows_to_add:
@@ -356,7 +363,9 @@ class Grid:
                     boundaries=self.Row_boundaries, start_boundary=node.Row, expansion=overlap)
                 # Check to see if the rightmost column position is now outside the diagram area
                 if self.Row_boundaries[-1] > self.Diagram.Size.height:
-                    raise SheetHeightExceededFE
+                    excess = round(self.Row_boundaries[-1] - self.Diagram.Size.height)
+                    self.logger.error(f"Max diagram width exceeded by {excess}pt at row {len(self.Row_boundaries)}")
+                    sys.exit()
 
         # Add extra rows and columns (must add the rows first)
         for r in range(rows_to_add):

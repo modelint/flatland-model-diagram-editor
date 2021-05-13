@@ -3,7 +3,7 @@ tablet.py – Flatland binds a Canvas instance in the Flatland Application domai
 in the drawing domain. The Tablet can be drawn using cairo or some other graphics drawing framework.
 """
 import logging
-from flatland.flatland_exceptions import NonSystemInitialLayer
+from flatland.flatland_exceptions import NonSystemInitialLayer, TabletBoundsExceeded
 from flatland.datatypes.geometry_types import Rect_Size, Position
 import cairo
 from flatland.drawing_domain.styledb import StyleDB
@@ -106,7 +106,8 @@ class Tablet:
         To display coordinates – Convert tablet bottom_left origin coordinate to
         display coordinate where top-left origin is used.
         """
-        assert tablet_coord.y <= self.Size.height, "Tablet bounds exceeded"
+        if tablet_coord.y > self.Size.height:
+            raise TabletBoundsExceeded
         assert tablet_coord.x >= 0, "Negative x value"
         assert tablet_coord.y >= 0, "Negative y value"
         return Position(x=tablet_coord.x, y=self.Size.height - tablet_coord.y)

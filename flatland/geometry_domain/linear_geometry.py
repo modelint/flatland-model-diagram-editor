@@ -42,7 +42,7 @@ def nearest_parallel_segment(psegs: Set[tuple], point: Position, ascending: bool
     if ascending:  # Now select the closest axis value to the point
         axis_value = min({s[0][axis_coord] for s in isegs})
     else:
-        axis_value = max({s[0][axis_coord] for s in isegs})
+       axis_value = max({s[0][axis_coord] for s in isegs})
     return axis_value
 
 

@@ -17,8 +17,14 @@ class FlatlandIOException(FlatlandException):
 class FlatlandDBException(FlatlandException):
     pass
 
+class FlatlandDrawException(FlatlandException):
+    pass
+
 
 class FlatlandUserInputException(FlatlandException):
+    pass
+
+class TabletBoundsExceeded(FlatlandDrawException):
     pass
 
 

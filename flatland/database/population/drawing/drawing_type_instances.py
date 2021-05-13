@@ -18,6 +18,7 @@ population = [
     # Frame styles
     {'Name': 'OS Engineer large frame'},   # For large sheet sizes (D, E, A2-A0)
     {'Name': 'OS Engineer medium frame'},  # For medium sheet sizes (tabloid, A3)
+    {'Name': 'OS Engineer small frame'},  # For small sheet sizes (letter, A1)
     {'Name': 'TRI MBSE large frame'},  # For large sheet sizes (D, E, A2-A0)
 
     # Diagnostic

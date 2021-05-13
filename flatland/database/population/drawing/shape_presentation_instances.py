@@ -16,6 +16,8 @@ population = [
      'Line style': 'double'},
     {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame',
      'Line style': 'normal'},
+    # {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer small frame',
+    #  'Line style': 'normal'},
     # Frame: TRI MBSE default
     {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'TRI MBSE large frame',
      'Line style': 'double'},

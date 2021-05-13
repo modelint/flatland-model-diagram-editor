@@ -4,8 +4,8 @@ metadata
     Title : Flatland Sheet Subsystem Class Diagram
     Author : Leon Starr
     Document ID : mint.flatland.td.6a
-    Version : 0.6.2
-    Modification date : April 21, 2021
+    Version : 0.7.0
+    Modification date : May 11, 2021
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint_large
@@ -19,6 +19,7 @@ class Box Placement
 attributes
     Frame {I, R318}
     Sheet {I, R318}
+    Orientation {I, R318}
     Box {I, R318}
     Title block pattern {I, R318}
     Placement : Position
@@ -36,6 +37,7 @@ attributes
     Metadata {I, R305, R317}
     Frame {I, R305, R317}
     Sheet {I, R305, R317}
+    Orientation {I, R305, R317}
     Box {R321c}
     Title block pattern {R321}
 --
@@ -61,6 +63,7 @@ attributes
     Metadata {I, R320}
     Frame {I, R320}
     Sheet {I, R320}
+    Orientation {I, R320}
     Type: Open Box {I}
     Placement : Position
     Max area : Rect Size
@@ -69,12 +72,14 @@ class Frame
 attributes
     Name : Frame Name {I}
     Sheet {I, R300}
+    Orientation : Portrait Landscape {I}
 --
 class Frame Metadata
 attributes
     Name {I, R307}
     Frame {I, R307}
     Sheet {I, R307}
+    Orientation {I, R307}
 --
 class Metadata
 attributes
@@ -85,6 +90,7 @@ attributes
     Metadata {I, R305, R319}
     Frame {I, R305, R319}
     Sheet {I, R305, R319}
+    Orientation {I, R305, R319}
 --
 class Partition
 attributes
@@ -131,6 +137,7 @@ class Title Block Placement
 attributes
     Frame {I, R315}
     Sheet {I, R315c}
+    Orientation {I, R315}
     Title block pattern {R315}
     Sheet size group {R315}
     Placement : Position
