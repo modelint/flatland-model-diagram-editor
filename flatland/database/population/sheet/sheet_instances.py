@@ -7,7 +7,7 @@ population = [
     {'Name': 'letter', 'Group': 'us', 'Height': '8.5', 'Width': '11', 'Size group': 'small'},
     {'Name': 'tabloid', 'Group': 'us', 'Height': '11', 'Width': '17', 'Size group': 'medium'},
     # The following are architectural sizes
-    {'Name': 'C', 'Group': 'us', 'Height': '18', 'Width': '24', 'Size group': 'medium'},
+    {'Name': 'C', 'Group': 'us', 'Height': '18', 'Width': '24', 'Size group': 'large'},
     {'Name': 'D', 'Group': 'us', 'Height': '24', 'Width': '36', 'Size group': 'large'},
     {'Name': 'E', 'Group': 'us', 'Height': '36', 'Width': '48', 'Size group': 'large'},
 

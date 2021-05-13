@@ -11,12 +11,12 @@ population = [
     {'Frame': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'landscape',
      'Title block pattern': 'SE Simple', 'Sheet size group': 'medium', 'X': 275, 'Y': 9},
     {'Frame': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'portrait',
-     'Title block pattern': 'SE Simple', 'Sheet size group': 'medium', 'X': 150, 'Y': 8},
+     'Title block pattern': 'SE Simple', 'Sheet size group': 'medium', 'X': 250, 'Y': 8},
 
     {'Frame': 'OS Engineer', 'Sheet': 'C', 'Orientation': 'landscape',
-     'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 653, 'Y': 38},
+     'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 453, 'Y': 15},
     {'Frame': 'OS Engineer', 'Sheet': 'C', 'Orientation': 'portrait',
-     'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 553, 'Y': 38},
+     'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 300, 'Y': 15},
 
     {'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'landscape',
      'Title block pattern': 'SE Simple', 'Sheet size group': 'large', 'X': 753, 'Y': 38},

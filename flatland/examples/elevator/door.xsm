@@ -5,7 +5,7 @@ metadata /// Single state machine flatland example
     Modification date : May 12, 2019
     Version : 3.2.1
     Organization : Model Integration, LLC
-    Copyright notice > MIT
+    Copyright notice > MIT_medium
     Organization logo > mint_large
 domain Elevator Application
 class Door
