@@ -21,6 +21,8 @@ population = [
     # Frame: TRI MBSE default
     {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'TRI MBSE large frame',
      'Line style': 'double'},
+    {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'TRI MBSE medium frame',
+     'Line style': 'normal'},
 
     # Starr class default
     {'Asset': 'class name compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Line style': 'normal'},

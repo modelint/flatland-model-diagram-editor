@@ -17,9 +17,10 @@ population = [
 
     # Frame styles
     {'Name': 'OS Engineer large frame'},   # For large sheet sizes (D, E, A2-A0)
-    {'Name': 'OS Engineer medium frame'},  # For medium sheet sizes (tabloid, A3)
-    {'Name': 'OS Engineer small frame'},  # For small sheet sizes (letter, A1)
+    {'Name': 'OS Engineer medium frame'},  # For medium sheet sizes (tabloid, C, A3)
+    {'Name': 'OS Engineer small frame'},  # For small sheet sizes (letter, A4)
     {'Name': 'TRI MBSE large frame'},  # For large sheet sizes (D, E, A2-A0)
+    {'Name': 'TRI MBSE medium frame'},  # For medium sheet sizes (tabloid, C, A3)
 
     # Diagnostic
     {'Name': 'Grid Diagnostic'},  # To display a grid of rows and columns

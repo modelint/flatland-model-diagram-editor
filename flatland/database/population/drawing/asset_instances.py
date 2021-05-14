@@ -27,7 +27,7 @@ population = [
     {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
     {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer medium frame'},
 
-    # Frame OS Engineer large
+    # Frame TRI MBSE large
     # Open field assets
     {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
     {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
@@ -35,6 +35,15 @@ population = [
     {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
     {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
     {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'TRI MBSE large frame'},
+
+    # Frame TRI MBSE medium
+    # Open field assets
+    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
+    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
+    # Title block assets
+    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
+    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
+    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'TRI MBSE medium frame'},
     #
     # # Frame OS Engineer small
     # # Open field assets
