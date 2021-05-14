@@ -22,7 +22,7 @@ Cairo_font_weight = {'normal': cairo.FontWeight.NORMAL, 'bold': cairo.FontWeight
 Cairo_font_slant = {'normal': cairo.FontSlant.NORMAL, 'italic': cairo.FontSlant.ITALIC}
 """Maps an application style to a cairo specific font slant"""
 
-def roundrect(ctx, x: float, y:float, width:float, height:float, top_r:int, bottom_r:int):
+def roundrect(ctx, x: float, y: float, width: float, height: float, top_r: int, bottom_r: int):
     """
     Draw rectangle with rounded corners on top, bottom or both. Radius is expressed in points
     with zero resulting in a square corner on top, bottom or both
@@ -35,6 +35,7 @@ def roundrect(ctx, x: float, y:float, width:float, height:float, top_r:int, bott
     :param top_r: Top corner radius
     :param bottom_r: Bottom corner radius
     """
+    ctx.move_to(x,y+top_r)  # Start at the upper left corner and move down by the radius (zero radius if sharp corner)
     ctx.arc(x+top_r, y+top_r, top_r, math.pi, 3*math.pi/2)
     ctx.arc(x+width-top_r, y+top_r, top_r, 3*math.pi/2, 0)
     ctx.arc(x+width-bottom_r, y+height-bottom_r, bottom_r, 0, math.pi/2)
