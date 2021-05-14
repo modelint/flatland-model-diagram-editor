@@ -3,6 +3,12 @@ closed_shape_fill_instances.py
 """
 
 population = [
+    # Title block boxes
+    {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer large frame', 'Fill': 'white'},
+    {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'OS Engineer medium frame', 'Fill': 'white'},
+    {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'TRI MBSE large frame', 'Fill': 'white'},
+    {'Asset': 'Block border', 'Presentation': 'default', 'Drawing type': 'TRI MBSE medium frame', 'Fill': 'white'},
+
     # Starr/default symbols
     {'Asset': 'solid arrow', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'black'},
     {'Asset': 'hollow arrow', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'white'},
