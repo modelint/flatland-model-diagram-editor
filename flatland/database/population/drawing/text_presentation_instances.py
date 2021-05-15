@@ -63,6 +63,20 @@ population = [
     {'Asset': 'Block body', 'Presentation': 'default', 'Drawing type': 'TRI MBSE medium frame',
      'Text style': 'Block Body Medium'},
 
+    # Small
+    {'Asset': 'Open title', 'Presentation': 'default', 'Drawing type': 'TRI MBSE small frame',
+     'Text style': 'Block Title Small'},
+    {'Asset': 'Open copyright notice', 'Presentation': 'default', 'Drawing type': 'TRI MBSE small frame',
+     'Text style': 'boilerplate'},
+    {'Asset': 'Open author', 'Presentation': 'default', 'Drawing type': 'TRI MBSE small frame',
+     'Text style': 'Block Body Small'},
+    {'Asset': 'Open modification date', 'Presentation': 'default', 'Drawing type': 'TRI MBSE small frame',
+     'Text style': 'Block Body Small'},
+    {'Asset': 'Open document id', 'Presentation': 'default', 'Drawing type': 'TRI MBSE small frame',
+     'Text style': 'Block Body Small'},
+    {'Asset': 'Open version', 'Presentation': 'default', 'Drawing type': 'TRI MBSE small frame',
+     'Text style': 'Block Body Small'},
+
     # Starr class diagram, default
     {'Asset': 'label', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Text style': 'p9body'},
     {'Asset': 'binary association name', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Text style': 'p9body'},

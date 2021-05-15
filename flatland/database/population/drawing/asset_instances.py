@@ -54,6 +54,15 @@ population = [
     {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
     {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'TRI MBSE medium frame'},
 
+    # Frame OS TRI MBSE small
+    # Open field assets
+    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    {'Name': 'Open author', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    {'Name': 'Open modification date', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    {'Name': 'Open document id', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    {'Name': 'Open version', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+
     # xUML class diagram
     {'Name': 'class name compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},
     {'Name': 'class attribute compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},

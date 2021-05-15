@@ -21,6 +21,7 @@ population = [
     {'Name': 'OS Engineer small frame'},  # For small sheet sizes (letter, A4)
     {'Name': 'TRI MBSE large frame'},  # For large sheet sizes (D, E, A2-A0)
     {'Name': 'TRI MBSE medium frame'},  # For medium sheet sizes (tabloid, C, A3)
+    {'Name': 'TRI MBSE small frame'},  # For small sheet sizes (letter, A4)
 
     # Diagnostic
     {'Name': 'Grid Diagnostic'},  # To display a grid of rows and columns

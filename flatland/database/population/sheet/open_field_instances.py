@@ -88,6 +88,39 @@ population = [
     {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'portrait',
      'x position': 19, 'y position': 18, 'max width': 191, 'max height': 25},
 
+    # Letter TRI MBSE
+    # Landscape
+    {'Metadata': 'Title', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'landscape',
+     'x position': 8, 'y position': 202, 'max width': 254, 'max height': 13},
+    {'Metadata': 'Copyright notice', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'landscape',
+     'x position': 8, 'y position': 31, 'max width': 254, 'max height': 57},
+    {'Metadata': 'Organization logo', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'landscape',
+     'x position': 5, 'y position': 4, 'max width': 180, 'max height': 24},
+    {'Metadata': 'Author', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'landscape',
+     'x position': 230, 'y position': 22, 'max width': 20, 'max height': 5},
+    {'Metadata': 'Modification date', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'landscape',
+     'x position': 230, 'y position': 18, 'max width': 20, 'max height': 5},
+    {'Metadata': 'Document ID', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'landscape',
+     'x position': 230, 'y position': 14, 'max width': 20, 'max height': 5},
+    {'Metadata': 'Version', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'landscape',
+     'x position': 230, 'y position': 10, 'max width': 20, 'max height': 5},
+
+    # Portrait
+    {'Metadata': 'Title', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'portrait',
+     'x position': 8, 'y position': 265, 'max width': 254, 'max height': 13},
+    {'Metadata': 'Copyright notice', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'portrait',
+     'x position': 10, 'y position': 31, 'max width': 254, 'max height': 57},
+    {'Metadata': 'Organization logo', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'portrait',
+     'x position': 8, 'y position': 5, 'max width': 180, 'max height': 24},
+    {'Metadata': 'Author', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'portrait',
+     'x position': 170, 'y position': 22, 'max width': 20, 'max height': 5},
+    {'Metadata': 'Modification date', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'portrait',
+     'x position': 170, 'y position': 18, 'max width': 20, 'max height': 5},
+    {'Metadata': 'Document ID', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'portrait',
+     'x position': 170, 'y position': 14, 'max width': 20, 'max height': 5},
+    {'Metadata': 'Version', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'portrait',
+     'x position': 170, 'y position': 10, 'max width': 20, 'max height': 5},
+
     # Tabloid TRI MBSE
     # Landscape
     {'Metadata': 'Title', 'Frame': 'TRI MBSE', 'Sheet': 'tabloid', 'Orientation': 'landscape',

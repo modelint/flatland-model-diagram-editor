@@ -24,6 +24,7 @@ population = [
     {'Name': 'default', 'Drawing type': 'OS Engineer small frame'},
     {'Name': 'default', 'Drawing type': 'TRI MBSE large frame'},
     {'Name': 'default', 'Drawing type': 'TRI MBSE medium frame'},
+    {'Name': 'default', 'Drawing type': 'TRI MBSE small frame'},
 
     # Diagnostic
     {'Name': 'default', 'Drawing type': 'Grid Diagnostic'},
