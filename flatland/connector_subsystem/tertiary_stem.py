@@ -52,7 +52,7 @@ class TertiaryStem(AnchoredStem):
         except ValueError:
             cname = 'Unnamed' if not self.Connector else self.Connector.Name.text
             self.logger.error(f"Ternary stem does not intersect binary connector [{cname}]")
-            sys.exit()
+            sys.exit(1)
 
         self.Vine_end = Position(self.Root_end.x, axis) if face in HorizontalFace else Position(axis, self.Root_end.y)
 

@@ -124,7 +124,7 @@ class Layer:
             )
         except TabletBoundsExceeded:
             self.logger.error(f"Asset: [{asset}] Text: [{text}] outside of tablet draw area")
-            sys.exit()
+            sys.exit(1)
         self.logger.info('Text added')
 
     def text_line_size(self, asset: str, text_line: str) -> Rect_Size:
@@ -233,7 +233,7 @@ class Layer:
             ll_dc = self.Tablet.to_dc(Position(x=lower_left.x, y=lower_left.y))
         except TabletBoundsExceeded:
             self.logger.exception(f"Lower left corner of image [{resource_path.name}] is outside tablet draw region")
-            sys.exit()
+            sys.exit(1)
 
         # Use upper left corner instead
         ul = Position(x=ll_dc.x, y=ll_dc.y - size.height)

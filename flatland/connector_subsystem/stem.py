@@ -119,7 +119,7 @@ class Stem:
                     name_y > diagram.Origin.y + diagram.Size.height:
                 self.logger.error(f"Stem text {self.Name.text.text} out of bounds on connector [{self.Connector.Name.text}]"
                                   f"\n\tConsider wrapping name across more lines of text or move it to the other side of the stem")
-                sys.exit()
+                sys.exit(1)
 
             layer.add_text_block(asset=self.Stem_type.Name + ' name', lower_left=Position(name_x, name_y),
                                   text=self.Name.text.text, align=align)

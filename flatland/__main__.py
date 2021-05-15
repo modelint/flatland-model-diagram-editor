@@ -44,10 +44,11 @@ def parse(cl_input):
 
 
 def main():
+    logger = get_logger()
     args = parse(sys.argv[1:])
     if args.version:
         print(f'Flatland version: {version}')
-        sys.exit()
+        sys.exit(0)
 
     if args.examples or args.docs:
         # Make a local copy of the examples and/or documentation directories for the user
@@ -58,21 +59,21 @@ def main():
         local_docs_path = Path.cwd() / 'documentation'
         if args.examples:
             if local_ex_path.exists():
-                print("examples already exists in the current directory.")
+                logger.info("examples already exist in the current directory.")
                 if not args.docs:
-                    sys.exit()
+                    sys.exit(1)
             else:
                 shutil.copytree(ex_path, local_ex_path)  # Copy the example directory
                 test_gen_path = Path(__file__).parent / 'tests' / 'gen_example_diagrams.py'
                 shutil.copy(test_gen_path, local_ex_path)  # Copy the gen_example file into the copied example dir
         if args.docs:
             if local_docs_path.exists():
-                sys.exit("documentation already exists in the current directory.")
+                logger.error("documentation already exists in the current directory.")
+                sys.exit(1)
             import shutil
             shutil.copytree(docs_path, local_docs_path)
-        sys.exit()
+        sys.exit(0)
 
-    logger = get_logger()
     logger.info(f'Flatland version: {version}')
     # Parse the command line args
 
@@ -81,7 +82,7 @@ def main():
         model_path = Path(args.model)
         if not model_path.is_file():
             logger.error(f"Model file: {args.model} specified on command line not found")
-            sys.exit()
+            sys.exit(1)
     else:
         # TODO: Standard input is not yet supported, so this is a placeholder
         # TODO: Since a default model file is always supplied via argparse above, this clause will never execute
@@ -91,7 +92,7 @@ def main():
     layout_path = Path(args.layout)
     if not layout_path.is_file():
         logger.error(f"Layout file: {args.layout} specified on command line not found")
-        sys.exit()
+        sys.exit(1)
 
     # output file: If no output file is specified, the generated diagram is provided as standard output
     # For now, the only output format is PDF

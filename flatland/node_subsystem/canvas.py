@@ -85,7 +85,7 @@ class Canvas:
             )
         except NonSystemInitialLayer:
             self.logger.exception("Initial layer [diagram] not found in Tablet layer order")
-            sys.exit()
+            sys.exit(1)
         self.Diagram = Diagram(
             self, diagram_type_name=diagram_type, layer=self.Tablet.layers['diagram'],
             notation_name=notation, padding=diagram_padding, show_grid=show_grid

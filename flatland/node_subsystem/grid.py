@@ -163,7 +163,7 @@ class Grid:
         if new_row_height > self.Diagram.Size.height:
             excess = round(new_row_height - self.Diagram.Size.height)
             self.logger.error(f"Max diagram height exceeded by {excess}pt at row {len(self.Row_boundaries)}")
-            sys.exit()
+            sys.exit(1)
         # Add it to the list of row boundaries
         self.Row_boundaries.append(new_row_height)
         # Create new empty row with an empty node for each column boundary after the leftmost edge (0)
@@ -179,7 +179,7 @@ class Grid:
         if new_col_width > self.Diagram.Size.width:
             excess = round(new_col_width - self.Diagram.Size.width)
             self.logger.error(f"Max diagram width exceeded by {excess}pt at col {len(self.Col_boundaries)}")
-            sys.exit()
+            sys.exit(1)
         # Add it to the list of column boundaries
         self.Col_boundaries.append(new_col_width)
         # For each row, add a rightmost empty node space
@@ -352,7 +352,7 @@ class Grid:
                 if self.Col_boundaries[-1] > self.Diagram.Size.width:
                     excess = round(self.Col_boundaries[-1] - self.Diagram.Size.width)
                     self.logger.error(f"Max diagram width exceeded by {excess}pt at col {len(self.Col_boundaries)}")
-                    sys.exit()
+                    sys.exit(1)
 
         # Check for vertical overlap
         if not rows_to_add:
@@ -365,7 +365,7 @@ class Grid:
                 if self.Row_boundaries[-1] > self.Diagram.Size.height:
                     excess = round(self.Row_boundaries[-1] - self.Diagram.Size.height)
                     self.logger.error(f"Max diagram width exceeded by {excess}pt at row {len(self.Row_boundaries)}")
-                    sys.exit()
+                    sys.exit(1)
 
         # Add extra rows and columns (must add the rows first)
         for r in range(rows_to_add):

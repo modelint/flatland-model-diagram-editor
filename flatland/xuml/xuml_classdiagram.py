@@ -249,7 +249,7 @@ class XumlClassDiagram:
         except KeyError:
             missing_side = "p-stem" if not reversed else "t-stem"
             self.logger.error(f"In layout sheet {missing_side} of {rnum} class [{node_ref}] is not defined in model")
-            sys.exit()
+            sys.exit(1)
         p_stem = New_Stem(stem_type='class mult', semantic=p_side['mult'] + ' mult',
                           node=pnode, face=pstem['face'],
                           anchor=pstem.get('anchor', None), stem_name=p_phrase)
@@ -262,14 +262,14 @@ class XumlClassDiagram:
                 self.logger.error(
                     f"Layout sheet calls for ternary stem, but class model does not specify any"
                     f" association class on association: {rnum}")
-                sys.exit()
+                sys.exit(1)
             try:
                 node=self.nodes[node_ref]
             except KeyError:
                 self.logger.error(
                     f"Association class [{node_ref}] is missing in relationship {rnum}"
                 )
-                sys.exit()
+                sys.exit(1)
             a_stem = New_Stem(stem_type='associative mult', semantic=semantic,
                               node=self.nodes[node_ref], face=astem['face'], anchor=astem.get('anchor', None),
                               stem_name=None)
