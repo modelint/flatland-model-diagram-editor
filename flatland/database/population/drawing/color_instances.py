@@ -3,23 +3,52 @@ color_instances.py
 """
 from collections import namedtuple
 population = [
-    {"Name": 'white', 'R': 255, 'G': 255, 'B': 255},
-    {"Name": 'black', 'R': 0, 'G': 0, 'B': 0},
-    {"Name": 'grid blue', 'R': 51, 'G': 235, 'B': 186},   # To paint the canvas node grid for diagnostics
-    {"Name": 'purple', 'R': 125, 'G': 51, 'B': 235},      # Diagnostics for highlighting connectors
-    {"Name": 'horrible red', 'R': 255, 'G': 0, 'B': 0},   # Used to highlight errors
-    {"Name": 'gold', 'R': 255, 'G':219, 'B': 44},         # Used for margin diagnostic
-    {"Name": 'toyota red', 'R': 236, 'G': 10, 'B': 30},   # Bright red in TRI logo
-    {"Name": 'block blue', 'R': 0, 'G': 64, 'B': 128},    # Blue in modelint block titles
-
     # Canvas colors
-    {"Name": 'gray', 'R': 121, 'G': 121, 'B': 121},
-    {"Name": 'yellow', 'R': 255, 'G': 252, 'B': 121},
-    {"Name": 'aqua', 'R': 0, 'G': 150, 'B': 255},
-    {"Name": 'teal', 'R': 87, 'G': 181, 'B': 174},
-    {"Name": 'pink', 'R': 246, 'G': 196, 'B': 249},
-    {"Name": 'butterscotch', 'R': 206, 'G': 124, 'B': 65},
-    {"Name": 'light purple', 'R': 146, 'G': 102, 'B': 173},
-    {"Name": 'brown', 'R': 143, 'G': 108, 'B': 72},
-    {"Name": 'orange', 'R': 197, 'G': 150, 'B': 35},
+    # Blues
+    {"Name": 'blue steel', 'R': 159, 'G': 172, 'B': 186, 'Purpose': 'canvas'},
+    {"Name": 'teal', 'R': 125, 'G': 181, 'B': 175, 'Purpose': 'canvas'},
+
+    # Grays
+    {"Name": 'nickel', 'R': 146, 'G': 146, 'B': 146, 'Purpose': 'canvas'},
+    {"Name": 'silver', 'R': 214, 'G': 214, 'B': 214, 'Purpose': 'canvas'},
+    {"Name": 'magnesium', 'R': 192, 'G': 192, 'B': 192, 'Purpose': 'canvas'},
+    {"Name": 'aluminum', 'R': 169, 'G': 169, 'B': 169, 'Purpose': 'canvas'},
+
+    # Greens
+    {"Name": 'institutional', 'R': 192, 'G': 204, 'B': 160, 'Purpose': 'canvas'},
+    {"Name": 'olive', 'R': 154, 'G': 152, 'B': 36, 'Purpose': 'canvas'},
+
+    # Yellows
+    {"Name": 'butter', 'R': 255, 'G': 255, 'B': 191, 'Purpose': 'canvas'},
+    {"Name": 'limoncello', 'R': 255, 'G': 255, 'B': 128, 'Purpose': 'canvas'},
+    {"Name": 'cantaloupe', 'R': 255, 'G': 212, 'B': 121, 'Purpose': 'canvas'},
+    {"Name": 'peach', 'R': 255, 'G': 197, 'B': 95, 'Purpose': 'canvas'},
+
+    # Oranges
+    {"Name": 'pumpkin', 'R': 206, 'G': 124, 'B': 65, 'Purpose': 'canvas'},
+    {"Name": 'autumn', 'R': 197, 'G': 150, 'B': 35, 'Purpose': 'canvas'},
+
+    # Reds
+    {"Name": 'pink eraser', 'R': 240, 'G': 176, 'B': 158, 'Purpose': 'canvas'},
+
+    # Purples
+    {"Name": 'tutti frutti', 'R': 246, 'G': 196, 'B': 249, 'Purpose': 'canvas'},
+    {"Name": 'light purple', 'R': 237, 'G': 187, 'B': 251, 'Purpose': 'canvas'},
+    {"Name": 'harolds purple crayon', 'R': 164, 'G': 161, 'B': 211, 'Purpose': 'canvas'},
+
+    # Browns
+    {"Name": 'dead leaf', 'R': 180, 'G': 142, 'B': 85, 'Purpose': 'canvas'},
+
+    # DIAGNOSTIC COLORS (not suitable for backgrounds)
+    {"Name": 'white', 'R': 255, 'G': 255, 'B': 255, 'Purpose': 'diagnostic'},
+    {"Name": 'black', 'R': 0, 'G': 0, 'B': 0, 'Purpose': 'diagnostic'},
+    {"Name": 'grid blue', 'R': 51, 'G': 235, 'B': 186, 'Purpose': 'diagnostic'},  # To paint the canvas node grid for diagnostics
+    {"Name": 'purple', 'R': 125, 'G': 51, 'B': 235, 'Purpose': 'diagnostic'},  # Diagnostics for highlighting connectors
+    {"Name": 'horrible red', 'R': 255, 'G': 0, 'B': 0, 'Purpose': 'diagnostic'},  # Used to highlight errors
+    {"Name": 'gold', 'R': 255, 'G': 219, 'B': 44, 'Purpose': 'diagnostic'},  # Used for margin diagnostic
+
+    # Logo colors
+    {"Name": 'toyota red', 'R': 236, 'G': 10, 'B': 30, 'Purpose': 'logo'},  # Bright red in TRI logo
+    {"Name": 'block blue', 'R': 0, 'G': 64, 'B': 128, 'Purpose': 'logo'},  # Blue in modelint block titles
+
 ]

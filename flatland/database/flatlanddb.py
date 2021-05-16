@@ -87,6 +87,7 @@ class FlatlandDB:
         self.rebuild = rebuild
 
         if self.rebuild:  # DB rebuild requested
+            self.logger.warning("Database rebuild requested, rebuilding flatland database")
             # Start with a fresh database
             if FlatlandDB.File.exists():
                 FlatlandDB.File.unlink()

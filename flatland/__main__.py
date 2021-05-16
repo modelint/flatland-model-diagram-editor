@@ -42,14 +42,22 @@ def parse(cl_input):
                         help='Print the grid so you can diagnose output with row and column boundaries visible')
     parser.add_argument('-R', '--rebuild', action='store_true',
                         help='Rebuild the flatland database. Necessary only if corrupted.')
+    parser.add_argument('-COLORS', '--colors', action='store_true',
+                        help='Show the list of background color names')
     return parser.parse_args(cl_input)
 
 
 def main():
     logger = get_logger()
     args = parse(sys.argv[1:])
+
     if args.version:
         print(f'Flatland version: {version}')
+        sys.exit(0)
+
+    if args.colors:
+        from flatland.drawing_domain.styledb import StyleDB
+        StyleDB(print_colors=True, rebuild=args.rebuild)
         sys.exit(0)
 
     if args.examples or args.docs:

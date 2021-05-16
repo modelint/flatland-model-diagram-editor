@@ -413,7 +413,8 @@ def define(db) -> dict:
                        Column('Name', String, primary_key=True),
                        Column('R', Integer, nullable=False),
                        Column('G', Integer, nullable=False),
-                       Column('B', Integer, nullable=False)
+                       Column('B', Integer, nullable=False),
+                       Column('Purpose', String, nullable=False),
                        ),
         'typeface': Table('Typeface', db.MetaData,
                           Column('Alias', String, primary_key=True),

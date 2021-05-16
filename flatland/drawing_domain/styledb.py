@@ -3,13 +3,28 @@ styledb.py - Loads styles from the flatland database common to all Presentations
 """
 import logging
 from flatland.database.flatlanddb import FlatlandDB as fdb
-from sqlalchemy import select
+from sqlalchemy import select, and_
 from collections import namedtuple
 
 Float_RGB = namedtuple('Float_RGB', 'R G B')
 Line_Style = namedtuple('Line_Style', 'pattern width color')
 Text_Style = namedtuple('Text_Style', 'typeface size slant weight color spacing')
 Dash_Pattern = namedtuple('Dash_Pattern', 'solid blank')
+
+def report_colors(rebuild):
+    fdb(rebuild=rebuild)
+    colors = fdb.MetaData.tables['Color']
+    p = [colors.c.Name]
+    r = and_(
+        (colors.c.Purpose == 'canvas')
+    )
+    q = select(p).where(r)
+    f = fdb.Connection.execute(q).fetchall()
+    print("Canvas colors:")
+    print("---")
+    for i in f:
+        print(i.Name)
+    print("===")
 
 def load_colors():
     colors = fdb.MetaData.tables['Color']
@@ -63,7 +78,7 @@ class StyleDB:
     typeface = {}
     text_style = {}
 
-    def __init__(self):
+    def __init__(self, print_colors=False, rebuild=False):
         """
         Constructor
 
@@ -73,8 +88,11 @@ class StyleDB:
         self.logger = logging.getLogger(__name__)
         self.logger.info("Loading common styles from Flatland db")
         # Load all common graphical and text styles in the database (regardless of what we might actually use)
-        load_colors()
-        load_dash_patterns()
-        load_line_styles()
-        load_typefaces()
-        load_text_styles()
+        if print_colors:
+            report_colors(rebuild)
+        else:
+            load_colors()
+            load_dash_patterns()
+            load_line_styles()
+            load_typefaces()
+            load_text_styles()
