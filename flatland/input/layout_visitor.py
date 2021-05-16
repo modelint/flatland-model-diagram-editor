@@ -47,6 +47,10 @@ class LayoutVisitor(PTNodeVisitor):
         """Keyword argument"""
         return children[0]
 
+    def visit_color(self, node, children):
+        """Keyword argument"""
+        return children[0]
+
     def visit_tpad(self, node, children):
         return {'top': children[0]}
 

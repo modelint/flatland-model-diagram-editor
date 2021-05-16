@@ -34,6 +34,8 @@ def parse(cl_input):
                         help='Generate a diagnostic flatland.log file')
     parser.add_argument('-N', '--nodes_only', action='store_true',
                         help='Do not draw any connectors. Helpful to diagnose connector failures due to bad node cplace.')
+    parser.add_argument('-NC', '--no_color', action='store_true',
+                        help='Use white instead of the specified sheet color. Useful when creating printer output.'),
     parser.add_argument('-V', '--version', action='store_true',
                         help='Print the current version of flatland')
     parser.add_argument('-G', '--grid', action='store_true',
@@ -112,7 +114,8 @@ def main():
             diagram_file_path=diagram_path,
             rebuild=args.rebuild,
             show_grid=args.grid,
-            nodes_only=args.nodes_only
+            nodes_only=args.nodes_only,
+            no_color=args.no_color,
         )
     elif mtype == '.xsm':
         statemodel_diagram = XumlStateMachineDiagram(
@@ -121,7 +124,8 @@ def main():
             diagram_file_path=diagram_path,
             rebuild=args.rebuild,
             show_grid=args.grid,
-            nodes_only=args.nodes_only
+            nodes_only=args.nodes_only,
+            no_color=args.no_color,
         )
 
     logger.info("No problemo")  # We didn't die on an exception, basically

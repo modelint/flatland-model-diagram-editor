@@ -10,7 +10,7 @@ from collections import namedtuple
 from flatland.input.nocomment import nocomment
 
 DiagramLayout = namedtuple('DiagramLayout', 'layout_spec node_placement connector_placement')
-LayoutSpec = namedtuple('LayoutSpec', 'dtype pres notation sheet orientation frame frame_presentation, padding')
+LayoutSpec = namedtuple('LayoutSpec', 'dtype pres notation color sheet orientation frame frame_presentation padding')
 NodePlacement = namedtuple('NodePlacement', 'wrap row column halign valign')
 ConnPlacement = namedtuple('ConnPlacement', 'name_side bend t_data, p_data')
 StemSpec = namedtuple('StemSpec', 'name_side wrap face node anchor_at')
@@ -90,10 +90,12 @@ class LayoutParser:
         ld = result.results['layout_spec'][0]  # layout data
         # Some items are optional
         frame = ld.get('frame')
+        color = ld.get('color', ['white'])
         frame_presentation = ld.get('frame_presentation')
         padding = ld.get('padding')
         lspec = LayoutSpec(dtype=ld['diagram'][0], notation=ld['notation'][0], pres=ld['presentation'][0],
                            orientation=ld['orientation'][0], sheet=ld['sheet'][0],
+                           color=color[0],
                            frame=None if not frame else frame[0],
                            # frame_presentation not relevant if no frame
                            frame_presentation=None if not frame else frame_presentation[0],

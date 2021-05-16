@@ -4,8 +4,8 @@ metadata
     Title : Flatland Node Subsystem Class Diagram
     Author : Leon Starr
     Document ID : mint.flatland3.td.1a
-    Version : 0.7.0
-    Modification date : January 17, 2021
+    Version : 0.7.1
+    Modification date : May 15, 2021
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint_large
@@ -27,6 +27,7 @@ attributes
     Sheet {R13}
     Orientation : Portrait Landscape
     Margin : Padding
+    Color : Color Name
 --
 class Cell
 attributes

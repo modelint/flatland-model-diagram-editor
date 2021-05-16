@@ -84,12 +84,13 @@ class Tablet:
         self.PDF_sheet = cairo.PDFSurface(self.Output_file, self.Size.width, self.Size.height)
         self.Context = cairo.Context(self.PDF_sheet)
 
-    def add_layer(self, name: str, presentation: str, drawing_type: str) -> Optional[Layer]:
+    def add_layer(self, name: str, presentation: str, drawing_type: str, fill: str = None) -> Optional[Layer]:
         """Add a new layer if not already instantiated and return it"""
         if not self.layers.get(name):
             if name not in self.layer_order:
                 self.layer_order.append(name)
-            self.layers[name] = Layer(name=name, tablet=self, presentation=presentation, drawing_type=drawing_type)
+            self.layers[name] = Layer(name=name, tablet=self, presentation=presentation, drawing_type=drawing_type,
+                                      fill=fill)
             return self.layers[name]
         else:
             self.logger.warning(f"Layer: [{name}] previously instantiated")

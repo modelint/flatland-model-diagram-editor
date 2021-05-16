@@ -57,7 +57,7 @@ class Layer:
         - Text -- A list of text lines (new lines are not supported)
     """
 
-    def __init__(self, name: str, tablet: 'Tablet', presentation: str, drawing_type: str):
+    def __init__(self, name: str, tablet: 'Tablet', presentation: str, drawing_type: str, fill: str = None):
         """
         Constructor
 
@@ -65,17 +65,24 @@ class Layer:
         :param tablet: The Tablet object
         :param presentation: Presentation to be applied to this Layer
         :param drawing_type: The Presentation's Drawing Type
+        :param fill: A color to fill the drawing area
         """
         self.logger = logging.getLogger(__name__)
         self.Name = name
+        self.Fill = fill
         self.Tablet = tablet
         self.Drawing_type = drawing_type
 
         # Stuff we will draw on the Layer
+
+        # Create one giant fill rect for the background if this layer is filled
+        self.BackgroundRect = None if not self.Fill else element.FillRect(
+            upper_left=Position(0,0), size=tablet.Size, color=fill)
         self.Line_segments: List[element.Line_Segment] = []
         self.Circles: List[element.Circle] = []
         self.Polygons: List[element.Polygon] = []
         self.Rectangles: List[element.Rectangle] = []
+        self.TextUnderlayRects: List[element.FillRect] = []
         self.Text: List[element.Text_line] = []
         self.Images: List[element.Image] = []
 
@@ -89,7 +96,6 @@ class Layer:
             self.Presentation = Presentation(name=presentation, drawing_type=self.Drawing_type)
             self.Tablet.Presentations[pres_index] = self.Presentation
 
-
     def render(self):
         """Renders all Elements on this Layer"""
 
@@ -97,24 +103,69 @@ class Layer:
         # For now, always assume output to cairo
         self.Tablet.Context.set_line_join(cairo.LINE_JOIN_ROUND)
         # Rendering order determines what can potentially overlap on this Layer, so order matters
+        if self.Fill:
+            self.render_background()
         self.render_line_segments()
         self.render_circles()
         self.render_rects()
         self.render_polygons()
+        self.render_text_underlays()  # Renders any color fills that lie underneath text blocks or lines
         self.render_text()  # Render text after vector content so that it is never underneath
         self.render_images()  # Text should not be drawn over images, so we can render these last
 
-    def add_text_line(self, asset: str, lower_left: Position, text: str, underlay_asset: str = None):
+    def render_background(self):
+        """Draw a solid color background on the entire layer for this layer's fill color"""
+        assert self.Fill, "Background rendering, but layer.Fill is None"
+        self.render_fillrect(self.BackgroundRect)
+
+    def render_text_underlays(self):
+        for u in self.TextUnderlayRects:
+            self.render_fillrect(u)
+
+    def render_fillrect(self, frect: element.FillRect):
+        """Render a filled retangle"""
+
+        # Lookup the RGB color value from the user color name
+        try:
+            fill_rgb_color_value = StyleDB.rgbF[frect.color]
+        except IndexError:
+            self.logger.error(f'Fill rect color [{frect.color}] not available')
+            sys.exit(1)
+
+        self.Tablet.Context.rectangle(frect.upper_left.x, frect.upper_left.y, frect.size.width, frect.size.height)
+        self.Tablet.Context.set_source_rgb(*fill_rgb_color_value)
+        self.Tablet.Context.fill()
+        self.Tablet.Context.stroke()
+
+    def add_text_underlay(self, lower_left: Position, size: Rect_Size):
+        """
+        Adds a rectangle that matches the color of the sheet layer (if one exists) otherwise, defaults
+        to white. This rectangle will be drawn underneath a text line or block so that the color surrounding
+        the text matches the background color. This is useful when you want to draw text over the top of some
+        graphical component such as a line without being too visually disruptive.
+        """
+        sheet_layer = self.Tablet.layers.get('sheet')
+        fill = 'white' if not sheet_layer else sheet_layer.Fill
+
+        # Flip lower left corner to device coordinates
+        ll_dc = self.Tablet.to_dc(Position(x=lower_left.x, y=lower_left.y))
+
+        # Use upper left corner instead
+        ul = Position(x=ll_dc.x, y=ll_dc.y - size.height)
+
+        self.TextUnderlayRects.append(element.FillRect(upper_left=ul, size=size, color=fill))
+
+    def add_text_line(self, asset: str, lower_left: Position, text: str):
         """
         Adds a line of text to the tablet at the specified lower left corner location which will be converted
         to device coordinates
         """
-        if underlay_asset:
-            # We will draw the underlay asset underneath the text (probably a blank rectangle)
+        if asset in self.Presentation.Underlays:
+            # Compute a rectangle slightly larger than the text area to underlay the text
             tl_size = self.text_line_size(asset=asset, text_line=text)
             underlay_size = Rect_Size(height=tl_size.height+5, width=tl_size.width+5)
             underlay_pos = Position(lower_left.x-2, lower_left.y-3)
-            self.add_rectangle(asset=underlay_asset, lower_left=underlay_pos, size=underlay_size)
+            self.add_text_underlay(lower_left=underlay_pos, size=underlay_size)
         try:
             self.Text.append(
                 element.Text_line(

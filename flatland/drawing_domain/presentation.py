@@ -25,6 +25,7 @@ class Presentation:
         self.Name = name
         self.Drawing_type = drawing_type
         self.Text_presentation = {}
+        self.Underlays = set()  # Set of text presentations that require an underlay
         self.Shape_presentation = {}
         self.Closed_shape_fill = {}
         self.Corner_spec = {}
@@ -39,12 +40,14 @@ class Presentation:
         For each text Asset in this Presentation, load its Text Presentation
         """
         text_pres_t = fdb.MetaData.tables['Text Presentation']
-        q = select([text_pres_t.c.Asset, text_pres_t.c['Text style']]).where(and_(
-            text_pres_t.c.Presentation == self.Name, text_pres_t.c['Drawing type'] == self.Drawing_type
-        ))
+        p = [text_pres_t.c.Asset, text_pres_t.c['Text style'], text_pres_t.c.Underlay]
+        s = and_(text_pres_t.c.Presentation == self.Name, text_pres_t.c['Drawing type'] == self.Drawing_type)
+        q = select(p).where(s)
         f = fdb.Connection.execute(q).fetchall()
         for i in f:
             self.Text_presentation[i.Asset] = i['Text style']
+            if i['Underlay']:
+                self.Underlays.add(i.Asset)
 
     def load_shape_presentations(self):
         """

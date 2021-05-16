@@ -20,7 +20,6 @@ population = [
      'Fill': 'white'},
     {'Asset': 'imported class attribute compartment', 'Presentation': 'default', 'Drawing type': 'Starr class diagram',
      'Fill': 'white'},
-    {'Asset': 'name underlay', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Fill': 'white'},
 
     # Shlaer-Mellor/default symbols
     {'Asset': 'class name compartment', 'Presentation': 'default', 'Drawing type': 'Shlaer-Mellor class diagram',

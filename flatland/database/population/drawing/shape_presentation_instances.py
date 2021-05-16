@@ -36,7 +36,6 @@ population = [
     {'Asset': 'solid arrow', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Line style': 'normal'},
     {'Asset': 'hollow arrow', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Line style': 'normal'},
     {'Asset': 'gen arrow', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Line style': 'normal'},
-    {'Asset': 'name underlay', 'Presentation': 'default', 'Drawing type': 'Starr class diagram', 'Line style': 'hidden'},
 
     # xUML class default
     {'Asset': 'class name compartment', 'Presentation': 'default', 'Drawing type': 'xUML class diagram', 'Line style': 'normal'},

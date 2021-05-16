@@ -459,6 +459,7 @@ def define(db) -> dict:
                                    Column('Presentation', String, nullable=False),
                                    Column('Drawing type', String, nullable=False),
                                    Column('Text style', String, nullable=False),
+                                   Column('Underlay', Boolean, nullable=False),
                                    PrimaryKeyConstraint('Asset', 'Presentation', 'Drawing type', name='I1'),
                                    ForeignKeyConstraint(('Asset', 'Drawing type'),
                                                         ['Asset.Name', 'Asset.Drawing type'],

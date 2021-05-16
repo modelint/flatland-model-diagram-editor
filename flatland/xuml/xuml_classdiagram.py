@@ -29,7 +29,7 @@ BranchLeaves = namedtuple('BranchLeaves', 'leaf_stems local_graft next_graft flo
 class XumlClassDiagram:
 
     def __init__(self, xuml_model_path: Path, flatland_layout_path: Path, diagram_file_path: Path,
-                 rebuild: bool, show_grid: bool, nodes_only: bool):
+                 rebuild: bool, show_grid: bool, nodes_only: bool, no_color: bool):
         """Constructor"""
         self.logger = logging.getLogger(__name__)
         self.xuml_model_path = xuml_model_path
@@ -37,6 +37,7 @@ class XumlClassDiagram:
         self.diagram_file_path = diagram_file_path
         self.rebuild = rebuild
         self.show_grid = show_grid
+        self.no_color = no_color
 
         self.logger.info("Parsing the model")
         # Parse the model
@@ -119,6 +120,8 @@ class XumlClassDiagram:
             diagram_padding=lspec.padding,
             drawoutput=self.diagram_file_path,
             show_grid=self.show_grid,
+            no_color=self.no_color,
+            color=lspec.color,
         )
 
     def draw_classes(self) -> Dict[str, SingleCellNode]:

@@ -41,7 +41,8 @@ class Canvas:
     """
 
     def __init__(self, diagram_type: str, presentation: str, notation: str, standard_sheet_name: str, orientation: str,
-                 diagram_padding: Dict[str, int], show_grid: bool, drawoutput=sys.stdout.buffer):
+                 diagram_padding: Dict[str, int], show_grid: bool, color: str,
+                 no_color: bool, drawoutput=sys.stdout.buffer):
         """
         Constructor
 
@@ -72,6 +73,7 @@ class Canvas:
             width=int(round(w * factor))
         )
         self.Margin = DiagramLayoutSpecification.Default_margin
+        self.Color = color
 
         # Create the one and only Tablet instance and initialize it with the Presentation on the diagram
         # Layer
@@ -86,6 +88,12 @@ class Canvas:
         except NonSystemInitialLayer:
             self.logger.exception("Initial layer [diagram] not found in Tablet layer order")
             sys.exit(1)
+
+        if not no_color:
+            # The user has not disabled the colored background on the command line
+            self.Tablet.add_layer(name="sheet", presentation=presentation, drawing_type="background",
+                                  fill=self.Color)
+
         self.Diagram = Diagram(
             self, diagram_type_name=diagram_type, layer=self.Tablet.layers['diagram'],
             notation_name=notation, padding=diagram_padding, show_grid=show_grid
