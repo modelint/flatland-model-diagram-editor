@@ -18,7 +18,7 @@ acword = r'[A-Z][A-Z0-9_]*' // All caps words for class abbreviations
 phrase = lword (delim lword)*  // Relationship phrase
 block_end = "--" nl?  // Signifies end of a block (within section)
 body_line = indent r'.*' nl // An unstructured line of text
-icaps_name = iword (delim iword)*  // A name using iniital caps only
+icaps_name = iword (delim iword)*  // A name using initial caps only
 
 method_block = method_header body_line+ block_end // A set of class methods
 method_header = "methods" nl

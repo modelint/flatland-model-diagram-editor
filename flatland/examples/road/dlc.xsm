@@ -1,0 +1,123 @@
+metadata /// Simplified example to demonstrate state model markup
+    Title : Simplified Driving Lane Change Flatland Example
+    Author : Leon Starr
+    Document ID : tri.flatlandexample.ego.td.3 Modification date : May 16, 2021 Version : 5.1.6
+    Modification date : May 16, 2021
+    Version : 5.1.6
+    Organization : Toyota Research Institute / TRI Public
+    Copyright notice > MIT
+    Organization logo > toyota_large
+domain Vehicle Guidance
+class Driving Lane Change
+events
+    *Shift lane
+    Stay in lane
+    Escape ok
+    Target lane open
+    Target lane closed
+    Adequate indication
+    Target lane closed
+    Wait for next opportunity
+    Crossing
+    Crossing completed
+    In target lane
+    Inhibit released
+    Inhibit
+    Indication complete
+    Target lane monitoring stopped
+--
+state INHIBITING SUCCESSIVE LANE CHANGE
+activity
+    // No actions
+transitions
+    Inhibit released > Verify lane
+--
+state Start monitoring target lane *Shift lane
+activity
+    Lane change timeout -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Max lane change duration
+
+    Target lane open = Start monitoring target lane()
+    Target lane open? Escape ok -> : Stay in lane -> me
+transitions
+    Stay in lane > WAITING FOR ENTRY SPACE
+    Escape ok > INTENT PREINDICATION
+--
+state WAITING FOR ENTRY SPACE
+activity
+    // Remain in the source lane without indicating
+    // until we can escape or we run out of time, whichever comes first
+
+    Target opening timeout -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Max wait for open space
+transitions
+    Target lane open > INTENT PREINDICATION
+--
+state Target closed during indication
+activity
+    PANEL.Indicate( direction: .cancel )
+    !* Adequate indication -> me
+    Wait for next opportunity -> me
+transitions
+    Wait for next opportunity > WAITING FOR ENTRY SPACE
+--
+state INTENT PREINDICATION
+activity
+    !* Target opening timeout -> me // Cancel entry space timeout PANEL.Indicate( direction: Turn direction )
+    Adequate indication -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Min advance indication
+transitions
+    Adequate indication > PRE CROSS MANEUVER
+    Target lane closed > Target closed during indication
+--
+state PRE CROSS MANEUVER
+activity
+    Maneuver to target lane(dir: /R152/MLM.Turn direction) => DRIVING
+    Crossing timeout -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Max maneuver duration
+transitions
+    Crossing > CROSSING
+--
+state CROSSING
+activity
+    // No actions here
+transitions
+    Crossing completed > Stop monitoring target lane
+--
+state Stop monitoring target lane
+activity
+    Stop monitoring target lane()
+    Target lane monitoring stopped -> me
+    not Lingering crossing? !* Crossing timeout -> me
+    Indication complete -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Min complete indication
+transitions
+    Target lane monitoring stopped > INTENT POSTINDICATION
+--
+state INTENT POSTINDICATION
+activity
+    // No actions
+transitions
+    Indication complete > Start inhibit phase
+--
+state Start inhibit phase
+activity
+    PANEL.Indicate( direction: .cancel )
+    Inhibit released -> me @ Ego Vehicle(1)/R153/R154/Lane Change Behavior
+        Specification.Successive lane change inhibit period
+    Inibit -> me
+transitions
+    Inhibit > INHIBITING SUCCESSIVE LANE CHANGE
+--
+state Verify lane
+activity
+    not Max lane change time exceeded? !* Lane change timeout -> me
+    /R152/DL == /R152/MLM/R157/DL?
+        In target lane -> : Wrong lane -> me
+transitions
+    In target lane > Successful lane change
+--
+state Successful lane change !*
+activity
+    Lane changed -> /R152/MLM
+--

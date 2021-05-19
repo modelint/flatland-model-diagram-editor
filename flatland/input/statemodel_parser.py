@@ -47,7 +47,7 @@ class StateModelParser:
 
         # Read the model file
         try:
-            self.model_text = nocomment(open(self.model_file_path, 'r').read())
+            self.model_text = nocomment(open(self.model_file_path, 'r').read(), prefix='///')
         except OSError as e:
             raise ModelInputFileOpen(self.model_file_path)
 

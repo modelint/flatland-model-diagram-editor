@@ -7,52 +7,56 @@ nl = "\n" // New line
 sp = " " // Single space
 delim = r'[ _]' // Delimiter used inside of names
 indent = "    "  // Need indent for clarity and to signal unstructured lines of text
+// lword = r'[a-z][a-z]*' // Lower case only word (used in relationship phrase)
 rnum = r'O?R[1-9][0-9]*' // Relationship number
-lword = r'[a-z][a-z]*' // Lower case only word (used in relationship phrase)
-iword = r'[A-Z][A-Za-z0-9]*' // Initial cap word (used in Class and Subsystem names)
-acword = r'[A-Z][A-Z0-9_]*' // All caps words for class abbreviations
-lc_name = lword (delim lword)*  // Relationship phrase
+word = r'[A-Za-z][A-Za-z0-9]*' // Word beginning with an alpha character
+// iword = r'[A-Z][A-Za-z0-9]*' // Initial cap word (used in Class and Subsystem names)
+// acword = r'[A-Z][A-Z0-9_]*' // All caps words for class abbreviations
+name = word (delim word)*  // A name is a sequence of one or more words separated by delimiters
 block_end = "--" nl?  // Signifies end of a block (within section)
 body_line = indent r'.*' nl // An unstructured line of text
-icaps_name = iword (delim iword)*  // A name using initial caps only
-sentence_name = iword (delim lword)*  // A name starting with an initial cap word
+//icaps_name = iword (delim iword)*  // A name using initial caps only
 
 // State block
-state_name = icaps_name
+state_name = name
 transition = indent event_name (sp '>' sp state_name)? nl
 transition_header = "transitions" nl
 transitions = transition_header transition*
 activity_header = "activity" nl
 activity = activity_header body_line* // A block of activity text (not parsed further)
-deletion_state = icaps_name sp '!*'
-initial_state = icaps_name sp '*' event_name
-normal_state = event_name
-state_header = "state" sp (initial_state / deletion_state / normal_state) nl
+// deletion_state = state_name sp '!*'
+// initial_state = state_name sp '*' event_name
+// normal_state = state_name
+// state_header = "state" sp (initial_state / deletion_state / normal_state) nl
+creation = '*'
+deletion = '!*'
+state_header = "state" sp state_name (sp (deletion / creation event_name))? nl
 state_block = state_header activity transitions? block_end
 
 // Events
-event_name = sentence_name
-type_name = icaps_name
-param_name = lc_name
-parameter = param_name sp? ':' sp? type_name
+event_name = name
+type_name = name
+parameter_name = name
+parameter = parameter_name sp? ':' sp? type_name
 parameter_set = parameter (',' sp parameter)*
 signature = '()' / '(' sp? parameter_set sp? ')'
-creation_event = '*' event_name
-normal_event = event_name
+creation_event = '*' name
+normal_event = name
 event_spec = indent (creation_event / normal_event) signature? nl
 events_header = "events" nl
 events = events_header event_spec* block_end
 
 // Scope headers
 assigner = "relationship" sp rnum nl
-lifecycle = "class" sp icaps_name nl
-domain_header = "domain" sp icaps_name nl
+lifecycle = "class" sp name nl
+domain_header = "domain" sp name nl
 
 // Metadata
 text_item = ':' sp* r'.*' // Field content can be any text
-resource_item = '>' sp* (iword / lword) (delim (iword / lword))* // Resource is a name
-item_name = iword (delim (iword / lword))* // Meta data item starts with initial cap
-data_item = indent item_name sp* (resource_item / text_item) nl // Metadata item
+resource_item = '>' sp* name
+//resource_item = '>' sp* (iword / lword) (delim (iword / lword))* // Resource is a name
+// item_name = iword (delim (iword / lword))* // Meta data item starts with initial cap
+data_item = indent name sp* (resource_item / text_item) nl // Metadata item
 metadata_header = "metadata" nl // Metadata header
 metadata = metadata_header data_item* // Header and set of metadata items
 

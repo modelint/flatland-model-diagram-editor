@@ -18,10 +18,6 @@ events
     Unlock
     Cannot close
 --
-state OUT OF SERVICE !*
-activity
-    Wait for service
---
 state OPENING *Create
 activity
     Open door( Shaft ) => SIO
@@ -29,6 +25,10 @@ activity
 transitions
     Door opened > OPEN
     Lock
+--
+state OUT OF SERVICE !*
+activity
+    // Wait for service
 --
 state OPEN
 activity

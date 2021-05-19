@@ -1,6 +1,7 @@
 """frame.py – Draws the selected frame sized to a given sheet and fills in the fields"""
 
 import logging
+import sys
 from sqlalchemy import select, and_
 from flatland.database.flatlanddb import FlatlandDB as fdb
 from collections import namedtuple
@@ -113,7 +114,13 @@ class Frame:
             for r in rows:
                 if r.Box in self.Databoxes:
                     # The Data Box was recorded with an initial text line, so this must be an additional line
-                    self.Databoxes[r.Box].content.append(metadata[r.Metadata][0])
+                    try:
+                        # Extract the user supplied metadata value for this Data Box
+                        metadata_value = metadata[r.Metadata][0]
+                    except KeyError:
+                        self.logger.error(f"No metadata value supplied for: {r.Metadata}")
+                        sys.exit(1)
+                    self.Databoxes[r.Box].content.append(metadata_value)
                 else:
                     # Rows are ordered by Data Box, so if the box id is new, we create an initial dictioary entry
                     # With level 1

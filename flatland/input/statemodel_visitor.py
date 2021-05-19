@@ -11,6 +11,7 @@ Parameter = namedtuple('Parameter', 'name type')
 EventSpec = namedtuple('EventSpec', 'name type signature')
 """The name of an event, its type (normal or creation) and parameter signature"""
 
+
 class StateModelVisitor(PTNodeVisitor):
     """Visit parsed units of an Executable UML State Model"""
     # Each header comment below corresponds to section in statemodel.peg file
@@ -24,17 +25,8 @@ class StateModelVisitor(PTNodeVisitor):
         """Single space character"""
         return None
 
-    def visit_acword(self, node, children):
-        """All caps word"""
-        return node.value  # No children since this is a literal
-
-    def visit_icaps_name(self, node, children):
+    def visit_name(self, node, children):
         """Model element name"""
-        name = ''.join(children)
-        return name
-
-    def visit_sentence_name(self, node, children):
-        """Used for event name"""
         name = ''.join(children)
         return name
 
@@ -45,24 +37,33 @@ class StateModelVisitor(PTNodeVisitor):
         return body_text_line
 
     # State block
-    def visit_deletion_state(self, node, children):
-        """State with transition to deletion pseudo-state"""
-        return {'state': children[0], 'type': 'deletion'}
-
-    def visit_initial_state(self, node, children):
-        """state_name [creation_event_name]: State entered via transition from initial pseudo-state"""
-        s = children[0]
-        e = None if len(children) < 2 else children[1]
-        return { 'state': s,  'creation_event': e, 'type': 'creation' }
-
-    def visit_normal_state(self, node, children):
-        """State entered via normal (non-creation) event"""
-        return {'state': children[0], 'type': 'normal'}
-
     def visit_state_name(self, node, children):
-        """State name"""
+        """Model element name"""
         name = ''.join(children)
         return name
+
+    def visit_creation(self, node, children):
+        return 'creation'
+
+    def visit_deletion(self, node, children):
+        return 'deletion'
+
+    def visit_state_header(self, node, children):
+        """
+        There are four possible cases:
+            state name only (normal state)
+            state name (creation transition with no event)
+            state name (creation transition with event)
+            state name (deletion state)
+        """
+        s = children[0]  # State name
+        t = 'normal' if len(children) == 1 else children[1]  # normal, creation or deletion
+        e = None if len(children) < 3 else children[2]  # creation event, if any
+        assert not e or ( e and t == 'creation'), f'Creation event supplied for non creation event [{e}]'
+        d = { 'state': s,  'type': t }  # we always have these two
+        if e:
+            d.update({'creation_event': e})  # add optional creation event
+        return d
 
     def visit_transition(self, node, children):
         """event destination_state"""
@@ -79,10 +80,6 @@ class StateModelVisitor(PTNodeVisitor):
         """Required state activity, which may or may not contain any actions"""
         return children
 
-    def visit_state_header(self, node, children):
-        """state_name"""
-        return children[0]
-
     def visit_state_block(self, node, children):
         """All state data"""
         s = children[0]  # State info
@@ -93,6 +90,16 @@ class StateModelVisitor(PTNodeVisitor):
         return sblock
 
     # Events
+    def visit_event_name(self, node, children):
+        """Model element name"""
+        name = ''.join(children)
+        return name
+
+    def visit_parameter_name(self, node, children):
+        """Model element name"""
+        name = ''.join(children)
+        return name
+
     def visit_creation_event(self, node, children):
         """creation_event_name"""
         name = ''.join(children)
@@ -103,18 +110,8 @@ class StateModelVisitor(PTNodeVisitor):
         name = ''.join(children)
         return name, 'normal'
 
-    def visit_event_name(self, node, children):
-        """All characters composing an event name"""
-        name = ''.join(children)
-        return name
-
     def visit_type_name(self, node, children):
         """All characters composing a data type name"""
-        name = ''.join(children)
-        return name
-
-    def visit_param_name(self, node, children):
-        """All characters composing a parameter name"""
         name = ''.join(children)
         return name
 
