@@ -42,7 +42,7 @@ User specification of name text placed near a Stem
     - axis_offset -- A positive or negative non-zero integer specifying axis side and distance from the axis
     - end_offset -- A positive integer specifying non-default offset distance from the end of the stem
 """
-ConnectorName = namedtuple('ConnectorName', 'text side bend')
+ConnectorName = namedtuple('ConnectorName', 'text side bend notch')
 """
 User specification of name text placed near the center of a Connector
 
@@ -51,6 +51,7 @@ User specification of name text placed near the center of a Connector
     - text -- The text to be written
     - side -- ( 1 | -1 ) Which side of the Connector (top bottom) or (right left)
     - bend -- The clockwise bend number starting from 1, default is 1, positive non-zero integer
+    - notch --  The linear position along the connector where the name is placed
 """
 
 Path = namedtuple('Path', 'lane rut')

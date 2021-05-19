@@ -4,7 +4,9 @@ connector.py - Covers the Connector class in the Flatland3 Connector Subsystem C
 from flatland.flatland_exceptions import InvalidNameSide
 from flatland.connector_subsystem.connector_type import ConnectorType
 from flatland.datatypes.connection_types import ConnectorName
-from flatland.datatypes.geometry_types import Rect_Size, Position
+from flatland.datatypes.geometry_types import Position
+from flatland.deprecated.layout_specification import default_cname_positions
+from flatland.geometry_domain.linear_geometry import step_edge_distance
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
@@ -51,7 +53,9 @@ class Connector:
 
     def compute_name_position(self, point_t: Position, point_p: Position) -> Position:
         """
-        Determine the lower left corner position of this Connector's name
+        Determine the lower left corner position of this Connector's name taking into account
+        the specified notch position along the bend (+/-) relative to the center of the bend
+        (just like we do for positioning anchored stems on a node face).
 
         :param point_t: Point closest to the T Node (for binary connector only, root end if unary)
         :param point_p: Point closest to the P Node (for binary connector only, vine end if unary)
@@ -60,16 +64,22 @@ class Connector:
         name_spec = self.Connector_type.Name_spec  # For easy access below
         if point_t.y == point_p.y:
             # Bend is horizontal
-            center_x = round(abs(point_t.x - point_p.x) / 2) + min(point_t.x, point_p.x)  # Distance type is an integer
-            name_x = center_x - round(self.Name_size.width / 2)
+            bend_extent = abs(point_t.x-point_p.x)
+            edge_offset = step_edge_distance(num_of_steps=default_cname_positions, extent=bend_extent,
+                                             step=self.Name.notch)
+            notch_x = min(point_t.x, point_p.x) + edge_offset
+            name_x = notch_x - round(self.Name_size.height / 2)
             # If box is below the connector, subtract the height of the box as well to get lower left corner y
             height_offset = self.Name_size.height if self.Name.side == -1 else 0
             name_y = point_t.y + name_spec.axis_buffer.vertical * self.Name.side - height_offset
             #  TODO: Above line doesn't look right, also adapt to use end buffer
         else:
             # Connector is vertical
-            center_y = round(abs(point_t.y - point_p.y) / 2) + min(point_t.y, point_p.y)
-            name_y = center_y - round(self.Name_size.height / 2)
+            bend_extent = abs(point_t.y-point_p.y)
+            edge_offset = step_edge_distance(num_of_steps=default_cname_positions, extent=bend_extent,
+                                             step=self.Name.notch)
+            notch_y = min(point_t.y, point_p.y) + edge_offset
+            name_y = notch_y - round(self.Name_size.height / 2)
             # If box is left of the connector, subtract the width of the box as well to get the lower left corner x
             width_offset = self.Name_size.width if self.Name.side == -1 else 0
             name_x = point_t.x + name_spec.axis_buffer.horizontal * self.Name.side - width_offset

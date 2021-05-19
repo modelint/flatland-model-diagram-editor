@@ -27,6 +27,9 @@ default_cell_alignment = Alignment(vertical=VertAlign.CENTER, horizontal=HorizAl
 # right number, especially for a class or state diagram.  But this could vary by diagram and node type in the future.
 default_stem_positions = 5
 
+# The number of connector name positions along a bend
+default_cname_positions = 5
+
 # The number of ruts where Path can be defined in a Lane
 # These work like stem/anchor positions on a Lane as opposed to a Node face
 # For a value of 3 we get positions -1, 0 and +1 with 0 representing the Lane Center

@@ -182,7 +182,7 @@ class XumlStateMachineDiagram:
         paths = None if not tlayout.get('paths', None) else \
             [New_Path(lane=p['lane'], rut=p['rut']) for p in tlayout['paths']]
 
-        evname_data = ConnectorName(text=evname, side=tlayout['dir'], bend=tlayout['bend'])
+        evname_data = ConnectorName(text=evname, side=tlayout['dir'], bend=tlayout['bend'], notch=tlayout['notch'])
         if not paths and OppositeFace[tstem['face']] == pstem['face']:
             StraightBinaryConnector(
                 diagram=self.flatland_canvas.Diagram,

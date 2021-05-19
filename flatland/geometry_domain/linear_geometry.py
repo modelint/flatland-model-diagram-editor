@@ -47,7 +47,7 @@ def nearest_parallel_segment(psegs: Set[tuple], point: Position, ascending: bool
 
 
 
-def step_edge_distance(num_of_steps, extent, step):
+def step_edge_distance(num_of_steps: int, extent: float, step: int):
     """
     You have a line segment with a given extent (length). In distance coordinates such as points, 0 is at the
     beginning of the segment increasing to the extent at the other end. A number line is defined with step
