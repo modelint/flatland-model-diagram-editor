@@ -8,6 +8,7 @@ from flatland.connector_subsystem.trunk_stem import TrunkStem
 from flatland.connector_subsystem.grafted_branch import GraftedBranch
 from flatland.connector_subsystem.interpolated_branch import InterpolatedBranch
 from flatland.connector_subsystem.rut_branch import RutBranch
+from flatland.datatypes.connection_types import Orientation, NodeFace
 from flatland.datatypes.geometry_types import Position
 from flatland.datatypes.command_interface import New_Branch_Set, New_Stem
 from flatland.connector_subsystem.anchored_leaf_stem import AnchoredLeafStem
@@ -75,7 +76,10 @@ class TreeConnector(Connector):
         self.Leaf_stems = unpacked_hanging_stems.hleaves  # Anchored Leaf Stems that do not graft any Branch
         assert not (gstem and unpacked_hanging_stems.gleaf), "Both trunk and a leaf stem grafts in the same branch"
         # gstem is an optional Anchored Leaf Stem that grafts an offshoot branch
-        gstem = unpacked_hanging_stems.gleaf if unpacked_hanging_stems.gleaf else None
+        if not gstem:
+            # The trunk stem does not graft, maybe there is a grafting leaf stem
+            gstem = unpacked_hanging_stems.gleaf
+        # At this point gstem is either the trunk stem, a leaf stem or None
 
         # Create a set of all AnchoredTreeStem objects in the Trunk Branch, including the Trunk Stem
         anchored_tree_stems = {s for s in self.Leaf_stems}
@@ -175,34 +179,32 @@ class TreeConnector(Connector):
         self.Trunk_stem.render()
 
         # Draw the connector name if any
-        name_spec = self.Connector_type.Name_spec
-        vbuffer, hbuffer = name_spec.axis_buffer
-        root_end = self.Trunk_stem.Root_end
-        vine_end = self.Trunk_stem.Vine_end
-        if root_end.x == vine_end.x:
-            # Vertical stem
-            # If the lower left corner of the name is below the vine end (bottom face)
-            # we will need to subtract the height of the bounding box
-            if root_end.y > vine_end.y:
-                name_y = vine_end.y - self.Name_size.height  # Shift name below the node face
+        tbranch_axis = self.Branches[0]  # The first branch is always the one met by the trunk stem
+        pt_x, pt_y = self.Trunk_stem.Root_end  # Default assumption
+        if tbranch_axis.Axis_orientation == Orientation.Horizontal:
+            if not tbranch_axis.Grafting_stem:
+                # This is the normal case where both turnk and leaf stems are vertical and branch is horizontal
+                pt_y = tbranch_axis.Axis
             else:
-                name_y = vine_end.y # Shift name above the node face
-            if self.Name.side == 1:  # User trunk stem side preference
-                name_x = vine_end.x + hbuffer  # Shift name to the right
+                # In rare cases, the trunk stem is horizontal and grafts a horizontal branch with vertical leaf stems
+                # So we find the closest leaf stem to the trunk stem root end
+                leaf_stems = {s for s in tbranch_axis.Hanging_stems if isinstance(s,AnchoredLeafStem)}
+                if self.Trunk_stem.Node_face == NodeFace.RIGHT:
+                    # If the trunk stem projects to the right, the lowest leaf root end x value is closest
+                    pt_x = min([s.Root_end.x for s in leaf_stems])
+                else:  # The trunk stem projects to the left
+                    pt_x = max([s.Root_end.x for s in leaf_stems])
+        else:  # Vertical branch
+            if not tbranch_axis.Grafting_stem:
+                pt_x = tbranch_axis.Axis
             else:
-                name_x = vine_end.x - (hbuffer + self.Name_size.width)  # Shift name to the left
-        else:
-            # Horizontal stem
-            if root_end.x > vine_end.x:
-                name_x = vine_end.x - self.Name_size.width  # Shift name left of the node face
-            else:
-                name_x = vine_end.x  # Shift name right of the node face
-            if self.Name.side == 1:  # User trunk stem side preference
-                name_y = vine_end.y + vbuffer  # Shift name above the stem
-            else:
-                name_y = vine_end.y - (vbuffer + self.Name_size.height)  # Shift name below the stem
+                leaf_stems = {s for s in tbranch_axis.Hanging_stems if isinstance(s,AnchoredLeafStem)}
+                if self.Trunk_stem.Node_face == NodeFace.TOP:
+                    pt_y = min([s.Root_end.y for s in leaf_stems])
+                else:  # The trunk stem projects to the left
+                    pt_y = max([s.Root_end.y for s in leaf_stems])
 
-        name_position = Position(name_x, name_y)
+        name_position = self.compute_name_position(point_t=Position(pt_x, pt_y), point_p=self.Trunk_stem.Root_end)
         layer.add_text_line(
             asset=self.Connector_type.Name + ' name',
             lower_left=name_position, text=self.Name.text

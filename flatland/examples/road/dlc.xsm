@@ -10,7 +10,7 @@ metadata /// Simplified example to demonstrate state model markup
 domain Vehicle Guidance
 class Driving Lane Change
 events
-    ///*Shift lane
+    *Shift lane
     Stay in lane
     Escape ok
     Target lane open
@@ -26,7 +26,7 @@ events
     Indication complete
     Target lane monitoring stopped
 --
-state Start monitoring target lane/// *Shift lane
+state Start monitoring target lane *Shift lane
 activity
     Lane change timeout -> me @
         Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Max lane change duration

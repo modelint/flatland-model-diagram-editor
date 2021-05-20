@@ -23,7 +23,7 @@ nodes
 connectors
     +Escape ok-2 : b*|Start monitoring target lane : t|INTENT PREINDICATION
     b|Successful lane change
-    //+Shift lane : t|Start monitoring target lane
+    +Shift lane : t|Start monitoring target lane
     +Stay in lane : b+1|Start monitoring target lane : t*|WAITING FOR ENTRY SPACE
     -Target lane open : b-1|WAITING FOR ENTRY SPACE : t*|INTENT PREINDICATION
     -Target lane closed.2 : l|INTENT PREINDICATION : b|Target closed during indication

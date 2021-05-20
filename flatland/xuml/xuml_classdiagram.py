@@ -278,7 +278,9 @@ class XumlClassDiagram:
                               stem_name=None)
         else:
             a_stem = None
-        rnum_data = ConnectorName(text=rnum, side=binary_layout['dir'], bend=binary_layout['bend'])
+        rnum_data = ConnectorName(
+            text=rnum, side=binary_layout['dir'], bend=binary_layout['bend'], notch=binary_layout['notch']
+        )
 
         paths = None if not binary_layout.get('paths', None) else \
             [New_Path(lane=p['lane'], rut=p['rut']) for p in binary_layout['paths']]
@@ -395,6 +397,6 @@ class XumlClassDiagram:
 
         # Now draw the generalization
         branches = New_Branch_Set(trunk_branch=trunk_branch, offshoot_branches=obranches)
-        rnum_data = ConnectorName(text=rnum, side=tree_layout['dir'], bend=None)
+        rnum_data = ConnectorName(text=rnum, side=tree_layout['dir'], bend=None, notch=tree_layout['notch'])
         TreeConnector(diagram=self.flatland_canvas.Diagram, connector_type='generalization',
                       branches=branches, name=rnum_data)

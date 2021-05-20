@@ -158,7 +158,7 @@ class XumlStateMachineDiagram:
                           node=self.nodes[node_ref], face=ustem['face'],
                           anchor=ustem.get('anchor', None), stem_name=None)
         evname_data = None if not creation_event else ConnectorName(
-            text=creation_event, side=cplace['dir'], bend=cplace['bend'])
+            text=creation_event, side=cplace['dir'], bend=cplace['bend'], notch=cplace['notch'])
         UnaryConnector(
             self.flatland_canvas.Diagram,
             connector_type_name='initial transition',

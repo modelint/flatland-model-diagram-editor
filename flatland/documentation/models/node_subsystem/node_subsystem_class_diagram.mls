@@ -45,7 +45,7 @@ connectors
     -R8 : b|Compartment { t|Title Compartment, t|Data Compartment }
     +R9 : -/2 t+1|Compartment Type : -/2 r+1|Compartment Type : L10R-2 L15R-2
     -R10 : -/2 r|Diagram : +/2 l*|Grid
-    +R11.2 : +/1 t+2|Diagram : +/1 l|Diagram Type
+    +R11.2-2 : +/1 t+2|Diagram : +/1 l|Diagram Type
     +R12.2 : -/1 t|Cell : -/2 t-1|Node : L7
     +R13 : -/2 b|Canvas : -/2 t*|Sheet
     -R14 : -/2 r|Canvas : +/2 l*|Diagram

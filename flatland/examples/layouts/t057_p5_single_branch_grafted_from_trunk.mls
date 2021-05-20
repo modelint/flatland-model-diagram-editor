@@ -1,0 +1,13 @@
+// t057 grafted branch from trunk
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet letter
+nodes
+    Aircraft 3,1
+    Helicopter 2,2
+    Fixed Wing 2,3
+    Hybrid Wing 2,4
+connectors
+    +R1+1 : r|Aircraft> { t|Helicopter, t|Fixed Wing, t|Hybrid Wing }

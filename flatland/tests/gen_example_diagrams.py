@@ -58,6 +58,8 @@ tests = {
     't054': ('aircraft_tree3', 't054_p2_gbranch_no_float'),
     't055': ('aircraft_tree4', 't055_p2_three_branch_one_graft'),
     't056': ('aircraft_tree4', 't056_p3_single_branch_graft_float'),
+    't057': ('aircraft_tree4', 't057_p5_single_branch_grafted_from_trunk'),
+    't058': ('aircraft_tree4', 't058_p5_single_branch_grafted_from_trunk_left'),
     't100': ('flatland_node_subsystem', 't100_flatland_node_subsystem'),
 }
 
@@ -67,7 +69,7 @@ logger.info(f'Flatland version: {version}')
 
 exdir = Path(__file__).parent.parent / "examples"
 
-selected_tests = ['t015']  # Selected tests to run, if any
+selected_tests = ['t058']  # Selected tests to run, if any
 #selected_tests = ['t010', 't011', 't012', 't013']  # Selected tests to run, if any
 # If no tests are selected, all of them will be run
 run_tests = selected_tests if selected_tests else list(tests.keys())
@@ -86,7 +88,8 @@ for selected_test in run_tests:
         xuml_model_path=model_file_path,
         flatland_layout_path=layout_file_path,
         diagram_file_path=diagram_file_path,
-        rebuild=True,
+        rebuild=False,
         show_grid=True,
-        nodes_only=False
+        nodes_only=False,
+        no_color=False,
     )
