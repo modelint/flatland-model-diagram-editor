@@ -152,5 +152,5 @@ class StraightBinaryConnector(BinaryConnector):
         name_position = self.compute_name_position(
             point_t=self.Projecting_stem.Root_end, point_p=self.Floating_stem.Root_end
         )
-        layer.add_text_line(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
+        layer.add_text_block(asset=self.Connector_type.Name + ' name', lower_left=name_position, text=self.Name.text)
 

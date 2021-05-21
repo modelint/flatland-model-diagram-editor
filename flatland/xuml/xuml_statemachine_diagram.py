@@ -158,7 +158,7 @@ class XumlStateMachineDiagram:
                           node=self.nodes[node_ref], face=ustem['face'],
                           anchor=ustem.get('anchor', None), stem_name=None)
         evname_data = None if not creation_event else ConnectorName(
-            text=creation_event, side=cplace['dir'], bend=cplace['bend'], notch=cplace['notch'])
+            text=creation_event, side=cplace['dir'], bend=cplace['bend'], notch=cplace['notch'], wrap=cplace['wrap'])
         UnaryConnector(
             self.flatland_canvas.Diagram,
             connector_type_name='initial transition',
@@ -182,7 +182,8 @@ class XumlStateMachineDiagram:
         paths = None if not tlayout.get('paths', None) else \
             [New_Path(lane=p['lane'], rut=p['rut']) for p in tlayout['paths']]
 
-        evname_data = ConnectorName(text=evname, side=tlayout['dir'], bend=tlayout['bend'], notch=tlayout['notch'])
+        evname_data = ConnectorName(text=evname, side=tlayout['dir'], bend=tlayout['bend'], notch=tlayout['notch'],
+                                    wrap=tlayout['wrap'])
         if not paths and OppositeFace[tstem['face']] == pstem['face']:
             StraightBinaryConnector(
                 diagram=self.flatland_canvas.Diagram,

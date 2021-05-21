@@ -1,6 +1,7 @@
 """
 connector.py - Covers the Connector class in the Flatland3 Connector Subsystem Class Diagram
 """
+from flatland.text.text_block import TextBlock
 from flatland.flatland_exceptions import InvalidNameSide
 from flatland.connector_subsystem.connector_type import ConnectorType
 from flatland.datatypes.connection_types import ConnectorName
@@ -43,10 +44,15 @@ class Connector:
             if self.Name.side not in {1, -1}:
                 raise InvalidNameSide(self.Name.side)
             layer = self.Diagram.Layer
+            # Wrap the text if the user specified more than one line of wrapping
+            name_block = TextBlock(line=self.Name.text, wrap=self.Name.wrap)
+            # Tuples are immutable, so we need to update the whole thing
+            self.Name = ConnectorName(side=self.Name.side, bend=self.Name.bend, notch=self.Name.notch,
+                                      text=name_block.text, wrap=self.Name.wrap)
             # Get size of bounding box
-            asset = ' '.join([self.Connector_type.Name,'name'])
+            asset = ' '.join([self.Connector_type.Name, 'name'])
             self.Name_size = layer.text_block_size(
-                asset=asset, text_block=[self.Name.text]
+                asset=asset, text_block=self.Name.text
             )
 
         self.Diagram.Grid.Connectors.append(self)

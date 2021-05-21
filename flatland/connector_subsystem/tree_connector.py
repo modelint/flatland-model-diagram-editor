@@ -205,7 +205,7 @@ class TreeConnector(Connector):
                     pt_y = max([s.Root_end.y for s in leaf_stems])
 
         name_position = self.compute_name_position(point_t=Position(pt_x, pt_y), point_p=self.Trunk_stem.Root_end)
-        layer.add_text_line(
+        layer.add_text_block(
             asset=self.Connector_type.Name + ' name',
             lower_left=name_position, text=self.Name.text
         )

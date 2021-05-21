@@ -307,11 +307,13 @@ class LayoutVisitor(PTNodeVisitor):
         """Name of connector and the side of the connector axis where it is placed"""
         # If a value is supplied it will be a single time list, so extract with [0]
         # If no value is supplied for an optional item, default must also be a single item list [default_value]
+        w = children.results.get('wrap')
+        wrap_value = 1 if not w else w[0]['wrap']
         cplace = {'cname': children.results['name'][0],  # Required component
                   'dir': children.results.get('dir', [1])[0],  # many optional components with default values
                   'bend': children.results.get('bend', [1])[0],
                   'notch': children.results.get('notch', [0])[0],
-                  'wrap': children.results.get('wrap', [1])[0],
+                  'wrap': wrap_value,
                   }
         return cplace
 
