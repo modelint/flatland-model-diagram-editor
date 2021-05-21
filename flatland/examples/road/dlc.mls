@@ -8,7 +8,7 @@ padding l300 b500
 frame TRI MBSE
 frame_presentation default
 nodes
-    Start monitoring target lane 50% 22,3-4 >left
+    Start monitoring target lane 22,3-4
     WAITING FOR ENTRY SPACE 19,3-4 >right
     Target closed during indication 19,2
     INTENT PREINDICATION 17,3
@@ -21,13 +21,13 @@ nodes
     Verify lane 3,3
     Successful lane change 1,3
 connectors
-    +Escape ok-2 : b*|Start monitoring target lane : t|INTENT PREINDICATION
+    -Escape ok+2 : b*|Start monitoring target lane : t|INTENT PREINDICATION
     b|Successful lane change
     +Shift lane : t|Start monitoring target lane
-    +Stay in lane : b+1|Start monitoring target lane : t*|WAITING FOR ENTRY SPACE
+    +Stay in lane-2 : b+1|Start monitoring target lane : t*|WAITING FOR ENTRY SPACE
     -Target lane open : b-1|WAITING FOR ENTRY SPACE : t*|INTENT PREINDICATION
     -Target lane closed.2 : l|INTENT PREINDICATION : b|Target closed during indication
-    -Wait for next opportunity/2+1 : r-1|Target closed during indication : l*|WAITING FOR ENTRY SPACE
+    +Wait for next opportunity/2-2 : r-1|Target closed during indication : l*|WAITING FOR ENTRY SPACE
     +Adequate indication : b|INTENT PREINDICATION : t*|PRE CROSS MANEUVER
     +Crossing : b|PRE CROSS MANEUVER : t*|CROSSING
     +Crossing completed : b|CROSSING : t*|Stop monitoring target lane

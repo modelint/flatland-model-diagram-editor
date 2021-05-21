@@ -220,7 +220,7 @@ class XumlStateMachineDiagram:
         """Draw all of the states on the state machine diagram"""
 
         nodes = {}
-        np = self.layout.node_placement  # Layout data for all classes
+        np = self.layout.node_placement  # Layout data for all states
 
         for state in self.statemodel.states:
 
@@ -234,14 +234,10 @@ class XumlStateMachineDiagram:
                 continue
 
             # Layout data for all placements
-            # By default the class name is all on one line, but it may be wrapped across multiple
+            # By default the state name is all on one line, but it may be wrapped across multiple
             nlayout['wrap'] = nlayout.get('wrap', 1)
-            # There is an optional keyletter (class name abbreviation) displayed as {keyletter}
-            # after the class name
             name_block = TextBlock(state.name, nlayout['wrap'])
-            # Now assemble all the text content for each class compartment
-            # One list item per compartment in descending vertical order of display
-            # (class name, attributes and optional methods)
+            # Now assemble all the text content for each compartment
             text_content = [name_block.text, state.activity]
 
             for i, p in enumerate(nlayout['placements']):

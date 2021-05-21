@@ -179,26 +179,26 @@ class TreeConnector(Connector):
         self.Trunk_stem.render()
 
         # Draw the connector name if any
-        tbranch_axis = self.Branches[0]  # The first branch is always the one met by the trunk stem
+        tbranch = self.Branches[0]  # The first branch is always the one met by the trunk stem
         pt_x, pt_y = self.Trunk_stem.Root_end  # Default assumption
-        if tbranch_axis.Axis_orientation == Orientation.Horizontal:
-            if not tbranch_axis.Grafting_stem:
+        if tbranch.Axis_orientation == Orientation.Horizontal:
+            if not isinstance(tbranch, GraftedBranch):
                 # This is the normal case where both turnk and leaf stems are vertical and branch is horizontal
-                pt_y = tbranch_axis.Axis
+                pt_y = tbranch.Axis
             else:
                 # In rare cases, the trunk stem is horizontal and grafts a horizontal branch with vertical leaf stems
                 # So we find the closest leaf stem to the trunk stem root end
-                leaf_stems = {s for s in tbranch_axis.Hanging_stems if isinstance(s,AnchoredLeafStem)}
+                leaf_stems = {s for s in tbranch.Hanging_stems if isinstance(s,AnchoredLeafStem)}
                 if self.Trunk_stem.Node_face == NodeFace.RIGHT:
                     # If the trunk stem projects to the right, the lowest leaf root end x value is closest
                     pt_x = min([s.Root_end.x for s in leaf_stems])
                 else:  # The trunk stem projects to the left
                     pt_x = max([s.Root_end.x for s in leaf_stems])
         else:  # Vertical branch
-            if not tbranch_axis.Grafting_stem:
-                pt_x = tbranch_axis.Axis
+            if not isinstance(tbranch, GraftedBranch):
+                pt_x = tbranch.Axis
             else:
-                leaf_stems = {s for s in tbranch_axis.Hanging_stems if isinstance(s,AnchoredLeafStem)}
+                leaf_stems = {s for s in tbranch.Hanging_stems if isinstance(s,AnchoredLeafStem)}
                 if self.Trunk_stem.Node_face == NodeFace.TOP:
                     pt_y = min([s.Root_end.y for s in leaf_stems])
                 else:  # The trunk stem projects to the left

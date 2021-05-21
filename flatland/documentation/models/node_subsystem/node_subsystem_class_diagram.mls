@@ -42,7 +42,7 @@ connectors
     +R5 : +/1 b|Node Type : +/1 t*|Node
     -R6.2 : +/1 b|Compartment Type : +/2 r|Node, l|Compartment
     +R7 : -/1 r|Compartment : -/1 l*|Text Line
-    -R8 : b|Compartment { t|Title Compartment, t|Data Compartment }
+    -R8-1 : b|Compartment { t|Title Compartment, t|Data Compartment }
     +R9 : -/2 t+1|Compartment Type : -/2 r+1|Compartment Type : L10R-2 L15R-2
     -R10 : -/2 r|Diagram : +/2 l*|Grid
     +R11.2-2 : +/1 t+2|Diagram : +/1 l|Diagram Type
