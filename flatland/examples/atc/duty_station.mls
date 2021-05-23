@@ -1,0 +1,19 @@
+diagram state machine
+notation xUML
+presentation default
+orientation landscape
+sheet tabloid
+padding b300
+frame OS Engineer
+frame_presentation default
+nodes
+    AVAILABLE 5,2
+    IN USE 3,2
+    MAX SHIFT EXCEEDED 1,2
+    Cancel shift timeout 3,4
+connectors
+    -User leaving-2 : l|MAX SHIFT EXCEEDED : l|AVAILABLE : L1R-1
+    +In use : b|AVAILABLE : t*|IN USE
+    +Max shift exceeded : b|IN USE : t*|MAX SHIFT EXCEEDED
+    +User leaving : r|IN USE : l*|Cancel shift timeout
+    +Available : t|Cancel shift timeout : r|AVAILABLE

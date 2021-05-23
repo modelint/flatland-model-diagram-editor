@@ -175,8 +175,13 @@ class XumlStateMachineDiagram:
                           node=self.nodes[node_ref], face=tstem['face'],
                           anchor=tstem.get('anchor', None), stem_name=None)
         node_ref = pstem['node_ref']
+        try:
+            node = self.nodes[node_ref]
+        except KeyError:
+            self.logger.error(f'Transition connector [{evname}] refers to undeclared state node [{node_ref}]')
+            sys.exit(1)
         p_stem = New_Stem(stem_type='to state', semantic='target state',
-                          node=self.nodes[node_ref], face=pstem['face'],
+                          node=node, face=pstem['face'],
                           anchor=pstem.get('anchor', None), stem_name=None)
 
         paths = None if not tlayout.get('paths', None) else \

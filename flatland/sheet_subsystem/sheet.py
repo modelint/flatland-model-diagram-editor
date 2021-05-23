@@ -2,6 +2,8 @@
 sheet.py – The canvas is drawn on this instance of sheet
 """
 
+import sys
+import logging
 from sqlalchemy import select
 from flatland.flatland_exceptions import UnknownSheetSize, UnknownSheetGroup
 from flatland.database.flatlanddb import FlatlandDB as fdb
@@ -37,11 +39,13 @@ class Sheet:
 
         :param name:  A standard sheet name in our database such as letter, tabloid, A3, etc
         """
+        self.logger = logging.getLogger(__name__)
         sheet_t = fdb.MetaData.tables['Sheet']
         query = select([sheet_t]).where(sheet_t.c.Name == name)
         i = fdb.Connection.execute(query).fetchone()
         if not i:
-            raise UnknownSheetSize(name)
+            self.logger.error(f"Unsupported sheet size [{name}]")
+            sys.exit(1)
         self.Name = name
         self.Size_group = i['Size group']
         if i.Group == 'us':

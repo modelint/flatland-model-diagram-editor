@@ -1,0 +1,27 @@
+diagram state machine
+notation xUML
+presentation default
+orientation portrait
+sheet tabloid
+padding b300
+frame OS Engineer
+frame_presentation default
+nodes
+    Handing off control zone 1,2
+    ON DUTY 100% 3,2
+    Verifying full handoff 3,4
+    Logging in 5,2
+    Logging out 6,4
+    Verifying adequate break 7,2
+    OFF DUTY 9,2
+connectors
+    +Ready for duty : b+2|OFF DUTY : t*|Verifying adequate break
+    -Cannot go on duty/2 : t*|Verifying adequate break : b-2|OFF DUTY
+    +Log in : b|Verifying adequate break : t*|Logging in
+    +Logged in : b|Logging in : t*|ON DUTY
+    -Handoff/3 : b-2|ON DUTY : t*|Handing off control zone
+    +Handoff complete : t*|Handing off control zone : b+2|ON DUTY
+    +Must hand off zones-2 :  l*|Verifying full handoff : r+1|ON DUTY
+    -Ready for a break : r-2|ON DUTY : l*|Verifying full handoff
+    +Log out : t|Verifying full handoff : b*|Logging out
+    +Off duty : t|Logging out : r|OFF DUTY

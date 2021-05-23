@@ -1,0 +1,45 @@
+metadata
+    Title : Duty Station State Model
+    Author : Leon Starr
+    Document ID : mtc.atc.td.5
+    Modification date : March 10, 2017
+    Version : 3.1.0
+    Organization : Model Integration, LLC
+    Copyright notice > MIT_medium
+    Organization logo > mint_large
+domain Air Traffic Control
+class Duty Station
+events
+    Available
+    In use
+    User leaving
+    Max shift exceeded
+--
+state AVAILABLE
+activity
+    // Can be logged into
+transitions
+    In use > IN USE
+--
+state MAX SHIFT EXCEEDED
+activity
+    UI.Warning(MSG Break Required, ID)
+transitions
+    User leaving > AVAILABLE
+--
+state IN USE
+activity
+    Max shift exceeded -> me @ Shift
+    Specification(1).Max shift
+    // selects singleton
+transitions
+    Max shift exceeded > MAX SHIFT EXCEEDED
+    User leaving > Cancel shift timeout
+--
+state Cancel shift timeout
+activity
+    cancel Max shift exceeded -> me
+    Available -> me
+transitions
+    Available > AVAILABLE
+--

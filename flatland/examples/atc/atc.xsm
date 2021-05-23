@@ -1,0 +1,94 @@
+metadata
+    Title : Air Traffic Controller State Model
+    Author : Leon Starr
+    Document ID : mtc.atc.td.6
+    Modification date : May 22, 2021
+    Version : 3.2.0
+    Organization : Model Integration, LLC
+    Copyright notice > MIT_medium
+    Organization logo > mint_large
+domain Air Traffic Control
+class Air Traffic Controller
+events
+    Cannot go on duty
+    Off duty
+    Ready for duty( Station: Station ID )
+    Log in( Station: Station Number )
+    Logged in
+    Handoff( Zone: Czone Name, Controller: Employee ID )
+    Handoff complete
+    Ready for a break
+    Must hand off zones
+    Log out
+    Rejected handoff
+    Cannot handoff
+--
+state OFF DUTY
+activity
+    // Not controlling traffic
+transitions
+    Ready for duty > Verify adequate break
+--
+state Verifying adequate break
+activity
+    the shift spec .= Shift Specification(1) // selects singleton
+    ( _now - self.Last shift ended < the shift spec.Min break ) ?
+        Log in( in.Station ) -> me : Cannot go on duty -> me
+transitions
+    Log in > Logging in
+    Cannot go on duty > OFF DUTY
+--
+state Logging in
+activity
+    >> On Duty Controller
+    my station = Duty Station( Number: in.Station )
+    &R3 my station    // link station
+    Time logged in = _now.HMS
+    Logged in -> me
+    In use -> my station
+transitions
+    Logged in > ON DUTY
+--
+state ON DUTY
+activity
+    // Controlling traffic
+transitions
+    Handoff > Handing off control zone
+    Ready for a break > Verifying full handoff
+--
+state Handing off control zone
+activity
+    new controller .= On Duty Controller( ID: in.Controller )
+    hoff zone .= /R2/Control Zone( Name: in.Zone )
+    (hoff zone and new controller and new controller.ID != ID)? {}
+        new controller &R2 hoff zone
+        Handoff complete -> me
+    } : Handoff rejected -> me
+transitions
+    ///Handoff rejected > Failed handoff
+    Handoff complete > ON DUTY
+--
+///state Failed handoff
+///activity
+///    UI.Cannot handoff( atc: ID, Zone: in.zone )
+///    Cannot handoff -> ON DUTY
+///--
+state Verifying full handoff
+activity
+    /R1/On Duty Controller/R2/Control Zone? {
+      Must handoff zones -> me
+      Warning( "Control Zones Active", ID ) => UI
+    } : Log out -> me
+transitions
+    Log out > Logging out
+    Must hand off zones > ON DUTY
+--
+state Logging out
+activity
+    User leaving -> /R3/Duty Station
+    >> Off Duty Controller
+    Last shift ended = _now.HMS
+    Off duty -> me
+transitions
+    Off duty > OFF DUTY
+--
