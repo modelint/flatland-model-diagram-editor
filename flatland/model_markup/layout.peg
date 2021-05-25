@@ -97,7 +97,6 @@ tree_layout = trunk_face (space branch)+ // All layout info for a tree connector
 
 // Connector
 cname_place = dir? name wrap? bend? notch? csep // Side of connector axis and name of connector (since it is probably short)
-// cname_place = dir? name bend? csep // Side of connector axis and name of connector (since it is probably short)
 connector_layout = indent cname_place?  ( binary_layout / tree_layout / unary_layout ) nl
 connectors_header = "connectors" nl // starts section where connector layout info is specified
 connector_block = connectors_header connector_layout+ // All
