@@ -108,10 +108,10 @@ class XumlStateMachineDiagram:
             self.logger.info("Drawing the transitions")
             for s in self.statemodel.states:
                 try:
+                    # See if this state has any connector placement information in the layout
                     state_place = cp_dict[s.name]  # State placement (layout) info
                 except KeyError:
-                    self.logger.error(f'Transition from state [{s.name}] has no corresponding connector in layout file.')
-                    sys.exit(1)
+                    continue  # Must be a final, non-deletion state with no transitions to draw
                 if s.type == 'deletion':
                     it_place = [tp for tp in state_place if tp.get('ustem')][0]
                     self.draw_deletion_transition(cplace=it_place)
@@ -124,7 +124,14 @@ class XumlStateMachineDiagram:
                     for t in s.transitions:
                         if len(t) == 2:  # Not CH or IG
                             evname = t[0]
-                            cname = make_event_cname(self.statemodel.events[evname])
+                            try:
+                                cname = make_event_cname(self.statemodel.events[evname])
+                            except KeyError:
+                                self.logger.error(
+                                    f'Undefined event [{evname}] used on transition from state [{s.name}]. '
+                                    f'Check event list in model file.'
+                                )
+                                sys.exit(1)
                             try:
                                 t_place = [tp for tp in state_place if tp['cname'] == evname][0]
                             except IndexError:
