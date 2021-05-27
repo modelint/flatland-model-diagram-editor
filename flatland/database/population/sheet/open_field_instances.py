@@ -88,6 +88,25 @@ population = [
     {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'D', 'Orientation': 'portrait',
      'x position': 19, 'y position': 18, 'max width': 191, 'max height': 25},
 
+    # Portrait
+
+    # E OS Engineer
+    # Portrait
+    {'Metadata': 'Title', 'Frame': 'OS Engineer', 'Sheet': 'E', 'Orientation': 'portrait',
+     'x position': 30, 'y position': 1180, 'max width': 254, 'max height': 25},
+    {'Metadata': 'Copyright notice', 'Frame': 'OS Engineer', 'Sheet': 'E', 'Orientation': 'portrait',
+     'x position': 340, 'y position': 30, 'max width': 254, 'max height': 57},
+    {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'E', 'Orientation': 'portrait',
+     'x position': 30, 'y position': 30, 'max width': 191, 'max height': 25},
+
+    # Landscape
+    {'Metadata': 'Title', 'Frame': 'OS Engineer', 'Sheet': 'E', 'Orientation': 'landscape',
+     'x position': 30, 'y position': 884, 'max width': 254, 'max height': 25},
+    {'Metadata': 'Copyright notice', 'Frame': 'OS Engineer', 'Sheet': 'E', 'Orientation': 'landscape',
+     'x position': 500, 'y position': 38, 'max width': 254, 'max height': 57},
+    {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'E', 'Orientation': 'landscape',
+     'x position': 30, 'y position': 38, 'max width': 191, 'max height': 25},
+
     # Letter TRI MBSE
     # Landscape
     {'Metadata': 'Title', 'Frame': 'TRI MBSE', 'Sheet': 'letter', 'Orientation': 'landscape',
@@ -171,5 +190,22 @@ population = [
      'x position': 19, 'y position': 70, 'max width': 254, 'max height': 57},
     {'Metadata': 'Organization logo', 'Frame': 'TRI MBSE', 'Sheet': 'D', 'Orientation': 'portrait',
      'x position': 19, 'y position': 18, 'max width': 191, 'max height': 25},
+
+    # E TRI MBSE
+    # Portrait
+    {'Metadata': 'Title', 'Frame': 'TRI MBSE', 'Sheet': 'E', 'Orientation': 'portrait',
+     'x position': 30, 'y position': 1180, 'max width': 254, 'max height': 25},
+    {'Metadata': 'Copyright notice', 'Frame': 'TRI MBSE', 'Sheet': 'E', 'Orientation': 'portrait',
+     'x position': 220, 'y position': 30, 'max width': 254, 'max height': 57},
+    {'Metadata': 'Organization logo', 'Frame': 'TRI MBSE', 'Sheet': 'E', 'Orientation': 'portrait',
+     'x position': 30, 'y position': 30, 'max width': 191, 'max height': 25},
+
+    # Landscape
+    {'Metadata': 'Title', 'Frame': 'TRI MBSE', 'Sheet': 'E', 'Orientation': 'landscape',
+     'x position': 30, 'y position': 884, 'max width': 254, 'max height': 25},
+    {'Metadata': 'Copyright notice', 'Frame': 'TRI MBSE', 'Sheet': 'E', 'Orientation': 'landscape',
+     'x position': 500, 'y position': 38, 'max width': 254, 'max height': 57},
+    {'Metadata': 'Organization logo', 'Frame': 'TRI MBSE', 'Sheet': 'E', 'Orientation': 'landscape',
+     'x position': 30, 'y position': 38, 'max width': 191, 'max height': 25},
 
 ]
