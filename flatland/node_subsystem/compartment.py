@@ -53,7 +53,6 @@ class Compartment:
     def render(self, lower_left_corner: Position):
         """Create rectangle on the tablet and add each line of text"""
         layer = self.Node.Grid.Diagram.Layer
-        # TODO: Updated this for state diagrams, go back and check compartment asset names for class diagrams
         # Asset name could be 'state activity compartment' or 'class attributes compartment' for example
         asset = ' '.join([self.Node.Node_type.Name, self.Type.name, 'compartment'])
         layer.add_rectangle(asset=asset, lower_left=lower_left_corner, size=self.Size)

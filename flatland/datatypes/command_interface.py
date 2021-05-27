@@ -4,6 +4,16 @@ command_interface.py
 
 from collections import namedtuple
 
+New_Compartment = namedtuple('New_Compartment', 'content expansion')
+"""
+User specification of a compartment's text content and any vertical expansion
+
+    Attributes
+    
+    - content -- (list (str))  A list of strings to be rendered starting from the first string and moving downward
+    - expansion -- (float > 1) Multiple the height of this compartment by this factor to increase its size
+"""
+
 New_Stem = namedtuple('New_Stem', 'stem_type semantic node face anchor stem_name')
 """
 User specification of a Stem in a Tree Connector

@@ -56,8 +56,10 @@ span =  number '-' number / number
 node_loc = span ',' span  // Row and column
 grid_place = node_loc (space node_align)? // Location in grid where a node will appear
 node_placement = grid_place (space ':' space grid_place)*  // One or more such locations
-node_expansion = number '%'
-node_spec = indent node_name wrap? (space node_expansion)? space node_placement nl
+node_width_expansion = number '%'  // Increase the width of the node
+comp_height_expansion = '[C' number ']' number '%'  // Increase the height of a single compartment
+node_height_expansion = comp_height_expansion (space comp_height_expansion)*  // A node's height is the sum of its expanded compartments
+node_spec = indent node_name wrap? (space node_width_expansion)? (space node_height_expansion)? space node_placement nl
 node_block = nodes_header node_spec+
 
 // Face attachment

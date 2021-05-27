@@ -15,7 +15,7 @@ from flatland.sheet_subsystem.frame import Frame
 from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
-from flatland.datatypes.command_interface import New_Stem, New_Path
+from flatland.datatypes.command_interface import New_Stem, New_Path, New_Compartment
 from typing import Dict
 from flatland.connector_subsystem.unary_connector import UnaryConnector
 from flatland.connector_subsystem.straight_binary_connector import StraightBinaryConnector
@@ -127,6 +127,8 @@ class XumlStateMachineDiagram:
                             try:
                                 cname = make_event_cname(self.statemodel.events[evname])
                             except KeyError:
+                                # An event is being referenced in some state of the model file that does not correspond
+                                # to any event defined in the event specification list near the top of the file
                                 self.logger.error(
                                     f'Undefined event [{evname}] used on transition from state [{s.name}]. '
                                     f'Check event list in model file.'
@@ -250,8 +252,15 @@ class XumlStateMachineDiagram:
             # By default the state name is all on one line, but it may be wrapped across multiple
             nlayout['wrap'] = nlayout.get('wrap', 1)
             name_block = TextBlock(state.name, nlayout['wrap'])
+
             # Now assemble all the text content for each compartment
-            text_content = [name_block.text, state.activity]
+            # A state has two compartments, name and activity (compartments C1 and C2, respectively)
+            # Normally there is no vertical expansion supplied for either and the expansion defaults to a factor of 1
+            # But an expansion may be specified as indexed under 'C1' or 'C2', so we check
+            text_content = [
+                New_Compartment(content=name_block, expansion=nlayout.get('C1',1)),
+                New_Compartment(content=state.activity, expansion=nlayout.get('C2',1)),
+            ]
 
             for i, p in enumerate(nlayout['placements']):
                 h = HorizAlign[p.get('halign', 'CENTER')]
