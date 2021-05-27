@@ -6,6 +6,7 @@ from flatland.flatland_exceptions import UnsupportedNodeType
 from flatland.datatypes.geometry_types import Rect_Size, Position, Alignment
 from flatland.node_subsystem.compartment import Compartment
 from flatland.datatypes.connection_types import NodeFace
+from flatland.datatypes.command_interface import New_Compartment
 from typing import TYPE_CHECKING, List, Optional
 from flatland.node_subsystem.diagram_layout_specification import DiagramLayoutSpecification as diagram_layout
 
@@ -27,7 +28,7 @@ class Node:
         - Local_alignment -- Position of the node in the spanned area, vertical and horizontal
     """
 
-    def __init__(self, node_type_name: str, content: List[List[str]], grid: 'Grid',
+    def __init__(self, node_type_name: str, content: List[New_Compartment], grid: 'Grid',
                  expansion: float, local_alignment: Optional[Alignment]):
         """
         Constructor
@@ -47,8 +48,8 @@ class Node:
                                       diagram_type_name=self.Grid.Diagram.Diagram_type.Name)
 
         # Create a list of compartments ordered top to bottom based on Node Type's Compartment Types
-        self.Compartments = [Compartment(node=self, ctype=t, content=c) for t, c in
-                             zip(self.Node_type.Compartment_types, content)]
+        z = zip(self.Node_type.Compartment_types, content)
+        self.Compartments = [Compartment(node=self, ctype=t, spec=s) for t, s in z]
 
         # The Node will be aligned in the Cell according to either the specified local alignment or, if none,
         # the default cell alignment that we got from the Diagram Layout Specification

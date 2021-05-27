@@ -212,6 +212,7 @@ def define(db) -> dict:
         'compartment_type': Table('Compartment Type', db.MetaData,
                                   Column('Name', String, nullable=False),
                                   Column('Horizontal alignment', String(10), nullable=False),
+                                  Column('Vertical alignment', String(10), nullable=False),
                                   Column('Pad top', Integer, nullable=False),
                                   Column('Pad bottom', Integer, nullable=False),
                                   Column('Pad left', Integer, nullable=False),

@@ -254,20 +254,19 @@ class XumlStateMachineDiagram:
             name_block = TextBlock(state.name, nlayout['wrap'])
 
             # Now assemble all the text content for each compartment
-            # A state has two compartments, name and activity (compartments C1 and C2, respectively)
+            # A state has two compartments, name and activity (compartments 1 and 2, respectively)
             # Normally there is no vertical expansion supplied for either and the expansion defaults to a factor of 1
-            # But an expansion may be specified as indexed under 'C1' or 'C2', so we check
+            h_expand = nlayout.get('node_height_expansion', {})
             text_content = [
-                New_Compartment(content=name_block, expansion=nlayout.get('C1',1)),
-                New_Compartment(content=state.activity, expansion=nlayout.get('C2',1)),
+                New_Compartment(content=name_block.text, expansion=h_expand.get(1, 0)),
+                New_Compartment(content=state.activity, expansion=h_expand.get(2, 0)),
             ]
 
             for i, p in enumerate(nlayout['placements']):
                 h = HorizAlign[p.get('halign', 'CENTER')]
                 v = VertAlign[p.get('valign', 'CENTER')]
-                expansion_percent = max(min(100, nlayout.get('node_expansion', 0)), 1)
-                expansion_ratio = round(expansion_percent / 100, 2)
-                # If this is an imported class, append the import reference to the attribute list
+                w_expand = nlayout.get('node_width_expansion', 0)
+                # If this is an imported state, append the import reference to the attribute list
                 row_span, col_span = p['node_loc']
                 # If methods were supplied, include them in content
                 # text content includes text for all compartments other than the title compartment
@@ -283,7 +282,7 @@ class XumlStateMachineDiagram:
                         grid=self.flatland_canvas.Diagram.Grid,
                         row=row_span[0], column=col_span[0],
                         local_alignment=Alignment(vertical=v, horizontal=h),
-                        expansion=expansion_ratio
+                        expansion=w_expand,
                     )
                 else:
                     # Span might be only 1 column or row
@@ -298,6 +297,6 @@ class XumlStateMachineDiagram:
                         low_row=low_row, high_row=high_row,
                         left_column=left_col, right_column=right_col,
                         local_alignment=Alignment(vertical=v, horizontal=h),
-                        expansion=expansion_ratio
+                        expansion=w_expand,
                     )
         return nodes

@@ -1,6 +1,7 @@
 """ spanning_node.py """
 
 from flatland.flatland_exceptions import BadColNumber, BadRowNumber, BadRowSpan, BadColSpan
+from flatland.datatypes.command_interface import New_Compartment
 from flatland.node_subsystem.node import Node
 from flatland.datatypes.geometry_types import Position, Alignment
 from flatland.geometry_domain.linear_geometry import align_on_axis
@@ -29,7 +30,7 @@ class SpanningNode(Node):
     Left_column : The leftmost column
     Right_column : The rightmost column
     """
-    def __init__(self, node_type_name: str, content: List[List[str]], grid: 'Grid',
+    def __init__(self, node_type_name: str, content: List[New_Compartment], grid: 'Grid',
                  low_row: int, high_row: int, left_column: int, right_column: int,
                  expansion: float, local_alignment: Optional[Alignment] = None):
         super().__init__(node_type_name, content, grid, expansion, local_alignment)

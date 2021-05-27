@@ -149,15 +149,21 @@ class LayoutVisitor(PTNodeVisitor):
     # Node
     def visit_node_width_expansion(self, node, children):
         """percent expansion"""
-        return {node.rule_name: children[0]}
+        # Convert percentage to ratio ensuring ratio is positive
+        user_percent = children[0]
+        ratio = 0 if user_percent < 0 else round(user_percent / 100, 2)
+        return {node.rule_name: ratio}
 
     def visit_comp_height_expansion(self, node, children):
         """percent expansion"""
-        return children
+        # Convert percentage to ratio ensuring ratio is positive
+        user_percent = children[1]
+        ratio = 0 if user_percent < 0 else round(user_percent / 100, 2)
+        return [children[0], ratio]
 
     def visit_node_height_expansion(self, node, children):
         """percent expansion"""
-        d = {k:v for k,v in children}
+        d = {k: v for k, v in children}
         return {node.rule_name: d}
 
     def visit_node_loc(self, node, children):

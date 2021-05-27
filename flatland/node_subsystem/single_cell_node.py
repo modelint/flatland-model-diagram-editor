@@ -4,6 +4,7 @@ from flatland.flatland_exceptions import BadColNumber, BadRowNumber
 from flatland.geometry_domain.linear_geometry import align_on_axis
 from flatland.node_subsystem.node import Node
 from flatland.datatypes.geometry_types import Position, Alignment
+from flatland.datatypes.command_interface import New_Compartment
 
 from typing import TYPE_CHECKING, List, Optional
 
@@ -20,7 +21,7 @@ class SingleCellNode(Node):
         - row -- Placed in this row
         - column -- Placed at this column
     """
-    def __init__(self, node_type_name: str, content: List[List[str]], grid: 'Grid', row: int, column: int,
+    def __init__(self, node_type_name: str, content: List[New_Compartment], grid: 'Grid', row: int, column: int,
                  expansion: float, local_alignment: Optional[Alignment] = None):
         """
         Constructor
