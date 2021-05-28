@@ -187,6 +187,10 @@ class LayoutVisitor(PTNodeVisitor):
         """grid_place+"""
         return {'placements': children}
 
+    def visit_color_tag(self, node, children):
+        """tags"""
+        return {node.rule_name: children[0]}
+
     def visit_node_spec(self, node, children):
         """node_name wrap? node_placement"""
         ditems = {k: v for c in children for k, v in c.items()}

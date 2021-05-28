@@ -29,17 +29,19 @@ class Node:
     """
 
     def __init__(self, node_type_name: str, content: List[New_Compartment], grid: 'Grid',
-                 expansion: float, local_alignment: Optional[Alignment]):
+                 expansion: float, tag: Optional[str], local_alignment: Optional[Alignment]):
         """
         Constructor
 
         :param node_type_name: A name such as class, state, imported class, etc
         :param content: A list of text blocks, each a list of text lines to be displayed in node Compartments
         :param grid: Reference to the Grid
+        :param tag: Optional user supplied tag that selects a color fill for this node
         :param local_alignment: Overrides default alignment within Cell or Cell range
         """
         self.logger = logging.getLogger(__name__)
         self.Expansion = expansion
+        self.Tag = tag
         self.Grid = grid
         try:
             self.Node_type = self.Grid.Diagram.Diagram_type.NodeTypes[node_type_name]

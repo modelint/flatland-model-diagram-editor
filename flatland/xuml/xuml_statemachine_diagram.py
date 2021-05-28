@@ -281,6 +281,7 @@ class XumlStateMachineDiagram:
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
                         row=row_span[0], column=col_span[0],
+                        tag=nlayout.get('color_tag', None),
                         local_alignment=Alignment(vertical=v, horizontal=h),
                         expansion=w_expand,
                     )
@@ -296,6 +297,7 @@ class XumlStateMachineDiagram:
                         grid=self.flatland_canvas.Diagram.Grid,
                         low_row=low_row, high_row=high_row,
                         left_column=left_col, right_column=right_col,
+                        tag=nlayout.get('color_tag', None),
                         local_alignment=Alignment(vertical=v, horizontal=h),
                         expansion=w_expand,
                     )

@@ -12,7 +12,7 @@ import flatland.drawing_domain.element as element
 from flatland.datatypes.geometry_types import Rect_Size, Position, HorizAlign
 from flatland.drawing_domain.presentation import  Presentation
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from flatland.drawing_domain.tablet import Tablet
@@ -307,9 +307,17 @@ class Layer:
             center=center_dc, radius=radius, border_style=self.Presentation.Shape_presentation[asset], fill=fill,
         ))
 
-    def add_rectangle(self, asset: str, lower_left: Position, size: Rect_Size):
+    def add_rectangle(self, asset: str, lower_left: Position, size: Rect_Size, color_usage: Optional['str'] = None):
         """
-        Adds a rectangle to the tablet and converts the lower left corner to device coordinates
+        Adds a rectangle to this Layer with position converted to Tablet (device) coordinates. If one is specified
+        for this Shape Presentation (Presentation x Asset: See R4,R5,R21 in the class diagram), a Closed Shape Fill
+        will be applied. If a color_usage is supplied, the associated color overrides the Closed Shape Fill.
+
+        :param asset:  Draw this Asset
+        :param lower_left:  Lower left corner position in Cartesian coordinates
+        :param size: The Size of the rectangle in points
+        :param color_usage: If a usage string is provided, it will be indexed into the Style DB usage table to find
+                            an associated RGB color.
         """
         # Flip lower left corner to device coordinates
         ll_dc = self.Tablet.to_dc(Position(x=lower_left.x, y=lower_left.y))
@@ -318,7 +326,15 @@ class Layer:
         ul = Position(x=ll_dc.x, y=ll_dc.y - size.height)
 
         # Check to see if this rectangle is filled
-        fill = self.Presentation.Closed_shape_fill.get(asset)
+        if color_usage:
+            # The user has supplied a usage such as 'error' that maps to some known color
+            try:
+                fill = StyleDB.color_usage[color_usage]  # Overrides any closed shape fill
+            except KeyError:
+                self.logger.warning(f'No color defined for usage [{color_usage}]')
+                fill = None
+        else:
+            fill = self.Presentation.Closed_shape_fill.get(asset)
 
         # Set the corner spec, if any
         cspec = self.Presentation.Corner_spec.get(asset)

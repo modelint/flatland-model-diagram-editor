@@ -32,8 +32,8 @@ class SpanningNode(Node):
     """
     def __init__(self, node_type_name: str, content: List[New_Compartment], grid: 'Grid',
                  low_row: int, high_row: int, left_column: int, right_column: int,
-                 expansion: float, local_alignment: Optional[Alignment] = None):
-        super().__init__(node_type_name, content, grid, expansion, local_alignment)
+                 expansion: float, tag: Optional[str], local_alignment: Optional[Alignment] = None):
+        super().__init__(node_type_name, content, grid, expansion, tag, local_alignment)
         # Validate the span
         if low_row <= 0:
             raise BadRowNumber

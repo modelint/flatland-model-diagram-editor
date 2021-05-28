@@ -5,6 +5,7 @@ from collections import namedtuple
 population = [
     # Canvas colors
     # Blues
+    {"Name": 'sky', 'R': 199, 'G': 227, 'B': 245, 'Purpose': 'canvas'},
     {"Name": 'blue steel', 'R': 159, 'G': 172, 'B': 186, 'Purpose': 'canvas'},
     {"Name": 'teal', 'R': 125, 'G': 181, 'B': 175, 'Purpose': 'canvas'},
 
@@ -15,6 +16,7 @@ population = [
     {"Name": 'aluminum', 'R': 169, 'G': 169, 'B': 169, 'Purpose': 'canvas'},
 
     # Greens
+    {"Name": 'clover', 'R': 205, 'G': 231, 'B': 178, 'Purpose': 'canvas'},
     {"Name": 'institutional', 'R': 192, 'G': 204, 'B': 160, 'Purpose': 'canvas'},
     {"Name": 'olive', 'R': 154, 'G': 152, 'B': 36, 'Purpose': 'canvas'},
 
@@ -29,6 +31,7 @@ population = [
     {"Name": 'autumn', 'R': 197, 'G': 150, 'B': 35, 'Purpose': 'canvas'},
 
     # Reds
+    {"Name": 'bubble gum', 'R': 243, 'G': 212, 'B': 222, 'Purpose': 'canvas'},
     {"Name": 'pink eraser', 'R': 240, 'G': 176, 'B': 158, 'Purpose': 'canvas'},
 
     # Purples

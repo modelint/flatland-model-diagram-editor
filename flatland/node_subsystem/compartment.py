@@ -59,7 +59,7 @@ class Compartment:
         layer = self.Node.Grid.Diagram.Layer
         # Asset name could be 'state activity compartment' or 'class attributes compartment' for example
         asset = ' '.join([self.Node.Node_type.Name, self.Type.name, 'compartment'])
-        layer.add_rectangle(asset=asset, lower_left=lower_left_corner, size=self.Size)
+        layer.add_rectangle(asset=asset, lower_left=lower_left_corner, size=self.Size, color_usage=self.Node.Tag)
 
         # Horizontal alignment of text block relative to its compartment by calculating lower left x position
         if self.Type.halign == HorizAlign.LEFT:

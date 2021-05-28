@@ -22,7 +22,7 @@ class SingleCellNode(Node):
         - column -- Placed at this column
     """
     def __init__(self, node_type_name: str, content: List[New_Compartment], grid: 'Grid', row: int, column: int,
-                 expansion: float, local_alignment: Optional[Alignment] = None):
+                 expansion: float, tag: Optional[str], local_alignment: Optional[Alignment] = None):
         """
         Constructor
 
@@ -33,7 +33,7 @@ class SingleCellNode(Node):
         :param column:
         :param local_alignment:
         """
-        Node.__init__(self, node_type_name, content, grid, expansion, local_alignment)
+        Node.__init__(self, node_type_name, content, grid, expansion, tag, local_alignment)
         if row <= 0:
             raise BadRowNumber
         if column <= 0:

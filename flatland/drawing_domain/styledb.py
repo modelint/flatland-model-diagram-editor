@@ -33,6 +33,13 @@ def load_colors():
     for i in f:
         StyleDB.rgbF[i.Name] = Float_RGB(R=round(i.R / 255, 2), G=round(i.G / 255, 2), B=round(i.B / 255, 2))
 
+def load_color_usages():
+    usages = fdb.MetaData.tables['Color Usage']
+    q = select([usages])
+    f = fdb.Connection.execute(q).fetchall()
+    for i in f:
+        StyleDB.color_usage[i.Name] = i.Color
+
 def load_dash_patterns():
     patterns = fdb.MetaData.tables['Dash Pattern']
     q = select([patterns])
@@ -77,21 +84,24 @@ class StyleDB:
     line_style = {}
     typeface = {}
     text_style = {}
+    color_usage = {}
 
     def __init__(self, print_colors=False, rebuild=False):
         """
         Constructor
 
-        :param drawing_type: The Presentation's Drawing Type, 'xUML Class Diagram', for example
-        :param presentation: The Presentation's name, 'default' or 'diagnostic', as examples
+        :param print_colors: True if the user just wants a list of available canvas/usage colors
+        :param rebuild: True if the user requests a database rebuild before reporting colors
         """
         self.logger = logging.getLogger(__name__)
         self.logger.info("Loading common styles from Flatland db")
         # Load all common graphical and text styles in the database (regardless of what we might actually use)
         if print_colors:
+            # The user wants a list of avaialable colors
             report_colors(rebuild)
         else:
             load_colors()
+            load_color_usages()
             load_dash_patterns()
             load_line_styles()
             load_typefaces()
