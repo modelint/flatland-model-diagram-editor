@@ -1,10 +1,11 @@
-// Flatland Draing Domain / Tablet Subsystem Class Diagram
+// Flatland Drawing Domain / Tablet Subsystem Class Diagram
 // Model layout sheet
 
 diagram class
 notation Starr
 presentation default
 orientation landscape
+color olive
 sheet D
 padding l300 b350
 frame OS Engineer
@@ -14,7 +15,8 @@ nodes
     Asset Presentation 4-5,6
     Closed Shape 11-12,8
     Closed Shape Fill 7,10-11
-    Corner Spec 8,9
+    Color Usage 8,12
+    Corner Spec 8,6-7
     Drawing Type 5,3
     Element 6,1
     Layer 8,5
@@ -32,15 +34,16 @@ nodes
     Text Presentation/2 4,7-8
     Text Style 4,10
     Typeface 3,12
+    Usage Fill 9,10
     Vertex 13,11
 connectors
     +R1 : +/3 r|Drawing Type : -/2 l*|Presentation
     +R2 : -/1 b*|Layer : -/1 t|Presentation
     -R3 : +/2 b|Drawing Type : +/1 l|Asset
     -R4 : -/1 t|Asset : -/1 b*|Presentation, l|Asset Presentation
-    +R5 : r|Asset Presentation { l|Shape Presentation, l|Text Presentation }
+    +R5 : r|Asset Presentation { l-1|Shape Presentation, l|Text Presentation }
     -R6 : +/1 b*|Shape Element : -/1 t|Shape Presentation
-    +R7 : +/1 r|Text Presentation : -/1 l*|Text Style
+    +R7 : +/2 r|Text Presentation : -/2 l*|Text Style
     +R8 : +/1 r+2|Line Style : +/1 l*|Line Pattern
     +R9 : -/1 r|Line Style : -/1 t-2|RGB Color
     +R10 : -/1 r-1|Text Style : +/1 b|RGB Color
@@ -51,8 +54,10 @@ connectors
     -R15 : r|Element { l|Shape Element, l|Text Element : L2R-2 }
     -R16 : -/1 r|Text Element : -/1 b-2|Text Style
     +R17 : -/2 r|Polygon : -/2 l*|Vertex
-    +R18.2 : -/2 l|Corner Spec : +/2 t+2|Shape Presentation
+    -R18.2 : -/2 b|Corner Spec : +/2 l+1|Shape Presentation
     +R19 : -/1 t|Element : -/1 l-2|Layer
     -OR20.2 : -/1 l+1|Layer : +/2 t-2|Layer : L4R+2 L9R-1
     +R21 : -/2 r+2|Shape Presentation : +/2 t|RGB Color, b|Closed Shape Fill
     +R22 : t|Closed Shape { b|Rectangle, b|Polygon }
+    -R23 : +/1 t+2|Shape Presentation : +/1 l|Color Usage, b|Usage Fill
+    -R24.2 : +/1 b+1|Color Usage : -/2 r|RGB Color

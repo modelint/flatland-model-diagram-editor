@@ -6,6 +6,7 @@ notation Starr
 presentation default
 orientation landscape
 sheet tabloid
+color tutti frutti
 padding b150 l100
 frame OS Engineer
 frame_presentation default

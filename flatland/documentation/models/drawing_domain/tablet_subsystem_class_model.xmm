@@ -4,8 +4,8 @@ metadata
     Title : Flatland Drawing Domain / Tablet Subsystem Class Diagram
     Author : Leon Starr
     Document ID : mint.flatland.td.6a
-    Version : 0.3.1
-    Modification date : May 1, 2021
+    Version : 0.4.0
+    Modification date : May 29, 2021
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint_large
@@ -34,6 +34,11 @@ attributes
     Presentation {I, R21}
     Drawing type {I, R21}
     Fill color {R21}
+--
+class Color Usage
+attributes
+    Name {I}
+    Color {R24}
 --
 class Corner Spec
 attributes
@@ -155,6 +160,13 @@ attributes
     Alias : Name {I}
     Name : Font Family {I2}
 --
+class Usage Fill
+attributes
+    Shape asset {I, R23}
+    Presentation {I, R23}
+    Drawing type {I, R23}
+    Usage {R23}
+--
 class Vertex
 attributes
     Polygon {I, R17}
@@ -189,8 +201,8 @@ relationships
     styles, Mc Shape Element
 --
     R7
-    xx, Mc Text Presentation
-    is rendered with, 1 Text Style
+    sets text characteristics for, Mc Text Presentation
+    text characteristics are defined by, 1 Text Style
 --
     R8
     is applied in, Mc Line Style
@@ -255,4 +267,13 @@ relationships
     Closed Shape +
         Rectangle
         Polygon
+--
+    R23
+    applies, 1c Color Usage
+    is applied to, Mc Shape Presentation
+    1 Usage Fill
+--
+    R24
+    is represented by, 1 RGB Color
+    represents, Mc Color Usage
 --

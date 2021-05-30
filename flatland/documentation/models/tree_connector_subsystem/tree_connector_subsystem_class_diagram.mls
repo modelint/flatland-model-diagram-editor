@@ -6,6 +6,7 @@ notation Starr
 presentation default
 orientation landscape
 sheet D
+color dead leaf
 padding l300 b350
 frame OS Engineer
 frame_presentation default
