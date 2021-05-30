@@ -38,7 +38,7 @@ population = [
     {'Asset': 'imported class compartment', 'Presentation': 'default', 'Drawing type': 'xUML class diagram', 'Fill': 'white'},
     {'Asset': 'state name compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
      'Fill': 'white'},
-    {'Asset': 'state name single compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
+    {'Asset': 'state name only compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
      'Fill': 'white'},
     {'Asset': 'state activity compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
      'Fill': 'white'},

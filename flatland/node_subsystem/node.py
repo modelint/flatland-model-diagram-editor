@@ -51,7 +51,20 @@ class Node:
 
         # Create a list of compartments ordered top to bottom based on Node Type's Compartment Types
         z = zip(self.Node_type.Compartment_types, content)
-        self.Compartments = [Compartment(node=self, ctype=t, spec=s) for t, s in z]
+        if len(content) > 1:
+            # The normal case, more than one compartment showing
+            self.Compartments = [Compartment(node=self, ctype=t, spec=s) for t, s in z]
+        else:
+            # Only one compartment shown (so node has no horizontal lines partitioning compartments)
+            # And, if rounded corners, the whole compartment is rounded with the text content padded a bit
+            # more top and bottom so it looks nice.
+            # By convention, the highest stack order compartment is the single compartment only compartment
+            # This is because only one stack order per node type is allowed, and the single case kind of breaks that
+            # Yes, it's a hack until we update the Node Subsystem class model to handle the single compartment
+            # case properly
+            # TODO: Fix this hack
+            single_ctype = self.Node_type.Compartment_types[-1]
+            self.Compartments = [Compartment(node=self, ctype=single_ctype, spec=content[0])]
 
         # The Node will be aligned in the Cell according to either the specified local alignment or, if none,
         # the default cell alignment that we got from the Diagram Layout Specification

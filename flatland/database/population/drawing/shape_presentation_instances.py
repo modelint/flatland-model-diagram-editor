@@ -64,7 +64,7 @@ population = [
     {'Asset': 'deletion transition connector', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'transition connector', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'state name compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
-    {'Asset': 'state name single compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
+    {'Asset': 'state name only compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'state activity compartment', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'solid arrow', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Line style': 'normal'},
     {'Asset': 'solid small dot', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',

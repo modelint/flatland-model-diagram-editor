@@ -113,5 +113,7 @@ population = [
     {'Asset': 'transition name', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p9body', 'Underlay': False},
     {'Asset': 'initial transition name', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p9body', 'Underlay': False},
     {'Asset': 'state activity', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p9body', 'Underlay': False},
-    {'Asset': 'state name', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p12title', 'Underlay': False}
+    {'Asset': 'state name', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram', 'Text style': 'p12title', 'Underlay': False},
+    {'Asset': 'state name only', 'Presentation': 'default', 'Drawing type': 'xUML state machine diagram',
+     'Text style': 'p12title', 'Underlay': False},
 ]
