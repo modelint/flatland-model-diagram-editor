@@ -58,7 +58,8 @@ class Compartment:
         """Create rectangle on the tablet and add each line of text"""
         layer = self.Node.Grid.Diagram.Layer
         # Asset name could be 'state activity compartment' or 'class attributes compartment' for example
-        asset = ' '.join([self.Node.Node_type.Name, self.Type.name, 'compartment'])
+        suffix = 'compartment' if len(self.Node.Compartments) > 1 else 'single compartment'
+        asset = ' '.join([self.Node.Node_type.Name, self.Type.name, suffix])
         layer.add_rectangle(asset=asset, lower_left=lower_left_corner, size=self.Size, color_usage=self.Node.Tag)
 
         # Horizontal alignment of text block relative to its compartment by calculating lower left x position

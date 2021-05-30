@@ -139,6 +139,7 @@ population = [
     {'Name': 'state activity', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state name', 'Form': 'text', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state name compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
+    {'Name': 'state name single compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     {'Name': 'state activity compartment', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},
     # Symbols
     {'Name': 'solid arrow', 'Form': 'shape', 'Drawing type': 'xUML state machine diagram'},

@@ -259,8 +259,9 @@ class XumlStateMachineDiagram:
             h_expand = nlayout.get('node_height_expansion', {})
             text_content = [
                 New_Compartment(content=name_block.text, expansion=h_expand.get(1, 0)),
-                New_Compartment(content=state.activity, expansion=h_expand.get(2, 0)),
             ]
+            if state.activity:
+                text_content.append(New_Compartment(content=state.activity, expansion=h_expand.get(2, 0)))
 
             for i, p in enumerate(nlayout['placements']):
                 h = HorizAlign[p.get('halign', 'CENTER')]
