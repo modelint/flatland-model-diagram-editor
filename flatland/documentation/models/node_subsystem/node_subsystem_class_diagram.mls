@@ -16,16 +16,16 @@ nodes
     Cell 4,8 >right
     Column 3,7
     Compartment 5-6,15-16
-    Compartment Type 8-9,14
+    Compartment Type 8-9,14 <specification>
     Data Compartment 4,16 >top
     Diagram 4,3
     Diagram Notation 10,6
-    Diagram Type 8-9,8
+    Diagram Type 8-9,8 <specificiation>
     Field Spec 1,5
     Grid 4,5
     Layout Specification 9,1
     Node 5,12
-    Node Type 8-9,12
+    Node Type 8-9,12 <specification>
     Non Spanning Node 6,10
     Notation 11,8
     Row 5,7

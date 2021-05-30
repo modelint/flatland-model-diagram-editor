@@ -16,7 +16,8 @@ from flatland.node_subsystem.single_cell_node import SingleCellNode
 from flatland.node_subsystem.spanning_node import SpanningNode
 from flatland.connector_subsystem.tree_connector import TreeConnector
 from flatland.datatypes.geometry_types import Alignment, VertAlign, HorizAlign
-from flatland.datatypes.command_interface import New_Stem, New_Path, New_Trunk_Branch, New_Offshoot_Branch, New_Branch_Set
+from flatland.datatypes.command_interface import New_Stem, New_Path,\
+     New_Trunk_Branch, New_Offshoot_Branch, New_Branch_Set, New_Compartment
 from typing import Optional, Dict
 from collections import namedtuple
 from flatland.connector_subsystem.straight_binary_connector import StraightBinaryConnector
@@ -162,9 +163,15 @@ class XumlClassDiagram:
             # Now assemble all the text content for each class compartment
             # One list item per compartment in descending vertical order of display
             # (class name, attributes and optional methods)
-            text_content = [name_block.text, c['attributes'] + internal_ref ]
+            h_expand = nlayout.get('node_height_expansion', {})
+            text_content = [
+                New_Compartment(content=name_block.text, expansion=h_expand.get(1, 0)),
+                New_Compartment(content=c['attributes'] + internal_ref, expansion=h_expand.get(2, 0)),
+            ]
             if c.get('methods'):
-                text_content.append(c['methods'])
+                text_content.append(
+                    New_Compartment(content=c['methods'], expansion=h_expand.get(1, 0)),
+                )
 
             # The same class may be placed more than once so that the connectors
             # have less bends and crossovers. This is usually, but not limited to,
@@ -175,8 +182,7 @@ class XumlClassDiagram:
             for i, p in enumerate(nlayout['placements']):
                 h = HorizAlign[p.get('halign', 'CENTER')]
                 v = VertAlign[p.get('valign', 'CENTER')]
-                expansion_percent = max(min(100, nlayout.get('node_expansion', 0)), 1)
-                expansion_ratio = round(expansion_percent / 100, 2)
+                w_expand = nlayout.get('node_width_expansion', 0)
                 # If this is an imported class, append the import reference to the attribute list
                 row_span, col_span = p['node_loc']
                 # If methods were supplied, include them in content
@@ -192,8 +198,9 @@ class XumlClassDiagram:
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
                         row=row_span[0], column=col_span[0],
+                        tag=nlayout.get('color_tag', None),
                         local_alignment=Alignment(vertical=v, horizontal=h),
-                        expansion=expansion_ratio
+                        expansion=w_expand,
                     )
                 else:
                     # Span might be only 1 column or row
@@ -207,8 +214,9 @@ class XumlClassDiagram:
                         grid=self.flatland_canvas.Diagram.Grid,
                         low_row=low_row, high_row=high_row,
                         left_column=left_col, right_column=right_col,
+                        tag=nlayout.get('color_tag', None),
                         local_alignment=Alignment(vertical=v, horizontal=h),
-                        expansion=expansion_ratio
+                        expansion=w_expand,
                     )
         return nodes
         # TODO:  Add support for axis offset on stem names
@@ -218,7 +226,7 @@ class XumlClassDiagram:
         # Straight or bent connector?
         tstem = binary_layout['tstem']
         pstem = binary_layout['pstem']
-        reversed = False  # Assume that layout sheet and model order matches
+        _reversed = False  # Assume that layout sheet and model order matches
         astem = binary_layout.get('tertiary_node', None)
 
         t_side = association['t_side']
@@ -228,7 +236,7 @@ class XumlClassDiagram:
             # The node_ref is a list and the first element refers to the model class name
             # (the 2nd element indicates duplicate cplace, if any, and is not relevant for the comparison above)
             tstem, pstem = pstem, tstem
-            reversed = True
+            _reversed = True
             self.logger.info(f"Stems order in layout file does not match model, swapping stem order for connector {rnum}")
 
         t_phrase = StemName(
@@ -250,7 +258,7 @@ class XumlClassDiagram:
         try:
             pnode = self.nodes[node_ref]
         except KeyError:
-            missing_side = "p-stem" if not reversed else "t-stem"
+            missing_side = "p-stem" if not _reversed else "t-stem"
             self.logger.error(f"In layout sheet {missing_side} of {rnum} class [{node_ref}] is not defined in model")
             sys.exit(1)
         p_stem = New_Stem(stem_type='class mult', semantic=p_side['mult'] + ' mult',
@@ -267,7 +275,7 @@ class XumlClassDiagram:
                     f" association class on association: {rnum}")
                 sys.exit(1)
             try:
-                node=self.nodes[node_ref]
+                node= self.nodes[node_ref]
             except KeyError:
                 self.logger.error(
                     f"Association class [{node_ref}] is missing in relationship {rnum}"

@@ -325,16 +325,15 @@ class Layer:
         # Use upper left corner instead
         ul = Position(x=ll_dc.x, y=ll_dc.y - size.height)
 
-        # Check to see if this rectangle is filled
+        # If a fill is predefined for this presentation/shape asset, get it
+        fill = self.Presentation.Closed_shape_fill.get(asset)
+
+        # Now see if there is an overriding color usage, if so use the corresponding color instead
         if color_usage:
-            # The user has supplied a usage such as 'error' that maps to some known color
             try:
                 fill = StyleDB.color_usage[color_usage]  # Overrides any closed shape fill
             except KeyError:
                 self.logger.warning(f'No color defined for usage [{color_usage}]')
-                fill = None
-        else:
-            fill = self.Presentation.Closed_shape_fill.get(asset)
 
         # Set the corner spec, if any
         cspec = self.Presentation.Corner_spec.get(asset)
