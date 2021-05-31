@@ -42,7 +42,7 @@ population = [
     {'Metadata': 'Title', 'Frame': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'landscape',
      'x position': 8, 'y position': 264, 'max width': 254, 'max height': 13},
     {'Metadata': 'Copyright notice', 'Frame': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'landscape',
-     'x position': 8, 'y position': 28, 'max width': 254, 'max height': 57},
+     'x position': 8, 'y position': 25, 'max width': 254, 'max height': 57},
     {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'landscape',
      'x position': 8, 'y position': 9, 'max width': 180, 'max height': 24},
 
@@ -50,9 +50,9 @@ population = [
     {'Metadata': 'Title', 'Frame': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'portrait',
      'x position': 10, 'y position': 415, 'max width': 254, 'max height': 13},
     {'Metadata': 'Copyright notice', 'Frame': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'portrait',
-     'x position': 8, 'y position': 25, 'max width': 254, 'max height': 57},
+     'x position': 8, 'y position': 30, 'max width': 254, 'max height': 57},
     {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'tabloid', 'Orientation': 'portrait',
-     'x position': 10, 'y position': 0, 'max width': 180, 'max height': 24},
+     'x position': 10, 'y position': 5, 'max width': 180, 'max height': 24},
 
     # C OS Engineer
     # Landscape
@@ -67,7 +67,7 @@ population = [
     {'Metadata': 'Title', 'Frame': 'OS Engineer', 'Sheet': 'C', 'Orientation': 'portrait',
      'x position': 15, 'y position': 590, 'max width': 254, 'max height': 25},
     {'Metadata': 'Copyright notice', 'Frame': 'OS Engineer', 'Sheet': 'C', 'Orientation': 'portrait',
-     'x position': 19, 'y position': 50, 'max width': 254, 'max height': 57},
+     'x position': 19, 'y position': 70, 'max width': 254, 'max height': 57},
     {'Metadata': 'Organization logo', 'Frame': 'OS Engineer', 'Sheet': 'C', 'Orientation': 'portrait',
      'x position': 19, 'y position': 18, 'max width': 191, 'max height': 25},
 

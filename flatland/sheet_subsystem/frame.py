@@ -166,12 +166,17 @@ class Frame:
             content, isresource = self.metadata.get(f.metadata, (None, None))
             # If there is no data supplied to fill in the field, just leave it blank and move on
             if content and isresource:
-                # Content is a resource locator, get the path to the resource (image)
-                rloc = resource_locator.get(content)
+                # Key into resource locator using this size and orientation delimited by an underscore
+                rsize = '_'.join([content, self.Canvas.Sheet.Size_group, self.Canvas.Orientation])
+                # Get the full path to the resource (image) using the rsize
+                rloc = resource_locator.get(rsize)
                 if rloc:
                     self.Layer.add_image(resource_path=rloc, lower_left=f.position, size=f.max_area)
                 else:
-                    self.logger.warning(f"Couldn't find resource file for: [{content}]")
+                    self.logger.warning(
+                        f"Couldn't find file for: [{content}] in your flatland resource directory. "
+                        f"Default resource location is in ~/.flatland"
+                    )
             elif content:  # Text content
                 # Content is a line of text to print directly
                 self.Layer.add_text_line(

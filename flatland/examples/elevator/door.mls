@@ -4,6 +4,7 @@ notation xUML
 presentation default
 orientation portrait
 sheet C
+color blue steel
 padding l300 b500
 frame OS Engineer
 frame_presentation default

@@ -5,8 +5,8 @@ metadata
     Modification date : March 10, 2017
     Version : 3.1.0
     Organization : Model Integration, LLC
-    Copyright notice > MIT_medium
-    Organization logo > mint_large
+    Copyright notice > MIT
+    Organization logo > mint
 domain Air Traffic Control
 class Duty Station
 events

@@ -8,7 +8,7 @@ metadata
     Modification date : May 15, 2021
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
-    Organization logo > mint_large
+    Organization logo > mint
 subsystem Node
 class Annotation Layout
 attributes

@@ -475,7 +475,11 @@ class Layer:
     def render_images(self):
         """Render all images"""
         for i in self.Images:
-            image_surface = cairo.ImageSurface.create_from_png(i.resource_path)
+            try:
+                image_surface = cairo.ImageSurface.create_from_png(i.resource_path)
+            except cairo.Error:
+                self.logger.warning(f"Cannot locate png image file: [{i.resource_path}] -- Skipping")
+                continue
             self.Tablet.Context.set_source_surface(image_surface, i.upper_left.x, i.upper_left.y)
             self.Tablet.Context.paint()
 

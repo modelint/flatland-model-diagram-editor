@@ -5,9 +5,9 @@ diagram class
 notation Starr
 presentation default
 orientation landscape
-sheet D
+sheet C
 color sky
-padding l100 b350
+padding l200 b280
 frame OS Engineer
 frame_presentation default
 nodes
