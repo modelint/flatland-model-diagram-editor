@@ -83,15 +83,21 @@ class Node:
         """Adjust node size to accommodate text content in each compartment"""
         # For all compartments in this node, get the max height and width
         crects = [c.Text_block_size for c in self.Compartments]
+        # Collect height expansion factor per compartment
+        height_expansions = [c.Expansion for c in self.Compartments]
+        z = list(zip(crects,height_expansions))
+        # Compute the crect height expanded for each crect
+        # We cannot just invoke the Compartment.size property as it will trigger infinite recursion
+        # due to the order in which we assemble the node components.  So we need to compute the expansion ourself
+        expanded_node_height = sum([i[0].height + i[0].height * i[1] for i in z])
         # Get the max of each compartment width and the default node type width
         # max_width = max([r.width for r in crects] + [self.Node_type.Default_size.width])
         max_width = max([r.width for r in crects])
         # Height is the sum of all compartment heights
         # Ignore the default node type height for now
         expanded_width = round(max_width + max_width * self.Expansion, 2)
-        node_height = sum([r.height for r in crects])
         # Return a rectangle with the
-        return Rect_Size(height=node_height, width=expanded_width)
+        return Rect_Size(height=expanded_node_height, width=expanded_width)
 
     def Face_position(self, face: NodeFace):
         """
