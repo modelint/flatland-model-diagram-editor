@@ -135,7 +135,9 @@ class XumlStateMachineDiagram:
                                 )
                                 sys.exit(1)
                             try:
-                                t_place = [tp for tp in state_place if tp['cname'] == evname][0]
+                                # Note the and condition to ensure that there is, in fact, a connector name
+                                # before comparing. Initial transitions may not have an associated event
+                                t_place = [tp for tp in state_place if tp.get('cname') and tp['cname'] == evname][0]
                             except IndexError:
                                 self.logger.error(f'Model event [{cname}] does not name any connector in layout.')
                                 sys.exit(1)
@@ -166,8 +168,12 @@ class XumlStateMachineDiagram:
         u_stem = New_Stem(stem_type='to initial state', semantic='initial pseudo state',
                           node=self.nodes[node_ref], face=ustem['face'],
                           anchor=ustem.get('anchor', None), stem_name=None)
-        evname_data = None if not creation_event else ConnectorName(
-            text=creation_event, side=cplace['dir'], bend=cplace['bend'], notch=cplace['notch'], wrap=cplace['wrap'])
+        try:
+            evname_data = None if not creation_event else ConnectorName(
+                text=creation_event, side=cplace['dir'], bend=cplace['bend'], notch=cplace['notch'], wrap=cplace['wrap'])
+        except KeyError:
+            self.logger.error(f'No placement defined for creation event [{creation_event}] entering state [{node_ref}]')
+            sys.exit(1)
         UnaryConnector(
             self.flatland_canvas.Diagram,
             connector_type_name='initial transition',

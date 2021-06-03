@@ -51,7 +51,7 @@ connectors
     +R58 : +/1 r|Decorated Stem : +/1 l*|Symbol, t|Stem End Decoration
     +R59 : -/2 r|Connector Type : +/2 l*|Stem Type
     -R60 : +/2 r|Diagram Notation : -/2 l*|Connector Type, b|Connector Style
-    +R61 : +/1 b|Stem End Decoration : -/1 r|Stem, l|Rendered Symbol
+    +R61 : +/1 b|Stem End Decoration : -/2 r|Stem, l|Rendered Symbol
     -R62 : -/1 b*|Stem Semantic : -/1 t|Stem Type, l|Stem Signification
     -R63 : +/1 r|Diagram : +/1 l*|Connector
     -R65 : b|Anchored Stem { t|Anchored Binary Stem, t|Ternary Stem, t|Anchored Tree Stem, t|Free Stem }
