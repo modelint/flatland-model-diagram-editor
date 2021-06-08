@@ -9,6 +9,7 @@ import argparse
 from pathlib import Path
 from flatland.xuml.xuml_classdiagram import XumlClassDiagram
 from flatland.xuml.xuml_statemachine_diagram import XumlStateMachineDiagram
+from flatland.xuml.xuml_collaboration_diagram import XumlCollaborationDiagram
 from flatland import version
 
 def get_logger():
@@ -128,6 +129,16 @@ def main():
     elif mtype == '.xsm':
         statemodel_diagram = XumlStateMachineDiagram(
             xuml_model_path=model_path,
+            flatland_layout_path=layout_path,
+            diagram_file_path=diagram_path,
+            rebuild=args.rebuild,
+            show_grid=args.grid,
+            nodes_only=args.nodes_only,
+            no_color=args.no_color,
+        )
+    elif mtype == '.ccv':
+        collaboration_diagram = XumlCollaborationDiagram(
+            xuml_view_path=model_path,
             flatland_layout_path=layout_path,
             diagram_file_path=diagram_path,
             rebuild=args.rebuild,

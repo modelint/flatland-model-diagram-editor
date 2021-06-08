@@ -1,0 +1,24 @@
+// int.mls – Intersection collaboration view layout
+diagram class collaboration
+notation Starr
+presentation default
+orientation portrait
+sheet D
+padding l300 b500
+frame TRI MBSE
+frame_presentation default
+nodes
+    // External Entities
+    ROUTE
+    PANEL
+    LANE MONITOR
+    DETECTION
+    DRIVING
+    MOTION
+
+    // lifecycles
+
+    // classes
+
+connectors
+// None yet

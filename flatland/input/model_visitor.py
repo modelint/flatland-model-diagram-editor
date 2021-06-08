@@ -112,7 +112,6 @@ class SubsystemVisitor(PTNodeVisitor):
 
     def visit_class_block(self, node, children):
         """A complete class with attributes, methods, state model"""
-        # TODO: No state models yet
         class_attrs = children[0] | children[1]
         block = class_attrs if len(children) == 2 else class_attrs | children[2]
         return block

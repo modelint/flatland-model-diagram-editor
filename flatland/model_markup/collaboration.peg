@@ -1,0 +1,74 @@
+// Model Markdown Arpeggio Clean Peg Grammar
+// for class collaboration files
+
+// This grammar describes the content of an xUML class collaboration
+
+nl = "\n" // New line
+sp = " " // Single space
+delim = r'[ _]' // Delimiter used inside of names
+indent = "    "  // Need indent for clarity and to signal unstructured lines of text
+rnum = r'O?R[1-9][0-9]*' // Relationship number
+word = r'[A-Za-z][A-Za-z0-9]*' // All caps words for class abbreviations
+block_end = "--" nl?  // Signifies end of a block (within section)
+name = word (delim word)*  // A name is a sequence of one or more words separated by delimiters
+
+// Interactions
+param_list = name (',' sp name)*
+params_out = ' : ' param_list
+params_in = '(' (sp? param_list sp?)? ')'
+mtext = name params_in? params_out?
+
+signal_from = '<'
+signal_to = '>'
+signal = (signal_from / signal_to)
+
+create_signal_to = '<*'
+create_signal_from = '*>'
+create_call_to = '*>>'
+create_call_from = '<<*'
+create = (create_call_to / create_call_from / create_signal_from / create_signal_to)
+
+call_from = '<<'
+call_to = '>>'
+call = (call_from / call_to)
+
+set_to = 'a>>'
+set_from = '<<a'
+attr = (set_to / set_from)
+
+mtype = (attr / call / create / signal)
+message = indent mtype sp mtext nl
+target_actor = indent name nl
+interaction_block = target_actor message+ indent block_end
+actor_block = name nl interaction_block+
+interactions = "interactions" nl actor_block*
+
+// Actors
+nspace_name = r'[A-Z][A-Za-z0-9_]*'
+keyletter = ',' sp nspace_name
+
+class_name = name
+class = indent class_name keyletter? nl
+classes = "classes" nl class*
+lifecycles = "lifecycles" nl class*
+
+assigner = indent rnum nl
+assigners = "assigners" nl assigner*
+
+ee_name = name
+ee = indent ee_name keyletter? nl
+ext_entities = "external entities" nl ee*
+actors = ext_entities? assigners? lifecycles? classes?
+
+// Scope
+domain_header = "domain" sp name nl
+
+// Metadata
+text_item = ':' sp* r'.*' // Field content can be any text
+resource_item = '>' sp* name
+data_item = indent name sp* (resource_item / text_item) nl // Metadata item
+metadata_header = "metadata" nl // Metadata header
+metadata = metadata_header data_item* // Header and set of metadata items
+
+// Collaboration
+collaboration = metadata? domain_header actors interactions? EOF

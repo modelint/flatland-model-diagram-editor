@@ -1,0 +1,182 @@
+metadata
+    Title : Intersection Class Collaboration View
+    Author : Leon Starr
+    Document ID : tri.guidance.ego.td.3
+    Modification date : March 23, 2021
+    Version : 0.0.1
+    Organization : Toyota Research Institute
+    Copyright notice > MIT
+    Organization logo > Toyota
+domain Vehicle Guidance
+external entities
+    LANE MONITOR
+    ROUTE
+    PANEL
+    DETECTION
+    DRIVING
+    MOTION
+
+/// assigners
+///    R12
+///lifecycles
+///    Protected Connector Traversal, PCT
+///    Yielding Connector Traversal, YCT
+///    Turn After Stop Connector Traversal, TASCT
+///    Crosswalk Approach, XA
+///    Planned Movement, PM
+///    Entrance Lane Approach, ELA
+///    Driving Lane Change, DLC
+///    Multi Lane Maneuver, MLM
+///classes
+///    Driving Lane Transition, DLT
+///    Connector Traversal, CT
+///    Planned Crosswalk Traversal, PXT
+///    Oncoming Traffic Yield Requirement, OTY_REQ
+///    Traveling Ego Vehicle, TEV
+///    Cross Traffic Lane, CTL
+///interactions
+///ELA
+///    ROUTE
+///    > Approaching( intersection, target XL )
+///    << Reroute at intersection( EL, intersection ) : target XL
+///    --
+///    MOTION
+///    >> Monitor monitoring El approach( from EL, to XLs, to road segment ) : Go status
+///    >> Stop monitoring El approach( from EL, to XLs, to road segment ) : Go status
+///
+///    < Commit go
+///    < Commit stop
+///    --
+///    MLM
+///    *> Get into lane
+///    a>> Abort requested
+///    < Successful multi lane change
+///    < Unsuccessful multi lane change
+///    --
+///    DRIVING
+///    >> Assume going through intersection
+///    >> Assume stopping at intersection
+///    >> Hold before intersection interface( intersection )
+///    --
+///    MSAI_EL
+///    >> Start watching
+///    >> Stop watching
+///
+///    < EL open
+///    --
+///    PM
+///    > Prepare( lane change approach )
+///    > Proceed along
+///    > Approach changed
+///
+///    < Movement ready
+///    < Follow complete
+///    < Movement abandoned
+///    < Approach from interface
+///    --
+///DLC
+///    LM
+///    >> Target lane designated( Lane number, road segment, conduit )
+///    >> Target lane released( Lane number, road segment, conduit )
+///
+///    < Target lane closed
+///    < Target lane open
+///    --
+///    MLM
+///    > Lane changed
+///    > Cannot complete
+///    <* Driving lane change
+///    --
+///    TEV
+///    < New lane
+///    --
+///    DRIVING
+///    > Maneuver to target lane( dir )
+///    > Return to source lane( inside division, outside division, road segment )
+///
+///    >> Unsafe crossing()
+///    >> Target lane unavailable()
+///    >> Incomplete lane change()
+///    >> Cancel maneuver to target lane()
+///    >> Max lane change exceeded()
+///    >> Lingering cross()
+///    >> Unexpected crossing after lane change()
+///    >> Unexpected crossing during successive lane change inhibition period()
+///    >> Post crossing abort()
+///
+///    < Crossing
+///    < Abort
+///    --
+///DLT
+///    LM
+///    >> Transition ahead( distance, traverable, cross ok )
+///    --
+///TEV
+///    DRIVING
+///    << New lane
+///    --
+///PM
+///    DRIVING
+///    >> Hold at outside encroach( intersection )
+///    >> Hold at inside stop encroach( intersection )
+///    >> Hold at uturn encroach( intersection )
+///    >> Release intersection encroaches( intersection )
+///    >> Relese hold before intersection interface( intersection )
+///    < Passing crosswalk( crosswalk )
+///    --
+///    OTY_REQ
+///    >> Monitor
+///    --
+///    CT
+///    >> Create
+///    < Traversing
+///    < Clear
+///    --
+///    PXT
+///    >> Activate
+///    >> Deactivate
+///    --
+///    MSAI_EL
+///    < EL closed
+///    --
+///QTY_REQ
+///    CTL
+///    >> Create
+///    --
+///YCT
+///    DRIVING
+///    >> Intrude inside go encroach( intersection )
+///    >> Intrude uturn encroach( intersection )
+///    < Passed exit interface
+///    < Holding at exit crosswalk
+///    --
+///    MSAI_EL
+///    < EL closed
+///    --
+///    XA
+///    > Intrude
+///    < Exit crosswalk holds released
+///    --
+///    CTL
+///    < Oncoming traffic
+///    --
+///DETECTION
+///    MSAI_EL
+///    << Begin monitoring signal( EL )
+///    << Stop monitoring signal( EL )
+///    --
+///    XA
+///    > Monitoring activity
+///    > Active
+///    > Inactive
+///
+///    << Begin monitoring pedestrain activity( Crosswalk )
+///    << Stop monitoring pedestrain activity( Crosswalk )
+///    --
+///    CTL
+///    >> Oncoming traffic
+///    >> No traffic
+///
+///    << Begin monitoring traffic( CT lane )
+///    << Stop monitoring traffic( CT lane )
+/// --
