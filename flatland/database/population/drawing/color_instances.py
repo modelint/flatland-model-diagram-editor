@@ -5,6 +5,7 @@ from collections import namedtuple
 population = [
     # Canvas colors
     # Blues
+    {"Name": 'recycle bin', 'R': 131, 'G': 187, 'B': 229, 'Purpose': 'canvas'},
     {"Name": 'sky', 'R': 199, 'G': 227, 'B': 245, 'Purpose': 'canvas'},
     {"Name": 'blue steel', 'R': 159, 'G': 172, 'B': 186, 'Purpose': 'canvas'},
     {"Name": 'teal', 'R': 125, 'G': 181, 'B': 175, 'Purpose': 'canvas'},

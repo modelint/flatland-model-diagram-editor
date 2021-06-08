@@ -341,6 +341,11 @@ class XumlClassDiagram:
                 anchor = None
 
             # Current leaf stem
+            try:
+                node = self.nodes[name]
+            except KeyError:
+                self.logger.error(f'Node name [{name}] missing placement in layout file.')
+                sys.exit(1)
             lstem = New_Stem(stem_type='subclass', semantic='subclass', node=self.nodes[name],
                              face=lfaces[name]['face'], anchor=anchor, stem_name=None)
             leaf_stems.add(lstem)

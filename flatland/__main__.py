@@ -11,6 +11,15 @@ from flatland.xuml.xuml_classdiagram import XumlClassDiagram
 from flatland.xuml.xuml_statemachine_diagram import XumlStateMachineDiagram
 from flatland import version
 
+_logpath = Path("flatland.log")
+
+
+def clean_up(diagnostic=False):
+    """Delete the log file and any other cleanup"""
+    if not diagnostic:
+        # If we didn't crash and no log is explicitly requested, delete it
+        _logpath.unlink(missing_ok=True)
+
 def get_logger():
     """Initiate the logger"""
     log_conf_path = Path(__file__).parent / 'log.conf'  # Logging configuration is in this file
@@ -53,11 +62,13 @@ def main():
 
     if args.version:
         print(f'Flatland version: {version}')
+        clean_up(args.log)
         sys.exit(0)
 
     if args.colors:
         from flatland.drawing_domain.styledb import StyleDB
         StyleDB(print_colors=True, rebuild=args.rebuild)
+        clean_up(args.log)
         sys.exit(0)
 
     if args.examples or args.docs:
@@ -71,6 +82,7 @@ def main():
             if local_ex_path.exists():
                 logger.info("examples already exist in the current directory.")
                 if not args.docs:
+                    clean_up(args.log)
                     sys.exit(1)
             else:
                 shutil.copytree(ex_path, local_ex_path)  # Copy the example directory
@@ -79,6 +91,7 @@ def main():
         if args.docs:
             if local_docs_path.exists():
                 logger.error("documentation already exists in the current directory.")
+                clean_up(args.log)
                 sys.exit(1)
             import shutil
             shutil.copytree(docs_path, local_docs_path)
@@ -92,6 +105,7 @@ def main():
         model_path = Path(args.model)
         if not model_path.is_file():
             logger.error(f"Model file: {args.model} specified on command line not found")
+            clean_up(args.log)
             sys.exit(1)
     else:
         # TODO: Standard input is not yet supported, so this is a placeholder
@@ -102,6 +116,7 @@ def main():
     layout_path = Path(args.layout)
     if not layout_path.is_file():
         logger.error(f"Layout file: {args.layout} specified on command line not found")
+        clean_up(args.log)
         sys.exit(1)
 
     # output file: If no output file is specified, the generated diagram is provided as standard output
@@ -137,11 +152,6 @@ def main():
         )
 
     logger.info("No problemo")  # We didn't die on an exception, basically
-
-    if not args.log:
-        # If we didn't crash and no log is explicitly requested, delete it
-        logpath = Path("flatland.log")
-        logpath.unlink(missing_ok=True)
 
 if __name__ == "__main__":
     main()
