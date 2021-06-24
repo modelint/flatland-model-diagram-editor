@@ -1,0 +1,102 @@
+/// Road Subsystem
+metadata
+    Title : Road Subsystem / Vehicle Guidance Domain
+    Author : Leon Starr
+    Document ID : tri.guidance.road.td.1a
+    Version : 2.0.0
+    /// Creation date : November 25, 2019
+    Modification date : January 28, 2021
+    Organization : Toyota Research Institute
+    Copyright notice > MIT
+    Organization logo > Toyota
+subsystem Road
+class Country
+attributes
+    Name : Country Name {I}
+--
+class Known Map Road
+attributes
+    Road {I, R32}
+    Map name {R32}
+    Region {R32}
+    Country {R32}
+--
+///class Lane Division
+///attributes
+///    ID : Lane Division ID {I}
+///    Road segment {I, I2, R20}
+///    Opposing traffic : Boolean
+///    Temporary : Boolean
+///    Width : Stripe Width
+///    Position : Distance {I2, OR37}
+///--
+class Lane Division <import:Road Subsystem>
+attributes
+    ID : Lane Division ID {I}
+    Road segment {I, I2, R20}
+--
+class Left Road Edge
+attributes
+    Road segment {I, R24}
+--
+class Right Road Edge
+attributes
+    Road segment {I, R24}
+--
+class Road
+attributes
+    ID : Road ID {I}
+    Traffic territory {R8}
+    Country {R8}
+--
+class Road Edge
+attributes
+    Road segment {I, UR15, R40}
+    Side {I} : Left Right
+    Lane division {R40}
+--
+class Road Map Specification, RMAP_SPEC
+attributes
+    Map name : Map Designation {I}
+    Local name : Local Road Name
+    Usage category : Road Usage Category
+    Territory {I, R31}
+    Country {I, R31}
+--
+class Road Segment
+attributes
+    ID : Road Segment ID {I}
+    Grade : Road Grade
+    Pavement : Surface Material
+    Condition : Surface Condition
+    Width : Distance
+    Weathering : Surface Weather
+    Road {R1}
+--
+class Traffic Territory
+attributes
+    Name : Region Name {I}
+    Country {I, R30}
+    Traffic orientation : Left Right
+--
+methods
+    Side conversion( direction: Inside Outside ) : Left Right
+--
+relationships
+    R8
+    driving side is established by, 1 Traffic Territory
+    establishes driving side of, Mc Road
+--
+    R30
+    regulates traffic orientation by, M Traffic Territory
+    defines orientation of traffic in, 1 Country
+--
+    R31
+    administrates, M Road Map Specification
+    is administered by, 1 Traffic Territory
+--
+    R32
+    is identified by, 1c Road Map Specification
+    identifies, Mc Road
+    1 Known Map Road
+--

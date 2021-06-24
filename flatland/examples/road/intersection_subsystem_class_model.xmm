@@ -1,0 +1,278 @@
+metadata
+    Title : Intersection Subsystem / Vehicle Guidance Domain
+    Author : Leon Starr
+    Document ID : tri.guidance.ego.td.5a
+    Version : Version 1.8.2
+    /// Creation date : June 28, 2019
+    Modification date : March 20, 2021
+    Organization : Toyota Research Institute
+    Copyright notice > MIT
+    Organization logo > Toyota
+subsystem Intersection
+class Angular Intersection
+attributes
+    ID {I, R50}
+    Signalized : Signaling System
+--
+class Angular Intersection Entrance Lane, AIEL
+attributes
+    Road segment {I, R60}
+    Inside division {I, R60}
+--
+class Angular Intersection Exit Lane, AIXL
+attributes
+    Road segment {I, R56}
+    Inside division {I, R56}
+--
+class Angular Intersection Lane Connector, AILCONN
+attributes
+    EL road segment {I, R57, R67}
+    EL inside division {I, R57, R67}
+    XL road segment {I, R57, R67}
+    XL inside division {I, R57}
+    Intersection {R67c}
+    Exit conduit {R67c}
+    Available : Boolean
+--
+class Circular Intersection <import:Circular Intersection TBD>
+attributes
+    ID {I, R50}
+--
+class Circular Intersection Entrance Lane, CIEL <import:Circular Intersection TBD>
+attributes
+    Road segment {I, R60}
+    Inside division {I, R60}
+--
+class Circular Intersection Exit Lane, CIXL <import:Circular Intersection TBD>
+attributes
+    Road segment {I, R56}
+    Inside division {I, R56}
+--
+class Conduit <import:Road>
+attributes
+    Road segment {I}
+    Role {I}
+--
+class Conduit Interface, CIF
+attributes
+    Road segment {I, R54}
+    Conduit {I, R54}
+    Intersection {I, R54}
+--
+class Driving Lane <import:Road>
+attributes
+    Inside division {I}
+    Outside division {I}
+    Road segment {I}
+--
+class Entrance Conduit Interface
+attributes
+    Road segment {I, R55}
+    Conduit {I, R55}
+    Intersection {I, R55}
+--
+class Exit Conduit Interface
+attributes
+    Road segment {I, R55}
+    Conduit {I, R55}
+    Intersection {I, R55}
+--
+class Movement
+attributes
+    EL inside division {I, R62}
+    EL road segment {I, R62}
+    Exit conduit road segment {I, R62}
+    Exit conduit {I, R62}
+    Intersection {I, R62}
+--
+methods
+    Indicate() : Turn Indicate
+--
+class Oncoming Traffic Yield Requirement, OTYREQ
+attributes
+    EL road segment {I, R58}
+    EL inside division {I, R58}
+    Exit conduit road segment {I, R58}
+    Exit conduit {I, R58}
+    Oncoming lane inside division {I, R58}
+    Oncoming road segment {I, R58c}
+    Intersection {I,R58}
+    Signal phase : Stop Go
+--
+methods
+    Monitor()
+    Lane clear()
+    Stop monitoring()
+--
+class Intersection
+attributes
+    ID {I}
+--
+class Intersection Entrance Lane, EL
+attributes
+    Inside division {I, R53}
+    Outside division {I2, R53}
+    Road segment {I, I2, R53}
+    Conduit {R53c}
+    Intersection {R53}
+--
+class Intersection Exit Lane, XL
+attributes
+    Inside division {I, R51}
+    Outside division {I2, R51}
+    Road segment {I, I2, R51}
+    Conduit {R51c}
+    Intersection {R51}
+--
+class Intersection Interface, IF
+attributes
+    Road segment {I, R52}
+    Intersection {I, R52}
+--
+class Monitored Signalized Angular Intersection Entrance Lane, MSAIEL
+attributes
+    Road segment {I, R63}
+    Inside division {I, R63}
+    Entry signal : Intersection Entry Signal
+    /Open : Boolean
+--
+class Road Segment <import:Road>
+attributes
+    ID {I}
+--
+class Signalized Angular Intersection Entrance Lane, SIGAIEL
+attributes
+    Road segment {I, R61}
+    Inside division {I, R61}
+--
+methods
+    Start watching()
+    Stop watching()
+--
+class Thru Movement
+attributes
+    EL inside division {I, R65}
+    EL road segment {I, R65}
+    Exit conduit road segment {I, R65}
+    Exit conduit {I, R65}
+    Intersection {I, R65}
+--
+class Turn After Stop Permitted
+attributes
+    EL inside division {I, R64}
+    EL road segment {I, R64}
+    Exit conduit road segment {I, R64}
+    Exit conduit {I, R64}
+    Intersection {I, R64}
+    Entry crosswalk closed on stop : Boolean
+    Exit crosswalk closed on stop : Boolean
+--
+class Turn After Stop Not_Permitted
+attributes
+    EL inside division {I, R64}
+    EL road segment {I, R64}
+    Exit conduit road segment {I, R64}
+    Exit conduit {I, R64}
+    Intersection {I, R64}
+--
+class Turn Movement
+attributes
+    EL inside division {I, R65}
+    EL road segment {I, R65}
+    Exit conduit road segment {I, R65}
+    Exit conduit {I, R65}
+    Intersection {I, R65}
+    Direction : Inside_outside_uturn
+    Closed exit crosswalk on go : Boolean
+--
+class Unmonitored Signalized Angular Intersection Entrance Lane, USAIEL
+attributes
+    Road segment {I, R63}
+    Inside division {I, R63}
+--
+class Unsignalized Angular Intersection Entrance Lane, UNSIGAIEL
+attributes
+    Road segment {I, R61}
+    Inside division {I, R61}
+    Entry policy : Intersection Entry Policy
+--
+relationships
+    R50
+    Intersection +
+        Angular Intersection
+        Circular Intersection
+--
+    R51
+    flows traffic out of intersection through, 1c Exit Conduit Interface
+    flows traffic out of intersection from, M Driving Lane
+    1 Intersection Exit Lane
+--
+    R52
+    is met by, M Road Segment
+    meets, Mc Intersection
+    1 Intersection Interface
+--
+    R53
+    flows traffic into intersection through, 1c Entrance Conduit Interface
+    flows traffic into intersection from, M Driving Lane
+    1 Intersection Entrance Lane
+--
+    R54
+    is crossed by traffic, M Conduit
+    flows traffic across, Mc Intersection Interface
+    1 Conduit Interface
+--
+    R55
+    Conduit Interface +
+        Entrance Conduit Interface
+        Exit Conduit Interface
+--
+    R56
+    Intersection Exit Lane +
+        Angular Intersection Exit Lane
+        Circular Intersection Exit Lane
+--
+    R57
+    legally accepts traffic from, M Angular Intersection Entrance Lane
+    legally directs traffic to, M Angular Intersection Exit Lane
+    1 Angular Intersection Lane Connector
+--
+    R58
+    flows priority traffic across, Mc Turn Movement
+    yields to traffic from, Mc Angular Intersection Entrance Lane
+    1 Oncoming Traffic Yield Requirement
+--
+    R60
+    Intersection Entrance Lane +
+        Angular Intersection Entrance Lane
+        Circular Intersection Entrance Lane
+--
+    R61
+    Angular Intersection Entrance Lane +
+        Unsignalized Angular Intersection Entrance Lane
+        Signalized Angular Intersection Entrance Lane
+--
+    R62
+    is observed to direct movement toward, M Exit Conduit Interface
+    is observed as target of movement from, Mc Signalized Angular Intersection Entrance Lane
+    1 Movement
+--
+    R63
+    Signalized Angular Intersection Entrance Lane +
+        Unmonitored Signalized Angular Intersection Entrance Lane
+        Monitored Signalized Angular Intersection Entrance Lane
+--
+    R64
+    Turn Movement +
+        Turn After Stop Not_Permitted
+        Turn After Stop Permitted
+--
+    R65
+    Movement +
+        Turn Movement
+        Thru Movement
+--
+    R67
+    is guided by, 1 Movement
+    guides, M Angular Intersection Lane Connector
+--

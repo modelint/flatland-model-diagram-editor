@@ -1,0 +1,56 @@
+diagram class
+notation Starr
+presentation default
+orientation landscape
+color recycle bin
+sheet D
+padding b230 r50 l130
+frame TRI MBSE
+frame_presentation default
+nodes
+    Angular Intersection/2 2,2
+    Angular Intersection Entrance Lane/2 9,9
+    Angular Intersection Lane Connector/2 4,11
+    Angular Intersection Exit Lane/2 3,9
+    Circular Intersection Entrance Lane/2 7,7-8 >right
+    Circular Intersection Exit Lane/2 2,8
+    Circular Intersection/2 2,1
+    Conduit 7,2-3
+    Conduit Interface 6,3-4
+    Driving Lane 9,5 : 1-2,5 // 2nd placement after the :
+    Entrance Conduit Interface/2 7,5
+    Exit Conduit Interface 5,5
+    Monitored Signalized Angular Intersection Entrance Lane/2 11,12
+    Movement 7-8,12-13
+    Oncoming Traffic Yield Requirement/2 8,10-11
+    Intersection Entrance Lane/2 8,6
+    Intersection Exit Lane/2 2-3,6
+    Intersection Interface/2 5,2-3
+    Intersection 4,1-2
+    Turn After Stop Not_Permitted 9,16
+    Turn After Stop Permitted 7,16
+    Thru Movement 6,14
+    Turn Movement 8,14
+    Road Segment 6,1-2 
+    Signalized Angular Intersection Entrance Lane/2 11,9-10
+    Unmonitored Signalized Angular Intersection Entrance Lane/2 12,12
+    Unsignalized Angular Intersection Entrance Lane/2 11,8
+connectors
+    +R50 : b|Intersection { t|Circular Intersection, t|Angular Intersection }
+    -R51 : -/2 b|Exit Conduit Interface : -/3 t*|Driving Lane.2, l|Intersection Exit Lane
+    -R52 : -/1 b*|Road Segment : +/1 t|Intersection, l|Intersection Interface
+    -R53 : -/2 t|Entrance Conduit Interface : +/3 b*|Driving Lane, l|Intersection Entrance Lane
+    -R54 : +/2 b*|Conduit : +/2 t|Intersection Interface, l|Conduit Interface
+    -R55 : r|Conduit Interface { l|Entrance Conduit Interface, l|Exit Conduit Interface }
+    -R56 : r|Intersection Exit Lane { l|Circular Intersection Exit Lane, l|Angular Intersection Exit Lane }
+
+    -R57 : +/2 b|Angular Intersection Entrance Lane : +/2 t*|Angular Intersection Exit Lane, l|Angular Intersection Lane Connector
+    +R58.2 : +/2 t|Turn Movement : +/2 r|Angular Intersection Entrance Lane, t|Oncoming Traffic Yield Requirement
+
+    +R60 : r|Intersection Entrance Lane { l|Circular Intersection Entrance Lane, l|Angular Intersection Entrance Lane }
+    -R61 : t|Angular Intersection Entrance Lane { b|Unsignalized Angular Intersection Entrance Lane, b|Signalized Angular Intersection Entrance Lane }
+    +R62.2 : +/2 r|Exit Conduit Interface : -/2 r-2|Signalized Angular Intersection Entrance Lane, l|Movement : L11R+2
+    +R63 : r+2|Signalized Angular Intersection Entrance Lane { l|Unmonitored Signalized Angular Intersection Entrance Lane, l|Monitored Signalized Angular Intersection Entrance Lane }
+    +R64 : r|Turn Movement { l|Turn After Stop Not_Permitted, l|Turn After Stop Permitted }
+    +R65 : r|Movement { l|Turn Movement, l|Thru Movement }
+    +R67 : +/1 b|Movement : +/1 r|Angular Intersection Lane Connector

@@ -1,0 +1,31 @@
+// Ego Vehicle Subsystem Layout Sheet
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet D
+padding l130 b230
+frame TRI MBSE
+frame_presentation default
+nodes
+    Lane Change Behavior Specification 7,1
+    Personality 7,3
+    Ego Vehicle 7,5
+    Road 9,5
+    On Road Ego Vehicle/2 8,6
+    Non Traveling Ego Vehicle/2 9,8 >left
+    Traveling Ego Vehicle/2 7-8,8
+    Driving Lane 7-8,11
+    Active Driving Lane 6,9-10
+    Driving Lane Change 8-9,12-13
+    Multi Lane Maneuver 9-10,9-10
+    Lane Configuration Segment/2 5,8
+connectors
+    -R150 : +/1 b*|Road : +/2 t|Ego Vehicle, l|On Road Ego Vehicle
+    +R151 : +/2 r|Traveling Ego Vehicle : +/1 l*|Driving Lane, t|Active Driving Lane
+    -R152.2 : +/1 r|Multi Lane Maneuver : -/2 t+2|Driving Lane, l|Driving Lane Change
+    +R153 : +/2 r|Personality : -/2 l*|Ego Vehicle
+    +R154 : +/1 r|Lane Change Behavior Specification : -/1 l*|Personality
+    +R156 : r|On Road Ego Vehicle { l|Non Traveling Ego Vehicle, l|Traveling Ego Vehicle }
+    -R157.2 : -/2 t+2|Traveling Ego Vehicle : -/1 t-2|Driving Lane, b|Multi Lane Maneuver : L8R+2
+    +R158 : +/1 b*|Traveling Ego Vehicle : -/1 t|Lane Configuration Segment

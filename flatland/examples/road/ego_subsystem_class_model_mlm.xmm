@@ -1,0 +1,145 @@
+/// Ego Vehicle Subsystem Model (Multilane Maneuver Only)
+metadata
+    Title : Ego Vehicle Subsystem MultiLane Maneuver / Vehicle Guidance Domain
+    Author : Leon Starr
+    Document ID : tri.guidance.ego.td.1a
+    Version : Version 1.6.0
+    /// Creation date : November 25, 2019
+    Modification date : April 15, 2021
+    Organization : Toyota Research Institute
+    Copyright notice > MIT
+    Organization logo > Toyota
+subsystem Ego Vehicle
+class Active Driving Lane, ADL
+attributes
+    Ego {I, R151}
+    Current lane inside division {I2, R151}
+    Current lane outside division {I2, R151}
+    Road segment {I2, R151}
+    /Inner division traversable : Boolean
+    /Outer division traversable : Boolean
+--
+class Driving Lane, DL <import:Road>
+attributes
+    Inside division {I}
+    Outside division {I}
+    Road segment {I}
+--
+class Driving Lane Change, DLC
+attributes
+    Ego {I, R152}
+    Target lane inside division {I2, R152c}
+    Target lane outside division {I2, R152c}
+    Road segment {I2, R152}
+    Target lane open : Boolean = false
+    Traverse ok : Boolean = false
+    Premature crossing : Boolean = false
+    Lingering crossing : Boolean = false
+    Max lane change time exceeded : Boolean = false
+--
+methods
+    Start monitoring target lane()
+    Stop monitoring target lane()
+    Lane status()
+--
+class Ego Vehicle, EV
+attributes
+    ID : Ego ID
+    Personality {R153}
+    Speed : Speed
+    Heading : Heading
+    Mass : Mass
+--
+class Lane Change Behavior Specification, LCBS
+attributes
+    Personality {I, R154}
+    Max wait for open space : Duration
+    Max maneuver duration : Duration
+    Max lane change duration : Duration
+    Min advance indication : Duration
+    Min complete indication : Duration
+    Successive lane change inhibit period : Duration
+--
+class Lane Configuration Segment, LCS <import:Lane Reconfiguration>
+attributes
+    ID : LCS ID {I}
+    Road segment {I}
+--
+class Multi Lane Maneuver, MLM
+attributes
+    Ego {I, R157}
+    Target lane inside divison {I2, R157c}
+    Target lane outside division {I2, R157c}
+    Road segment {I2, R157}
+    Direction : Inner Outer
+    Completion turn signal : Turn Indicate
+    /Turn direction : Left Right
+    Abort requested : Boolean = false
+--
+class Non Traveling Ego Vehicle, EVNT
+attributes
+    Ego {I, R156}
+--
+class On Road Ego Vehicle, RDEGO
+attributes
+    Ego {I, R150}
+    Road {I2, R150}
+--
+class Personality
+attributes
+    Name : Personality Name {I}
+--
+class Road <import:Road>
+attributes
+    ID {I}
+--
+class Traveling Ego Vehicle, EVTRAV
+attributes
+    Ego {I, R156}
+    LCS {R158}
+    LCS road segment {R158c}
+--
+methods
+    New lane( inside: Lane Division ID,
+              outside: Lane Division ID )
+    Update LCS( lcs: LCS ID, inside: Lane Division ID,
+                outside: Lane Division ID )
+--
+relationships
+    R150
+    is driving on, 1c Road
+    is being driven on, 1c Ego Vehicle
+    1 On Road Ego Vehicle
+--
+    R151
+    is current path of travel for, 1c Traveling Ego Vehicle
+    is traveling in, 1 Driving Lane
+    1 Active Driving Lane
+--
+    R152
+    is traversed by, 1c Multi Lane Maneuver
+    needs to traverse, 1 Driving Lane
+    1 Driving Lane Change
+--
+    R153
+    behavior is tuned by, 1c Personality
+    tunes behavior of, 1 Ego Vehicle
+--
+    R154
+    defines, 1 Lane Change Behavior Specification
+    is defined for, 1 Personality
+--
+    R156
+    On Road Ego Vehicle +
+        Non Traveling Ego Vehicle
+        Traveling Ego Vehicle
+--
+    R157
+    is desired lane of, 1c Traveling Ego Vehicle
+    wants to get into, 1c Driving Lane
+    1 Multi Lane Maneuver
+--
+    R158
+    envelopes path of, 1c Traveling Ego Vehicle
+    is driving through, 1 Lane Configuraton Segment
+--

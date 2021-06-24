@@ -1,0 +1,25 @@
+// Road Class Diagram
+diagram class
+notation Starr
+presentation default
+orientation landscape
+sheet E
+padding l130 b230
+frame TRI MBSE
+frame_presentation default
+nodes
+    Road Map Specification 4,1
+    Traffic Territory 2,1
+    Country 1-2,4
+    Known Map Road 3,3
+    Road 4,5
+    Road Edge 1,9
+    Road Segment 4,9
+    Left Road Edge 2,8
+    Right Road Edge 2,10
+    Lane Division 6,9
+connectors
+    +R8 : +/2 r+1|Traffic Territory : -/2 b|Road
+    +R30 : +/2 r-2|Traffic Territory : -/2 l*|Country
+    +R31 : -/1 t|Traffic Territory : +/1 b*|Road Map Specification
+    +R32 : +/1 r|Road Map Specification : -/1 l*|Road, t|Known Map Road
