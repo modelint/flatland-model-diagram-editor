@@ -192,9 +192,14 @@ class XumlClassDiagram:
                 # But if a node is duplicated, i will not be 0 and we add a suffix to the node
                 # name for the additional cplace
                 node_name = cname if i == 0 else f'{cname}_{i+1}'
+                same_subsys_import = True if not import_subsys_name and i > 0 else False
+                # first placement (i==0) may or may not be an imported class
+                # But all additional placements must be imported
+                # If import_subsys_name is blank and i>0, the import is from the same (not external) subsystem
+                node_type_name = 'imported class' if import_subsys_name or same_subsys_import else 'class'
                 if len(row_span) == 1 and len(col_span) == 1:
                     nodes[node_name] = SingleCellNode(
-                        node_type_name='class' if not import_subsys_name else 'imported class',
+                        node_type_name=node_type_name,
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
                         row=row_span[0], column=col_span[0],
@@ -209,7 +214,7 @@ class XumlClassDiagram:
                     left_col = col_span[0]
                     right_col = left_col if len(col_span) == 1 else col_span[1]
                     nodes[node_name] = SpanningNode(
-                        node_type_name='class' if not import_subsys_name else 'imported class',
+                        node_type_name=node_type_name,
                         content=text_content,
                         grid=self.flatland_canvas.Diagram.Grid,
                         low_row=low_row, high_row=high_row,

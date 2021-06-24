@@ -21,19 +21,14 @@ attributes
     Region {R32}
     Country {R32}
 --
-///class Lane Division
-///attributes
-///    ID : Lane Division ID {I}
-///    Road segment {I, I2, R20}
-///    Opposing traffic : Boolean
-///    Temporary : Boolean
-///    Width : Stripe Width
-///    Position : Distance {I2, OR37}
-///--
-class Lane Division <import:Road Subsystem>
+class Lane Division
 attributes
     ID : Lane Division ID {I}
     Road segment {I, I2, R20}
+    Opposing traffic : Boolean
+    Temporary : Boolean
+    Width : Stripe Width
+    Position : Distance {I2, OR37}
 --
 class Left Road Edge
 attributes

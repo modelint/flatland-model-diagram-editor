@@ -17,7 +17,7 @@ nodes
     Road Segment 4,9
     Left Road Edge 2,8
     Right Road Edge 2,10
-    Lane Division 6,9
+    Lane Division 6,9 : 1,6
 connectors
     +R8 : +/2 r+1|Traffic Territory : -/2 b|Road
     +R30 : +/2 r-2|Traffic Territory : -/2 l*|Country
