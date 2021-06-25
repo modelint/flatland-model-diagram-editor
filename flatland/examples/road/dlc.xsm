@@ -1,0 +1,324 @@
+metadata
+    Title : Driving Lane Change State Machine Diagram
+    Author : Leon Starr
+    Document ID : tri.guidance.ego.td.3
+    Modification date : March 23, 2021
+    Version : 5.1.6
+    Organization : Toyota Research Institute
+    Copyright notice > MIT
+    Organization logo > Toyota
+domain Vehicle Guidance
+class Driving Lane Change
+events
+    Abort
+    Adequate indication
+    Cancel precross
+    Crossing
+    Crossing completed
+    Crossing timeout
+    Delayed lane change
+    Escape ok
+    Failed
+    In target lane
+    In wrong lane
+    Indication complete
+    Inhibit
+    Inhibit released
+    In source lane
+    Lane change timeout
+    Lingering cross
+    Returning to lane
+    *Shift lane
+    Stay in lane
+    Target lane closed
+    Target lane open
+    Target lane monitoring stopped
+    Target lane unavailable
+    Target opening timeout
+    Wait for next opportunity
+    Unsafe crossing
+--
+/// Core lifecycle, ideal path
+state Start monitoring target lane *Shift lane
+activity
+    Lane change timeout -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Max lane change duration
+
+    Target lane open = Start monitoring target lane()
+    Target lane open? Escape ok -> : Stay in lane -> me
+transitions
+    Stay in lane > WAITING FOR ENTRY SPACE
+    Escape ok > INTENT PREINDICATION
+--
+state WAITING FOR ENTRY SPACE
+activity
+    // Remain in the source lane without indicating
+    // until we can escape or we run out of time, whichever comes first
+
+    Target opening timeout -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Max wait for open space
+transitions
+    Target lane open > INTENT PREINDICATION
+    Crossing > Flag unsafe lane change
+    Target opening timeout > Target lane unavailable
+    Abort > Abort before entry
+    Lane change timeout > Timeout before entry
+--
+state INTENT PREINDICATION
+activity
+    !* Target opening timeout -> me // Cancel entry space timeout PANEL.Indicate( direction: Turn direction )
+    Adequate indication -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Min advance indication
+transitions
+    Adequate indication > PRE CROSS MANEUVER
+    Target lane closed > Target closed during indication
+    Crossing > Flag unsafe lane change
+    Lane change timeout > Not enough time during preindication
+    Abort > Abort during preindication
+--
+state PRE CROSS MANEUVER
+activity
+    Maneuver to target lane(dir: /R152/MLM.Turn direction) => DRIVING
+    Crossing timeout -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Max maneuver duration
+transitions
+    Crossing > CROSSING
+    Target lane closed > Aborted crossing
+    Lane change timeout > Lane change timed out after preindication
+    Crossing timeout > Cancel delayed cross
+    Abort > Abort during precross
+--
+state CROSSING
+activity
+transitions
+    Crossing completed > Stop monitoring target lane
+    Crossing timeout > Flag lingering cross
+    Target lane closed > Aborted crossing
+    Abort > Aborted crossing
+    Lane change timeout > Stalled crossing
+--
+state Stop monitoring target lane
+activity
+    Stop monitoring target lane()
+    Target lane monitoring stopped -> me
+    not Lingering crossing? !* Crossing timeout -> me
+    Indication complete -> me @
+        Ego Vehicle(1)/R153/R154/Lane Change Behavior Specification.Min complete indication
+transitions
+    Target lane monitoring stopped > INTENT POSTINDICATION
+--
+state INTENT POSTINDICATION
+activity
+transitions
+    Indication complete > Start inhibit phase
+    Lane change timeout > Flag delayed maneuver postindication
+    Crossing > Cross during postindication
+    Abort > Post crossing abort
+--
+state Start inhibit phase
+activity
+    PANEL.Indicate( direction: .cancel )
+    Inhibit released -> me @ Ego Vehicle(1)/R153/R154/Lane Change Behavior
+        Specification.Successive lane change inhibit period
+    Inibit -> me
+transitions
+    Inhibit > INHIBITING SUCCESSIVE LANE CHANGE
+--
+state INHIBITING SUCCESSIVE LANE CHANGE
+activity
+transitions
+    Inhibit released > Verify lane
+    Lane change timeout > Flag delayed maneuver inhibit successive
+    Abort > Inhibit preemption
+    Crossing > Cross during successive lane change inhibit period
+--
+state Verify lane
+activity
+    not Max lane change time exceeded? !* Lane change timeout -> me
+    /R152/DL == /R152/MLM/R157/DL?
+        In target lane -> : Wrong lane -> me
+transitions
+    In target lane > Successful lane change
+    In wrong lane > Ended up in wrong lane
+--
+state Successful lane change !*
+activity
+    Lane changed -> /R152/MLM
+--
+///
+/// Recovery states (no need to abandon behavior)
+///
+state Target closed during indication
+activity
+    PANEL.Indicate( direction: .cancel )
+    !* Adequate indication -> me
+    Wait for next opportunity -> me
+transitions
+    Wait for next opportunity > WAITING FOR ENTRY SPACE
+--
+state Flag unsafe lane change
+activity
+    !* Target opening timeout -> me
+    !* Adequate indication -> me
+    Premature crossing.set()
+    DRIVING.Unsafe crossing()
+    PANEL.Indicate(direction: /R152/MLM.Turn direction)
+    Unsafe crossing -> me
+transitions
+    Unsafe crossing > CROSSING
+--
+state Flag lingering cross
+activity
+    DRIVING.Lingering cross()
+    Lingering cross.set()
+    Lingering cross -> me
+transitions
+    Lingering cross > CROSSING
+--
+state Flag delayed maneuver postindication
+activity
+    Max lane change time exceeded.set()
+    DRIVING.Max lane change time exceeded()
+    Delayed lane change -> me
+transitions
+    Delayed lane change > INTENT POSTINDICATION
+--
+state Flag delayed maneuver inhibit successive
+activity
+    Max lane change time exceeded.set()
+    DRIVING.Max lane change time exceeded()
+    Delayed lane change -> me
+transitions
+    Delayed lane change > INHIBITING SUCCESSIVE LANE CHANGE
+--
+state Stalled crossing !*
+activity
+    Max lane change time exceeded.set()
+    DRIVING.Max lane change time exceeded()
+    Cannot complete -> /R152/MLM
+--
+///
+/// Error states (abandon behavior)
+///
+state Timeout before entry
+activity
+    !* Target opening timeout -> me
+    Failed -> me
+transitions
+    Failed > Pre cross fail
+--
+state Abort before entry
+activity
+    !* Target opening timeout -> me
+    !* Lane change timeout -> me
+    Failed -> me
+transitions
+    Failed > Pre cross fail
+--
+state Target lane unavailable
+activity
+    !* Lane change timeout -> me
+    DRIVING.Target lane unavailable()
+    Failed -> me
+transitions
+    Failed > Pre cross fail
+--
+state Not enough time during preindication
+activity
+    !* Adequate indication -> me
+    Failed -> me
+transitions
+    Failed > Pre cross fail
+--
+state Abort during preindication
+activity
+    !* Adequate indication -> me
+    !* Lane change timeout -> me
+    Failed -> me
+transitions
+    Failed > Pre cross fail
+--
+state Aborted crossing
+activity
+    not Lingering crossing? !* Crossing timeout -> me
+    not Max lane change time exceeded? !* Lane change timeout -> me
+    PANEL.Indicate( direction: .cancel )
+    dl = /R152/Driving Lane
+    Return to source lane( dl.Inside division, dl.Outside division, dl.Road segment
+        ) => DRIVING
+    Returning to lane -> me
+    Stop monitoring target lane()
+transitions
+    Returning to lane > RETURNING TO SOURCE LANE
+--
+state RETURNING TO SOURCE LANE
+activity
+    // Waiting for return to complete
+transitions
+    In source lane > Back in source lane
+--
+state Cancel precross
+activity
+    DRIVING.Cancel maneuver to target lane()
+    PANEL.Indicate(direction: .cancel)
+    Failed -> me
+transitions
+    Failed > Pre cross fail
+--
+state Lane change timed out after preindication
+activity
+    !* Crossing timeout -> me
+    Cancel precross -> me
+transitions
+    Cancel precross > Cancel precross
+--
+state Cancel delayed cross
+activity
+    !* Lane change timeout -> me
+    Cancel precross -> me
+transitions
+    Cancel precross > Cancel precross
+--
+state Abort during precross
+activity
+    !* Crossing timeout -> me
+    !* Lane change timeout -> me
+    Cancel precross -> me
+transitions
+    Cancel precross > Cancel precross
+--
+state Back in source lane !*
+activity
+    Cannot complete -> /R152/MLM
+--
+state Pre cross fail !*
+activity
+    Cannot complete -> /R152/MLM
+    Stop monitoring target lane()
+--
+state Cross during postindication !*
+activity
+    !* Indication complete-> me
+    not Max lane change time exceeded? !* Lane change timeout -> me
+    DRIVING.Unexpected crossing after lane change()
+--
+state Post crossing abort !*
+activity
+    !* Indication complete-> me
+    not Max lane change time exceeded? !* Lane change timeout -> me
+    DRIVING.Post crossing abort()
+--
+state Inhibit preemption !*
+activity
+    !* Inhibit released -> me
+    DRIVING.Incomplete lane change()
+--
+state Cross during successive lane change inhibit period !*
+activity
+    not Max lane change time exceeded? !* Lane change timeout -> me
+    DRIVING.Unexpected crossing during successive lane change inhibition period()
+--
+state Ended up in wrong lane !*
+activity
+    Cannot complete -> /R152/MLM
+--

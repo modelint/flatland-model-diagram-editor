@@ -1,0 +1,123 @@
+// dlc.mls – Simplified Driving Lane Change for flatland example
+diagram state machine
+notation xUML
+presentation default
+orientation landscape
+sheet E
+color aluminum
+padding l300 b450
+frame TRI MBSE
+frame_presentation default
+nodes
+    // Core lifecycle
+    Start monitoring target lane 22,3-4 <ideal>
+    WAITING FOR ENTRY SPACE [C2]50% 19-20,3-4 >right <ideal>
+    Target closed during indication 19,2 >right <recovery>
+    INTENT PREINDICATION 17,3 <ideal>
+    PRE CROSS MANEUVER [C2]75% 15,3 <ideal>
+    CROSSING 350% 13,3 <ideal>
+    Stop monitoring target lane 11,3 <ideal>
+    INTENT POSTINDICATION 9,3 <ideal>
+    Start inhibit phase 7,3 <ideal>
+    INHIBITING SUCCESSIVE LANE CHANGE 5,3 <ideal>
+    Verify lane 3,3 <ideal>
+    Successful lane change 1,3 <ideal>
+    // Recover states
+    Flag unsafe lane change 17,1 <recovery>
+    Flag lingering cross 14,2 >right <recovery>
+    Flag delayed maneuver postindication 10,2 <recovery>
+    Flag delayed maneuver inhibit successive 6,2 <recovery>
+    Stalled crossing 12,5 <error>
+    // Error states
+    Timeout before entry 21,6 <error>
+    Abort before entry 20,6 <error>
+    Target lane unavailable 19,6 <error>
+    Not enough time during preindication 18,6 <error>
+    Abort during preindication 17,6 <error>
+    Aborted crossing 13,5 <error>
+    RETURNING TO SOURCE LANE 13,7 <error>
+    Back in source lane 13,9 <error>
+    Pre cross fail [C2]1200% 17-22,8 <error>
+    Cancel precross [C2]200% 14-15,8 <error>
+    Lane change timed out after preindication 16,6 <error>
+    Cancel delayed cross 15,6 >top <error>
+    Abort during precross 14,6 <error>
+    Cross during postindication 9,5 <error>
+    Post crossing abort 8,5 <error>
+    Inhibit preemption 6,5 <error>
+    Cross during successive lane change inhibit period 5,5 <error>
+    Ended up in wrong lane 3,5 <error>
+connectors
+    // Core lifecycle (green and blue states)
+    +Shift lane : t-2|Start monitoring target lane
+    +Stay in lane : b*|Start monitoring target lane : t|WAITING FOR ENTRY SPACE
+
+    -Target lane open : b-2|WAITING FOR ENTRY SPACE : t*|INTENT PREINDICATION
+    +Crossing : l+2|WAITING FOR ENTRY SPACE : t|Flag unsafe lane change
+
+    -Crossing-2 : l-1|INTENT PREINDICATION : r*|Flag unsafe lane change
+    +Adequate indication : b|INTENT PREINDICATION : t*|PRE CROSS MANEUVER
+    +Target lane closed.2+2 : l+1|INTENT PREINDICATION : b|Target closed during indication
+
+    -Unsafe crossing.2+2 : b|Flag unsafe lane change : l-1|CROSSING
+    +Crossing : b|PRE CROSS MANEUVER : t*|CROSSING
+    +Lingering cross.2-1 : b|Flag lingering cross : l+1|CROSSING
+
+    +Crossing timeout.2-2 : t-1|CROSSING : r|Flag lingering cross
+    -Crossing completed : b|CROSSING : t*|Stop monitoring target lane
+
+    +Target lane monitoring stopped : b|Stop monitoring target lane : t*|INTENT POSTINDICATION
+    +Delayed lane change.2 : b|Flag delayed maneuver postindication : l|INTENT POSTINDICATION
+
+    +Lane change timeout.2-2 : t-2|INTENT POSTINDICATION : r|Flag delayed maneuver postindication
+    +Indication complete-2 : b|INTENT POSTINDICATION : t*|Start inhibit phase
+
+    +Inhibit : b|Start inhibit phase : t*|INHIBITING SUCCESSIVE LANE CHANGE
+    +Delayed lane change.2 : b|Flag delayed maneuver inhibit successive : l|INHIBITING SUCCESSIVE LANE CHANGE
+
+    +Lane change timeout.2-2 : t-2|INHIBITING SUCCESSIVE LANE CHANGE : r|Flag delayed maneuver inhibit successive
+    +Inhibit released : b|INHIBITING SUCCESSIVE LANE CHANGE : t*|Verify lane
+
+    -Escape ok+2 : b*|Start monitoring target lane : t|INTENT PREINDICATION
+    +Wait for next opportunity-2 : r+1|Target closed during indication : l*|WAITING FOR ENTRY SPACE
+    +In target lane : b|Verify lane : t*|Successful lane change
+
+    b|Successful lane change
+    r|Back in source lane
+
+    // Controlled abort (red states)
+    +Failed : r|Timeout before entry : l*|Pre cross fail
+    +Failed : r|Abort before entry : l*|Pre cross fail
+    +Failed : r|Target lane unavailable : l*|Pre cross fail
+    +Failed : r|Not enough time during preindication : l*|Pre cross fail
+    +Failed : r|Abort during preindication : l*|Pre cross fail
+    +Failed : t|Cancel precross : b*|Pre cross fail
+    +Lane change timeout.2+1 : t+2|WAITING FOR ENTRY SPACE : l|Timeout before entry
+    +Lane change timeout.2+1 : t+2|INTENT PREINDICATION : l|Not enough time during preindication
+    +Abort : r|INTENT PREINDICATION : l*|Abort during preindication
+    +Abort+2 : r+2|WAITING FOR ENTRY SPACE : l*|Abort before entry
+    +Target lane closed.2-1 : r-2|PRE CROSS MANEUVER : t|Aborted crossing
+    +Target lane closed+1 : r|CROSSING : l*|Aborted crossing
+    +Abort.2+2 : b+2|CROSSING : l-2|Aborted crossing
+    -Returning to lane-1 : r|Aborted crossing : l*|RETURNING TO SOURCE LANE
+    +In source lane : r|RETURNING TO SOURCE LANE : l*|Back in source lane
+    +Target opening timeout+1 : r*|WAITING FOR ENTRY SPACE : l|Target lane unavailable
+    r|Pre cross fail
+    +Lane change timeout.2+2 : t+2|PRE CROSS MANEUVER : l|Lane change timed out after preindication
+    +Cancel precross : r|Lane change timed out after preindication : t-2|Cancel precross
+    +Cancel precross : r|Cancel delayed cross : l*|Cancel precross
+    +Cancel precross : r|Abort during precross : l*|Cancel precross
+    +Crossing timeout+1 : r*|PRE CROSS MANEUVER : l|Cancel delayed cross
+    +Abort.3 : r|PRE CROSS MANEUVER : l|Abort during precross : L5R+2
+    +Lane change timeout.2+1 : b+1|CROSSING : l|Stalled crossing
+    r|Cross during postindication
+    r|Stalled crossing
+    +Crossing+2 : r|INTENT POSTINDICATION : l*|Cross during postindication
+    r|Post crossing abort
+    +Abort.2+2 : b+2|INTENT POSTINDICATION : l|Post crossing abort
+    +Abort.2+2 : t+2|INHIBITING SUCCESSIVE LANE CHANGE : l|Inhibit preemption
+    +Crossing+2 : r|INHIBITING SUCCESSIVE LANE CHANGE : l*|Cross during successive lane change inhibit period
+    r|Inhibit preemption
+    r|Cross during successive lane change inhibit period
+    r|Ended up in wrong lane
+    +In wrong lane+2 : r|Verify lane : l*|Ended up in wrong lane
