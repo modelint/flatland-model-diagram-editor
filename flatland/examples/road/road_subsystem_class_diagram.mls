@@ -3,23 +3,100 @@ diagram class
 notation Starr
 presentation default
 orientation landscape
+color peach
 sheet E
-padding l130 b230
+padding l500 b400
 frame TRI MBSE
 frame_presentation default
 nodes
     Road Map Specification 4,1
     Traffic Territory 2,1
-    Country 1-2,4
+    Country 2,4 >bottom
     Known Map Road 3,3
     Road 4,5
     Road Edge 1,9
     Road Segment 4,9
     Left Road Edge 2,8
     Right Road Edge 2,10
-    Lane Division 6,9 : 1,6
+    Lane Division 6-7,8-9 : 1,6
+    Division Transition 6-7,6
+    Barrier Type 7,2
+    Hard Division Transition/2 7,4-5
+    Soft Division Transition/2 6,4-5
+    Lane 10,8
+    Lateral Lane Boundary/2 10,4-5
+    Start Of Lane 11,6
+    End Of Lane 9,6
+    Shared Road Segment/2 6,11 >bottom
+    Bidirectional Lane 9-10,11-12
+    Unidirectional Lane 11,11-12
+    Lane Configuration Segment/2 12,14
+    Lane Arrangement 13,12-13
+    Dedicated Bike Lane 16-17,9
+    Shoulder Lane 16-17,7-8
+    Inside Shoulder 18,7
+    Outside Shoulder 18,8
+    Parking Lane 16-17,6
+    Exclusion Lane 16-17,5
+    Island 16-17,3
+    Non Driving Lane 15,8
+    Restriction Specification 19,14
+    Restricted Driving Lane/2 17,14
+    Unrestricted Driving Lane/2 17,15
+    Driving Lane 15,14-15
+    Driving Lane Order 15,11-12
+    Shared Single Road Lane 8,11
+    Flow Separator 7-8,12-13
+    Median 7,14
+    Center Turn Lane 8,14
+    Two Way Road Segment/2 4,12 >top
+    One Way Road Segment/2 3,11-12
+    Forward Paired Conduit/2 5,14
+    Reverse Paired Conduit/2 4,14 >bottom
+    Paired Conduit 4,15-16
+    Unpaired Conduit 3,15-16
+    Conduit 3-4,17 : 19-20,7-8
 connectors
+    +R1 : +/2 l|Road Segment : +/2 r*|Road
+    +R2-2 : +/2 l|Forward Paired Conduit : +/2 t+2|Two Way Road Segment
+    +R3 : r+1|Road Segment { l|Shared Road Segment, l|Two Way Road Segment, l|One Way Road Segment : L10R+2 }
+    +R4 : -/2 l|Reverse Paired Conduit : -/2 b+2|Two Way Road Segment
+    -R5 : +/2 r|One Way Road Segment : -/2 l*|Unpaired Conduit
+    +R6 : l|Paired Conduit { r|Forward Paired Conduit, r|Reverse Paired Conduit }
+    -R7 : l|Conduit { r|Paired Conduit, r|Unpaired Conduit }
     +R8 : +/2 r+1|Traffic Territory : -/2 b|Road
+    +R9 : +/1 r|Unidirectional Lane : -/3 t|Conduit
+    +R10 : t|Unidirectional Lane { b|Non Driving Lane, b|Driving Lane : L14 }
+    -R11 : t|Driving Lane { b|Restricted Driving Lane, b|Unrestricted Driving Lane }
+    +R12 : +/2 b-2|Flow Separator : -/2 t*|Two Way Road Segment
+    +R13-1 : r|Flow Separator { l|Center Turn Lane, l|Median }
+    +R14-1 : l|Division Transition { r|Hard Division Transition, r|Soft Division Transition }
+    +R15 : t|Road Edge { b|Left Road Edge, b|Right Road Edge }
+    +R16 : t|Non Driving Lane { b|Exclusion Lane, b|Parking Lane, b|Shoulder Lane, b|Dedicated Bike Lane }
+    +R17 : +/2 b|Shared Single Road Lane : -/2 t*|Shared Road Segment
+    -R18 : b|Bidirectional Lane { t|Shared Single Road Lane, t|Center Turn Lane }
+    +R19 : r+1|Lane { l|Unidirectional Lane, l|Bidirectional Lane }
+    +R20 : +/2 b+1|Lane Division : -/1 t*|Road Segment
+    +R21.3+1 : -/2 l+2|Lane Division : +/3 t-2|Lane Division, b|Lane : L8R-1 L7R+2
+    +R22.2 : -/2 r-2|Lane : +/2 t+2|Road Segment
+    +R23 : +/2 t|Right Road Edge : +/2 r-2|Road Segment
+    -R24 : -/2 t|Left Road Edge : +/2 l-2|Road Segment
+    +R25 : +/1 l|Exclusion Lane : +/1 r*|Island
+    +R26 : +/1 r|Start Of Lane : -/1 t-2|Lane
+    -R27.2 : +/1 r|End Of Lane : -/1 b-2|Lane
+    -R28 : r|Lateral Lane Boundary { l|Start Of Lane, l|End Of Lane }
+    +R29.2-2 : -/2 t|Lane Arrangement : -/1 l|Driving Lane, r|Driving Lane Order
     +R30 : +/2 r-2|Traffic Territory : -/2 l*|Country
     +R31 : -/1 t|Traffic Territory : +/1 b*|Road Map Specification
     +R32 : +/1 r|Road Map Specification : -/1 l*|Road, t|Known Map Road
+    +R33 : t|Shoulder Lane { b|Inside Shoulder, b|Outside Shoulder }
+    +OR34.3 : -/1 l+2|Driving Lane Order : +/1 t|Driving Lane Order : L11R-2 L16
+    -R35 : +/2 l|Hard Division Transition : -/2 r*|Barrier Type
+    -R36 : -/1 l*|Lane Division : -/1 r|Division Transition
+    -R38 : -/1 t-1|Inside Shoulder : +/1 l|Conduit.2
+    +R39 : +/1 t+1|Outside Shoulder : +/1 r|Conduit.2
+    -R40 : +/1 t+2|Unidirectional Lane : +/1 l|Lane Configuration Segment, b|Lane Arrangement
+    -OR37.2 : -/1 l-2|Lane Division : +/1 b-2|Lane Division : L8R-3 L6R-2
+    +R41 : -/1 l|Road Edge : +/1 r*|Lane Division.2
+    +OR42.3 : -/1 t+1|Division Transition : +/1 r+2|Division Transition : L7R+1 L7R-1
+    +R43 : +/1 b*|Restriction Specification : -/1 t|Restricted Driving Lane
