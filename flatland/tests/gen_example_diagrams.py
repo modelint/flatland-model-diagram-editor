@@ -33,6 +33,7 @@ tests = {
     't013': ('tall_class', 't013_spanning_node_middle_tall_wide'),
     't014': ('tall_class', 't014_spanning_node_middle_align'),
     't015': ('many_associative', 't015_compound_adjacent_deckstack'),
+    't016': ('aircraft2', 't016_imports'),
     't020': ('aircraft2', 't020_bending_binary_horiz'),
     't021': ('aircraft2', 't021_bending_binary_vert'),
     't022': ('aircraft2', 't022_bending_binary_horizontal_d1'),
@@ -69,7 +70,7 @@ logger.info(f'Flatland version: {version}')
 
 exdir = Path(__file__).parent.parent / "examples"
 
-selected_tests = ['t058']  # Selected tests to run, if any
+selected_tests = ['t016']  # Selected tests to run, if any
 #selected_tests = ['t010', 't011', 't012', 't013']  # Selected tests to run, if any
 # If no tests are selected, all of them will be run
 run_tests = selected_tests if selected_tests else list(tests.keys())
