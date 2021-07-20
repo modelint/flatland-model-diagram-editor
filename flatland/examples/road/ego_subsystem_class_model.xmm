@@ -1,25 +1,14 @@
-/// Ego Vehicle Subsystem Model
 metadata
-    Title : Ego Vehicle Subsystem Class Diagram
+    Title : Ego Vehicle Subsystem MultiLane Maneuver / Vehicle Guidance Domain
     Author : Leon Starr
     Document ID : tri.guidance.ego.td.1a
+    Version : Version 1.6.5
     /// Creation date : November 25, 2019
-    Modification date : April 15, 2021
-    Version : 1.6.0
+    Modification date : July 19, 2021
     Organization : Toyota Research Institute
     Copyright notice > MIT
     Organization logo > Toyota
 subsystem Ego Vehicle
-class Road <import:Road>
-attributes
-    ID {I}
---
-class Driving Lane <import:Road>
-attributes
-    Inside division {I}
-    Outside division {I}
-    Road segment {I}
---
 class Active Driving Lane, ADL
 attributes
     Ego {I, R151}
@@ -28,6 +17,40 @@ attributes
     Road segment {I2, R151}
     /Inner division traversable : Boolean
     /Outer division traversable : Boolean
+--
+class Angular Intersection Lane Connector <import:Intersection>
+attributes
+    EL road segment {I}
+    EL inside division {I}
+    XL road segment {I}
+    XL inside division {I}
+--
+class Connector Traversal, CT
+attributes
+    EL road segment {I, R163}
+    EL inside division {I, R163}
+    XL road segment {R163}
+    XL  inside division {R163}
+    Exit conduit{R163}
+    Intersection{R163}
+    Blocked : Boolean = False
+--
+class Cross Traffic Lane, CTL
+attributes
+    EL road segment {I, R164}
+    EL inside division {I, R164}
+    XL road segment {I, R164}
+    Exit conduit {I, R164}
+    Oncoming lane inside division {I, R164}
+    Oncoming road segment {I, R164}
+    Intersection {I, R164}
+    Traffic : Boolean
+--
+class Driving Lane, DL <import:Road>
+attributes
+    Inside division {I}
+    Outside division {I}
+    Road segment {I}
 --
 class Driving Lane Change, DLC
 attributes
@@ -41,6 +64,11 @@ attributes
     Lingering crossing : Boolean = false
     Max lane change time exceeded : Boolean = false
 --
+methods
+    Start monitoring target lane()
+    Stop monitoring target lane()
+    Lane status()
+--
 class Ego Vehicle, EV
 attributes
     ID : Ego ID
@@ -49,18 +77,40 @@ attributes
     Heading : Heading
     Mass : Mass
 --
-class Lane Configuration Segment, LCS <import:Lane Reconfiguration>
+class Entrance Lane Approach, ELA
 attributes
-    ID: LCS ID {I}
+    Ego {I2, R160}
+    Target EL inside division {I, R160}
+    Road segment {I, R160}
+    Lead vehicle at interface : Boolean
+    Lane change pending : Boolean
 --
-class Lane Change Behavior Specification, LC_BSPEC
+class Intersection Crosswalk <import:Crosswalk>
+attributes
+    Crosswalk {I}
+--
+class Lane Change Behavior Specification, LCBS
 attributes
     Personality {I, R154}
     Max wait for open space : Duration
     Max maneuver duration : Duration
+    Max lane change duration : Duration
     Min advance indication : Duration
     Min complete indication : Duration
     Successive lane change inhibit period : Duration
+--
+class Lane Configuration Segment, LCS <import:Lane Reconfiguration>
+attributes
+    ID : LCS ID {I}
+    Road segment {I}
+--
+class Movement <import:Intersection>
+attributes
+    EL inside division {I}
+    EL road segment {I}
+    Exit conduit road segment {I}
+    Exit conduit {I}
+    Intersection {I}
 --
 class Multi Lane Maneuver, MLM
 attributes
@@ -77,6 +127,16 @@ class Non Traveling Ego Vehicle, EVNT
 attributes
     Ego {I, R156}
 --
+class Oncoming Traffic Yield Requirement, OTY_REQ <import:Intersection>
+attributes
+    EL road segment {I}
+    EL inside division {I}
+    Exit conduit road segment {I}
+    Exit conduit {I}
+    Oncoming lane inside division {I}
+    Oncoming road segment {I}
+    Intersection {I}
+--
 class On Road Ego Vehicle, RDEGO
 attributes
     Ego {I, R150}
@@ -86,9 +146,64 @@ class Personality
 attributes
     Name : Personality Name {I}
 --
-class Traveling Ego Vehicle, EVT
+class Planned Crosswalk Traversal
+attributes
+    Crosswalk {I, R155}
+    EL inside division {R155}
+    EL road segment {R155}
+    Exit conduit road segment {R155}
+    Exit conduit {R155}
+    Intersection {R155}
+    Position : Entry_Exit
+--
+methods
+    Activate()
+    Deactivate()
+--
+class Planned Movement, PMOV
+attributes
+    EL inside division {I, R161, R166}
+    EL road segment {I, R161, R166}
+    Exit conduit road segment {I, R161, R166}
+    Exit conduit {I, R161c}
+    Target XL inside division {R166}
+    Intersection {I, R161}
+--
+class Protected Traversal
+attributes
+    EL road segment {I, R165}
+    EL inside division {I, R165}
+--
+class Yielding Traversal
+attributes
+    EL road segment {I, R165}
+    EL inside division {I, R165}
+--
+class Turn After Stop Traversal
+attributes
+    EL road segment {I, R165}
+    EL inside division {I, R165}
+--
+class Road <import:Road>
+attributes
+    ID {I}
+--
+class Signalized Angular Intersection Entrance Lane, SAI_EL <import:Intersection>
+attributes
+    Road segment {I}
+    Inside division {I}
+--
+class Traveling Ego Vehicle, EVTRAV
 attributes
     Ego {I, R156}
+    LCS {R158}
+    LCS road segment {R158c}
+--
+methods
+    New lane( inside: Lane Division ID,
+              outside: Lane Division ID )
+    Update LCS( lcs: LCS ID, inside: Lane Division ID,
+                outside: Lane Division ID )
 --
 relationships
     R150
@@ -97,8 +212,8 @@ relationships
     1 On Road Ego Vehicle
 --
     R151
-    is traveling in, 1 Driving Lane
     is current path of travel for, 1c Traveling Ego Vehicle
+    is traveling in, 1 Driving Lane
     1 Active Driving Lane
 --
     R152
@@ -114,6 +229,11 @@ relationships
     defines, 1 Lane Change Behavior Specification
     is defined for, 1 Personality
 --
+    R155
+    must traverse, Mc Intersection Crosswalk
+    must be traversed in, 1c Planned Movement
+    1 Planned Crosswalk Traversal
+--
     R156
     On Road Ego Vehicle +
         Non Traveling Ego Vehicle
@@ -123,4 +243,38 @@ relationships
     is desired lane of, 1c Traveling Ego Vehicle
     wants to get into, 1c Driving Lane
     1 Multi Lane Maneuver
+--
+    R158
+    envelopes path of, 1c Traveling Ego Vehicle
+    is driving through, 1 Lane Configuraton Segment
+--
+    R160
+    is approaching, 1c Signalized Angular Intersection Entrance Lane
+    is being approached by, 1c Movement
+    1 Entrance Lane Approach
+--
+    R161
+    is planned by, 1c Entrance Lane Approach
+    plans, 1 Movement
+    1 Planned Movement
+--
+    R163
+    is traversing, 1c Angular Intersection Line Connector
+    is being traversed by, 1c Planned Movement
+    1 Connector Traversal
+--
+    R164
+    observes traffic from, Mc Oncoming Traffic Yield Requirement
+    is a source of traffic observed during, 1c Connector Traversal
+    1 Cross Traffic Lane
+--
+    R165
+    Connector Traversal+
+        Protected Traversal
+        Yielding Traversal
+        Turn After Stop Traversal
+--
+    R166
+    plans to exit on, 1 Angular Intersection Line Connector
+    is planned exit for, 1c Planned Movement
 --

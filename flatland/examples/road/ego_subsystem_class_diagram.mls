@@ -3,28 +3,50 @@ diagram class
 notation Starr
 presentation default
 orientation landscape
-color teal
-sheet D
-padding b230 r50 l130
+sheet E
+color mint
+padding l200 b300
 frame TRI MBSE
 frame_presentation default
 nodes
-    Lane Change Behavior Specification 3,1
-    Personality 3,3
-    Ego Vehicle 3,5
-    Road 6,5
-    On Road Ego Vehicle 4-5,6
-    Non Traveling Ego Vehicle 6,7
-    Traveling Ego Vehicle 4,7
-    Active Driving Lane 2,8
-    Driving Lane 4,9
-    Multi Lane Maneuver 6,8
-    Driving Lane Change 5,10
+    Protected Traversal 5,4
+    Yielding Traversal 4,4
+    Turn After Stop Traversal 3,4
+    Cross Traffic Lane 3,7-8
+    Oncoming Traffic Yield Requirement/2 2,6
+    Connector Traversal 4,6
+    Angular Intersection Lane Connector/2 3,9 >left
+    Intersection Crosswalk 5,12
+    Planned Crosswalk Traversal 4,10-11
+    Signalized Angular Intersection Entrance Lane/4 8,7
+    Entrance Lane Approach 6-7,8
+    Movement 6-7,10
+    Planned Movement 5,9
+    Lane Change Behavior Specification 9,1
+    Personality 9,3
+    Ego Vehicle 9,5
+    Road 11,5
+    On Road Ego Vehicle/2 10,6
+    Non Traveling Ego Vehicle/2 11,7
+    Traveling Ego Vehicle/2 9-10,8
+    Driving Lane 9-10,11
+    Active Driving Lane 8,9-10
+    Driving Lane Change 10-11,12-13 >right
+    Multi Lane Maneuver 11-12,9-10
+    Lane Configuration Segment/2 13,8
 connectors
-    +R150 : +/1 b*|Road : -/2 t|Ego Vehicle, l|On Road Ego Vehicle
+    -R150 : +/1 b*|Road : +/2 t|Ego Vehicle, l|On Road Ego Vehicle
     +R151 : +/2 r|Traveling Ego Vehicle : +/1 l*|Driving Lane, t|Active Driving Lane
-    -R152.2 : +/1 r|Multi Lane Maneuver : -/2 r|Driving Lane, l|Driving Lane Change : L10R-1
+    -R152.2 : +/1 r|Multi Lane Maneuver : -/2 t+2|Driving Lane, l|Driving Lane Change
     +R153 : +/2 r|Personality : -/2 l*|Ego Vehicle
     +R154 : +/1 r|Lane Change Behavior Specification : -/1 l*|Personality
-    -R156 : r|On Road Ego Vehicle { l|Non Traveling Ego Vehicle, l|Traveling Ego Vehicle }
-    -R157.2 : +/1 t+2|Traveling Ego Vehicle : +/1 t|Driving Lane, b|Multi Lane Maneuver : L5R-2
+    +R155 : +/1 l*|Intersection Crosswalk : +/1 r|Planned Movement, t|Planned Crosswalk Traversal
+    +R156 : r|On Road Ego Vehicle { l|Non Traveling Ego Vehicle, l|Traveling Ego Vehicle }
+    -R157.2 : -/2 t+2|Traveling Ego Vehicle : -/1 t-2|Driving Lane, b|Multi Lane Maneuver : L10R+2
+    +R158 : -/1 t*|Traveling Ego Vehicle : -/1 b|Lane Configuration Segment
+    +R160 : +/2 l|Active Driving Lane : +/1 r*|Signalized Angular Intersection Entrance Lane, t|Entrance Lane Approach
+    +R161 : +/1 r|Entrance Lane Approach : +/1 l*|Movement, t|Planned Movement
+    +R163 : +/2 t|Angular Intersection Lane Connector : +/2 b*|Planned Movement, r|Connector Traversal
+    -R164 : +/2 b|Connector Traversal : +/1 t*|Oncoming Traffic Yield Requirement, l|Cross Traffic Lane
+    -R165 : l|Connector Traversal { r|Protected Traversal, r|Turn After Stop Traversal, r|Yielding Traversal }
+    +R166 : -/2 r|Angular Intersection Lane Connector : +/2 b+2|Planned Movement

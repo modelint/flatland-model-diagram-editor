@@ -8,7 +8,6 @@ population = [
     {"Name": 'recycle bin', 'R': 131, 'G': 187, 'B': 229, 'Purpose': 'canvas'},
     {"Name": 'sky', 'R': 199, 'G': 227, 'B': 245, 'Purpose': 'canvas'},
     {"Name": 'blue steel', 'R': 159, 'G': 172, 'B': 186, 'Purpose': 'canvas'},
-    {"Name": 'teal', 'R': 125, 'G': 181, 'B': 175, 'Purpose': 'canvas'},
 
     # Grays
     {"Name": 'nickel', 'R': 146, 'G': 146, 'B': 146, 'Purpose': 'canvas'},
@@ -20,6 +19,9 @@ population = [
     {"Name": 'clover', 'R': 205, 'G': 231, 'B': 178, 'Purpose': 'canvas'},
     {"Name": 'institutional', 'R': 192, 'G': 204, 'B': 160, 'Purpose': 'canvas'},
     {"Name": 'olive', 'R': 154, 'G': 152, 'B': 36, 'Purpose': 'canvas'},
+    {"Name": 'teal', 'R': 125, 'G': 181, 'B': 175, 'Purpose': 'canvas'},
+    {"Name": 'spearmint', 'R': 114, 'G': 183, 'B': 167, 'Purpose': 'canvas'},
+    {"Name": 'mint', 'R': 87, 'G': 181, 'B': 174, 'Purpose': 'canvas'},
 
     # Yellows
     {"Name": 'butter', 'R': 255, 'G': 255, 'B': 191, 'Purpose': 'canvas'},
