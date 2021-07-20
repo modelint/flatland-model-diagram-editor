@@ -4,6 +4,7 @@ notation Starr
 presentation default
 orientation landscape
 sheet D
+color mint
 padding l130 b230
 frame TRI MBSE
 frame_presentation default

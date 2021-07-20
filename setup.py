@@ -11,7 +11,7 @@ README = (HERE / "README.md").read_text()
 
 setuptools.setup(
     name="flatland-model-diagram-editor",
-    version="1.2.6",
+    version="1.2.7",
     description="Model text file + layout text file -> beautiful diagram",
     long_description=README,
     long_description_content_type="text/markdown",

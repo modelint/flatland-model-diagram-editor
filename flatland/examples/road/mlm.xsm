@@ -1,0 +1,82 @@
+metadata
+    Title : Multi Lane Maneuver State Machine Diagram
+    Author : Leon Starr
+    Document ID : tri.guidance.ego.td.18a
+    Modification date : July 19, 2021
+    Version : 0.3.1
+    Organization : Toyota Research Institute
+    Copyright notice > MIT
+    Organization logo > Toyota
+domain Vehicle Guidance
+class Driving Lane Change
+events
+    Get into lane
+    Start maneuver
+    Success
+    Already there
+    Lane changed
+    Lane change in process
+    Abort requested
+    Cannot complete
+--
+state Set maneuver direction *Get into lane
+activity
+    // Is the target driving lane to the inside or outside of the Ego's current lane?
+    // We compare the Ego's current inside lane division position with the target inside lane division position.
+    // Since the outermost position is 0, increasing in distance toward the inside, we are changing toward the
+    // inside if the number is greater, otherwise to the outside.  If they are equal then we just quit and declare success.
+
+    ego dl .= /R157/Traveling Ego Vehicle/R151/Driving Lane
+    ego pos .= ego dl/R10/R19/R21/is the inside boundary of lane/Lane Division.Position
+
+    target dl .= /R157/Driving Lane
+    target pos .= target dl/R10/R19/R21/is the inside boundary of lane/Lane Division.Position
+
+    target  pos == ego pos? Already there -> me : {
+        target pos > ego  pos ? Direction = .outer : .inner
+        Start maneuver -> me
+    }
+transitions
+    Start maneuver > Initialize next maneuver
+    Already there > Successful multi lane maneuver
+--
+state Initialize next maneuver
+activity
+    // Choose the nearest inner or outer driving lane as the target of a driving lane change
+
+    // Get the Ego's current Driving Lane and the target Driving Lane
+    ego dl .= /R157/R151/Driving Lane
+    target dl .= /R157/Driving Lane
+    // Whether or not an abort was requested, report success if if we ended up in the target EL
+    (ego dl == target dl) ? Success -> me :
+        // If an abort is requested, report failure
+        Abort requested? Abort requested -> me : {
+            // Initiate the next lane change
+            active_lcs .= /R157/EVTRAV.LCS  // In a future version we should check to verify that we obtain the instance
+            next dl .= ego dl.Adjacent DL( Direction,  lcs: active_lcs )
+            next dl? {
+                Shift lane -> *Driving Lane Change( ) &R152 next dl
+                Lane change in process -> me
+            } : Abort requested -> me
+    }
+transitions
+    Lane change in process > CHANGING DRIVING LANE
+    Abort requested > Unsuccessful multi lane maneuver
+    Success > Successful multi lane maneuver
+--
+state CHANGING DRIVING LANE
+activity
+    // Lane change in progress
+transitions
+    Lane changed > Initialize next maneuver
+    Cannot complete > Unsuccessful multi lane maneuver
+--
+state Successful multi lane maneuver !*
+activity
+    ELA.Successful_mult_lane_change()
+    PANEL.Indicate ( direction: Turn direction )
+--
+state Unsuccessful multi lane maneuver !*
+activity
+    ELA.Unsuccessful_mult_lane_change()
+--

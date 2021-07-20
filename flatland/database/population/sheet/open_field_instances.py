@@ -162,7 +162,7 @@ population = [
     {'Metadata': 'Title', 'Frame': 'TRI MBSE', 'Sheet': 'C', 'Orientation': 'landscape',
      'x position': 15, 'y position': 440, 'max width': 254, 'max height': 25},
     {'Metadata': 'Copyright notice', 'Frame': 'TRI MBSE', 'Sheet': 'C', 'Orientation': 'landscape',
-     'x position': 19, 'y position': 55, 'max width': 254, 'max height': 57},
+     'x position': 157, 'y position': 30, 'max width': 254, 'max height': 57},
     {'Metadata': 'Organization logo', 'Frame': 'TRI MBSE', 'Sheet': 'C', 'Orientation': 'landscape',
      'x position': 15, 'y position': 30, 'max width': 191, 'max height': 25},
 

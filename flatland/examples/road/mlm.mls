@@ -1,0 +1,27 @@
+// mlm.mls – Multi Lane Maneuver
+diagram state machine
+notation xUML
+presentation default
+orientation landscape
+sheet C
+color pumpkin
+padding b350 l100
+frame TRI MBSE
+frame_presentation default
+nodes
+    Set maneuver direction 7,2-4
+    Initialize next maneuver 5,2-4
+    CHANGING DRIVING LANE 4,5
+    Unsuccessful multi lane maneuver 2,5
+    Successful multi lane maneuver 2,2
+connectors
+    +Get into lane : t|Set maneuver direction
+    +Start maneuver-1 : b|Set maneuver direction : t*|Initialize next maneuver
+    -Already there.3-3 : l|Set maneuver direction : l|Successful multi lane maneuver : L1
+    +Success-2 : b*|Initialize next maneuver : t|Successful multi lane maneuver
+    +Abort requested.2 : b+1|Initialize next maneuver : l|Unsuccessful multi lane maneuver
+    +Lane change in process.2-2 : b+2|Initialize next maneuver : l|CHANGING DRIVING LANE
+    +Cannot complete-1 : b|CHANGING DRIVING LANE : t*|Unsuccessful multi lane maneuver
+    +Lane changed.2-2 : t|CHANGING DRIVING LANE : r|Initialize next maneuver
+    b|Successful multi lane maneuver
+    b|Unsuccessful multi lane maneuver
