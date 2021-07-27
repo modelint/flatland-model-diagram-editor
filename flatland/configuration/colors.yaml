@@ -1,7 +1,9 @@
+# system_colors.yaml – System defined flatland colors
+# Name: RGB values and whether or not the color works or is intended as a canvas background
 
+# Blues
 recycle bin: {R: 131, G: 187, B: 229, Canvas: True}
 sky: {R: 199, G: 227, B: 245, Canvas: True }
-
 blue steel: {R: 159, G: 172, B: 186, Canvas: True}
 
 # Grays
