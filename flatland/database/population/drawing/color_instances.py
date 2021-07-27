@@ -1,7 +1,6 @@
 """
 color_instances.py
 """
-from collections import namedtuple
 population = [
     # Canvas colors
     # Blues

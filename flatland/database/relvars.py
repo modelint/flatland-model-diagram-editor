@@ -415,7 +415,7 @@ def define(db) -> dict:
                        Column('R', Integer, nullable=False),
                        Column('G', Integer, nullable=False),
                        Column('B', Integer, nullable=False),
-                       Column('Purpose', String, nullable=False),
+                       Column('Canvas', Boolean, nullable=False),
                        ),
         'color_usage': Table('Color Usage', db.MetaData,
                              Column('Name', String, primary_key=True),
