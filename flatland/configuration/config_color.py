@@ -33,9 +33,14 @@ def config_color():
         print("No system colors file!")
         sys.exit(1)
 
-    with open(user_colors, 'r') as uc:
-        user_color_dict = yaml.load(uc, Loader=yaml.FullLoader)
-    make_color_pop(system_color_dict | user_color_dict)
+    # Overlay and add user colors if any user colors are specified
+    try:
+        with open(user_colors, 'r') as uc:
+            user_color_dict = yaml.load(uc, Loader=yaml.FullLoader)
+    except FileNotFoundError as e:
+        print(f"No user color config file found. [{user_colors}]  Using system colors only.")
+        user_color_dict = None
+    make_color_pop(system_color_dict | {} if not user_color_dict else user_color_dict)
 
 def make_color_pop(color_dict):
     with open(color_pop, 'w') as pop:

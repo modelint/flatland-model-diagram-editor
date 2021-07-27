@@ -35,5 +35,4 @@ population = [
     {"Name": "gold", "R": 255, "G": 219, "B": 44, "Canvas": False},
     {"Name": "toyota red", "R": 236, "G": 10, "B": 30, "Canvas": False},
     {"Name": "block blue", "R": 0, "G": 64, "B": 128, "Canvas": False},
-    {"Name": "blue", "R": 131, "G": 187, "B": 229, "Canvas": True},
 ]
