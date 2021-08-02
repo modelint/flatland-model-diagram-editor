@@ -9,7 +9,6 @@ from flatland.flatland_exceptions import FlatlandIOException
 from flatland.flatland_exceptions import LayoutParseError, ModelParseError
 from flatland.input.statemodel_parser import StateModelParser
 from flatland.input.layout_parser import LayoutParser
-from flatland.database.flatlanddb import FlatlandDB
 from flatland.node_subsystem.canvas import Canvas
 from flatland.sheet_subsystem.frame import Frame
 from flatland.node_subsystem.single_cell_node import SingleCellNode
@@ -35,13 +34,12 @@ def make_event_cname(ev_spec) -> str:
 class XumlStateMachineDiagram:
 
     def __init__(self, xuml_model_path: Path, flatland_layout_path: Path, diagram_file_path: Path,
-                 rebuild: bool, show_grid: bool, nodes_only: bool, no_color: bool):
+                 show_grid: bool, nodes_only: bool, no_color: bool):
         """Constructor"""
         self.logger = logging.getLogger(__name__)
         self.xuml_model_path = xuml_model_path
         self.flatland_layout_path = flatland_layout_path
         self.diagram_file_path = diagram_file_path
-        self.rebuild = rebuild
         self.show_grid = show_grid
         self.no_color = no_color
 
@@ -66,12 +64,6 @@ class XumlStateMachineDiagram:
             self.layout = self.layout.parse()
         except LayoutParseError as e:
             sys.exit(e)
-
-        # Load the flatland database
-        self.db = FlatlandDB(rebuild=self.rebuild)
-        if self.rebuild:
-            from flatland.sheet_subsystem.titleblock_placement import TitleBlockPlacement
-            TitleBlockPlacement()
 
         # Draw the blank canvas of the appropriate size, diagram type and presentation style
         self.logger.info("Creating the canvas")

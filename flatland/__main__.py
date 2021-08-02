@@ -10,6 +10,7 @@ import argparse
 from pathlib import Path
 from flatland.xuml.xuml_classdiagram import XumlClassDiagram
 from flatland.xuml.xuml_statemachine_diagram import XumlStateMachineDiagram
+from flatland.configuration.config import Config
 from flatland import version
 
 _logpath = Path("flatland.log")
@@ -68,6 +69,7 @@ def main():
         sys.exit(0)
 
     if args.colors:
+        Config(rebuild_db=args.rebuild)  # Do any configuration tasks necessary before starting up the app
         from flatland.drawing_domain.styledb import StyleDB
         StyleDB(print_colors=True, rebuild=args.rebuild)
         sys.exit(0)
@@ -125,6 +127,7 @@ def main():
         # TODO: Since a default diagram file is always supplied via argparse above, this clause will never execute
         diagram_path = sys.stdout
 
+    Config(rebuild_db=args.rebuild)  # Do any configuration tasks necessary before starting up the app
     # Generate the xuml class diagram (we don't do anything with the returned variable yet)
     mtype = model_path.suffix
     if mtype == '.xmm' or mtype == '.xcm':
@@ -132,7 +135,6 @@ def main():
             xuml_model_path=model_path,
             flatland_layout_path=layout_path,
             diagram_file_path=diagram_path,
-            rebuild=args.rebuild,
             show_grid=args.grid,
             nodes_only=args.nodes_only,
             no_color=args.no_color,
@@ -142,7 +144,6 @@ def main():
             xuml_model_path=model_path,
             flatland_layout_path=layout_path,
             diagram_file_path=diagram_path,
-            rebuild=args.rebuild,
             show_grid=args.grid,
             nodes_only=args.nodes_only,
             no_color=args.no_color,
