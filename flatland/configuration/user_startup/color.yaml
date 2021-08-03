@@ -1,0 +1,17 @@
+# color.yaml – User defined flatland colors
+
+# Basic color config pattern
+# --
+# <color_name>: {R: 255, G: 255, B: 255, Canvas: True}
+# Name can have spaces and pretty much any string character
+# RGB values are 0-255
+# Canvas value is True or False
+#    True indicates that your color is suitable as a canvas background (muted colors probably work best)
+#          only these colors are reported with the --COLORS flag. It reports canvas colors, not diagnostic, etc
+#    False indicates a vivid, dark color you intend for some other use, such as highlighting a model element
+#          It will not be reported via the --COLORS flag.
+# --
+
+# Intersperse comments to organize your color groups (blues, yellows, diagnostic, backgrounds, etc.) if you like
+my blue color: {R: 131, G: 187, B: 229, Canvas: True}
+my yellow color: {R: 199, G: 227, B: 245, Canvas: True}
