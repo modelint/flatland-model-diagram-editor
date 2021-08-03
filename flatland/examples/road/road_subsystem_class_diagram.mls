@@ -3,7 +3,7 @@ diagram class
 notation Starr
 presentation default
 orientation landscape
-color peach
+color blue
 sheet E
 padding l500 b400
 frame TRI MBSE

@@ -2,6 +2,7 @@
 config.py - Configures flatland and rebuilds the database
 """
 import yaml
+import logging
 import sys
 from pathlib import Path
 import inspect
@@ -17,6 +18,7 @@ class Config:
     """
     Here we overlay user configuration on top of built in system configuration.
     """
+    logger = logging.getLogger(__name__)
     # Structure of each Flatland DB table holding configurable system/user data
     tables = [
         TableSpec(name="color", header=["Name", "R", "G", "B", "Canvas"], folder="drawing"),
@@ -51,15 +53,20 @@ class Config:
 
 
 def update_populations():
-    for table in Config.tables:
+    """
+    Generate database population _instances.py files for each table containing any user configurable attributes
+    These need to be generated before the database is rebuilt since it will use these files to load the db
+    """
+    Config.logger.info("Updating user configurable instance populations...")
 
-        # Load system values first
+    for table in Config.tables:
+        # Load system configuration values first
         system_config_file = Config.system_config_home / f'{table.name}.yaml'
         try:
             with open(system_config_file, 'r') as scf:
                 system_config_dict = yaml.load(scf, Loader=yaml.FullLoader)
         except FileNotFoundError as e:
-            print(f"System config file: [{system_config_file}] not found")
+            Config.logger.error(f"System config file: [{system_config_file}] not found")
             sys.exit(1)
 
         # Now overlay any user configuration
@@ -68,7 +75,7 @@ def update_populations():
             with open(user_config_file, 'r') as ucf:
                 user_config_dict = yaml.load(ucf, Loader=yaml.FullLoader)
         except FileNotFoundError as e:
-            print(f"No user config file found. [{user_config_file}]  Using system config only.")
+            Config.logger.info(f"No user config file found. [{user_config_file}]  Using system config only.")
             user_config_dict = None
         gen_pop_file(
             tuples_dict=system_config_dict | ({} if not user_config_dict else user_config_dict),

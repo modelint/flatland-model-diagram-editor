@@ -128,8 +128,8 @@ class Layer:
         # Lookup the RGB color value from the user color name
         try:
             fill_rgb_color_value = StyleDB.rgbF[frect.color]
-        except IndexError:
-            self.logger.error(f'Fill rect color [{frect.color}] not available')
+        except KeyError:
+            self.logger.error(f'Fill rect color [{frect.color}] not defined in system or user configuration')
             sys.exit(1)
 
         self.Tablet.Context.rectangle(frect.upper_left.x, frect.upper_left.y, frect.size.width, frect.size.height)
