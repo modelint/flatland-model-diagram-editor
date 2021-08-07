@@ -1,0 +1,22 @@
+# sheet.yaml – System defined flatland sheet sizes
+
+# The standard determines measurement units. us for inches and int for millimeters
+# The size group is used to scale the title block if used. Think small for sizes like A4 or letter
+# medium for slightly bigger such as tabloid or A3/A2 and large for anything C/A1 or higher
+# If your title block needs to go up or down a size, consider changing the size group value
+
+# US sizes (specified in inches)
+letter: {Group: us, Height: 8.5, Width: 11, Size group: small}
+tabloid: {Group: us, Height: 11, Width: 17, Size group: medium}
+
+# ANSI Architectural (specified in inches)
+C: {Group: us, Height: 18, Width: 24, Size group: large}
+D: {Group: us, Height: 24, Width: 36, Size group: large}
+E: {Group: us, Height: 36, Width: 48, Size group: large}
+
+# International sizes (specified in millimeters)
+A4: {Group: int, Height: 210, Width: 297, Size group: small}
+A3: {Group: int, Height: 297, Width: 420, Size group: medium}
+A2: {Group: int, Height: 420, Width: 594, Size group: medium}
+A1: {Group: int, Height: 594, Width: 841, Size group: large}
+A0: {Group: int, Height: 841, Width: 1189, Size group: large}

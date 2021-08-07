@@ -13,7 +13,6 @@ from collections import namedtuple
 
 TableSpec = namedtuple("TableSpec", "name header folder")
 
-
 class Config:
     """
     Here we overlay user configuration on top of built in system configuration.
@@ -21,7 +20,10 @@ class Config:
     logger = logging.getLogger(__name__)
     # Structure of each Flatland DB table holding configurable system/user data
     tables = [
-        TableSpec(name="color", header=["Name", "R", "G", "B", "Canvas"], folder="drawing"),
+        TableSpec(name="color", header=[("Name", str), ("R", int), ("G", int), ("B", int), ("Canvas", bool) ],
+                  folder="drawing"),
+        TableSpec(name="sheet", header=[("Name", str), ("Group", str), ("Height", float), ("Width", float),
+                                        ("Size group", str)], folder="sheet"),
     ]
 
     # Where we look for system configuration data
@@ -103,11 +105,13 @@ def gen_pop_file(tuples_dict: Dict[str, str], table: TableSpec):
 
     with open(pop_path, 'w') as pop:
         pop.write(top)
-        key_attr_name = table.header[0]
+        key_attr_name, key_attr_type = table.header[0]
         for tuple_key, tuple_data in tuples_dict.items():
-            line = f'    {{"{key_attr_name}": "{tuple_key}", '
-            for attr_name in table.header[1:]:
-                line += f'"{attr_name}": {tuple_data[attr_name]}, '
+            tuple_key_value = f'"{tuple_key}"' if key_attr_type is str else tuple_key
+            line = f'    {{"{key_attr_name}": {tuple_key_value}, '
+            for attr_name, attr_type in table.header[1:]:
+                attr_value = f'"{tuple_data[attr_name]}"' if attr_type is str else tuple_data[attr_name]
+                line += f'"{attr_name}": {attr_value}, '
             line = line.rstrip(", ") + '},\n'
             pop.write(line)
         pop.write(bottom)
