@@ -1,0 +1,16 @@
+# system/frame.yaml – System defined frames
+
+TRI MBSE:
+  - Sheet: D
+    Orientation: landscape
+    Fields:
+      Title: { X: 18, Y: 584, Max width: 254, Max height: 25 }
+      Copyright notice: { X: 400, Y: 38, Max width: 254, Max height: 57 }
+    Title block: { Name: SE Simple, X: 753, Y: 38 }
+
+  - Sheet: D
+    Orientation: portrait
+    Fields:
+      Title: { X: 18, Y: 584, Max width: 254, Max height: 25 }
+      Copyright notice: { X: 400, Y: 38, Max width: 254, Max height: 57 }
+    Title block: { Name: SE Simple, X: 753, Y: 38 }
