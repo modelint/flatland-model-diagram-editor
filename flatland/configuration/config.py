@@ -2,6 +2,7 @@
 config.py - Configures flatland and rebuilds the database
 """
 import yaml
+import textwrap
 import logging
 import sys
 from pathlib import Path
@@ -91,9 +92,16 @@ def write_pop_files(pop_lines: Dict[str, List[str]]):
         """
         population = [
         ''') + '\n'
-        bottom = ']'
+        bottom = '\n]\n'
 
         pop_path = Config.pop_home / Config.tables[name].folder / pop_fname
+        with open(pop_path, 'w') as pop:
+            pop.write(top)
+            text = '\n'.join(lines)
+            itext = textwrap.indent(text, '    ')
+
+            pop.write(itext)
+            pop.write(bottom)
         pass
 
 
@@ -117,15 +125,17 @@ def gen_frame_pop(config_data: tuple) -> Dict[str, List[str]]:
                 frame_line = f'{{"Name": "{frame_name}", "Sheet": "{s}", "Orientation": "{o}"}},'
                 frame_lines.append(frame_line)
                 for fkey, field_dict in sheet_dict["Fields"].items():
-                    field_line = f'{{"Metadata": "{fkey}", "Frame": "{frame_name}", "Sheet": "{s}", "Orientation": "{o}",\n' \
-                                 f'"x position": {field_dict["X"]}, "y position": {field_dict["Y"]}, ' \
-                                 f'"max width": {field_dict["Max width"]}, "max height": {field_dict["Max height"]}}},'
-                    field_lines.append(field_line)
-                    tb_dict = sheet_dict["Title block"]
-                    tb_line = f'{{"Frame": "{frame_name}", "Sheet": "{s}", "Orientation": "{o}",\n' \
-                              f'" Title block pattern": "{tb_dict["Name"]}",' \
-                              f'"X": {tb_dict["X"]}, "Y": {tb_dict["Y"]}}},'
-                    title_block_placement_lines.append(tb_line)
+                    field_lines.append(
+                        f'{{"Metadata": "{fkey}", "Frame": "{frame_name}", "Sheet": "{s}", "Orientation": "{o}",')
+                    field_lines.append(
+                        f' "x position": {field_dict["X"]}, "y position": {field_dict["Y"]}, '
+                        f'"max width": {field_dict["Max width"]}, "max height": {field_dict["Max height"]}}},')
+                tb_dict = sheet_dict.get("Title block")
+                if tb_dict:  # Not all frames use a title block
+                    title_block_placement_lines.append(
+                        f'{{"Frame": "{frame_name}", "Sheet": "{s}", "Orientation": "{o}",')
+                    title_block_placement_lines.append(
+                        f' "Title block pattern": "{tb_dict["Name"]}", "Sheet size group": "{None}", "X": {tb_dict["X"]}, "Y": {tb_dict["Y"]}}},')
     return {"frame": frame_lines, "open_field": field_lines, "titleblock_placement": title_block_placement_lines}
 
 
@@ -146,7 +156,7 @@ class Config:
             header=[("Metadata", str), ("Frame", str), ("Sheet", str), ("Orientation", str),
                     ("x position", int), ("y position", int), ("max width", int), ("max height", int),
                     ], folder='sheet'),
-        "title_block_placement": TableSpec(
+        "titleblock_placement": TableSpec(
                   header=[("Frame", str), ("Sheet", str), ("Orientation", str), ("Title block pattern", str),
                           ("Sheet size group", str), ("X", int), ("Y", int)],
                   folder='sheet'),

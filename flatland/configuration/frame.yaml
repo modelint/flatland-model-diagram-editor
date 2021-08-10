@@ -1,11 +1,66 @@
 # system/frame.yaml – System defined frames
 
 TRI MBSE:
-  - Sheet: D
+  - Sheet: letter
     Orientation: landscape
+    Fields:
+      Title: { X: 8, Y: 202, Max width: 254, Max height: 13 }
+      Copyright notice: { X: 8, Y: 31, Max width: 254, Max height: 57 }
+      Organization logo: { X: 5, Y: 4, Max width: 180, Max height: 24 }
+      Author: { X: 280, Y: 22, Max width: 20, Max height: 5 }
+      Modification date: { X: 230, Y: 18, Max width: 20, Max height: 5 }
+      Document ID: { X: 230, Y: 14, Max width: 20, Max height: 5 }
+      Version: { X: 230, Y: 10, Max width: 20, Max height: 5 }
+
+  - Sheet: letter
+    Orientation: portrait
+    Fields:
+      Title: { X: 8, Y: 265, Max width: 254, Max height: 13 }
+      Copyright notice: { X: 10, Y: 31, Max width: 254, Max height: 57 }
+      Organization logo: { X: 8, Y: 5, Max width: 180, Max height: 24 }
+      Author: { X: 170, Y: 22, Max width: 20, Max height: 5 }
+      Modification date: { X: 170, Y: 18, Max width: 20, Max height: 5 }
+      Document ID: { X: 170, Y: 14, Max width: 20, Max height: 5 }
+      Version: { X: 170, Y: 10, Max width: 20, Max height: 5 }
+
+  - Sheet: tabloid
+    Orientation: landscape
+    Fields:
+      Title: { X: 8, Y: 264, Max width: 254, Max height: 13 }
+      Copyright notice: { X: 8, Y: 28, Max width: 254, Max height: 57 }
+      Organization logo: { X: 8, Y: 9, Max width: 180, Max height: 24 }
+    Title block: { Name: SE Simple, X: 275, Y: 9 }
+
+  - Sheet: tabloid
+    Orientation: portrait
+    Fields:
+      Title: { X: 10, Y: 415, Max width: 254, Max height: 13 }
+      Copyright notice: { X: 8, Y: 25, Max width: 254, Max height: 57 }
+      Organization logo: { X: 5, Y: 10, Max width: 180, Max height: 24 }
+    Title block: { Name: SE Simple, X: 150, Y: 9 }
+
+  - Sheet: C
+    Orientation: landscape
+    Fields:
+      Title: { X: 15, Y: 440, Max width: 254, Max height: 25 }
+      Copyright notice: { X: 157, Y: 30, Max width: 254, Max height: 57 }
+      Organization logo: { X: 15, Y: 30, Max width: 191, Max height: 25 }
+    Title block: { Name: SE Simple, X: 460, Y: 15 }
+
+  - Sheet: C
+    Orientation: portrait
     Fields:
       Title: { X: 18, Y: 584, Max width: 254, Max height: 25 }
       Copyright notice: { X: 400, Y: 38, Max width: 254, Max height: 57 }
+      Organization logo: { X: 19, Y: 18, Max width: 191, Max height: 25 }
+    Title block: { Name: SE Simple, X: 300, Y: 15 }
+
+  - Sheet: D
+    Orientation: landscape
+    Fields:
+      Title: { X: 19, Y: 584, Max width: 254, Max height: 25 }
+      Copyright notice: { X: 400, Y: 38, Max width: 254, Max height: 57 }
+      Organization logo: { X: 19, Y: 38, Max width: 191, Max height: 25 }
     Title block: { Name: SE Simple, X: 753, Y: 38 }
 
   - Sheet: D
@@ -13,4 +68,21 @@ TRI MBSE:
     Fields:
       Title: { X: 18, Y: 584, Max width: 254, Max height: 25 }
       Copyright notice: { X: 400, Y: 38, Max width: 254, Max height: 57 }
-    Title block: { Name: SE Simple, X: 753, Y: 38 }
+      Organization logo: { X: 19, Y: 18, Max width: 191, Max height: 25 }
+    Title block: { Name: SE Simple, X: 553, Y: 38 }
+
+  - Sheet: E
+    Orientation: landscape
+    Fields:
+      Title: { X: 30, Y: 884, Max width: 254, Max height: 25 }
+      Copyright notice: { X: 500, Y: 38, Max width: 254, Max height: 57 }
+      Organization logo: { X: 30, Y: 38, Max width: 191, Max height: 25 }
+    Title block: { Name: SE Simple, X: 1025, Y: 38 }
+
+  - Sheet: E
+    Orientation: portrait
+    Fields:
+      Title: { X: 30, Y: 1180, Max width: 254, Max height: 25 }
+      Copyright notice: { X: 220, Y: 30, Max width: 254, Max height: 57 }
+      Organization logo: { X: 30, Y: 30, Max width: 191, Max height: 25 }
+    Title block: { Name: SE Simple, X: 740, Y: 25 }
