@@ -3,6 +3,7 @@ config.py - Configures flatland and rebuilds the database
 """
 import yaml
 import textwrap
+from collections import OrderedDict
 import logging
 import sys
 from pathlib import Path
@@ -47,37 +48,6 @@ def update_populations():
         )
         write_pop_files(pop_lines)
 
-def gen_pop_file(tuples_dict: Dict[str, str], table: TableSpec):
-    """
-    Generate a population file to be loaded by the database
-
-    :param tuples_dict: A dictionary of named tuples where each tuple can be inserted into a table
-    :param table: The configuration table spec so we know how to format the population file
-    """
-    pop_fname = f'{table.name}_instances.py'
-    # The top and bottom text in the generated population file
-    top = inspect.cleandoc(f'''"""
-    {pop_fname} (generated)
-    """
-    population = [
-    ''') + '\n'
-    bottom = ']'
-
-    pop_path = Config.pop_home / table.folder / pop_fname
-
-    with open(pop_path, 'w') as pop:
-        pop.write(top)
-        key_attr_name, key_attr_type = table.header[0]
-        for tuple_key, tuple_data in tuples_dict.items():
-            tuple_key_value = f'"{tuple_key}"' if key_attr_type is str else tuple_key
-            line = f'    {{"{key_attr_name}": {tuple_key_value}, '
-            for attr_name, attr_type in table.header[1:]:
-                attr_value = f'"{tuple_data[attr_name]}"' if attr_type is str else tuple_data[attr_name]
-                line += f'"{attr_name}": {attr_value}, '
-            line = line.rstrip(", ") + '},\n'
-            pop.write(line)
-        pop.write(bottom)
-
 def write_pop_files(pop_lines: Dict[str, List[str]]):
     """
 
@@ -102,8 +72,37 @@ def write_pop_files(pop_lines: Dict[str, List[str]]):
 
             pop.write(itext)
             pop.write(bottom)
-        pass
 
+def gen_color_pop(config_data: tuple) -> Dict[str, List[str]]:
+    """
+
+    :param config_data:
+    :return:
+    """
+    color_lines = []
+    color_dict = config_data[0]
+    for name, c in color_dict.items():
+        color_lines.append(
+            f'{{"Name": "{name}", "R": {c["R"]}, "G": {c["G"]}, "B": {c["B"]}, '
+            f'"Canvas": {c["Canvas"]}}},'
+        )
+    return { "color": color_lines }
+
+def gen_sheet_pop(config_data: tuple) -> Dict[str, List[str]]:
+    """
+
+    :param config_data:
+    :return:
+    """
+    sheet_lines = []
+    sheet_dict = config_data[0]
+    for name, s in sheet_dict.items():
+        sheet_lines.append(
+            f'{{"Name": "{name}", "Group": "{s["Group"]}", "Height": {s["Height"]}, "Width": {s["Width"]}, '
+            f'"Size group": "{s["Size group"]}"}},'
+        )
+        Config.sheet_group[name] = s["Size group"]
+    return { "sheet": sheet_lines }
 
 def gen_frame_pop(config_data: tuple) -> Dict[str, List[str]]:
     """
@@ -135,7 +134,8 @@ def gen_frame_pop(config_data: tuple) -> Dict[str, List[str]]:
                     title_block_placement_lines.append(
                         f'{{"Frame": "{frame_name}", "Sheet": "{s}", "Orientation": "{o}",')
                     title_block_placement_lines.append(
-                        f' "Title block pattern": "{tb_dict["Name"]}", "Sheet size group": "{None}", "X": {tb_dict["X"]}, "Y": {tb_dict["Y"]}}},')
+                        f' "Title block pattern": "{tb_dict["Name"]}", "Sheet size group": "{Config.sheet_group[s]}",'
+                        f' "X": {tb_dict["X"]}, "Y": {tb_dict["Y"]}}},')
     return {"frame": frame_lines, "open_field": field_lines, "titleblock_placement": title_block_placement_lines}
 
 
@@ -146,8 +146,11 @@ class Config:
     """
     logger = logging.getLogger(__name__)
 
-    # Yaml configuration files to be loaded
-    populator = { "frame": gen_frame_pop }  # , "sheet": gen_pop_file, "color": gen_pop_file, }
+    # Yaml configuration files to be loaded in sequence
+    # Sequence is important because some early configured data is referenced later
+    # Such as sheet size groups
+    populator = OrderedDict({ "color": gen_color_pop, "sheet": gen_sheet_pop, "frame": gen_frame_pop })
+    sheet_group = {}
 
     # Structure of each Flatland DB table to be populated from config data
     tables = {
@@ -186,12 +189,12 @@ class Config:
             update_populations()
 
         # Initialize and possible reload the flatland database
-        # FlatlandDB(rebuild=rebuild_db)
+        FlatlandDB(rebuild=rebuild_db)
 
         # Regen title blocks and insert into the flatland database
         # TODO: Make this part of the population update
-        # if rebuild_db:
-        #     TitleBlockPlacement()
+        if rebuild_db:
+            TitleBlockPlacement()
 
 
 
