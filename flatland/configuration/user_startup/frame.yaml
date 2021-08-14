@@ -1,0 +1,112 @@
+# frame.yaml – User defined frames
+
+# A Frame is a layer of text and graphics underneath your diagram that you can use to display
+# metadata such as author, organization, copyright, etc. Each Frame is sized to fit a specific
+# sheet size and orientation (A1 landscape or tabloid portrait, for example).
+
+# You can position any number of Fields within your Frame along with one optional Title Block.
+
+# A Field is an x,y location somewhere on your sheet along with a maximum height/width bounding box
+# Each Field is associated with a predefined piece of metadata such as Title, Author, etc. The field
+# value might be plain text or an image such as an organization logo.
+
+# A Frame places any number of Fields where ever you like on a Sheet. Normally you try to 'frame'
+# your diagram by placing the data around the top/bottom/left/right edges.
+
+# An optional Title Block may also be specified. A Title Block is a rectangle partitioned into two
+# or more sub-rectangles with associated metadata. The Title Block structure and content is specified
+# in a different yaml file. Here you need only place the Title Block at some x,y coordinate
+#
+# All positions and distances are specified in whole milimeters with the sheet origin of 0,0 in
+# the lower left corner. Y values increase going up and X values increase going right so that
+# you specify only positive integer values.
+#
+# Uncomment below and edit to create your own frame
+
+#My Frame:   # Name of your frame, may contain spaces
+#  - Sheet: letter  # Must be a system or user defined sheet size. User sizes in sheet.yaml
+#    Orientation: landscape  # Either landscape or portrait (only once per frame/sheet size
+#    Fields:  # Each metadata element is a system or user defined name. User: metadata.yaml
+#      Title: { X: 8, Y: 202, Max width: 254, Max height: 13 }
+#      Copyright notice: { X: 8, Y: 31, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 5, Y: 4, Max width: 180, Max height: 24 }
+#      Author: { X: 280, Y: 22, Max width: 20, Max height: 5 }
+#      Modification date: { X: 230, Y: 18, Max width: 20, Max height: 5 }
+#      Document ID: { X: 230, Y: 14, Max width: 20, Max height: 5 }
+#      Version: { X: 230, Y: 10, Max width: 20, Max height: 5 }
+#    # No title block specified
+#
+#  - Sheet: letter
+#    Orientation: portrait
+#    Fields:
+#      Title: { X: 8, Y: 265, Max width: 254, Max height: 13 }
+#      Copyright notice: { X: 10, Y: 31, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 8, Y: 5, Max width: 180, Max height: 24 }
+#      Author: { X: 170, Y: 22, Max width: 20, Max height: 5 }
+#      Modification date: { X: 170, Y: 18, Max width: 20, Max height: 5 }
+#      Document ID: { X: 170, Y: 14, Max width: 20, Max height: 5 }
+#      Version: { X: 170, Y: 10, Max width: 20, Max height: 5 }
+#
+#  - Sheet: tabloid
+#    Orientation: landscape
+#    Fields:
+#      Title: { X: 8, Y: 264, Max width: 254, Max height: 13 }
+#      Copyright notice: { X: 8, Y: 28, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 8, Y: 9, Max width: 180, Max height: 24 }
+#    Title block: { Name: SE Simple, X: 275, Y: 9 }
+#
+#  - Sheet: tabloid
+#    Orientation: portrait
+#    Fields:
+#      Title: { X: 10, Y: 415, Max width: 254, Max height: 13 }
+#      Copyright notice: { X: 8, Y: 25, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 5, Y: 10, Max width: 180, Max height: 24 }
+#    Title block: { Name: SE Simple, X: 150, Y: 9 }
+#
+#  - Sheet: C
+#    Orientation: landscape
+#    Fields:
+#      Title: { X: 15, Y: 440, Max width: 254, Max height: 25 }
+#      Copyright notice: { X: 157, Y: 30, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 15, Y: 30, Max width: 191, Max height: 25 }
+#    Title block: { Name: SE Simple, X: 460, Y: 15 }
+#
+#  - Sheet: C
+#    Orientation: portrait
+#    Fields:
+#      Title: { X: 18, Y: 584, Max width: 254, Max height: 25 }
+#      Copyright notice: { X: 400, Y: 38, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 19, Y: 18, Max width: 191, Max height: 25 }
+#    Title block: { Name: SE Simple, X: 300, Y: 15 }
+#
+#  - Sheet: D
+#    Orientation: landscape
+#    Fields:
+#      Title: { X: 19, Y: 584, Max width: 254, Max height: 25 }
+#      Copyright notice: { X: 400, Y: 38, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 19, Y: 38, Max width: 191, Max height: 25 }
+#    Title block: { Name: SE Simple, X: 753, Y: 38 }
+#
+#  - Sheet: D
+#    Orientation: portrait
+#    Fields:
+#      Title: { X: 18, Y: 584, Max width: 254, Max height: 25 }
+#      Copyright notice: { X: 400, Y: 38, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 19, Y: 18, Max width: 191, Max height: 25 }
+#    Title block: { Name: SE Simple, X: 553, Y: 38 }
+#
+#  - Sheet: E
+#    Orientation: landscape
+#    Fields:
+#      Title: { X: 30, Y: 884, Max width: 254, Max height: 25 }
+#      Copyright notice: { X: 500, Y: 38, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 30, Y: 38, Max width: 191, Max height: 25 }
+#    Title block: { Name: SE Simple, X: 1025, Y: 38 }
+#
+#  - Sheet: E
+#    Orientation: portrait
+#    Fields:
+#      Title: { X: 30, Y: 1180, Max width: 254, Max height: 25 }
+#      Copyright notice: { X: 220, Y: 30, Max width: 254, Max height: 57 }
+#      Organization logo: { X: 30, Y: 30, Max width: 191, Max height: 25 }
+#    Title block: { Name: SE Simple, X: 740, Y: 25 }
