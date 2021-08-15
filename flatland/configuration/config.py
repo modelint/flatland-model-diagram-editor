@@ -15,6 +15,7 @@ from collections import namedtuple
 
 TableSpec = namedtuple("TableSpec", "header folder")
 
+
 def update_populations():
     """
     Generate database population _instances.py files for each table containing any user configurable attributes
@@ -48,6 +49,7 @@ def update_populations():
         )
         write_pop_files(pop_lines)
 
+
 def write_pop_files(pop_lines: Dict[str, List[str]]):
     """
 
@@ -73,6 +75,20 @@ def write_pop_files(pop_lines: Dict[str, List[str]]):
             pop.write(itext)
             pop.write(bottom)
 
+
+def gen_metadata_pop(config_data: tuple) -> Dict[str, List[str]]:
+    """
+
+    :param config_data:
+    :return:
+    """
+    metadata_lines = []
+    metadata_dict = config_data[0]
+    for m in metadata_dict["metadata"]:
+        metadata_lines.append(f'{{"Name": "{m}"}},')
+    return {"metadata": metadata_lines}
+
+
 def gen_color_pop(config_data: tuple) -> Dict[str, List[str]]:
     """
 
@@ -86,7 +102,8 @@ def gen_color_pop(config_data: tuple) -> Dict[str, List[str]]:
             f'{{"Name": "{name}", "R": {c["R"]}, "G": {c["G"]}, "B": {c["B"]}, '
             f'"Canvas": {c["Canvas"]}}},'
         )
-    return { "color": color_lines }
+    return {"color": color_lines}
+
 
 def gen_sheet_pop(config_data: tuple) -> Dict[str, List[str]]:
     """
@@ -102,7 +119,8 @@ def gen_sheet_pop(config_data: tuple) -> Dict[str, List[str]]:
             f'"Size group": "{s["Size group"]}"}},'
         )
         Config.sheet_group[name] = s["Size group"]
-    return { "sheet": sheet_lines }
+    return {"sheet": sheet_lines}
+
 
 def gen_frame_pop(config_data: tuple) -> Dict[str, List[str]]:
     """
@@ -139,7 +157,6 @@ def gen_frame_pop(config_data: tuple) -> Dict[str, List[str]]:
     return {"frame": frame_lines, "open_field": field_lines, "titleblock_placement": title_block_placement_lines}
 
 
-
 class Config:
     """
     Here we overlay user configuration on top of built in system configuration.
@@ -149,24 +166,27 @@ class Config:
     # Yaml configuration files to be loaded in sequence
     # Sequence is important because some early configured data is referenced later
     # Such as sheet size groups
-    populator = OrderedDict({ "color": gen_color_pop, "sheet": gen_sheet_pop, "frame": gen_frame_pop })
+    populator = OrderedDict(
+        {"metadata": gen_metadata_pop, "color": gen_color_pop, "sheet": gen_sheet_pop, "frame": gen_frame_pop})
+
     sheet_group = {}
 
     # Structure of each Flatland DB table to be populated from config data
     tables = {
+        "metadata": TableSpec(header=[("Name", str)], folder="sheet"),
         "frame": TableSpec(header=[("Name", str), ("Sheet", str), ("Orientation", str)], folder="sheet"),
         "open_field": TableSpec(
             header=[("Metadata", str), ("Frame", str), ("Sheet", str), ("Orientation", str),
                     ("x position", int), ("y position", int), ("max width", int), ("max height", int),
                     ], folder='sheet'),
         "titleblock_placement": TableSpec(
-                  header=[("Frame", str), ("Sheet", str), ("Orientation", str), ("Title block pattern", str),
-                          ("Sheet size group", str), ("X", int), ("Y", int)],
-                  folder='sheet'),
-        "color": TableSpec(header=[("Name", str), ("R", int), ("G", int), ("B", int), ("Canvas", bool) ],
-                  folder="drawing"),
+            header=[("Frame", str), ("Sheet", str), ("Orientation", str), ("Title block pattern", str),
+                    ("Sheet size group", str), ("X", int), ("Y", int)],
+            folder='sheet'),
+        "color": TableSpec(header=[("Name", str), ("R", int), ("G", int), ("B", int), ("Canvas", bool)],
+                           folder="drawing"),
         "sheet": TableSpec(header=[("Name", str), ("Group", str), ("Height", float), ("Width", float),
-                                        ("Size group", str)], folder="sheet"),
+                                   ("Size group", str)], folder="sheet"),
     }
 
     # Where we look for system configuration data
@@ -195,10 +215,6 @@ class Config:
         # TODO: Make this part of the population update
         if rebuild_db:
             TitleBlockPlacement()
-
-
-
-
 
 
 if __name__ == '__main__':

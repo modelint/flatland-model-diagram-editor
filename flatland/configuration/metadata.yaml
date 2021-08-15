@@ -1,0 +1,14 @@
+# system/mmetadata.yaml – System defined metadata
+
+metadata:
+  - Organization
+  - Creation date
+  - Modification date
+  - Author
+  - Reviewer
+  - Version
+  - Copyright notice
+  - Copyright
+  - Organization logo
+  - Title
+  - Document ID
