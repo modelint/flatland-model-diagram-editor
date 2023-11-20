@@ -9,59 +9,59 @@ population = [
     {'Name': 'grid boundary', 'Form': 'shape', 'Drawing type': 'Grid Diagnostic'},
     {'Name': 'grid label', 'Form': 'text',  'Drawing type': 'Grid Diagnostic'},
 
-    # Frame OS Engineer large
+    # Frame Modeler large
     # Open field assets
-    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},
-    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},
+    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'Modeler large frame'},
+    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'Modeler large frame'},
     # Title block assets
-    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},
-    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer large frame'},
-    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer large frame'},
+    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'Modeler large frame'},
+    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'Modeler large frame'},
+    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'Modeler large frame'},
 
-    # Frame OS Engineer medium
+    # Frame Modeler medium
     # Open field assets
-    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
-    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
+    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'Modeler medium frame'},
+    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'Modeler medium frame'},
     # Title block assets
-    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
-    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'OS Engineer medium frame'},
-    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'OS Engineer medium frame'},
+    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'Modeler medium frame'},
+    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'Modeler medium frame'},
+    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'Modeler medium frame'},
 
-    # Frame OS Engineer small
+    # Frame Modeler small
     # Open field assets
-    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'OS Engineer small frame'},
-    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'OS Engineer small frame'},
-    {'Name': 'Open author', 'Form': 'text', 'Drawing type': 'OS Engineer small frame'},
-    {'Name': 'Open modification date', 'Form': 'text', 'Drawing type': 'OS Engineer small frame'},
-    {'Name': 'Open document id', 'Form': 'text', 'Drawing type': 'OS Engineer small frame'},
-    {'Name': 'Open version', 'Form': 'text', 'Drawing type': 'OS Engineer small frame'},
+    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'Modeler small frame'},
+    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'Modeler small frame'},
+    {'Name': 'Open author', 'Form': 'text', 'Drawing type': 'Modeler small frame'},
+    {'Name': 'Open modification date', 'Form': 'text', 'Drawing type': 'Modeler small frame'},
+    {'Name': 'Open document id', 'Form': 'text', 'Drawing type': 'Modeler small frame'},
+    {'Name': 'Open version', 'Form': 'text', 'Drawing type': 'Modeler small frame'},
 
-    # Frame TRI MBSE large
-    # Open field assets
-    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
-    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
-    # Title block assets
-    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
-    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
-    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'TRI MBSE large frame'},
-
-    # Frame TRI MBSE medium
-    # Open field assets
-    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
-    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
-    # Title block assets
-    {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
-    {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
-    {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'TRI MBSE medium frame'},
-
-    # Frame OS TRI MBSE small
-    # Open field assets
-    {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
-    {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
-    {'Name': 'Open author', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
-    {'Name': 'Open modification date', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
-    {'Name': 'Open document id', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
-    {'Name': 'Open version', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    # # Frame TRI MBSE large
+    # # Open field assets
+    # {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
+    # {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
+    # # Title block assets
+    # {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
+    # {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'TRI MBSE large frame'},
+    # {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'TRI MBSE large frame'},
+    #
+    # # Frame TRI MBSE medium
+    # # Open field assets
+    # {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
+    # {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
+    # # Title block assets
+    # {'Name': 'Block title', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
+    # {'Name': 'Block body', 'Form': 'text', 'Drawing type': 'TRI MBSE medium frame'},
+    # {'Name': 'Block border', 'Form': 'shape', 'Drawing type': 'TRI MBSE medium frame'},
+    #
+    # # Frame OS TRI MBSE small
+    # # Open field assets
+    # {'Name': 'Open copyright notice', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    # {'Name': 'Open title', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    # {'Name': 'Open author', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    # {'Name': 'Open modification date', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    # {'Name': 'Open document id', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
+    # {'Name': 'Open version', 'Form': 'text', 'Drawing type': 'TRI MBSE small frame'},
 
     # xUML class diagram
     {'Name': 'class name compartment', 'Form': 'shape', 'Drawing type': 'xUML class diagram'},

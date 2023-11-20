@@ -6,7 +6,7 @@ orientation landscape
 sheet D
 color mint
 padding l130 b230
-frame TRI MBSE
+frame Modeler
 frame_presentation default
 nodes
     Lane Change Behavior Specification 7,1

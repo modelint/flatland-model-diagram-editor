@@ -2,13 +2,11 @@
 metadata
     Title : Ego Vehicle Subsystem MultiLane Maneuver / Vehicle Guidance Domain
     Author : Leon Starr
-    Document ID : tri.guidance.ego.td.1a
-    Version : Version 1.6.0
+    Document ID : mystuff.td.1
+    Version : Version 1.0.0
     /// Creation date : November 25, 2019
-    Modification date : April 15, 2021
-    Organization : Toyota Research Institute
-    Copyright notice > MIT
-    Organization logo > Toyota
+    Modification date : August 16, 2021
+    Organization : My Company Name
 subsystem Ego Vehicle
 class Active Driving Lane, ADL
 attributes

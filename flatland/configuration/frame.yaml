@@ -1,6 +1,6 @@
 # system/frame.yaml – System defined frames
 
-Default:
+Modeler:
   - Sheet: letter
     Orientation: landscape
     Fields:

@@ -1,0 +1,19 @@
+# user/mmetadata.yaml – User defined metadata
+
+# A list of metadata items that you might supply in the metadata section
+# of your model files. Standard system supplied values are shown below,
+# commented out. Uncomment the first (metadata:) line below and then add any hyphen
+# prefixed names you like. Spaces okay in metadata item names
+
+#metadata:
+#  - Organization
+#  - Creation date
+#  - Modification date
+#  - Author
+#  - Reviewer
+#  - Version
+#  - Copyright notice
+#  - Copyright
+#  - Organization logo
+#  - Title
+#  - Document ID
